@@ -1,2 +1,2 @@
 # mlbgame
-An API to retrieve and read MLB game JSON data.
+An API to retrieve and read MLB game JSON and XML data
