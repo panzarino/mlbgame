@@ -55,3 +55,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Cloud 9 configuration
+.c9
+
+# testing file
+test.py
