@@ -11,7 +11,7 @@ def scoreboard(year, month, day):
     data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+str(year)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml")
     data = etree.parse(data)
     root = data.getroot()
-    games = []
+    games = {}
     for game in root:
         game_data = game.find('game')
         game_id = game_data.attrib['id']
@@ -23,4 +23,15 @@ def scoreboard(year, month, day):
         home_team = {'name': teams[0].attrib['name'], 'runs': home_team_data.attrib['R'], 'hits':home_team_data.attrib['H'], 'errors':home_team_data.attrib['E']}
         away_team_data = teams[1].find('gameteam')
         away_team = {'name': teams[1].attrib['name'], 'runs': away_team_data.attrib['R'], 'hits':away_team_data.attrib['H'], 'errors':away_team_data.attrib['E']}
-        
+        w_pitcher_data = game.find('w_pitcher')
+        w_pitcher_name = w_pitcher_data.find('pitcher').attrib['name']
+        w_pitcher = {'name':w_pitcher_name, 'wins':w_pitcher_data.attrib['wins'], 'losses':w_pitcher_data.attrib['losses']}
+        l_pitcher_data = game.find('l_pitcher')
+        l_pitcher_name = l_pitcher_data.find('pitcher').attrib['name']
+        l_pitcher = {'name':l_pitcher_name, 'wins':l_pitcher_data.attrib['wins'], 'losses':l_pitcher_data.attrib['losses']}
+        sv_pitcher_data = game.find('sv_pitcher')
+        sv_pitcher_name = sv_pitcher_data.find('pitcher').attrib['name']
+        sv_pitcher = {'name':sv_pitcher_name, 'saves':sv_pitcher_data.attrib['saves']}
+        output = {'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':w_pitcher, 'l_pitcher':l_pitcher, 'sv_pitcher':sv_pitcher}
+        games[game_id]=output
+    return games
