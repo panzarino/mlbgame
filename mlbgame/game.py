@@ -34,7 +34,7 @@ def scoreboard(year, month, day):
             sv_pitcher_data = game.find('sv_pitcher')
             sv_pitcher_name = sv_pitcher_data.find('pitcher').attrib['name']
             sv_pitcher = {'name':sv_pitcher_name, 'saves':sv_pitcher_data.attrib['saves']}
-            output = {'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':w_pitcher, 'l_pitcher':l_pitcher, 'sv_pitcher':sv_pitcher}
+            output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':w_pitcher, 'l_pitcher':l_pitcher, 'sv_pitcher':sv_pitcher}
             games[game_id]=output
         elif game.tag == "sg_game":
             game_type = "sg_game"
@@ -49,13 +49,33 @@ def scoreboard(year, month, day):
             home_team = {'name': teams[0].attrib['name'], 'runs': home_team_data.attrib['R'], 'hits':home_team_data.attrib['H'], 'errors':home_team_data.attrib['E']}
             away_team_data = teams[1].find('gameteam')
             away_team = {'name': teams[1].attrib['name'], 'runs': away_team_data.attrib['R'], 'hits':away_team_data.attrib['H'], 'errors':away_team_data.attrib['E']}
-            output = {'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'delay_reason':delay_reason}
+            output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'delay_reason':delay_reason}
             games[game_id]=output
     return games
 
 class Game(object):
     '''
-    Game object to hold information about a certain game
+    Object to hold information about a certain game
     '''
     def __init__(self, data):
-        
+        self.game_id = data['game_id']
+        self.game_type = data.get('game_type', '')
+        self.game_status = data.get('game_status', '')
+        self.game_league = data.get('game_league', '')
+        self.game_start_time = data.get('game_start_time', '')
+        self.home_team = data.get('home_team', '').get('name', '')
+        self.home_team_runs = data.get('home_team', 0).get('runs', 0)
+        self.home_team_hits = data.get('home_team', 0).get('hits', 0)
+        self.home_team_errors = data.get('home_team', 0).get('errors', 0)
+        self.away_team = data.get('away_team', '').get('name', '')
+        self.away_team_runs = data.get('away_team', 0).get('runs', 0)
+        self.away_team_hits = data.get('away_team', 0).get('hits', 0)
+        self.away_team_errors = data.get('away_team', 0).get('errors', 0)
+        self.w_pitcher = data.get('w_pitcher', '').get('name', '')
+        self.w_pitcher_wins = data.get('w_pitcher', 0).get('wins', 0)
+        self.w_pitcher_losses = data.get('w_pitcher', 0).get('losses', 0)
+        self.l_pitcher = data.get('l_pitcher', '').get('name', '')
+        self.l_pitcher_wins = data.get('l_pitcher', 0).get('wins', 0)
+        self.l_pitcher_losses = data.get('l_pitcher', 0).get('losses', 0)
+        self.sv_pitcher = data.get('sv_pitcher', '').get('name', '')
+        self.sv_pitcher_saves = data.get('sv_pitcher', 0).get('saves', 0)
