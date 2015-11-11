@@ -52,3 +52,10 @@ def scoreboard(year, month, day):
             output = {'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'delay_reason':delay_reason}
             games[game_id]=output
     return games
+
+class Game(object):
+    '''
+    Game object to hold information about a certain game
+    '''
+    def __init__(self, data):
+        
