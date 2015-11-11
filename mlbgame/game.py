@@ -22,18 +22,18 @@ def scoreboard(year, month, day):
             game_start_time = game_data.attrib['start_time']
             teams = game.findall('team')
             home_team_data = teams[0].find('gameteam')
-            home_team = {'name': teams[0].attrib['name'], 'runs': home_team_data.attrib['R'], 'hits':home_team_data.attrib['H'], 'errors':home_team_data.attrib['E']}
+            home_team = {'name': teams[0].attrib['name'], 'runs': int(home_team_data.attrib['R']), 'hits':int(home_team_data.attrib['H']), 'errors':int(home_team_data.attrib['E'])}
             away_team_data = teams[1].find('gameteam')
-            away_team = {'name': teams[1].attrib['name'], 'runs': away_team_data.attrib['R'], 'hits':away_team_data.attrib['H'], 'errors':away_team_data.attrib['E']}
+            away_team = {'name': teams[1].attrib['name'], 'runs': int(away_team_data.attrib['R']), 'hits':int(away_team_data.attrib['H']), 'errors':int(away_team_data.attrib['E'])}
             w_pitcher_data = game.find('w_pitcher')
             w_pitcher_name = w_pitcher_data.find('pitcher').attrib['name']
-            w_pitcher = {'name':w_pitcher_name, 'wins':w_pitcher_data.attrib['wins'], 'losses':w_pitcher_data.attrib['losses']}
+            w_pitcher = {'name':w_pitcher_name, 'wins':int(w_pitcher_data.attrib['wins']), 'losses':int(w_pitcher_data.attrib['losses'])}
             l_pitcher_data = game.find('l_pitcher')
             l_pitcher_name = l_pitcher_data.find('pitcher').attrib['name']
-            l_pitcher = {'name':l_pitcher_name, 'wins':l_pitcher_data.attrib['wins'], 'losses':l_pitcher_data.attrib['losses']}
+            l_pitcher = {'name':l_pitcher_name, 'wins':int(l_pitcher_data.attrib['wins']), 'losses':int(l_pitcher_data.attrib['losses'])}
             sv_pitcher_data = game.find('sv_pitcher')
             sv_pitcher_name = sv_pitcher_data.find('pitcher').attrib['name']
-            sv_pitcher = {'name':sv_pitcher_name, 'saves':sv_pitcher_data.attrib['saves']}
+            sv_pitcher = {'name':sv_pitcher_name, 'saves':int(sv_pitcher_data.attrib['saves'])}
             output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':w_pitcher, 'l_pitcher':l_pitcher, 'sv_pitcher':sv_pitcher}
             games[game_id]=output
         elif game.tag == "sg_game":
@@ -46,9 +46,9 @@ def scoreboard(year, month, day):
             delay_reason = game_data.find('delay_reason').text
             teams = game.findall('team')
             home_team_data = teams[0].find('gameteam')
-            home_team = {'name': teams[0].attrib['name'], 'runs': home_team_data.attrib['R'], 'hits':home_team_data.attrib['H'], 'errors':home_team_data.attrib['E']}
+            home_team = {'name': teams[0].attrib['name'], 'runs': int(home_team_data.attrib['R']), 'hits':int(home_team_data.attrib['H']), 'errors':int(home_team_data.attrib['E'])}
             away_team_data = teams[1].find('gameteam')
-            away_team = {'name': teams[1].attrib['name'], 'runs': away_team_data.attrib['R'], 'hits':away_team_data.attrib['H'], 'errors':away_team_data.attrib['E']}
+            away_team = {'name': teams[1].attrib['name'], 'runs': int(away_team_data.attrib['R']), 'hits':int(away_team_data.attrib['H']), 'errors':int(away_team_data.attrib['E'])}
             output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'delay_reason':delay_reason}
             games[game_id]=output
     return games
