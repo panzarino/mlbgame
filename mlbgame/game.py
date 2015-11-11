@@ -79,3 +79,12 @@ class Game(object):
         self.l_pitcher_losses = data.get('l_pitcher', 0).get('losses', 0)
         self.sv_pitcher = data.get('sv_pitcher', '').get('name', '')
         self.sv_pitcher_saves = data.get('sv_pitcher', 0).get('saves', 0)
+    
+    def nice_score(self):
+        '''
+        Return a nicely formatted score of the game
+        '''
+        return '%s (%d) at %s (%d)' % (self.away_team, self.away_team_runs, self.home_team, self.home_team_runs)
+    
+    def __str__(self):
+        return self.nice_score()
