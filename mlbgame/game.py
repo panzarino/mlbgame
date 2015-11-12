@@ -2,12 +2,8 @@ import urllib2 as url
 import xml.etree.ElementTree as etree
 
 def scoreboard(year, month, day):
-    monthstr = str(month)
-    daystr = str(day)
-    if month < 10:
-        monthstr = "0"+str(month)
-    if day < 10:
-        daystr = "0"+str(day)
+    monthstr = str(month).zfill(2)
+    daystr = str(day).zfill(2)
     data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+str(year)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml")
     data = etree.parse(data)
     root = data.getroot()
