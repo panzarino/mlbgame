@@ -7,3 +7,12 @@ if sys.version_info[0] != 2:
 
 from mlbgame import version
 VERSION = version.__version__
+
+def games(year, month, day):
+	import mlbgame.game as game
+	data = game.scoreboard(year, month, day)
+	results = []
+	for x in data:
+		obj = game.Game(data[x])
+		results.append(obj)
+	return results
