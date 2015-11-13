@@ -5,14 +5,22 @@ if sys.version_info[0] != 2:
 	print("You are running Python version {}.{}".format(sys.version_info.major, sys.version_info.minor))
 	sys.exit(1)
 
+import mlbgame.game
+
 from mlbgame import version
 VERSION = version.__version__
 
-def games(year, month, day):
-	import mlbgame.game as game
-	data = game.scoreboard(year, month, day)
+def one(year, month, day):
+	data = mlbgame.game.scoreboard(year, month, day)
 	results = []
 	for x in data:
-		obj = game.Game(data[x])
+		obj = mlbgame.game.Game(data[x])
 		results.append(obj)
+	return results
+
+def games(year, month, days):
+	results = []
+	for x in days:
+		game = one(year, month, x)
+		results.append(game)
 	return results

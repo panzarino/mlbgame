@@ -52,7 +52,7 @@ def scoreboard(year, month, day):
             home_team = {'name': teams[0].attrib['name'], 'runs': int(home_team_data.attrib['R']), 'hits':int(home_team_data.attrib['H']), 'errors':int(home_team_data.attrib['E'])}
             away_team_data = teams[1].find('gameteam')
             away_team = {'name': teams[1].attrib['name'], 'runs': int(away_team_data.attrib['R']), 'hits':int(away_team_data.attrib['H']), 'errors':int(away_team_data.attrib['E'])}
-            output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'delay_reason':delay_reason}
+            output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'delay_reason':delay_reason, 'w_pitcher':{}, 'l_pitcher':{}, 'sv_pitcher':{}}
             games[game_id]=output
     return games
 
