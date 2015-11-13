@@ -11,6 +11,9 @@ from mlbgame import version
 VERSION = version.__version__
 
 def one(year, month, day):
+	'''
+	Return an array of games for a certain day
+	'''
 	data = mlbgame.game.scoreboard(year, month, day)
 	results = []
 	for x in data:
@@ -19,6 +22,9 @@ def one(year, month, day):
 	return results
 
 def games(year, month, days):
+	'''
+	Return an array of arrays of games for multiple days
+	'''
 	results = []
 	for x in days:
 		game = one(year, month, x)
