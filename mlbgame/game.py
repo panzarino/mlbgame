@@ -1,10 +1,18 @@
 import urllib2 as url
 import xml.etree.ElementTree as etree
+import os
+import gzip
 
 def scoreboard(year, month, day):
     monthstr = str(month).zfill(2)
     daystr = str(day).zfill(2)
-    data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+str(year)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml")
+    filename = "gameday-data/year_"+str(year)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml"
+    file = os.path.join(os.path.dirname(__file__), filename)
+    if os.path.isfile(file):
+        with gzip.open(file, "r") as f:
+            data = f
+    else:
+        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+str(year)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml")
     data = etree.parse(data)
     root = data.getroot()
     games = {}
