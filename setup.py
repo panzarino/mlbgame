@@ -2,12 +2,13 @@
 
 from distutils.core import setup
 import codecs
+import os.path as path
 
+cwd = path.dirname(__file__)
 version = '0.0.0'
 with codecs.open(path.join(cwd, 'mlbgame/version.py'), 'r', 'ascii') as f:
     exec(f.read())
     version = __version__
-assert version != '0.0.0'
 
 setup(
     name='mlbgame',
