@@ -44,7 +44,9 @@ def games(year, month, days):
 	Return an array of arrays of games for multiple days
 	'''
 	results = []
-	for x in days:
-		game = one(year, month, x)
-		results.append(game)
+	for i in year:
+		for y in month:
+			for x in days:
+				game = one(i, y, x)
+				results.append(game)
 	return results
