@@ -39,13 +39,21 @@ def one(year, month, day):
 		results.append(obj)
 	return results
 
-def games(year, month, days):
+def games(years, months=None, days=None):
 	'''
 	Return an array of arrays of games for multiple days
 	'''
+	if months == None:
+		months = []
+		for x in range(1, 13):
+			months.append(x)
+	if days == None:
+		days = []
+		for x in range(1, 31):
+			days.append(x)
 	results = []
-	for i in year:
-		for y in month:
+	for i in years:
+		for y in months:
 			for x in days:
 				game = one(i, y, x)
 				results.append(game)
