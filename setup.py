@@ -4,7 +4,7 @@ from distutils.core import setup
 import codecs
 
 version = '0.0.0'
-with codecs.open(path.join(cwd, 'nflgame/version.py'), 'r', 'ascii') as f:
+with codecs.open(path.join(cwd, 'mlbgame/version.py'), 'r', 'ascii') as f:
     exec(f.read())
     version = __version__
 assert version != '0.0.0'
