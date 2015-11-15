@@ -24,6 +24,8 @@ if sys.version_info[0] != 2:
 	sys.exit(1)
 
 import mlbgame.game
+import calendar
+from datetime import date
 
 from mlbgame import version
 VERSION = version.__version__
@@ -32,6 +34,16 @@ def one(year, month, day):
 	'''
 	Return an array of games for a certain day
 	'''
+	daysinmonth = calendar.monthrange(year, month)[1]
+	if daysinmonth < day:
+		return []
+	today = date.today()
+	if year > today.year:
+		return []
+	elif year >= today.year and month > today.month:
+		return []
+	elif year >= today.year and month >= today.month and day > today.day:
+		return []
 	data = mlbgame.game.scoreboard(year, month, day)
 	results = []
 	for x in data:
@@ -49,12 +61,14 @@ def games(years, months=None, days=None):
 			months.append(x)
 	if days == None:
 		days = []
-		for x in range(1, 31):
+		for x in range(1, 32):
 			days.append(x)
 	results = []
 	for i in years:
 		for y in months:
+			daysinmonth = calendar.monthrange(i, y)[1]
 			for x in days:
-				game = one(i, y, x)
-				results.append(game)
+				if daysinmonth >= x:
+					game = one(i, y, x)
+					results.append(game)
 	return results
