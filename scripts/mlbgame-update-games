@@ -1,0 +1,4 @@
+#!/usr/bin/env python2
+
+import mlbgame.update_games
+mlbgame.update_games.run()

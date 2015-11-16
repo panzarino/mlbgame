@@ -4,7 +4,7 @@ import sys
 from datetime import date
 import gzip
 
-def run():
+def run(hide=False):
     '''
     Update local game data
     '''
@@ -24,8 +24,9 @@ def run():
                 if not os.path.isfile(file):
                     try:
                         data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml")
-                        sys.stdout.write('Loading games for %s-%d (%00.2f%%) \r' % (monthstr, i, y/31.0*100))
-                        sys.stdout.flush()
+                        if not hide:
+                            sys.stdout.write('Loading games for %s-%d (%00.2f%%) \r' % (monthstr, i, y/31.0*100))
+                            sys.stdout.flush()
                         loading = True
                         response = data.read()
                         dirn = "gameday-data/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr
@@ -36,7 +37,11 @@ def run():
                             f.write(response)
                     except url.HTTPError:
                         pass
-            if loading == True:
+            if loading and not hide:
                 sys.stdout.write('Loading games for %s-%d (100.00%%)\n' % (monthstr, i))
                 sys.stdout.flush()
-    print "Complete"
+    if not hide:
+        print "Complete"
+
+if __name__ == "__main__":
+    run()

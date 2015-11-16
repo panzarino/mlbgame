@@ -12,6 +12,8 @@ def scoreboard(year, month, day):
         data = file
     else:
         data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+str(year)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml")
+        import mlbgame.update_games
+        mlbgame.update_games.run(hide=True)
     parsed = etree.parse(data)
     root = parsed.getroot()
     games = {}
