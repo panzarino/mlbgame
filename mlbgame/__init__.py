@@ -47,7 +47,7 @@ def one(year, month, day):
 	data = mlbgame.game.scoreboard(year, month, day)
 	results = []
 	for x in data:
-		obj = mlbgame.game.Game(data[x])
+		obj = mlbgame.game.GameScoreboard(data[x])
 		results.append(obj)
 	return results
 

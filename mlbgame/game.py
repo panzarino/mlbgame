@@ -58,7 +58,7 @@ def scoreboard(year, month, day):
             games[game_id]=output
     return games
 
-class Game(object):
+class GameScoreboard(object):
     '''
     Object to hold information about a certain game
     '''
