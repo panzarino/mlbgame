@@ -34,14 +34,19 @@ def run(hide=False):
                         loading = True
                         response = data.read()
                         if not os.path.exists(dirname):
-                            os.makedirs(dirname)
+                            try:
+                                os.makedirs(dirname)
+                            except OSError:
+                                print 'I do not have write access to "%s/%s".' % (os.path.dirname(__file__), 'gameday-data/')
+                                print 'Without write access, I cannot update the game database.'
+                                sys.exit(1)
                         try:
                             with gzip.open(f, "w") as f:
                                 f.write(response)
-                        except PermissionError:
-                            if not os.access(dirname, os.W_OK):
-                                print 'I do not have write access to "%s".' % dirname
-                                print 'Without write access, I cannot update the game database.'
+                        except OSError:
+                            print 'I do not have write access to "%s".' % dirname
+                            print 'Without write access, I cannot update the game database.'
+                            sys.exit(1)
                     except url.HTTPError:
                         pass
             if loading and not hide:
