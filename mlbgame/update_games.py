@@ -15,15 +15,17 @@ def run(hide=False):
         for x in range(1, 13):
             monthstr = str(x).zfill(2)
             loading = False
-            if i == year and x >= month:
+            if i == year and x > month:
                 break
             for y in range(1, 31):
                 if i == year and x >= month and y >= day:
                     break
                 daystr = str(y).zfill(2)
                 filename = "gameday-data/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml.gz"
-                file = os.path.join(os.path.dirname(__file__), filename)
-                if not os.path.isfile(file):
+                f = os.path.join(os.path.dirname(__file__), filename)
+                dirn = "gameday-data/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr
+                dirname = os.path.join(os.path.dirname(__file__), dirn)
+                if not os.path.isfile(f):
                     try:
                         data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml")
                         if not hide:
@@ -31,12 +33,15 @@ def run(hide=False):
                             sys.stdout.flush()
                         loading = True
                         response = data.read()
-                        dirn = "gameday-data/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr
-                        dirname = os.path.join(os.path.dirname(__file__), dirn)
                         if not os.path.exists(dirname):
                             os.makedirs(dirname)
-                        with gzip.open(file, "w") as f:
-                            f.write(response)
+                        try:
+                            with gzip.open(f, "w") as f:
+                                f.write(response)
+                        except PermissionError:
+                            if not os.access(dirname, os.W_OK):
+                                print 'I do not have write access to "%s".' % dirname
+                                print 'Without write access, I cannot update the game database.'
                     except url.HTTPError:
                         pass
             if loading and not hide:
