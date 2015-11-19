@@ -40,6 +40,6 @@ setup(
     ],
     platforms='ANY',
     packages=['mlbgame'],
-    package_data={'mlbgame': ['gameday-data/*.xml.gz']},
+    package_data={'mlbgame': ['gameday-data/*/*/*/*.xml.gz']},
     scripts=['scripts/mlbgame-update-games'],
 )
