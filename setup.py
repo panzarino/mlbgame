@@ -5,6 +5,9 @@ import codecs
 import os.path as path
 
 cwd = path.dirname(__file__)
+
+longdesc = codecs.open(path.join(cwd, 'longdesc.rst'), 'r', 'ascii').read()
+
 version = '0.0.0'
 with codecs.open(path.join(cwd, 'mlbgame/version.py'), 'r', 'ascii') as f:
     exec(f.read())
@@ -25,7 +28,7 @@ setup(
     version=version,
     license='MIT',
     description='An API to retrieve and read MLB GameDay JSON and XML data',
-    long_description='An API to retrieve and read MLB GameDay JSON and XML data',
+    long_description=longdesc,
     url='https://github.com/zachpanz88/mlbgame',
     classifiers=[
         'License :: MIT License',
