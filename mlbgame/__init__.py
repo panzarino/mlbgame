@@ -14,6 +14,75 @@ If you try to get data from a game that is not cached,
 mlbgame will download the data from mlb.com.
 If the information you request is from completed games,
 that data will be cached to disk.
+
+Here is a quick teaser to find the scores of all home Mets games for the month of June, 2015:
+
+    #!python
+    import mlbgame
+	
+	games = mlbgame.games([2015], months=[6], home="Mets")
+	for day in games:
+	    for game in day:
+	        print game
+    
+And the output is:
+
+    Giants (5) at Mets (0)
+	Giants (8) at Mets (5)
+	Giants (4) at Mets (5)
+	Braves (3) at Mets (5)
+	Braves (5) at Mets (3)
+	Braves (8) at Mets (10)
+	Blue Jays (3) at Mets (4)
+	Blue Jays (2) at Mets (3)
+	Reds (1) at Mets (2)
+	Reds (1) at Mets (2)
+	Reds (1) at Mets (2)
+	Reds (2) at Mets (7)
+	Cubs (1) at Mets (0)
+
+Or you could find the scores of every game on July 4th, 2015:
+
+	#!python
+	import mlbgame
+	
+	games = mlbgame.games([2015], months=[7], days=[4])
+	for day in games:
+	    for game in day:
+	        print game
+
+And the output is:
+	Angels (13) at Rangers (0)
+	Indians (0) at Pirates (1)
+	Rockies (3) at D-backs (7)
+	Rays (2) at Yankees (3)
+	Mets (3) at Dodgers (4)
+	Orioles (2) at White Sox (3)
+	Phillies (5) at Braves (9)
+	Mariners (0) at Athletics (2)
+	Giants (3) at Nationals (9)
+	Brewers (7) at Reds (3)
+	Padres (1) at Cardinals (2)
+	Twins (5) at Royals (3)
+	Astros (1) at Red Sox (6)
+	Marlins (2) at Cubs (7)
+	Blue Jays (3) at Tigers (8)
+
+Maybe you want to know the pitchers for the Royals game on April 30th, 2015:
+
+	#!python
+	import mlbgame
+	
+	day = mlbgame.day(2015, 4, 12, home="Royals", away="Royals")
+	game = day[0]
+	output = "Winning pitcher: %s \nLosing Pitcher: %s"
+	print output % (game.w_pitcher, game.l_pitcher)
+
+And the output is:
+
+	Winning pitcher: Y. Ventura 
+	Losing Pitcher: C. Wilson
+
 '''
 
 import sys
