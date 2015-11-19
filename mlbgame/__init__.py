@@ -30,9 +30,11 @@ from datetime import date
 from mlbgame import version
 VERSION = version.__version__
 
-def one(year, month, day):
+def day(year, month, day, home=None, away=None):
 	'''
 	Return an array of games for a certain day
+	
+	If home and away are the same, it will return the game for that team
 	'''
 	daysinmonth = calendar.monthrange(year, month)[1]
 	if daysinmonth < day:
@@ -44,16 +46,18 @@ def one(year, month, day):
 		return []
 	elif year >= today.year and month >= today.month and day > today.day:
 		return []
-	data = mlbgame.game.scoreboard(year, month, day)
+	data = mlbgame.game.scoreboard(year, month, day, home=home, away=away)
 	results = []
 	for x in data:
 		obj = mlbgame.game.GameScoreboard(data[x])
 		results.append(obj)
 	return results
 
-def games(years, months=None, days=None):
+def games(years, months=None, days=None, home=None, away=None):
 	'''
 	Return an array of arrays of games for multiple days
+	
+	If home and away are the same team, it will return all games for that team
 	'''
 	if months == None:
 		months = []
@@ -69,6 +73,7 @@ def games(years, months=None, days=None):
 			daysinmonth = calendar.monthrange(i, y)[1]
 			for x in days:
 				if daysinmonth >= x:
-					game = one(i, y, x)
-					results.append(game)
+					game = day(i, y, x, home=home, away=away)
+					if game != []:
+						results.append(game)
 	return results
