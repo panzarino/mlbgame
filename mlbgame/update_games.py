@@ -37,7 +37,7 @@ def run(hide=False):
                             try:
                                 os.makedirs(dirname)
                             except OSError:
-                                print 'I do not have write access to "%s/%s".' % (os.path.dirname(__file__), 'gameday-data/')
+                                print 'I do not have write access to "%s".' % (os.path.join(os.path.dirname(__file__), 'gameday-data/'))
                                 print 'Without write access, I cannot update the game database.'
                                 sys.exit(1)
                         try:
