@@ -31,7 +31,7 @@ setup(
     long_description=longdesc,
     url='https://github.com/zachpanz88/mlbgame',
     classifiers=[
-        'License :: MIT License',
+        'License :: OSI Approved :: MIT License'
         'Development Status :: Initial Development',
         'Environment :: Console',
         'Intended Audience :: Developers',
