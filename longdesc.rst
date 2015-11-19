@@ -15,6 +15,7 @@ If the information you request is from completed games,
 that data will be cached to disk.
 
 `mlbgame documentation <http://zachpanz88.github.io/mlbgame>`__
+
 mlbgame on `Github <https://github.com/zachpanz88/mlbgame>`__
 
 Installation
