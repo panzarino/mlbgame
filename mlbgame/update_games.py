@@ -15,6 +15,8 @@ def run(hide=False):
         for x in range(1, 13):
             monthstr = str(x).zfill(2)
             loading = False
+            if i == year and x >= month:
+                break
             for y in range(1, 31):
                 if i == year and x >= month and y >= day:
                     break
