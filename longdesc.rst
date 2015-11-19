@@ -14,12 +14,12 @@ mlbgame will download the data from mlb.com.
 If the information you request is from completed games,
 that data will be cached to disk.
 
-`mlbgame documentation <http://zachpanz88.github.io/mlbgame>`
+`mlbgame documentation <http://zachpanz88.github.io/mlbgame>`__
 
 Installation
 ------------
 
-mlbgame is in the `Python Package Index (PyPI) <http://pypi.python.org/pypi/mlbgame/>`.
+mlbgame is in the `Python Package Index (PyPI) <http://pypi.python.org/pypi/mlbgame/>`__
 Installing with ``pip`` is recommended for all systems.
 
 mlbgame can be installed by running:
