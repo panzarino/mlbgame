@@ -137,6 +137,12 @@ def games(years, months=None, days=None, home=None, away=None):
 		for x in range(1, 32):
 			days.append(x)
 	results = []
+	if not isinstance(years, list):
+		years = [years]
+	if not isinstance(months, list):
+		months = [months]
+	if not isinstance(days, list):
+		days = [days]
 	for i in years:
 		for y in months:
 			daysinmonth = calendar.monthrange(i, y)[1]
