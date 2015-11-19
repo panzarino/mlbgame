@@ -32,7 +32,7 @@ setup(
     url='https://github.com/zachpanz88/mlbgame',
     classifiers=[
         'License :: OSI Approved :: MIT License',
-        'Development Status :: Initial Development',
+        'Development Status :: 3 - Alpha',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: End Users/Desktop',
