@@ -30,6 +30,7 @@ setup(
     description='An API to retrieve and read MLB GameDay JSON and XML data',
     long_description=longdesc,
     url='https://github.com/zachpanz88/mlbgame',
+    download_url='https://github.com/zachpanz88/mlbgame/archive/master.zip',
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Development Status :: 3 - Alpha',
@@ -40,6 +41,8 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Natural Language :: English',
+        'Topic :: Other/Nonlisted Topic',
     ],
     platforms='ANY',
     packages=['mlbgame'],
