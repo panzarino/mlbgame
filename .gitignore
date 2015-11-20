@@ -61,3 +61,7 @@ target/
 
 # testing file
 test.py
+
+# files generated when publishing to PyPI
+dist/
+MANIFEST
