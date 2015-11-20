@@ -8,7 +8,7 @@ and therefore is updated as soon as something happens in a game.
 mlbgame currently comes pre-loaded with every game
 from 2009 to the end of the 2015 season,
 but will be updated regularly during the season.
-Therefore, accessing this data does not actually make a request to mlb.com
+Therefore, accessing this data does not actually make a request to mlb.com.
 
 If you try to get data from a game that is not cached,
 mlbgame will download the data from mlb.com.
@@ -32,7 +32,7 @@ mlbgame can be installed by running:
 (You may need to use `pip2` if Python 3 is the default on your system.)
 
 mlbgame depends on `urllib2` to fetch data from mlb.com.
-`urllib2` will be automatically installed if mlbgame is installed with `pip`
+`urllib2` will be automatically installed if mlbgame is installed with `pip`.
 
 mlbgame does not yet work on Python 3, but it should work with Python 2.6 and 2.7.
 
@@ -53,10 +53,10 @@ Here is a quick teaser to find the scores of all home Mets games for the month o
     #!python
     import mlbgame
     
-    games = mlbgame.games([2015], months=[6], home="Mets")
-	for day in games:
-	    for game in day:
-	        print game
+    month = mlbgame.games(2015, 6, home="Mets")
+    for day in month:
+        for game in day:
+            print game
     
 And the output is:
 
@@ -79,10 +79,9 @@ Or you could find the scores of every game on July 4th, 2015:
     #!python
     import mlbgame
     
-    games = mlbgame.games([2015], months=[7], days=[4])
-    for day in games:
-        for game in day:
-            print game
+    day = mlbgame.day(2015, 7, 4)
+    for game in day:
+        print game
 
 And the output is:
 
