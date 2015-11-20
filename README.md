@@ -1,10 +1,12 @@
 # mlbgame
 An API to retrieve and read MLB game JSON and XML data
 
-# Documentation
+Documentation
+-------------
 [http://zachpanz88.github.io/mlbgame/](http://zachpanz88.github.io/mlbgame/)
 
-# Installation
+Installation
+------------
 mlbgame is in the [Python Package Index (PyPI)](http://pypi.python.org/pypi/mlbgame/).
 Installing with `pip` is recommended for all systems.
 
@@ -17,4 +19,4 @@ mlbgame can be installed by running:
 mlbgame depends on `urllib2` to fetch data from mlb.com.
 `urllib2` will be automatically installed if mlbgame is installed with `pip`
 
-A full description of mlbgame is located [here](longdesc.rst)
+A better description of mlbgame is located [here](longdesc.rst)
