@@ -132,7 +132,7 @@ from datetime import date
 from mlbgame import version
 VERSION = version.__version__
 '''
-Current version of mlbgame
+Installed version of mlbgame
 '''
 
 def day(year, month, day, home=None, away=None):
