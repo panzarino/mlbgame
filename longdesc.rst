@@ -19,7 +19,7 @@ that data will be cached to disk.
 
 mlbgame `documentation <http://zachpanz88.github.io/mlbgame>`__
 
-mlbgame on `Github <https://github.com/zachpanz88/mlbgame>`__  (Source Code)
+mlbgame on `Github <https://github.com/zachpanz88/mlbgame>`__  (Source Code) (Leave a star!)
 
 Updating the Game Database
 --------------------------
