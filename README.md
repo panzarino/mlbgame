@@ -13,8 +13,6 @@ Therefore, accessing this data does not actually make a request to mlb.com.
 
 If you try to get data from a game that is not cached,
 mlbgame will download the data from mlb.com.
-If the information you request is from completed games,
-that data will be cached to disk.
 
 mlbgame [documentation](http://zachpanz88.github.io/mlbgame)
 
