@@ -99,6 +99,14 @@ class GameScoreboard(object):
         self.l_pitcher_losses = data.get('l_pitcher', {}).get('losses', 0)
         self.sv_pitcher = data.get('sv_pitcher', {}).get('name', '')
         self.sv_pitcher_saves = data.get('sv_pitcher', {}).get('saves', 0)
+        self.w_team = ''
+        self.l_team = ''
+        if self.home_team_runs > self.away_team_runs:
+            self.w_team = self.home_team
+            self.l_team = self.away_team
+        elif self.away_team_runs > self.home_team_runs:
+            self.w_team = self.away_team
+            self.l_team = self.home_team
     
     def nice_score(self):
         '''
