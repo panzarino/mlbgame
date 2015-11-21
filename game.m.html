@@ -1080,6 +1080,11 @@ table {
 <span class="kn">import</span> <span class="nn">gzip</span>
 
 <span class="k">def</span> <span class="nf">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return the data for a certain day matching certain criteria as a dictionary</span>
+
+<span class="sd">    Should not be used other than as called by `__init__.py`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">monthstr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">daystr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">day</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/scoreboard.xml.gz&quot;</span>
@@ -1143,9 +1148,14 @@ table {
 
 <span class="k">class</span> <span class="nc">GameScoreboard</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Object to hold information about a certain game</span>
+<span class="sd">    Object to hold scoreboard information about a certain game</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates a `GameScoreboard` object</span>
+
+<span class="sd">        data is expected to come from the `scoreboard()` function</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">game_type</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_type&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">game_status</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_status&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
@@ -1194,10 +1204,17 @@ table {
 
     
   
+    <div class="desc"><p>Return the data for a certain day matching certain criteria as a dictionary</p>
+<p>Should not be used other than as called by <code>__init__.py</code></p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.scoreboard', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.game.scoreboard" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return the data for a certain day matching certain criteria as a dictionary</span>
+
+<span class="sd">    Should not be used other than as called by `__init__.py`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">monthstr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">daystr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">day</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/scoreboard.xml.gz&quot;</span>
@@ -1272,15 +1289,20 @@ table {
       <p id="mlbgame.game.GameScoreboard" class="name">class <span class="ident">GameScoreboard</span></p>
       
   
-    <div class="desc"><p>Object to hold information about a certain game</p></div>
+    <div class="desc"><p>Object to hold scoreboard information about a certain game</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.GameScoreboard', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.game.GameScoreboard" class="source">
     <div class="codehilite"><pre><span class="k">class</span> <span class="nc">GameScoreboard</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Object to hold information about a certain game</span>
+<span class="sd">    Object to hold scoreboard information about a certain game</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates a `GameScoreboard` object</span>
+
+<span class="sd">        data is expected to come from the `scoreboard()` function</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">game_type</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_type&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">game_status</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_status&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
@@ -1544,10 +1566,16 @@ table {
 
     
   
+    <div class="desc"><p>Creates a <code>GameScoreboard</code> object</p>
+<p>data is expected to come from the <code>scoreboard()</code> function</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.GameScoreboard.__init__', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.game.GameScoreboard.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Creates a `GameScoreboard` object</span>
+<span class="sd">    data is expected to come from the `scoreboard()` function</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">game_type</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_type&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">game_status</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_status&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
