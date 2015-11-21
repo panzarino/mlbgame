@@ -133,12 +133,15 @@ from datetime import date
 
 from mlbgame import version
 VERSION = version.__version__
+'''
+Current version of mlbgame
+'''
 
 def day(year, month, day, home=None, away=None):
 	'''
-	Return an array of games for a certain day
+	Return a list of games for a certain day
 	
-	If home and away are the same, it will return the game for that team
+	If the home and away team are the same, it will return the game(s) for that team
 	'''
 	daysinmonth = calendar.monthrange(year, month)[1]
 	if daysinmonth < day:
@@ -159,7 +162,7 @@ def day(year, month, day, home=None, away=None):
 
 def games(years, months=None, days=None, home=None, away=None):
 	'''
-	Return an array of arrays of games for multiple days
+	Return a list of lists of games for multiple days
 	
 	If home and away are the same team, it will return all games for that team
 	'''

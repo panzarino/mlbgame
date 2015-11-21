@@ -4,6 +4,11 @@ import os
 import gzip
 
 def scoreboard(year, month, day, home=None, away=None):
+    '''
+    Return the data for a certain day matching certain criteria as a dictionary
+
+    Should not be used other than as called by `__init__.py`
+    '''
     monthstr = str(month).zfill(2)
     daystr = str(day).zfill(2)
     filename = "gameday-data/year_"+str(year)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml.gz"
@@ -67,9 +72,14 @@ def scoreboard(year, month, day, home=None, away=None):
 
 class GameScoreboard(object):
     '''
-    Object to hold information about a certain game
+    Object to hold scoreboard information about a certain game
     '''
     def __init__(self, data):
+        '''
+        Creates a `GameScoreboard` object
+
+        data is expected to come from the `scoreboard()` function
+        '''
         self.game_id = data['game_id']
         self.game_type = data.get('game_type', '')
         self.game_status = data.get('game_status', '')
