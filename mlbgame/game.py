@@ -116,3 +116,38 @@ class GameScoreboard(object):
     
     def __str__(self):
         return self.nice_score()
+
+def box_score(game_id):
+    '''
+    Return the box score of a game with matching id
+    '''
+    year, month, day, rest = game_id.split('_', 3)
+    data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+year+"/month_"+month+"/day_"+day+"/gid_"+game_id+"/boxscore.xml")
+    parsed = etree.parse(data)
+    root = parsed.getroot()
+    linescore = root.find('linescore')
+    result = {}
+    result['game_id']=game_id
+    for x in linescore:
+        inning = x.attrib['inning']
+        home = x.attrib['home']
+        away = x.attrib['away']
+        result[int(inning)] = {'home':home, 'away':away}
+    return result
+
+class GameBoxScore(object):
+    '''
+    Object to hold the box score of a certain game
+    '''
+    def __init__(self, data):
+        '''
+        Creates a `GameBoxScore` object
+
+        data is expected to come from the `box_score()` function
+        '''
+        self.game_id = data['game_id']
+        data.pop('game_id', None)
+        self.innings = []
+        for x in sorted(data):
+            result = {'inning':int(x), 'home':data[x]['home'], 'away':data[x]['away']}
+            self.innings.append(result)
