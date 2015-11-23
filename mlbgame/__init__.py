@@ -121,7 +121,7 @@ And the output is:
 import sys
 
 if sys.version_info[0] != 2:
-	print("mlbgame requires Python 2.6+ and does not work with Python 3")
+	print("mlbgame is designed for Python 2.6+ and does not work with Python 3")
 	print("You are running Python version {}.{}".format(sys.version_info.major, sys.version_info.minor))
 	sys.exit(1)
 
@@ -129,8 +129,8 @@ import mlbgame.game
 import calendar
 from datetime import date
 
-from mlbgame import version
-VERSION = version.__version__
+import mlbgame.version
+VERSION = mlbgame.version.__version__
 '''
 Installed version of mlbgame
 '''
