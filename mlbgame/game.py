@@ -151,3 +151,9 @@ class GameBoxScore(object):
         for x in sorted(data):
             result = {'inning':int(x), 'home':data[x]['home'], 'away':data[x]['away']}
             self.innings.append(result)
+    def __iter__(self):
+        '''
+        Allows object to be iterated over
+        '''
+        for x in self.innings:
+            yield x
