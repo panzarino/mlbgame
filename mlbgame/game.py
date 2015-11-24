@@ -151,9 +151,45 @@ class GameBoxScore(object):
         for x in sorted(data):
             result = {'inning':int(x), 'home':data[x]['home'], 'away':data[x]['away']}
             self.innings.append(result)
+    
     def __iter__(self):
         '''
         Allows object to be iterated over
         '''
         for x in self.innings:
             yield x
+    
+    def print_scoreboard(self):
+        '''
+        Print object as a scoreboard
+        '''
+        output = ''
+        innings = []
+        away = []
+        home = []
+        for x in self:
+            innings.append(x['inning'])
+            away.append(x['away'])
+            home.append(x['home'])
+        output += "Inning\t"
+        for x in innings:
+            output += str(x)+" "
+        output += '\n'
+        for x in innings:
+            output += "---"
+        output += "\nAway\t"
+        for y, x in enumerate(away, start=1):
+            if y>=10:
+                output += str(x)+"  "
+            else:
+                output += str(x)+" "
+        output += "\nHome\t"
+        for y, x in enumerate(home, start=1):
+            if y>=10:
+                output += str(x)+"  "
+            else:
+                output += str(x)+" "
+        return output
+    
+    def __str__(self):
+        return self.print_scoreboard()
