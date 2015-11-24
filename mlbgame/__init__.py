@@ -188,3 +188,11 @@ def games(years, months=None, days=None, home=None, away=None):
 					if game != []:
 						results.append(game)
 	return results
+
+def box_score(game_id):
+	'''
+	Return list of box scores of single day
+	'''
+	data = mlbgame.game.box_score(game_id)
+	obj = mlbgame.game.GameBoxScore(data)
+	return obj
