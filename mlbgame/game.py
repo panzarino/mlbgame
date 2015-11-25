@@ -122,7 +122,12 @@ def box_score(game_id):
     Return the box score of a game with matching id
     '''
     year, month, day, rest = game_id.split('_', 3)
-    data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+year+"/month_"+month+"/day_"+day+"/gid_"+game_id+"/boxscore.xml")
+    filename = "gameday-data/year_"+year+"/month_"+month+"/day_"+day+"/gid_"+game_id+"/boxscore.xml.gz"
+    file = os.path.join(os.path.dirname(__file__), filename)
+    if os.path.isfile(file):
+        data = file
+    else:
+        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+year+"/month_"+month+"/day_"+day+"/gid_"+game_id+"/boxscore.xml")
     parsed = etree.parse(data)
     root = parsed.getroot()
     linescore = root.find('linescore')
