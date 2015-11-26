@@ -195,6 +195,3 @@ class GameBoxScore(object):
             else:
                 output += str(x)+" "
         return output
-    
-    def __str__(self):
-        return self.print_scoreboard()
