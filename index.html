@@ -1049,6 +1049,7 @@ table {
     <li class="set"><h3><a href="#header-functions">Functions</a></h3>
       
   <ul>
+    <li class="mono"><a href="#mlbgame.box_score">box_score</a></li>
     <li class="mono"><a href="#mlbgame.day">day</a></li>
     <li class="mono"><a href="#mlbgame.games">games</a></li>
   </ul>
@@ -1085,9 +1086,7 @@ from 2009 to the end of the 2015 season,
 but will be updated regularly during the season.
 Therefore, accessing this data does not actually make a request to mlb.com.</p>
 <p>If you try to get data from a game that is not cached,
-mlbgame will download the data from mlb.com.
-If the information you request is from completed games,
-that data will be cached to disk.</p>
+mlbgame will download the data from mlb.com.</p>
 <p>mlbgame <a href="http://zachpanz88.github.io/mlbgame">documentation</a></p>
 <p>mlbgame on <a href="https://github.com/zachpanz88/mlbgame">Github</a> (Source Code) (Leave a star!)</p>
 <h2>Installation</h2>
@@ -1170,13 +1169,13 @@ Blue Jays (3) at Tigers (8)
 
 <span class="n">day</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">day</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="s">&quot;Royals&quot;</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="s">&quot;Royals&quot;</span><span class="p">)</span>
 <span class="n">game</span> <span class="o">=</span> <span class="n">day</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">output</span> <span class="o">=</span> <span class="s">&quot;Winning pitcher: </span><span class="si">%s</span><span class="s"> - Losing Pitcher: </span><span class="si">%s</span><span class="s">&quot;</span>
-<span class="k">print</span> <span class="n">output</span> <span class="o">%</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">w_pitcher</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">l_pitcher</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="s">&quot;Winning pitcher: </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">) - Losing Pitcher: </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&quot;</span>
+<span class="k">print</span> <span class="n">output</span> <span class="o">%</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">w_pitcher</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">w_team</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">l_pitcher</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">l_team</span><span class="p">)</span>
 </pre></div>
 
 
 <p>And the output is:</p>
-<div class="codehilite"><pre>Winning pitcher: Y. Ventura - Losing Pitcher: C. Wilson
+<div class="codehilite"><pre>Winning pitcher: Y. Ventura (Royals) - Losing Pitcher: C. Wilson (Angels)
 </pre></div>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame', this);">Show source &equiv;</a></p>
@@ -1198,8 +1197,6 @@ Blue Jays (3) at Tigers (8)
 
 <span class="sd">If you try to get data from a game that is not cached,</span>
 <span class="sd">mlbgame will download the data from mlb.com.</span>
-<span class="sd">If the information you request is from completed games,</span>
-<span class="sd">that data will be cached to disk.</span>
 
 <span class="sd">mlbgame [documentation](http://zachpanz88.github.io/mlbgame)</span>
 
@@ -1294,19 +1291,19 @@ Blue Jays (3) at Tigers (8)
 <span class="sd">    </span>
 <span class="sd">    day = mlbgame.day(2015, 4, 12, home=&quot;Royals&quot;, away=&quot;Royals&quot;)</span>
 <span class="sd">    game = day[0]</span>
-<span class="sd">    output = &quot;Winning pitcher: %s - Losing Pitcher: %s&quot;</span>
-<span class="sd">    print output % (game.w_pitcher, game.l_pitcher)</span>
+<span class="sd">    output = &quot;Winning pitcher: %s (%s) - Losing Pitcher: %s (%s)&quot;</span>
+<span class="sd">    print output % (game.w_pitcher, game.w_team, game.l_pitcher, game.l_team)</span>
 
 <span class="sd">And the output is:</span>
 
-<span class="sd">    Winning pitcher: Y. Ventura - Losing Pitcher: C. Wilson</span>
+<span class="sd">    Winning pitcher: Y. Ventura (Royals) - Losing Pitcher: C. Wilson (Angels)</span>
 
 <span class="sd">&#39;&#39;&#39;</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-	<span class="k">print</span><span class="p">(</span><span class="s">&quot;mlbgame requires Python 2.6+ and does not work with Python 3&quot;</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="s">&quot;mlbgame is designed for Python 2.6+ and does not work with Python 3&quot;</span><span class="p">)</span>
 	<span class="k">print</span><span class="p">(</span><span class="s">&quot;You are running Python version {}.{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span><span class="p">))</span>
 	<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
@@ -1314,10 +1311,10 @@ Blue Jays (3) at Tigers (8)
 <span class="kn">import</span> <span class="nn">calendar</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
 
-<span class="kn">from</span> <span class="nn">mlbgame</span> <span class="kn">import</span> <span class="n">version</span>
-<span class="n">VERSION</span> <span class="o">=</span> <span class="n">version</span><span class="o">.</span><span class="n">__version__</span>
+<span class="kn">import</span> <span class="nn">mlbgame.version</span>
+<span class="n">VERSION</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">__version__</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">Current version of mlbgame</span>
+<span class="sd">Installed version of mlbgame</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
 <span class="k">def</span> <span class="nf">day</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -1373,6 +1370,14 @@ Blue Jays (3) at Tigers (8)
 					<span class="k">if</span> <span class="n">game</span> <span class="o">!=</span> <span class="p">[]:</span>
 						<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">results</span>
+
+<span class="k">def</span> <span class="nf">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Return list of box scores of single day</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+	<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameBoxScore</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">obj</span>
 </pre></div>
 
   </div>
@@ -1385,13 +1390,40 @@ Blue Jays (3) at Tigers (8)
       <p id="mlbgame.VERSION" class="name">var <span class="ident">VERSION</span></p>
       
   
-    <div class="desc"><p>Current version of mlbgame</p></div>
+    <div class="desc"><p>Installed version of mlbgame</p></div>
   <div class="source_cont">
 </div>
 
       </div>
 
     <h2 class="section-title" id="header-functions">Functions</h2>
+      
+  <div class="item">
+    <div class="name def" id="mlbgame.box_score">
+    <p>def <span class="ident">box_score</span>(</p><p>game_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return list of box scores of single day</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.box_score', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.box_score" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Return list of box scores of single day</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+	<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameBoxScore</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">obj</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
       
   <div class="item">
     <div class="name def" id="mlbgame.day">
