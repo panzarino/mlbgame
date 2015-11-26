@@ -12,6 +12,8 @@ def run(hide=False):
     year = date.today().year
     month = date.today().month
     day = date.today().day
+    if not hide:
+        print "Checking data..."
     for i in range(2012, year+1):
         for x in range(1, 13):
             monthstr = str(x).zfill(2)
@@ -62,7 +64,7 @@ def run(hide=False):
                             try:
                                 data2 = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr+"/gid_"+game_id+"/boxscore.xml")
                                 if not hide:
-                                    sys.stdout.write('Loading games for %s-%d (%00.2f%%) \r' % (monthstr, i, y/31.0*100))
+                                    sys.stdout.write('Loading games for %s-%d (%00.2f%%). \r' % (monthstr, i, y/31.0*100))
                                     sys.stdout.flush()
                                 loading = True
                                 response2 = data2.read()
@@ -85,10 +87,10 @@ def run(hide=False):
                 except:
                     pass
             if loading and not hide:
-                sys.stdout.write('Loading games for %s-%d (100.00%%)\n' % (monthstr, i))
+                sys.stdout.write('Loading games for %s-%d (100.00%%).\n' % (monthstr, i))
                 sys.stdout.flush()
     if not hide:
-        print "Complete"
+        print "Complete."
 
 if __name__ == "__main__":
     run()
