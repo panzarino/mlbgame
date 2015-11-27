@@ -1,4 +1,13 @@
 #!/usr/bin/env python2
 
 import mlbgame.update_games
-mlbgame.update_games.run()
+import sys
+
+hide = False
+box_score = False
+for x in sys.argv:
+    if x == 'hide':
+        hide = True
+    elif x == 'box_score':
+        box_score = True
+mlbgame.update_games.run(hide, box_score)
