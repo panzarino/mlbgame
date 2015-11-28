@@ -54,10 +54,10 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     usage: mlbgame-update-games <arguments>
     
     Arguments:
-    -h (--help)				display this help menu
-    --hide					hides output from update script
-    --box_score				caches the box scores from every game
-    --start_date <year>		year to start updating from (runs until current day)
+    -h (--help)\t\t\tdisplay this help menu
+    --hide\t\t\thides output from update script
+    --box_score\t\t\tcaches the box scores from every game
+    --start_date <year>\t\tyear to start updating from (runs until current day)
 
 
 Examples
