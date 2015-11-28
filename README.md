@@ -51,15 +51,14 @@ There are some optional arguments that will cache extra data that is not include
 This extra data may take up a lot of disk space, so only cache if you really need it (it will make processes much faster).
 If this data is not cached, mlbgame will make a request to mlb.com every time you try to access the data.
 
-`hide` - hides output from update script
-
-`box_score` - caches the box scores from every game
-
-
-Example: Caches and updates all box scores
-
 ```
-mlbgame-update-games box_score
+usage: mlbgame-update-games <arguments>
+    
+Arguments:
+-h (--help)             display this help menu
+--hide                  hides output from update script
+--box_score             caches the box scores from every game
+--start_date <year>     year to start updating from (runs until current day)
 ```
 
 
