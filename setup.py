@@ -14,13 +14,6 @@ with codecs.open(path.join(cwd, 'mlbgame/version.py'), 'r', 'ascii') as f:
     version = __version__
 assert version != '0.0.0'
 
-install_requires = []
-
-try:
-    import urllib2
-except ImportError:
-    install_requires.append('urllib2')
-
 setup(
     name='mlbgame',
     author='Zach Panzarino',

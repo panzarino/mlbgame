@@ -32,9 +32,6 @@ pip install mlbgame
 
 (You may need to use `pip2` if Python 3 is the default on your system.)
 
-mlbgame depends on `urllib2` to fetch data from mlb.com.
-`urllib2` will be automatically installed if mlbgame is installed with `pip`.
-
 mlbgame does not yet work on Python 3, but it should work with Python 2.6 and 2.7.
 
 Updating the Game Database
