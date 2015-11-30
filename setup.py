@@ -26,7 +26,7 @@ setup(
     download_url='https://github.com/zachpanz88/mlbgame/archive/master.zip',
     classifiers=[
         'License :: OSI Approved :: MIT License',
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 2 - Pre-Alpha',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: End Users/Desktop',
