@@ -7,7 +7,7 @@ mlbgame uses the same data that MLB GameDay uses,
 and therefore is updated as soon as something happens in a game.
 
 mlbgame currently comes pre-loaded with every game
-from 2009 to the end of the 2015 season,
+from 2012 to the end of the 2015 season,
 but will be updated regularly during the season.
 Therefore, accessing this data does not actually make a request to mlb.com.
 

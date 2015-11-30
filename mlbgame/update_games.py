@@ -25,13 +25,13 @@ def run(hide=False, box_score=False, start_date=2012):
                 if i == year and x >= month and y >= day:
                     break
                 daystr = str(y).zfill(2)
-                filename = "gameday-data/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml.gz"
+                filename = "gameday-data/year_%i/month_%s/day_%s/scoreboard.xml.gz" % (i, monthstr, daystr)
                 f = os.path.join(os.path.dirname(__file__), filename)
-                dirn = "gameday-data/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr
+                dirn = "gameday-data/year_%i/month_%s/day_%s" % (i, monthstr, daystr)
                 dirname = os.path.join(os.path.dirname(__file__), dirn)
                 if not os.path.isfile(f):
                     try:
-                        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml")
+                        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/scoreboard.xml" % (i, monthstr, daystr))
                         if not hide:
                             sys.stdout.write('Loading games for %s-%d (%00.2f%%) \r' % (monthstr, i, y/31.0*100))
                             sys.stdout.flush()
@@ -58,13 +58,13 @@ def run(hide=False, box_score=False, start_date=2012):
                         games = mlbgame.day(i, x, y)
                         for z in games:
                             game_id = z.game_id
-                            filename2 = "gameday-data/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr+"/gid_"+game_id+"/boxscore.xml.gz"
+                            filename2 = "gameday-data/year_%i/month_%s/day_%s/gid_%s/boxscore.xml.gz" % (i, monthstr, daystr, game_id)
                             f2 = os.path.join(os.path.dirname(__file__), filename2)
-                            dirn2 = "gameday-data/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr+"/gid_"+game_id
+                            dirn2 = "gameday-data/year_%i/month_%s/day_%s/gid_%s" % (i, monthstr, daystr, game_id)
                             dirname2 = os.path.join(os.path.dirname(__file__), dirn2)
                             if not os.path.isfile(f2):
                                 try:
-                                    data2 = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+str(i)+"/month_"+monthstr+"/day_"+daystr+"/gid_"+game_id+"/boxscore.xml")
+                                    data2 = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/gid_%s/boxscore.xml" % (i, monthstr, daystr, game_id))
                                     if not hide:
                                         sys.stdout.write('Loading games for %s-%d (%00.2f%%). \r' % (monthstr, i, y/31.0*100))
                                         sys.stdout.flush()

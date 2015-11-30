@@ -11,12 +11,12 @@ def scoreboard(year, month, day, home=None, away=None):
     '''
     monthstr = str(month).zfill(2)
     daystr = str(day).zfill(2)
-    filename = "gameday-data/year_"+str(year)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml.gz"
+    filename = "gameday-data/year_%i/month_%s/day_%s/scoreboard.xml.gz" % (year, monthstr, daystr)
     file = os.path.join(os.path.dirname(__file__), filename)
     if os.path.isfile(file):
         data = file
     else:
-        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+str(year)+"/month_"+monthstr+"/day_"+daystr+"/scoreboard.xml")
+        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/scoreboard.xml" % (year, monthstr, daystr))
     parsed = etree.parse(data)
     root = parsed.getroot()
     games = {}
@@ -122,12 +122,12 @@ def box_score(game_id):
     Return the box score of a game with matching id
     '''
     year, month, day, rest = game_id.split('_', 3)
-    filename = "gameday-data/year_"+year+"/month_"+month+"/day_"+day+"/gid_"+game_id+"/boxscore.xml.gz"
+    filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id)
     file = os.path.join(os.path.dirname(__file__), filename)
     if os.path.isfile(file):
         data = file
     else:
-        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_"+year+"/month_"+month+"/day_"+day+"/gid_"+game_id+"/boxscore.xml")
+        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id))
     parsed = etree.parse(data)
     root = parsed.getroot()
     linescore = root.find('linescore')
