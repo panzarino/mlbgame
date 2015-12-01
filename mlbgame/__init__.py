@@ -202,8 +202,18 @@ def games(years, months=None, days=None, home=None, away=None):
 
 def box_score(game_id):
 	'''
-	Return list of box scores of single day
+	Return box score for game matching the game id
 	'''
 	data = mlbgame.game.box_score(game_id)
 	obj = mlbgame.game.GameBoxScore(data)
 	return obj
+
+def combine_games(games):
+	'''
+	Combines games from multiple days into a single list
+	'''
+	output = []
+	for x in games:
+		for y in x:
+			output.append(y)
+	return output
