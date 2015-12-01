@@ -103,7 +103,7 @@ def usage():
     print "--box_score\t\tcaches the box scores from every game"
     print "--start_date <year>\tyear to start updating from (runs until current day)"
 
-if __name__ == "__main__":
+def start():
     try:
         data = getopt.getopt(sys.argv[1:], "h", ["help", "hide", "box_score", "start_date="])
     except getopt.GetoptError:
@@ -123,3 +123,7 @@ if __name__ == "__main__":
         elif x[0] == "--start_date":
             start_date = int(x[1])
     run(hide, box_score, start_date)
+    
+
+if __name__ == "__main__":
+    start()
