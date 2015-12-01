@@ -1100,9 +1100,7 @@ Installing with <code>pip</code> is recommended for all systems.</p>
 
 
 <p>(You may need to use <code>pip2</code> if Python 3 is the default on your system.)</p>
-<p>mlbgame depends on <code>urllib2</code> to fetch data from mlb.com.
-<code>urllib2</code> will be automatically installed if mlbgame is installed with <code>pip</code>.</p>
-<p>mlbgame does not yet work on Python 3, but it should work with Python 2.6 and 2.7.</p>
+<p>mlbgame does not yet work on Python 3, because it is desinged for Python 2.6 and 2.7.</p>
 <h2>Updating the Game Database</h2>
 <p>Since games happen every day, new game data exists that is not stored on disk from the original install.
 The database can be updated by running the following command:</p>
@@ -1110,13 +1108,16 @@ The database can be updated by running the following command:</p>
 </pre></div>
 
 
-<p>There are some optional arguments that will install extra data that is not included with the original install.
-This extra data may take up a lot of disk space, so only install if you really need it (it will make processes much faster).
-If this data is not installed, mlbgame will make a request to mlb.com every time you try to access the data.</p>
-<p><code>hide</code> - hides output from install script</p>
-<p><code>box_score</code> - saves the box scores from every game</p>
-<p>Example: Saves and updates all box scores</p>
-<div class="codehilite"><pre>mlbgame-update-games box_score
+<p>There are some optional arguments that will cache extra data that is not included with the original install.
+This extra data may take up a lot of disk space, so only cache if you really need it (it will make processes much faster).
+If this data is not cached, mlbgame will make a request to mlb.com every time you try to access the data.</p>
+<div class="codehilite"><pre><span class="n">usage</span><span class="o">:</span> <span class="n">mlbgame</span><span class="o">-</span><span class="n">update</span><span class="o">-</span><span class="n">games</span> <span class="o">&lt;</span><span class="k">arguments</span><span class="o">&gt;</span>
+
+<span class="n">Arguments</span><span class="o">:</span>
+<span class="o">-</span><span class="n">h</span> <span class="o">(--</span><span class="n">help</span><span class="o">)</span>                 <span class="n">display</span> <span class="k">this</span> <span class="n">help</span> <span class="n">menu</span>
+<span class="o">--</span><span class="n">hide</span>                      <span class="n">hides</span> <span class="n">output</span> <span class="n">from</span> <span class="n">update</span> <span class="n">script</span>
+<span class="o">--</span><span class="n">box_score</span>                 <span class="n">caches</span> <span class="n">the</span> <span class="n">box</span> <span class="n">scores</span> <span class="n">from</span> <span class="n">every</span> <span class="n">game</span>
+<span class="o">--</span><span class="n">start_date</span> <span class="o">&lt;</span><span class="n">year</span><span class="o">&gt;</span>         <span class="n">year</span> <span class="n">to</span> <span class="n">start</span> <span class="n">updating</span> <span class="n">from</span> <span class="o">(</span><span class="n">runs</span> <span class="n">until</span> <span class="n">current</span> <span class="n">day</span><span class="o">)</span>
 </pre></div>
 
 
@@ -1228,10 +1229,7 @@ Blue Jays (3) at Tigers (8)
 
 <span class="sd">(You may need to use `pip2` if Python 3 is the default on your system.)</span>
 
-<span class="sd">mlbgame depends on `urllib2` to fetch data from mlb.com.</span>
-<span class="sd">`urllib2` will be automatically installed if mlbgame is installed with `pip`.</span>
-
-<span class="sd">mlbgame does not yet work on Python 3, but it should work with Python 2.6 and 2.7.</span>
+<span class="sd">mlbgame does not yet work on Python 3, because it is desinged for Python 2.6 and 2.7.</span>
 
 <span class="sd">Updating the Game Database</span>
 <span class="sd">--------------------------</span>
@@ -1241,18 +1239,17 @@ Blue Jays (3) at Tigers (8)
 
 <span class="sd">    mlbgame-update-games</span>
 
-<span class="sd">There are some optional arguments that will install extra data that is not included with the original install.</span>
-<span class="sd">This extra data may take up a lot of disk space, so only install if you really need it (it will make processes much faster).</span>
-<span class="sd">If this data is not installed, mlbgame will make a request to mlb.com every time you try to access the data.</span>
+<span class="sd">There are some optional arguments that will cache extra data that is not included with the original install.</span>
+<span class="sd">This extra data may take up a lot of disk space, so only cache if you really need it (it will make processes much faster).</span>
+<span class="sd">If this data is not cached, mlbgame will make a request to mlb.com every time you try to access the data.</span>
 
-<span class="sd">`hide` - hides output from install script</span>
-
-<span class="sd">`box_score` - saves the box scores from every game</span>
-
-
-<span class="sd">Example: Saves and updates all box scores</span>
-
-<span class="sd">    mlbgame-update-games box_score</span>
+<span class="sd">    usage: mlbgame-update-games &lt;arguments&gt;</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    -h (--help)\t\t\tdisplay this help menu</span>
+<span class="sd">    --hide\t\t\thides output from update script</span>
+<span class="sd">    --box_score\t\t\tcaches the box scores from every game</span>
+<span class="sd">    --start_date &lt;year&gt;\t\tyear to start updating from (runs until current day)</span>
 
 
 <span class="sd">Examples</span>

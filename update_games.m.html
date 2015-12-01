@@ -1039,6 +1039,8 @@ table {
       
   <ul>
     <li class="mono"><a href="#mlbgame.update_games.run">run</a></li>
+    <li class="mono"><a href="#mlbgame.update_games.start">start</a></li>
+    <li class="mono"><a href="#mlbgame.update_games.usage">usage</a></li>
   </ul>
 
     </li>
@@ -1066,8 +1068,9 @@ table {
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
 <span class="kn">import</span> <span class="nn">mlbgame</span>
+<span class="kn">import</span> <span class="nn">getopt</span>
 
-<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">hide</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">box_score</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">hide</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">box_score</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="mi">2012</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Update local game data</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -1076,7 +1079,7 @@ table {
     <span class="n">day</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">day</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
         <span class="k">print</span> <span class="s">&quot;Checking data...&quot;</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2012</span><span class="p">,</span> <span class="n">year</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">year</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
             <span class="n">monthstr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
             <span class="n">loading</span> <span class="o">=</span> <span class="bp">False</span>
@@ -1086,13 +1089,13 @@ table {
                 <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">year</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">month</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="n">day</span><span class="p">:</span>
                     <span class="k">break</span>
                 <span class="n">daystr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-                <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/scoreboard.xml.gz&quot;</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml.gz&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">)</span>
                 <span class="n">f</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
-                <span class="n">dirn</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span>
+                <span class="n">dirn</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">)</span>
                 <span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">dirn</span><span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/scoreboard.xml&quot;</span><span class="p">)</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">))</span>
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
                             <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Loading games for </span><span class="si">%s</span><span class="s">-</span><span class="si">%d</span><span class="s"> (</span><span class="si">%00.2f%%</span><span class="s">) </span><span class="se">\r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">monthstr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="o">/</span><span class="mf">31.0</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
                             <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
@@ -1119,13 +1122,13 @@ table {
                         <span class="n">games</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">day</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">games</span><span class="p">:</span>
                             <span class="n">game_id</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">game_id</span>
-                            <span class="n">filename2</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/gid_&quot;</span><span class="o">+</span><span class="n">game_id</span><span class="o">+</span><span class="s">&quot;/boxscore.xml.gz&quot;</span>
+                            <span class="n">filename2</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml.gz&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
                             <span class="n">f2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename2</span><span class="p">)</span>
-                            <span class="n">dirn2</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/gid_&quot;</span><span class="o">+</span><span class="n">game_id</span>
+                            <span class="n">dirn2</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
                             <span class="n">dirname2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">dirn2</span><span class="p">)</span>
                             <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">f2</span><span class="p">):</span>
                                 <span class="k">try</span><span class="p">:</span>
-                                    <span class="n">data2</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/gid_&quot;</span><span class="o">+</span><span class="n">game_id</span><span class="o">+</span><span class="s">&quot;/boxscore.xml&quot;</span><span class="p">)</span>
+                                    <span class="n">data2</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
                                     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
                                         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Loading games for </span><span class="si">%s</span><span class="s">-</span><span class="si">%d</span><span class="s"> (</span><span class="si">%00.2f%%</span><span class="s">). </span><span class="se">\r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">monthstr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="o">/</span><span class="mf">31.0</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
                                         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
@@ -1155,15 +1158,39 @@ table {
     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
         <span class="k">print</span> <span class="s">&quot;Complete.&quot;</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">usage</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&quot;usage: &quot;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot; &lt;arguments&gt;&quot;</span>
+    <span class="k">print</span>
+    <span class="k">print</span> <span class="s">&quot;Arguments:&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;-h (--help)</span><span class="se">\t\t</span><span class="s">display this help menu&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;--hide</span><span class="se">\t\t\t</span><span class="s">hides output from update script&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;--box_score</span><span class="se">\t\t</span><span class="s">caches the box scores from every game&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;--start_date &lt;year&gt;</span><span class="se">\t</span><span class="s">year to start updating from (runs until current day)&quot;</span>
+
+<span class="k">def</span> <span class="nf">start</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&quot;h&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;help&quot;</span><span class="p">,</span> <span class="s">&quot;hide&quot;</span><span class="p">,</span> <span class="s">&quot;box_score&quot;</span><span class="p">,</span> <span class="s">&quot;start_date=&quot;</span><span class="p">])</span>
+    <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span><span class="p">:</span>
+        <span class="n">usage</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">hide</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">box_score</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s">&#39;hide&#39;</span><span class="p">:</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="mi">2012</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;-h&quot;</span> <span class="ow">or</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;--help&quot;</span><span class="p">:</span>
+            <span class="n">usage</span><span class="p">()</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;--hide&quot;</span><span class="p">:</span>
             <span class="n">hide</span> <span class="o">=</span> <span class="bp">True</span>
-        <span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="s">&#39;box_score&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;--box_score&quot;</span><span class="p">:</span>
             <span class="n">box_score</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">run</span><span class="p">(</span><span class="n">hide</span><span class="p">,</span> <span class="n">box_score</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;--start_date&quot;</span><span class="p">:</span>
+            <span class="n">start_date</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">run</span><span class="p">(</span><span class="n">hide</span><span class="p">,</span> <span class="n">box_score</span><span class="p">,</span> <span class="n">start_date</span><span class="p">)</span>
+    
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">start</span><span class="p">()</span>
 </pre></div>
 
   </div>
@@ -1176,7 +1203,7 @@ table {
       
   <div class="item">
     <div class="name def" id="mlbgame.update_games.run">
-    <p>def <span class="ident">run</span>(</p><p>hide=False, box_score=False)</p>
+    <p>def <span class="ident">run</span>(</p><p>hide=False, box_score=False, start_date=2012)</p>
     </div>
     
 
@@ -1186,7 +1213,7 @@ table {
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.update_games.run', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.update_games.run" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">hide</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">box_score</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">hide</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">box_score</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="mi">2012</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Update local game data</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -1195,7 +1222,7 @@ table {
     <span class="n">day</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">day</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
         <span class="k">print</span> <span class="s">&quot;Checking data...&quot;</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2012</span><span class="p">,</span> <span class="n">year</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">year</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
             <span class="n">monthstr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
             <span class="n">loading</span> <span class="o">=</span> <span class="bp">False</span>
@@ -1205,13 +1232,13 @@ table {
                 <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">year</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">month</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="n">day</span><span class="p">:</span>
                     <span class="k">break</span>
                 <span class="n">daystr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-                <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/scoreboard.xml.gz&quot;</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml.gz&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">)</span>
                 <span class="n">f</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
-                <span class="n">dirn</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span>
+                <span class="n">dirn</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">)</span>
                 <span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">dirn</span><span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/scoreboard.xml&quot;</span><span class="p">)</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">))</span>
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
                             <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Loading games for </span><span class="si">%s</span><span class="s">-</span><span class="si">%d</span><span class="s"> (</span><span class="si">%00.2f%%</span><span class="s">) </span><span class="se">\r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">monthstr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="o">/</span><span class="mf">31.0</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
                             <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
@@ -1238,13 +1265,13 @@ table {
                         <span class="n">games</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">day</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
                         <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">games</span><span class="p">:</span>
                             <span class="n">game_id</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">game_id</span>
-                            <span class="n">filename2</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/gid_&quot;</span><span class="o">+</span><span class="n">game_id</span><span class="o">+</span><span class="s">&quot;/boxscore.xml.gz&quot;</span>
+                            <span class="n">filename2</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml.gz&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
                             <span class="n">f2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename2</span><span class="p">)</span>
-                            <span class="n">dirn2</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/gid_&quot;</span><span class="o">+</span><span class="n">game_id</span>
+                            <span class="n">dirn2</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
                             <span class="n">dirname2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">dirn2</span><span class="p">)</span>
                             <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">f2</span><span class="p">):</span>
                                 <span class="k">try</span><span class="p">:</span>
-                                    <span class="n">data2</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;/month_&quot;</span><span class="o">+</span><span class="n">monthstr</span><span class="o">+</span><span class="s">&quot;/day_&quot;</span><span class="o">+</span><span class="n">daystr</span><span class="o">+</span><span class="s">&quot;/gid_&quot;</span><span class="o">+</span><span class="n">game_id</span><span class="o">+</span><span class="s">&quot;/boxscore.xml&quot;</span><span class="p">)</span>
+                                    <span class="n">data2</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
                                     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
                                         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Loading games for </span><span class="si">%s</span><span class="s">-</span><span class="si">%d</span><span class="s"> (</span><span class="si">%00.2f%%</span><span class="s">). </span><span class="se">\r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">monthstr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="o">/</span><span class="mf">31.0</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
                                         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
@@ -1273,6 +1300,72 @@ table {
                 <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
         <span class="k">print</span> <span class="s">&quot;Complete.&quot;</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="mlbgame.update_games.start">
+    <p>def <span class="ident">start</span>(</p><p>)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.update_games.start', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.update_games.start" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">start</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&quot;h&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;help&quot;</span><span class="p">,</span> <span class="s">&quot;hide&quot;</span><span class="p">,</span> <span class="s">&quot;box_score&quot;</span><span class="p">,</span> <span class="s">&quot;start_date=&quot;</span><span class="p">])</span>
+    <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span><span class="p">:</span>
+        <span class="n">usage</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">hide</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">box_score</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="mi">2012</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;-h&quot;</span> <span class="ow">or</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;--help&quot;</span><span class="p">:</span>
+            <span class="n">usage</span><span class="p">()</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;--hide&quot;</span><span class="p">:</span>
+            <span class="n">hide</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;--box_score&quot;</span><span class="p">:</span>
+            <span class="n">box_score</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;--start_date&quot;</span><span class="p">:</span>
+            <span class="n">start_date</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">run</span><span class="p">(</span><span class="n">hide</span><span class="p">,</span> <span class="n">box_score</span><span class="p">,</span> <span class="n">start_date</span><span class="p">)</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="mlbgame.update_games.usage">
+    <p>def <span class="ident">usage</span>(</p><p>)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.update_games.usage', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.update_games.usage" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">usage</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&quot;usage: &quot;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot; &lt;arguments&gt;&quot;</span>
+    <span class="k">print</span>
+    <span class="k">print</span> <span class="s">&quot;Arguments:&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;-h (--help)</span><span class="se">\t\t</span><span class="s">display this help menu&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;--hide</span><span class="se">\t\t\t</span><span class="s">hides output from update script&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;--box_score</span><span class="se">\t\t</span><span class="s">caches the box scores from every game&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;--start_date &lt;year&gt;</span><span class="se">\t</span><span class="s">year to start updating from (runs until current day)&quot;</span>
 </pre></div>
 
   </div>
