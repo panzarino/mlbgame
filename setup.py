@@ -14,6 +14,8 @@ with codecs.open(path.join(cwd, 'mlbgame/version.py'), 'r', 'ascii') as f:
     version = __version__
 assert version != '0.0.0'
 
+download_link = 'https://github.com/zachpanz88/mlbgame/archive/v%s.zip' % (version)
+
 setup(
     name='mlbgame',
     author='Zach Panzarino',
@@ -23,23 +25,31 @@ setup(
     description='An API to retrieve and read MLB GameDay JSON and XML data',
     long_description=longdesc,
     url='https://github.com/zachpanz88/mlbgame',
-    download_url='https://github.com/zachpanz88/mlbgame/archive/master.zip',
+    download_url=download_link,
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Console',
         'Intended Audience :: Developers',
-        'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Other Audience',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 2 :: Only',
         'Natural Language :: English',
         'Topic :: Other/Nonlisted Topic',
     ],
+    keywords=[
+        'MLB',
+        'baseball',
+        'Major League Baseball',
+        'baseball scores',
+        'baseball data',
+        'MLB GameDay',
+    ],
     platforms='ANY',
     packages=['mlbgame'],
-    package_data={'mlbgame': ['gameday-data/*/*/*/*.xml.gz', 'gameday-data/*/*/*/*/*.xml.gz']},
+    package_data={'mlbgame': ['gameday-data/*/*/*/*.xml.gz']},
     data_files=[('docs', ['README.md', 'LICENSE', 'longdesc.rst'])],
     scripts=['scripts/mlbgame-update-games'],
 )
