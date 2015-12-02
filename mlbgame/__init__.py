@@ -129,7 +129,7 @@ And the output is:
 
 Use of mlbgame implies agreement to the terms stated in the 
 [license](https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE) 
-and [mlb.com](http://gd2.mlb.com/components/copyright.txt)
+and on [mlb.com](http://gd2.mlb.com/components/copyright.txt)
 
 '''
 

@@ -45,4 +45,4 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
 
 Use of mlbgame must follow the terms stated in the 
 `license <https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE>`__ 
-and `mlb.com <http://gd2.mlb.com/components/copyright.txt>`__
+and on `mlb.com <http://gd2.mlb.com/components/copyright.txt>`__
