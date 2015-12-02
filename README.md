@@ -137,3 +137,7 @@ And the output is:
 ```
 Winning pitcher: Y. Ventura (Royals) - Losing Pitcher: C. Wilson (Angels)
 ```
+
+Use of mlbgame must follow the terms stated in the 
+[license](https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE) 
+and [mlb.com](http://gd2.mlb.com/components/copyright.txt)
