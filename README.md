@@ -125,15 +125,15 @@ Maybe you want to know the pitchers for the Royals game on April 30th, 2015:
 
 ```python
 import mlbgame
-
+    
 day = mlbgame.day(2015, 4, 12, home="Royals", away="Royals")
 game = day[0]
-output = "Winning pitcher: %s - Losing Pitcher: %s"
-print output % (game.w_pitcher, game.l_pitcher)
+output = "Winning pitcher: %s (%s) - Losing Pitcher: %s (%s)"
+print output % (game.w_pitcher, game.w_team, game.l_pitcher, game.l_team)
 ```
 
 And the output is:
 
 ```
-Winning pitcher: Y. Ventura - Losing Pitcher: C. Wilson
+Winning pitcher: Y. Ventura (Royals) - Losing Pitcher: C. Wilson (Angels)
 ```

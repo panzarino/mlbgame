@@ -113,7 +113,7 @@ class GameScoreboard(object):
         minute = other[:2]
         am_pm = other[2:]
         if am_pm == "PM":
-            hour = int(hour)+12
+            hour = int(hour)+11
         self.date = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute))
     
     def nice_score(self):
@@ -128,6 +128,8 @@ class GameScoreboard(object):
 def box_score(game_id):
     '''
     Return the box score of a game with matching id
+    
+    Should not be used other than as called by `__init__.py`
     '''
     year, month, day, rest = game_id.split('_', 3)
     filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id)
