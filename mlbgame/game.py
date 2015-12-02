@@ -2,6 +2,7 @@ import urllib2 as url
 import lxml.etree as etree
 import os
 import gzip
+import datetime
 
 def scoreboard(year, month, day, home=None, away=None):
     '''
@@ -107,6 +108,13 @@ class GameScoreboard(object):
         elif self.away_team_runs > self.home_team_runs:
             self.w_team = self.away_team
             self.l_team = self.home_team
+        year, month, day, rest = self.game_id.split('_', 3)
+        hour, other = self.game_start_time.split(':', 2)
+        minute = other[:2]
+        am_pm = other[2:]
+        if am_pm == "PM":
+            hour = int(hour)+12
+        self.date = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute))
     
     def nice_score(self):
         '''
