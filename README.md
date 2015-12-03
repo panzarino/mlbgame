@@ -66,11 +66,11 @@ Here is a quick teaser to find the scores of all home Mets games for the month o
 
 ```python
 import mlbgame
-
+    
 month = mlbgame.games(2015, 6, home="Mets")
-for day in month:
-    for game in day:
-        print game
+games = mlbgame.combine_games(month)
+for x in games:
+    print x
 ```
 
 And the output is:
