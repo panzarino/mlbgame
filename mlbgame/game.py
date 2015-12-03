@@ -205,3 +205,51 @@ class GameBoxScore(object):
             else:
                 output += str(x)+" "
         return output
+
+def get_stats(game_id):
+    '''
+    Return individual stats of a game with matching id
+    
+    Should not be used other than as called by `__init__.py`
+    '''
+    year, month, day, rest = game_id.split('_', 3)
+    filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id)
+    file = os.path.join(os.path.dirname(__file__), filename)
+    if os.path.isfile(file):
+        data = file
+    else:
+        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id))
+    parsed = etree.parse(data)
+    root = parsed.getroot()
+    pitching = root.findall('pitching')
+    batting = root.findall('batting')
+    home_pitching = []
+    away_pitching = []
+    home_batting = []
+    away_batting = []
+    for y in pitching:
+        home=False
+        if y.attrib['team_flag'] == "home":
+            home = True
+        for x in y.findall('pitcher'):
+            stats = {}
+            for i in x.attrib:
+                stats[i]=x.attrib[i]
+            if home:
+                home_pitching.append(stats)
+            elif not home:
+                away_pitching.append(stats)
+    for y in batting:
+        home=False
+        if y.attrib['team_flag'] == "home":
+            home = True
+        for x in y.findall('batter'):
+            stats = {}
+            for i in x.attrib:
+                stats[i]=x.attrib[i]
+            if home:
+                home_batting.append(stats)
+            elif not home:
+                away_batting.append(stats)
+    output = {'home_pitching':home_pitching, 'away_pitching':away_pitching, 'home_batting':home_batting, 'away_batting':away_batting}
+    return output
