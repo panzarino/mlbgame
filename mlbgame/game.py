@@ -284,3 +284,32 @@ class PitcherStats(object):
     
     def __str__(self):
         return self.nice_output()
+
+class BatterStats(object):
+    '''
+    Holds stats information for a batter
+    '''
+    def __init__(self, data):
+        '''
+        Creates a batter object that matches the corresponding stats in `data`
+        
+        `data` should be a dictionary for a batter pitcher that comes from `get_stats()`
+        '''
+        for x in data:
+            try:
+                setattr(self, x, int(data[x]))
+            except ValueError:
+                setattr(self, x, data[x])
+    
+    def nice_output(self):
+        '''
+        Prints basic player stats in a nice way
+        '''
+        if self.rbi > 0:
+            if self.hr > 0:
+                return "%s - %i for %i with %i RBI and %i Home Runs" % (self.name, self.h, self.ab, self.rbi, self.hr)
+            return "%s - %i for %i with %i RBI" % (self.name, self.h, self.ab, self.rbi)
+        return "%s - %i for %i" % (self.name, self.h, self.ab)
+    
+    def __str__(self):
+        return self.nice_output()
