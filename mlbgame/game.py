@@ -253,3 +253,34 @@ def get_stats(game_id):
                 away_batting.append(stats)
     output = {'home_pitching':home_pitching, 'away_pitching':away_pitching, 'home_batting':home_batting, 'away_batting':away_batting}
     return output
+
+class GameStats():
+    '''
+    Holds stat object for all players in a game
+    '''
+    pass
+
+class PitcherStats(object):
+    '''
+    Holds stats information for a pitcher
+    '''
+    def __init__(self, data):
+        '''
+        Creates a pitcher object that matches the corresponding stats in `data`
+        
+        `data` should be a dictionary for a single pitcher that comes from `get_stats()`
+        '''
+        for x in data:
+            try:
+                setattr(self, x, int(data[x]))
+            except ValueError:
+                setattr(self, x, data[x])
+    
+    def nice_output(self):
+        '''
+        Prints basic player stats in a nice way
+        '''
+        return "%s - %i Earned Runs, %i Strikouts, %i Hits" % (self.name, self.er, self.so, self.h)
+    
+    def __str__(self):
+        return self.nice_output()
