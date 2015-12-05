@@ -254,13 +254,7 @@ def get_stats(game_id):
     output = {'home_pitching':home_pitching, 'away_pitching':away_pitching, 'home_batting':home_batting, 'away_batting':away_batting}
     return output
 
-class GameStats():
-    '''
-    Holds stat object for all players in a game
-    '''
-    pass
-
-class PitcherStats(object):
+class GamePitcherStats(object):
     '''
     Holds stats information for a pitcher
     '''
@@ -280,12 +274,12 @@ class PitcherStats(object):
         '''
         Prints basic player stats in a nice way
         '''
-        return "%s - %i Earned Runs, %i Strikouts, %i Hits" % (self.name, self.er, self.so, self.h)
+        return "%s - %i Earned Runs, %i Strikouts, %i Hits" % (self.name_display_first_last, self.er, self.so, self.h)
     
     def __str__(self):
         return self.nice_output()
 
-class BatterStats(object):
+class GameBatterStats(object):
     '''
     Holds stats information for a batter
     '''
@@ -307,9 +301,9 @@ class BatterStats(object):
         '''
         if self.rbi > 0:
             if self.hr > 0:
-                return "%s - %i for %i with %i RBI and %i Home Runs" % (self.name, self.h, self.ab, self.rbi, self.hr)
-            return "%s - %i for %i with %i RBI" % (self.name, self.h, self.ab, self.rbi)
-        return "%s - %i for %i" % (self.name, self.h, self.ab)
+                return "%s - %i for %i with %i RBI and %i Home Runs" % (self.name_display_first_last, self.h, self.ab, self.rbi, self.hr)
+            return "%s - %i for %i with %i RBI" % (self.name_display_first_last, self.h, self.ab, self.rbi)
+        return "%s - %i for %i" % (self.name_display_first_last, self.h, self.ab)
     
     def __str__(self):
         return self.nice_output()
