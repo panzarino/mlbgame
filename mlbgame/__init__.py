@@ -236,3 +236,13 @@ def stats(game_id):
 				obj = mlbgame.game.GameBatterStats(x)
 			output[y].append(obj)
 	return output
+
+def combine_stats(stats):
+	'''
+	Combines player stat objects from a game into a single list
+	'''
+	output = []
+	for x in stats:
+		for y in stats[x]:
+			output.append(y)
+	return output
