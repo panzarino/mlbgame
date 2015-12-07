@@ -1039,6 +1039,7 @@ table {
       
   <ul>
     <li class="mono"><a href="#mlbgame.game.box_score">box_score</a></li>
+    <li class="mono"><a href="#mlbgame.game.get_stats">get_stats</a></li>
     <li class="mono"><a href="#mlbgame.game.scoreboard">scoreboard</a></li>
   </ul>
 
@@ -1047,12 +1048,32 @@ table {
     <li class="set"><h3><a href="#header-classes">Classes</a></h3>
       <ul>
         <li class="mono">
+        <span class="class_name"><a href="#mlbgame.game.GameBatterStats">GameBatterStats</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.game.GameBatterStats.__init__">__init__</a></li>
+    <li class="mono"><a href="#mlbgame.game.GameBatterStats.nice_output">nice_output</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
         <span class="class_name"><a href="#mlbgame.game.GameBoxScore">GameBoxScore</a></span>
         
           
   <ul>
     <li class="mono"><a href="#mlbgame.game.GameBoxScore.__init__">__init__</a></li>
     <li class="mono"><a href="#mlbgame.game.GameBoxScore.print_scoreboard">print_scoreboard</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.game.GamePitcherStats">GamePitcherStats</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.game.GamePitcherStats.__init__">__init__</a></li>
+    <li class="mono"><a href="#mlbgame.game.GamePitcherStats.nice_output">nice_output</a></li>
   </ul>
 
         </li>
@@ -1089,6 +1110,7 @@ table {
 <span class="kn">import</span> <span class="nn">lxml.etree</span> <span class="kn">as</span> <span class="nn">etree</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
 
 <span class="k">def</span> <span class="nf">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
@@ -1194,6 +1216,13 @@ table {
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">l_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span>
+        <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">hour</span><span class="p">,</span> <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_start_time</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">minute</span> <span class="o">=</span> <span class="n">other</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">am_pm</span> <span class="o">=</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="n">am_pm</span> <span class="o">==</span> <span class="s">&quot;PM&quot;</span><span class="p">:</span>
+            <span class="n">hour</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span><span class="o">+</span><span class="mi">11</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minute</span><span class="p">))</span>
     
     <span class="k">def</span> <span class="nf">nice_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1207,6 +1236,8 @@ table {
 <span class="k">def</span> <span class="nf">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Return the box score of a game with matching id</span>
+<span class="sd">    </span>
+<span class="sd">    Should not be used other than as called by `__init__.py`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
@@ -1282,6 +1313,108 @@ table {
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span>
         <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return individual stats of a game with matching id</span>
+<span class="sd">    </span>
+<span class="sd">    Should not be used other than as called by `__init__.py`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">file</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    <span class="n">pitching</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;pitching&#39;</span><span class="p">)</span>
+    <span class="n">batting</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;batting&#39;</span><span class="p">)</span>
+    <span class="n">home_pitching</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">away_pitching</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">home_batting</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">away_batting</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">pitching</span><span class="p">:</span>
+        <span class="n">home</span><span class="o">=</span><span class="bp">False</span>
+        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;team_flag&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;home&quot;</span><span class="p">:</span>
+            <span class="n">home</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">):</span>
+            <span class="n">stats</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="n">stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">home</span><span class="p">:</span>
+                <span class="n">home_pitching</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">home</span><span class="p">:</span>
+                <span class="n">away_pitching</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">batting</span><span class="p">:</span>
+        <span class="n">home</span><span class="o">=</span><span class="bp">False</span>
+        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;team_flag&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;home&quot;</span><span class="p">:</span>
+            <span class="n">home</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;batter&#39;</span><span class="p">):</span>
+            <span class="n">stats</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="n">stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">home</span><span class="p">:</span>
+                <span class="n">home_batting</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">home</span><span class="p">:</span>
+                <span class="n">away_batting</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home_pitching&#39;</span><span class="p">:</span><span class="n">home_pitching</span><span class="p">,</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span><span class="n">away_pitching</span><span class="p">,</span> <span class="s">&#39;home_batting&#39;</span><span class="p">:</span><span class="n">home_batting</span><span class="p">,</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span><span class="n">away_batting</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">class</span> <span class="nc">GamePitcherStats</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Holds stats information for a pitcher</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates a pitcher object that matches the corresponding stats in `data`</span>
+<span class="sd">        </span>
+<span class="sd">        `data` should be a dictionary for a single pitcher that comes from `get_stats()`</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+    
+    <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Prints basic player stats in a nice way</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> Earned Runs, </span><span class="si">%i</span><span class="s"> Strikouts, </span><span class="si">%i</span><span class="s"> Hits&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">er</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">so</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">GameBatterStats</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Holds stats information for a batter</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates a batter object that matches the corresponding stats in `data`</span>
+<span class="sd">        </span>
+<span class="sd">        `data` should be a dictionary for a batter pitcher that comes from `get_stats()`</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+    
+    <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Prints basic player stats in a nice way</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> for </span><span class="si">%i</span><span class="s"> with </span><span class="si">%i</span><span class="s"> RBI and </span><span class="si">%i</span><span class="s"> Home Runs&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ab</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hr</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> for </span><span class="si">%i</span><span class="s"> with </span><span class="si">%i</span><span class="s"> RBI&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ab</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> for </span><span class="si">%i</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ab</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
 </pre></div>
 
   </div>
@@ -1300,13 +1433,16 @@ table {
 
     
   
-    <div class="desc"><p>Return the box score of a game with matching id</p></div>
+    <div class="desc"><p>Return the box score of a game with matching id</p>
+<p>Should not be used other than as called by <code>__init__.py</code></p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.box_score', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.game.box_score" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Return the box score of a game with matching id</span>
+<span class="sd">    </span>
+<span class="sd">    Should not be used other than as called by `__init__.py`</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
@@ -1326,6 +1462,74 @@ table {
         <span class="n">away</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;away&#39;</span><span class="p">]</span>
         <span class="n">result</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">inning</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home&#39;</span><span class="p">:</span><span class="n">home</span><span class="p">,</span> <span class="s">&#39;away&#39;</span><span class="p">:</span><span class="n">away</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="mlbgame.game.get_stats">
+    <p>def <span class="ident">get_stats</span>(</p><p>game_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return individual stats of a game with matching id</p>
+<p>Should not be used other than as called by <code>__init__.py</code></p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.get_stats', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.get_stats" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return individual stats of a game with matching id</span>
+<span class="sd">    </span>
+<span class="sd">    Should not be used other than as called by `__init__.py`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">file</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    <span class="n">pitching</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;pitching&#39;</span><span class="p">)</span>
+    <span class="n">batting</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;batting&#39;</span><span class="p">)</span>
+    <span class="n">home_pitching</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">away_pitching</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">home_batting</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">away_batting</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">pitching</span><span class="p">:</span>
+        <span class="n">home</span><span class="o">=</span><span class="bp">False</span>
+        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;team_flag&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;home&quot;</span><span class="p">:</span>
+            <span class="n">home</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">):</span>
+            <span class="n">stats</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="n">stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">home</span><span class="p">:</span>
+                <span class="n">home_pitching</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">home</span><span class="p">:</span>
+                <span class="n">away_pitching</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">batting</span><span class="p">:</span>
+        <span class="n">home</span><span class="o">=</span><span class="bp">False</span>
+        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;team_flag&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;home&quot;</span><span class="p">:</span>
+            <span class="n">home</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;batter&#39;</span><span class="p">):</span>
+            <span class="n">stats</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="n">stats</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">home</span><span class="p">:</span>
+                <span class="n">home_batting</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">home</span><span class="p">:</span>
+                <span class="n">away_batting</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home_pitching&#39;</span><span class="p">:</span><span class="n">home_pitching</span><span class="p">,</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span><span class="n">away_pitching</span><span class="p">,</span> <span class="s">&#39;home_batting&#39;</span><span class="p">:</span><span class="n">home_batting</span><span class="p">,</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span><span class="n">away_batting</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">output</span>
 </pre></div>
 
   </div>
@@ -1420,6 +1624,119 @@ table {
   
 
     <h2 class="section-title" id="header-classes">Classes</h2>
+      
+      <div class="item">
+      <p id="mlbgame.game.GameBatterStats" class="name">class <span class="ident">GameBatterStats</span></p>
+      
+  
+    <div class="desc"><p>Holds stats information for a batter</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.GameBatterStats', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.GameBatterStats" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">GameBatterStats</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Holds stats information for a batter</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates a batter object that matches the corresponding stats in `data`</span>
+<span class="sd">        </span>
+<span class="sd">        `data` should be a dictionary for a batter pitcher that comes from `get_stats()`</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+    
+    <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Prints basic player stats in a nice way</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> for </span><span class="si">%i</span><span class="s"> with </span><span class="si">%i</span><span class="s"> RBI and </span><span class="si">%i</span><span class="s"> Home Runs&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ab</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hr</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> for </span><span class="si">%i</span><span class="s"> with </span><span class="si">%i</span><span class="s"> RBI&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ab</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> for </span><span class="si">%i</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ab</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.game.GameBatterStats">GameBatterStats</a></li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.game.GameBatterStats.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates a batter object that matches the corresponding stats in <code>data</code></p>
+<p><code>data</code> should be a dictionary for a batter pitcher that comes from <code>get_stats()</code></p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.GameBatterStats.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.GameBatterStats.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Creates a batter object that matches the corresponding stats in `data`</span>
+<span class="sd">    </span>
+<span class="sd">    `data` should be a dictionary for a batter pitcher that comes from `get_stats()`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.game.GameBatterStats.nice_output">
+    <p>def <span class="ident">nice_output</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Prints basic player stats in a nice way</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.GameBatterStats.nice_output', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.GameBatterStats.nice_output" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Prints basic player stats in a nice way</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> for </span><span class="si">%i</span><span class="s"> with </span><span class="si">%i</span><span class="s"> RBI and </span><span class="si">%i</span><span class="s"> Home Runs&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ab</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> for </span><span class="si">%i</span><span class="s"> with </span><span class="si">%i</span><span class="s"> RBI&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ab</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> for </span><span class="si">%i</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ab</span><span class="p">)</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
       
       <div class="item">
       <p id="mlbgame.game.GameBoxScore" class="name">class <span class="ident">GameBoxScore</span></p>
@@ -1605,6 +1922,111 @@ table {
       </div>
       
       <div class="item">
+      <p id="mlbgame.game.GamePitcherStats" class="name">class <span class="ident">GamePitcherStats</span></p>
+      
+  
+    <div class="desc"><p>Holds stats information for a pitcher</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.GamePitcherStats', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.GamePitcherStats" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">GamePitcherStats</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Holds stats information for a pitcher</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates a pitcher object that matches the corresponding stats in `data`</span>
+<span class="sd">        </span>
+<span class="sd">        `data` should be a dictionary for a single pitcher that comes from `get_stats()`</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+    
+    <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Prints basic player stats in a nice way</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> Earned Runs, </span><span class="si">%i</span><span class="s"> Strikouts, </span><span class="si">%i</span><span class="s"> Hits&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">er</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">so</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.game.GamePitcherStats">GamePitcherStats</a></li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.game.GamePitcherStats.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates a pitcher object that matches the corresponding stats in <code>data</code></p>
+<p><code>data</code> should be a dictionary for a single pitcher that comes from <code>get_stats()</code></p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.GamePitcherStats.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.GamePitcherStats.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Creates a pitcher object that matches the corresponding stats in `data`</span>
+<span class="sd">    </span>
+<span class="sd">    `data` should be a dictionary for a single pitcher that comes from `get_stats()`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.game.GamePitcherStats.nice_output">
+    <p>def <span class="ident">nice_output</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Prints basic player stats in a nice way</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.GamePitcherStats.nice_output', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.GamePitcherStats.nice_output" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Prints basic player stats in a nice way</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> Earned Runs, </span><span class="si">%i</span><span class="s"> Strikouts, </span><span class="si">%i</span><span class="s"> Hits&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">er</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">so</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
       <p id="mlbgame.game.GameScoreboard" class="name">class <span class="ident">GameScoreboard</span></p>
       
   
@@ -1651,6 +2073,13 @@ table {
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">l_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span>
+        <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">hour</span><span class="p">,</span> <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_start_time</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">minute</span> <span class="o">=</span> <span class="n">other</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">am_pm</span> <span class="o">=</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="n">am_pm</span> <span class="o">==</span> <span class="s">&quot;PM&quot;</span><span class="p">:</span>
+            <span class="n">hour</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span><span class="o">+</span><span class="mi">11</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minute</span><span class="p">))</span>
     
     <span class="k">def</span> <span class="nf">nice_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1705,6 +2134,16 @@ table {
             </div>
             <div class="item">
             <p id="mlbgame.game.GameScoreboard.away_team_runs" class="name">var <span class="ident">away_team_runs</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="mlbgame.game.GameScoreboard.date" class="name">var <span class="ident">date</span></p>
             
 
             
@@ -1952,6 +2391,13 @@ table {
     <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">l_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span>
+    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">hour</span><span class="p">,</span> <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_start_time</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">minute</span> <span class="o">=</span> <span class="n">other</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">am_pm</span> <span class="o">=</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="k">if</span> <span class="n">am_pm</span> <span class="o">==</span> <span class="s">&quot;PM&quot;</span><span class="p">:</span>
+        <span class="n">hour</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span><span class="o">+</span><span class="mi">11</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minute</span><span class="p">))</span>
 </pre></div>
 
   </div>
