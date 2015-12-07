@@ -43,6 +43,9 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     --box_score             caches the box scores and individual game stats from every game
     --start_date <year>     year to start updating from (runs until current day)
 
+If you have a question or need help, the quickest way to get a response 
+is to file an issue on the `Github issue tracker <https://github.com/zachpanz88/mlbgame/issues/new>`__
+
 Use of mlbgame must follow the terms stated in the 
 `license <https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE>`__ 
 and on `mlb.com <http://gd2.mlb.com/components/copyright.txt>`__

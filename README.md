@@ -171,6 +171,9 @@ Addison Reed - 0 for 0
 Bartolo Colon - 0 for 0
 ```
 
+If you have a question or need help, the quickest way to get a response 
+is to file an issue on the [Github issue tracker](https://github.com/zachpanz88/mlbgame/issues/new)
+
 Use of mlbgame must follow the terms stated in the 
 [license](https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE) 
 and on [mlb.com](http://gd2.mlb.com/components/copyright.txt)
