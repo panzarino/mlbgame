@@ -138,6 +138,39 @@ And the output is:
 Winning pitcher: Y. Ventura (Royals) - Losing Pitcher: C. Wilson (Angels)
 ```
 
+Finding stats for the Mets batters
+in the final game of the 2015 season
+can also be done
+
+```python
+import mlbgame
+    
+game = mlbgame.day(2015, 11, 1, home="Mets")[0]
+stats = mlbgame.stats(game.game_id)
+for x in stats['home_batting']:
+    print x
+```
+
+And the output is:
+
+```
+Curtis Granderson - 1 for 4 with 1 RBI and 1 Home Runs
+David Wright - 1 for 5
+Daniel Murphy - 0 for 3
+Yoenis Cespedes - 0 for 3
+Juan Lagares - 0 for 2
+Lucas Duda - 0 for 2 with 1 RBI
+Travis d'Arnaud - 0 for 5
+Michael Conforto - 2 for 5
+Wilmer Flores - 0 for 4
+Matt Harvey - 0 for 3
+Jeurys Familia - 0 for 0
+Kelly Johnson - 0 for 1
+Jon Niese - 0 for 0
+Addison Reed - 0 for 0
+Bartolo Colon - 0 for 0
+```
+
 Use of mlbgame must follow the terms stated in the 
 [license](https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE) 
 and on [mlb.com](http://gd2.mlb.com/components/copyright.txt)
