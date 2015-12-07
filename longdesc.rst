@@ -19,6 +19,9 @@ mlbgame `documentation <http://zachpanz88.github.io/mlbgame>`__
 
 mlbgame on `Github <https://github.com/zachpanz88/mlbgame>`__  (Source Code) (Leave a star!)
 
+If you have a question or need help, the quickest way to get a response 
+is to file an issue on the `Github issue tracker <https://github.com/zachpanz88/mlbgame/issues/new>`__
+
 Updating the Game Database
 --------------------------
 
@@ -42,9 +45,6 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     --hide                  hides output from update script
     --box_score             caches the box scores and individual game stats from every game
     --start_date <year>     year to start updating from (runs until current day)
-
-If you have a question or need help, the quickest way to get a response 
-is to file an issue on the `Github issue tracker <https://github.com/zachpanz88/mlbgame/issues/new>`__
 
 Use of mlbgame must follow the terms stated in the 
 `license <https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE>`__ 

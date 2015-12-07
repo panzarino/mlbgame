@@ -18,6 +18,9 @@ mlbgame [documentation](http://zachpanz88.github.io/mlbgame)
 
 mlbgame on [Github](https://github.com/zachpanz88/mlbgame) (Source Code) (Leave a star!)
 
+If you have a question or need help, the quickest way to get a response 
+is to file an issue on the [Github issue tracker](https://github.com/zachpanz88/mlbgame/issues/new)
+
 Installation
 ------------
 
@@ -170,9 +173,6 @@ Jon Niese - 0 for 0
 Addison Reed - 0 for 0
 Bartolo Colon - 0 for 0
 ```
-
-If you have a question or need help, the quickest way to get a response 
-is to file an issue on the [Github issue tracker](https://github.com/zachpanz88/mlbgame/issues/new)
 
 Use of mlbgame must follow the terms stated in the 
 [license](https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE) 
