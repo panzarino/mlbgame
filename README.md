@@ -139,8 +139,8 @@ Winning pitcher: Y. Ventura (Royals) - Losing Pitcher: C. Wilson (Angels)
 ```
 
 Finding stats for the Mets batters
-in the final game of the 2015 season
-can also be done
+in the final game of the 2015 World Series
+can also be done:
 
 ```python
 import mlbgame
