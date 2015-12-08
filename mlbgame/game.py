@@ -274,7 +274,10 @@ class GamePitcherStats(object):
             try:
                 setattr(self, x, int(data[x]))
             except ValueError:
-                setattr(self, x, data[x])
+                try:
+                    setattr(self, x, float(data[x]))
+                except ValueError:
+                    setattr(self, x, data[x])
     
     def nice_output(self):
         '''
@@ -301,7 +304,10 @@ class GameBatterStats(object):
             try:
                 setattr(self, x, int(data[x]))
             except ValueError:
-                setattr(self, x, data[x])
+                try:
+                    setattr(self, x, float(data[x]))
+                except ValueError:
+                    setattr(self, x, data[x])
     
     def nice_output(self):
         '''
