@@ -72,6 +72,8 @@ def scoreboard(year, month, day, home=None, away=None):
 class GameScoreboard(object):
     '''
     Object to hold scoreboard information about a certain game
+    
+    Should not be used other than as called by `__init__.py`
     '''
     def __init__(self, data):
         '''
@@ -153,6 +155,8 @@ def box_score(game_id):
 class GameBoxScore(object):
     '''
     Object to hold the box score of a certain game
+    
+    Should not be used other than as called by `__init__.py`
     '''
     def __init__(self, data):
         '''
@@ -263,6 +267,8 @@ class GamePitcherStats(object):
         Creates a pitcher object that matches the corresponding stats in `data`
         
         `data` should be a dictionary for a single pitcher that comes from `get_stats()`
+        
+        Should not be used other than as called by `__init__.py`
         '''
         for x in data:
             try:
@@ -288,6 +294,8 @@ class GameBatterStats(object):
         Creates a batter object that matches the corresponding stats in `data`
         
         `data` should be a dictionary for a batter pitcher that comes from `get_stats()`
+        
+        Should not be used other than as called by `__init__.py`
         '''
         for x in data:
             try:
