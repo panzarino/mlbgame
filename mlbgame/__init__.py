@@ -89,33 +89,6 @@ And the output is:
     Reds (2) at Mets (7)
     Cubs (1) at Mets (0)
 
-Or you could find the scores of every game on July 4th, 2015:
-
-    #!python
-    import mlbgame
-    
-    day = mlbgame.day(2015, 7, 4)
-    for game in day:
-        print game
-
-And the output is:
-
-    Angels (13) at Rangers (0)
-    Indians (0) at Pirates (1)
-    Rockies (3) at D-backs (7)
-    Rays (2) at Yankees (3)
-    Mets (3) at Dodgers (4)
-    Orioles (2) at White Sox (3)
-    Phillies (5) at Braves (9)
-    Mariners (0) at Athletics (2)
-    Giants (3) at Nationals (9)
-    Brewers (7) at Reds (3)
-    Padres (1) at Cardinals (2)
-    Twins (5) at Royals (3)
-    Astros (1) at Red Sox (6)
-    Marlins (2) at Cubs (7)
-    Blue Jays (3) at Tigers (8)
-
 Maybe you want to know the pitchers for the Royals game on April 30th, 2015:
 
     #!python
