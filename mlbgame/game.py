@@ -299,6 +299,12 @@ class GameBatterStats(object):
         `data` should be a dictionary for a batter pitcher that comes from `get_stats()`
         
         Should not be used other than as called by `__init__.py`
+        
+        Some attributes will exist in some cases but are not always present in the object.
+        These attributes are always part of the GameBatterStats class:
+        
+        `name`, `name_display_first_last`, `pos`, `id`, `avg`, `ab`, `hr`, `s_hr`, `h`, `s_h`, 
+        `rbi`, `s_rbi`, `so`, `s_so`, `r`, `s_r`, `obp`, `sac`, `slg`, `hbp`
         '''
         for x in data:
             try:
