@@ -146,6 +146,7 @@ if sys.version_info[0] != 2 or sys.version_info[1] < 6:
 	sys.exit(1)
 
 import mlbgame.game
+import mlbgame.stats
 import calendar
 from datetime import date
 
@@ -231,14 +232,14 @@ def stats(game_id):
 	'''
 	Return dictionary of player stats for game matching the game id
 	'''
-	data = mlbgame.game.get_stats(game_id)
+	data = mlbgame.stats.get_stats(game_id)
 	output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [], 'away_batting': []}
 	for y in data:
 		for x in data[y]:
 			if y == 'home_pitching' or y == 'away_pitching':
-				obj = mlbgame.game.GamePitcherStats(x)
+				obj = mlbgame.stats.PitcherStats(x)
 			elif y == 'home_batting' or y == 'away_batting':
-				obj = mlbgame.game.GameBatterStats(x)
+				obj = mlbgame.stats.BatterStats(x)
 			output[y].append(obj)
 	return output
 
