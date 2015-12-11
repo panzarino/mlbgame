@@ -63,9 +63,9 @@ idmap = {
         'desc': 'Runs Batted In',
     },
     'hr':{
-        'obj': ['BatterStats'],
+        'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
-        'desc': 'Home Runs',
+        'desc': 'Home Runs (pitcher: given up)',
     },
     'slg':{
         'obj': ['BatterStats'],
@@ -90,6 +90,21 @@ idmap = {
     'bo':{
         'obj': ['BatterStats'],
         'always': True,
-        'desc': 'Batting order',
+        'desc': 'Position in batting order',
+    },
+    'bb':{
+        'obj': ['PitcherStats', 'BatterStats'],
+        'always': True,
+        'desc': 'Base on balls (aka. walk) (pitcher: given up)',
+    },
+    'sb':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'desc': 'Strolen bases',
+    },
+    'e':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'desc': 'Errors',
     },
 }
