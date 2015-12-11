@@ -53,6 +53,8 @@ def get_stats(game_id):
 class PitcherStats(object):
     '''
     Holds stats information for a pitcher
+    
+    Check out `statmap.py` for a full list of object properties
     '''
     def __init__(self, data):
         '''
@@ -83,6 +85,8 @@ class PitcherStats(object):
 class BatterStats(object):
     '''
     Holds stats information for a batter
+    
+    Check out `statmap.py` for a full list of object properties
     '''
     def __init__(self, data):
         '''
