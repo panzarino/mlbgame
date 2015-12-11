@@ -110,7 +110,7 @@ can also be done:
     import mlbgame
     
     game = mlbgame.day(2015, 11, 1, home="Mets")[0]
-    stats = mlbgame.stats(game.game_id)
+    stats = mlbgame.player_stats(game.game_id)
     for x in stats['home_batting']:
         print x
 
@@ -228,7 +228,7 @@ def combine_games(games):
 			output.append(y)
 	return output
 
-def stats(game_id):
+def player_stats(game_id):
 	'''
 	Return dictionary of player stats for game matching the game id
 	'''

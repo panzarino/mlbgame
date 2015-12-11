@@ -57,4 +57,39 @@ idmap = {
         'always': True,
         'desc': 'Runs (pitcher: given up)',
     },
+    'rbi':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'desc': 'Runs Batted In',
+    },
+    'hr':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'desc': 'Home Runs',
+    },
+    'slg':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'desc': 'Slugging percentage',
+    },
+    'obp':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'desc': 'On base percentage',
+    },
+    'ops':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'desc': 'On base (percentage) plus slugging (percentage)',
+    },
+    'fldg':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'desc': 'Fielding percentage',
+    },
+    'bo':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'desc': 'Batting order',
+    },
 }
