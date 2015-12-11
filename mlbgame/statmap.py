@@ -7,10 +7,9 @@ This module also provides what stat objects
 will contain each property.
 '''
 
+'''
+Stat identifiers and their meanings
+'''
 idmap = {
-    '''
-    Stat identifiers and their meanings
-    '''
-    
     
 }
