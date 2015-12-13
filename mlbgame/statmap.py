@@ -8,27 +8,7 @@ This module also provides what stat objects
 will contain each property.
 '''
 
-'''
-Stat identifiers and their meanings
-
-`obj` - the objects that contain the stat
-
-`always` - whether the stat is always present in those objects (None if unknown)
-
-`type` - the value type of the stat
-
-`desc` - description of the stat
-
-Total season stats (stats prefixed with `s_`) for postseason games are total stats for that series only, 
-not the entire season.
-
-Assume that batting stats on a `PitcherStats` object are what he has given up.
-Example: `hr` is home runs given up not home runs hit by that pitcher. 
-Pitchers have their own `BatterStats` object for their own hitting stats.
-
-If you are reading the documentation, 
-you should click "show source" to see all the stat values
-'''
+# full idmap description at bottom of file
 idmap = {
     'name_display_first_last':{
         'obj': ['PitcherStats', 'BatterStats'],
@@ -197,3 +177,24 @@ idmap = {
         'desc': 'Total season base on balls (walks)',
     },
 }
+'''
+Stat identifiers and their meanings
+
+`obj` - the objects that contain the stat
+
+`always` - whether the stat is always present in those objects (None if unknown)
+
+`type` - the value type of the stat
+
+`desc` - description of the stat
+
+Total season stats (stats prefixed with `s_`) for postseason games are total stats for that series only, 
+not the entire season.
+
+Assume that batting stats on a `PitcherStats` object are what he has given up.
+Example: `hr` is home runs given up not home runs hit by that pitcher. 
+Pitchers have their own `BatterStats` object for their own hitting stats.
+
+If you are reading the documentation, 
+you should click "show source" to see all the stat values
+'''
