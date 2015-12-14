@@ -252,7 +252,7 @@ Pitchers have their own `BatterStats` object for their own hitting stats.
 If you are reading the documentation, 
 you should click "show source" to see all the stat values.
 
-Full information on 
+Some official stat abbreviations on 
 [mlb.com](http://mlb.mlb.com/mlb/official_info/baseball_basics/abbreviations.jsp)
 '''
 
