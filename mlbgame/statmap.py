@@ -114,13 +114,19 @@ idmap = {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
-        'desc': 'Strolen bases',
+        'desc': 'Stolen bases',
+    },
+    'cs':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Caught stealing',
     },
     'e':{
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
-        'desc': 'Errors',
+        'desc': 'Errors (fielding)',
     },
     'hpb':{
         'obj': ['BatterStats'],
@@ -138,7 +144,25 @@ idmap = {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
-        'desc': 'Sacrifice (unknown if fly or bunt)',
+        'desc': 'Sacrifice bunts',
+    },
+    'sf':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Sacrifice flies',
+    },
+    'lob':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Left on base',
+    },
+    'ao':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Fly outs',
     },
     's_h':{
         'obj': ['PitcherStats', 'BatterStats'],
@@ -176,6 +200,36 @@ idmap = {
         'type': int,
         'desc': 'Total season base on balls (walks)',
     },
+    'po':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Putouts (fielding)',
+    },
+    'a':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Assists (fielding)',
+    },
+    'go':{
+        'obj': ['BatterStats'],
+        'always': False,
+        'type': int,
+        'desc': 'Ground outs',
+    },
+    'd':{
+        'obj': ['BatterStats'],
+        'always': False,
+        'type': int,
+        'desc': 'Unknown',
+    },
+    't':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Unknown',
+    },
 }
 '''
 Stat identifiers and their meanings
@@ -196,7 +250,10 @@ Example: `hr` is home runs given up not home runs hit by that pitcher.
 Pitchers have their own `BatterStats` object for their own hitting stats.
 
 If you are reading the documentation, 
-you should click "show source" to see all the stat values
+you should click "show source" to see all the stat values.
+
+Full information on 
+[mlb.com](http://mlb.mlb.com/mlb/official_info/baseball_basics/abbreviations.jsp)
 '''
 
 batter_stats = {}
