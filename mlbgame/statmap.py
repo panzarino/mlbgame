@@ -198,3 +198,12 @@ Pitchers have their own `BatterStats` object for their own hitting stats.
 If you are reading the documentation, 
 you should click "show source" to see all the stat values
 '''
+
+batter_stats = {}
+'''
+The stats that appear in the BatterStats objects
+'''
+for x in idmap:
+    for y in idmap[x]['obj']:
+        if y == 'BatterStats':
+            batter_stats[x] = idmap[x]
