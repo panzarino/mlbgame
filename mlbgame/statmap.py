@@ -1,8 +1,9 @@
 '''
 This module maps stat indentifiers to what they most likely mean.
-If there are blanks and you know what should go there, 
+If there are blanks and you know what should go there,
+or there is a missing stat identifier, 
 please [submit an issue](https://github.com/zachpanz88/mlbgame/issues/new) 
-with the correct stat description.
+with the correct stat and description.
 
 This module also provides what stat objects
 will contain each property.
