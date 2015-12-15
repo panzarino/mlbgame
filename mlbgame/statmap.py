@@ -300,6 +300,27 @@ idmap = {
         'desc': 'Number of pitches thrown '
                 '(pitch count)',
     },
+    'win':{
+        'obj': ['PitcherStats'],
+        'always': False,
+        'type': int,
+        'desc': 'The pitcher got the win for this game '
+                'if set to True',
+    },
+    'loss':{
+        'obj': ['PitcherStats'],
+        'always': False,
+        'type': int,
+        'desc': 'The pitcher got the loss for this game '
+                'if set to True',
+    },
+    'save':{
+        'obj': ['PitcherStats'],
+        'always': False,
+        'type': int,
+        'desc': 'The pitcher got the save for this game '
+                'if set to True',
+    },
     's_er':{
         'obj': ['PitcherStats'],
         'always': True,

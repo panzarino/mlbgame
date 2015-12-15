@@ -71,7 +71,10 @@ class PitcherStats(object):
                 try:
                     setattr(self, x, float(data[x]))
                 except ValueError:
-                    setattr(self, x, data[x])
+                    try:
+                        setattr(self, x, bool(data[x]))
+                    except ValueError:
+                        setattr(self, x, str(data[x]))
     
     def nice_output(self):
         '''
