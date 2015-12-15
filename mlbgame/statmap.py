@@ -164,6 +164,24 @@ idmap = {
         'type': int,
         'desc': 'Fly outs',
     },
+    'po':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Putouts (fielding)',
+    },
+    'a':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Assists (fielding)',
+    },
+    'go':{
+        'obj': ['BatterStats'],
+        'always': False,
+        'type': int,
+        'desc': 'Ground outs',
+    },
     's_h':{
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
@@ -200,24 +218,6 @@ idmap = {
         'type': int,
         'desc': 'Total season base on balls (walks)',
     },
-    'po':{
-        'obj': ['BatterStats'],
-        'always': True,
-        'type': int,
-        'desc': 'Putouts (fielding)',
-    },
-    'a':{
-        'obj': ['BatterStats'],
-        'always': True,
-        'type': int,
-        'desc': 'Assists (fielding)',
-    },
-    'go':{
-        'obj': ['BatterStats'],
-        'always': False,
-        'type': int,
-        'desc': 'Ground outs',
-    },
     'd':{
         'obj': ['BatterStats'],
         'always': False,
@@ -226,6 +226,88 @@ idmap = {
     },
     't':{
         'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Unknown',
+    },
+    'l':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Losses',
+    },
+    'w':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Wins',
+    },
+    'sv':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Saves',
+    },
+    'er':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Earned runs',
+    },
+    'hld':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Hold',
+    },
+    'bs':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Blown saves',
+    },
+    'out':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Outs recorded',
+    },
+    'bf':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Batters faced',
+    },
+    'game_score':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Game score: '
+                'A metric to determine the stength '
+                'of a pitcher in any baseball game. '
+                'More info: https://en.wikipedia.org/wiki/Game_score',
+    },
+    'era':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': float,
+        'desc': 'Earned runs average',
+    },
+    'np':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Number of pitches thrown '
+                '(pitch count)',
+    },
+    's_er':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Season earned runs',
+    },
+    's':{
+        'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Unknown',
