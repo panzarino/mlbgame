@@ -57,7 +57,7 @@ usage: mlbgame-update-games <arguments>
 Arguments:
 -h (--help)             display this help menu
 --hide                  hides output from update script
---box_score             caches the box scores and individual game stats from every game
+--extra                 saves the box scores and individual game stats from every game
 --start_date <year>     year to start updating from (runs until current day)
 ```
 

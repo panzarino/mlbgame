@@ -6,7 +6,7 @@ import gzip
 import mlbgame
 import getopt
 
-def run(hide=False, box_score=False, start_date=2012):
+def run(hide=False, extra=False, start_date=2012):
     '''
     Update local game data
     '''
@@ -53,7 +53,7 @@ def run(hide=False, box_score=False, start_date=2012):
                             sys.exit(1)
                     except url.HTTPError:
                         pass
-                if box_score:
+                if extra:
                     try:
                         games = mlbgame.day(i, x, y)
                         for z in games:
@@ -100,17 +100,17 @@ def usage():
     print "Arguments:"
     print "-h (--help)\t\tdisplay this help menu"
     print "--hide\t\t\thides output from update script"
-    print "--box_score\t\tcaches the box scores from every game"
+    print "--extra\t\t\tsaves the box scores and individual game stats from every game"
     print "--start_date <year>\tyear to start updating from (runs until current day)"
 
 def start():
     try:
-        data = getopt.getopt(sys.argv[1:], "h", ["help", "hide", "box_score", "start_date="])
+        data = getopt.getopt(sys.argv[1:], "h", ["help", "hide", "extra", "start_date="])
     except getopt.GetoptError:
         usage()
         sys.exit(2)
     hide = False
-    box_score = False
+    extra = False
     start_date = 2012
     for x in data[0]:
         if x[0] == "-h" or x[0] == "--help":
@@ -118,11 +118,11 @@ def start():
             sys.exit()
         elif x[0] == "--hide":
             hide = True
-        elif x[0] == "--box_score":
-            box_score = True
+        elif x[0] == "--extra":
+            extra = True
         elif x[0] == "--start_date":
             start_date = int(x[1])
-    run(hide, box_score, start_date)
+    run(hide, extra, start_date)
     
 
 if __name__ == "__main__":
