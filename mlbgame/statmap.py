@@ -321,11 +321,23 @@ idmap = {
         'desc': 'The pitcher got the save for this game '
                 'if set to True',
     },
+    'note':{
+        'obj': ['PitcherStats'],
+        'always': False,
+        'type': int,
+        'desc': 'Extra information about a pitcher',
+    },
     's_er':{
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Season earned runs',
+    },
+    's_ip':{
+        'obj': ['PitcherStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Season innings pitched',
     },
     's':{
         'obj': ['PitcherStats'],
