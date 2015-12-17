@@ -5,8 +5,6 @@ import os
 def get_stats(game_id):
     '''
     Return individual stats of a game with matching id
-    
-    Should not be used other than as called by `__init__.py`
     '''
     year, month, day, rest = game_id.split('_', 3)
     filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id)
@@ -61,8 +59,6 @@ class PitcherStats(object):
         Creates a pitcher object that matches the corresponding stats in `data`
         
         `data` should be a dictionary for a single pitcher that comes from `get_stats()`
-        
-        Should not be used other than as called by `__init__.py`
         '''
         for x in data:
             try:
@@ -96,8 +92,6 @@ class BatterStats(object):
         Creates a batter object that matches the corresponding stats in `data`
         
         `data` should be a dictionary for a batter pitcher that comes from `get_stats()`
-        
-        Should not be used other than as called by `__init__.py`
         '''
         for x in data:
             try:

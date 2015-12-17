@@ -20,10 +20,13 @@ and therefore a request to mlb.com every time is a better option in most cases.
 
 mlbgame [documentation](http://zachpanz88.github.io/mlbgame)
 
-mlbgame on [Github](https://github.com/zachpanz88/mlbgame) (Source Code) (Leave a star!)
+mlbgame on [Github](https://github.com/zachpanz88/mlbgame) (Source Code)
 
 If you have a question or need help, the quickest way to get a response 
 is to file an issue on the [Github issue tracker](https://github.com/zachpanz88/mlbgame/issues/new)
+
+mlbgame's submodules (except for `statmap`) should not really be used other than as 
+used by the main functions of the package (in `__init__.py`).
 
 Installation
 ------------
@@ -58,7 +61,6 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     --hide\t\t\thides output from update script
     --extra\t\t\tsaves the box scores and individual game stats from every game
     --start_date <year>\t\tyear to start updating from (runs until current day)
-
 
 Examples
 --------

@@ -6,8 +6,6 @@ import datetime
 def scoreboard(year, month, day, home=None, away=None):
     '''
     Return the data for a certain day matching certain criteria as a dictionary
-
-    Should not be used other than as called by `__init__.py`
     '''
     monthstr = str(month).zfill(2)
     daystr = str(day).zfill(2)
@@ -71,8 +69,6 @@ def scoreboard(year, month, day, home=None, away=None):
 class GameScoreboard(object):
     '''
     Object to hold scoreboard information about a certain game
-    
-    Should not be used other than as called by `__init__.py`
     '''
     def __init__(self, data):
         '''
@@ -129,8 +125,6 @@ class GameScoreboard(object):
 def box_score(game_id):
     '''
     Return the box score of a game with matching id
-    
-    Should not be used other than as called by `__init__.py`
     '''
     year, month, day, rest = game_id.split('_', 3)
     filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id)
@@ -154,8 +148,6 @@ def box_score(game_id):
 class GameBoxScore(object):
     '''
     Object to hold the box score of a certain game
-    
-    Should not be used other than as called by `__init__.py`
     '''
     def __init__(self, data):
         '''
