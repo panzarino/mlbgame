@@ -7,8 +7,8 @@
     <meta name="description" content="mlbgame
 -------
 
-mlbgame is an API to read MLB GameDay XML and JSON data.
-mlbgame works with real ti..." />
+mlbgame is an API to read MLB GameDay XML data.
+mlbgame works with real time data, ..." />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
   
@@ -1054,7 +1054,7 @@ table {
     <li class="mono"><a href="#mlbgame.combine_stats">combine_stats</a></li>
     <li class="mono"><a href="#mlbgame.day">day</a></li>
     <li class="mono"><a href="#mlbgame.games">games</a></li>
-    <li class="mono"><a href="#mlbgame.stats">stats</a></li>
+    <li class="mono"><a href="#mlbgame.player_stats">player_stats</a></li>
   </ul>
 
     </li>
@@ -1063,6 +1063,8 @@ table {
     <li class="set"><h3><a href="#header-submodules">Sub-modules</a></h3>
       <ul>
         <li class="mono"><a href="game.m.html">mlbgame.game</a></li>
+        <li class="mono"><a href="statmap.m.html">mlbgame.statmap</a></li>
+        <li class="mono"><a href="stats.m.html">mlbgame.stats</a></li>
         <li class="mono"><a href="update_games.m.html">mlbgame.update_games</a></li>
         <li class="mono"><a href="version.m.html">mlbgame.version</a></li>
       </ul>
@@ -1080,7 +1082,7 @@ table {
   <header id="section-intro">
   <h1 class="title"><span class="name">mlbgame</span> module</h1>
   <h2>mlbgame</h2>
-<p>mlbgame is an API to read MLB GameDay XML and JSON data.
+<p>mlbgame is an API to read MLB GameDay XML data.
 mlbgame works with real time data, getting information as games are being played.</p>
 <p>mlbgame uses the same data that MLB GameDay uses,
 and therefore is updated as soon as something happens in a game.</p>
@@ -1093,9 +1095,11 @@ pre-installed with mlbgame, but you can install it by running update scripts
 shown below. This data is not included becuase it takes up too much space, 
 and therefore a request to mlb.com every time is a better option in most cases.</p>
 <p>mlbgame <a href="http://zachpanz88.github.io/mlbgame">documentation</a></p>
-<p>mlbgame on <a href="https://github.com/zachpanz88/mlbgame">Github</a> (Source Code) (Leave a star!)</p>
+<p>mlbgame on <a href="https://github.com/zachpanz88/mlbgame">Github</a> (Source Code)</p>
 <p>If you have a question or need help, the quickest way to get a response 
 is to file an issue on the <a href="https://github.com/zachpanz88/mlbgame/issues/new">Github issue tracker</a></p>
+<p>mlbgame's submodules (except for <code>statmap</code>) should not really be used other than as 
+used by the main functions of the package (in <code>__init__.py</code>).</p>
 <h2>Installation</h2>
 <p>mlbgame is in the <a href="http://pypi.python.org/pypi/mlbgame/">Python Package Index (PyPI)</a>.
 Installing with <code>pip</code> is recommended for all systems.</p>
@@ -1121,7 +1125,7 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
 <span class="n">Arguments</span><span class="o">:</span>
 <span class="o">-</span><span class="n">h</span> <span class="o">(--</span><span class="n">help</span><span class="o">)</span>                 <span class="n">display</span> <span class="k">this</span> <span class="n">help</span> <span class="n">menu</span>
 <span class="o">--</span><span class="n">hide</span>                      <span class="n">hides</span> <span class="n">output</span> <span class="n">from</span> <span class="n">update</span> <span class="n">script</span>
-<span class="o">--</span><span class="n">box_score</span>                 <span class="n">caches</span> <span class="n">the</span> <span class="n">box</span> <span class="n">scores</span> <span class="n">and</span> <span class="n">individual</span> <span class="n">game</span> <span class="n">stats</span> <span class="n">from</span> <span class="n">every</span> <span class="n">game</span>
+<span class="o">--</span><span class="n">extra</span>                     <span class="n">saves</span> <span class="n">the</span> <span class="n">box</span> <span class="n">scores</span> <span class="n">and</span> <span class="n">individual</span> <span class="n">game</span> <span class="n">stats</span> <span class="n">from</span> <span class="n">every</span> <span class="n">game</span>
 <span class="o">--</span><span class="n">start_date</span> <span class="o">&lt;</span><span class="n">year</span><span class="o">&gt;</span>         <span class="n">year</span> <span class="n">to</span> <span class="n">start</span> <span class="n">updating</span> <span class="n">from</span> <span class="o">(</span><span class="n">runs</span> <span class="n">until</span> <span class="n">current</span> <span class="n">day</span><span class="o">)</span>
 </pre></div>
 
@@ -1154,34 +1158,6 @@ Cubs (1) at Mets (0)
 </pre></div>
 
 
-<p>Or you could find the scores of every game on July 4th, 2015:</p>
-<div class="codehilite"><pre><span class="kn">import</span> <span class="nn">mlbgame</span>
-
-<span class="n">day</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">day</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">game</span> <span class="ow">in</span> <span class="n">day</span><span class="p">:</span>
-    <span class="k">print</span> <span class="n">game</span>
-</pre></div>
-
-
-<p>And the output is:</p>
-<div class="codehilite"><pre>Angels (13) at Rangers (0)
-Indians (0) at Pirates (1)
-Rockies (3) at D-backs (7)
-Rays (2) at Yankees (3)
-Mets (3) at Dodgers (4)
-Orioles (2) at White Sox (3)
-Phillies (5) at Braves (9)
-Mariners (0) at Athletics (2)
-Giants (3) at Nationals (9)
-Brewers (7) at Reds (3)
-Padres (1) at Cardinals (2)
-Twins (5) at Royals (3)
-Astros (1) at Red Sox (6)
-Marlins (2) at Cubs (7)
-Blue Jays (3) at Tigers (8)
-</pre></div>
-
-
 <p>Maybe you want to know the pitchers for the Royals game on April 30th, 2015:</p>
 <div class="codehilite"><pre><span class="kn">import</span> <span class="nn">mlbgame</span>
 
@@ -1203,7 +1179,7 @@ can also be done:</p>
 <div class="codehilite"><pre><span class="kn">import</span> <span class="nn">mlbgame</span>
 
 <span class="n">game</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">day</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="s">&quot;Mets&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">stats</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">game_id</span><span class="p">)</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">player_stats</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">game_id</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">[</span><span class="s">&#39;home_batting&#39;</span><span class="p">]:</span>
     <span class="k">print</span> <span class="n">x</span>
 </pre></div>
@@ -1238,7 +1214,7 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
 <span class="sd">mlbgame</span>
 <span class="sd">-------</span>
 
-<span class="sd">mlbgame is an API to read MLB GameDay XML and JSON data.</span>
+<span class="sd">mlbgame is an API to read MLB GameDay XML data.</span>
 <span class="sd">mlbgame works with real time data, getting information as games are being played.</span>
 
 <span class="sd">mlbgame uses the same data that MLB GameDay uses,</span>
@@ -1256,10 +1232,13 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
 
 <span class="sd">mlbgame [documentation](http://zachpanz88.github.io/mlbgame)</span>
 
-<span class="sd">mlbgame on [Github](https://github.com/zachpanz88/mlbgame) (Source Code) (Leave a star!)</span>
+<span class="sd">mlbgame on [Github](https://github.com/zachpanz88/mlbgame) (Source Code)</span>
 
 <span class="sd">If you have a question or need help, the quickest way to get a response </span>
 <span class="sd">is to file an issue on the [Github issue tracker](https://github.com/zachpanz88/mlbgame/issues/new)</span>
+
+<span class="sd">mlbgame&#39;s submodules (except for `statmap`) should not really be used other than as </span>
+<span class="sd">used by the main functions of the package (in `__init__.py`).</span>
 
 <span class="sd">Installation</span>
 <span class="sd">------------</span>
@@ -1292,9 +1271,8 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
 <span class="sd">    Arguments:</span>
 <span class="sd">    -h (--help)\t\t\tdisplay this help menu</span>
 <span class="sd">    --hide\t\t\thides output from update script</span>
-<span class="sd">    --box_score\t\t\tcaches the box scores and individual game stats from every game</span>
+<span class="sd">    --extra\t\t\tsaves the box scores and individual game stats from every game</span>
 <span class="sd">    --start_date &lt;year&gt;\t\tyear to start updating from (runs until current day)</span>
-
 
 <span class="sd">Examples</span>
 <span class="sd">--------</span>
@@ -1325,33 +1303,6 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
 <span class="sd">    Reds (2) at Mets (7)</span>
 <span class="sd">    Cubs (1) at Mets (0)</span>
 
-<span class="sd">Or you could find the scores of every game on July 4th, 2015:</span>
-
-<span class="sd">    #!python</span>
-<span class="sd">    import mlbgame</span>
-<span class="sd">    </span>
-<span class="sd">    day = mlbgame.day(2015, 7, 4)</span>
-<span class="sd">    for game in day:</span>
-<span class="sd">        print game</span>
-
-<span class="sd">And the output is:</span>
-
-<span class="sd">    Angels (13) at Rangers (0)</span>
-<span class="sd">    Indians (0) at Pirates (1)</span>
-<span class="sd">    Rockies (3) at D-backs (7)</span>
-<span class="sd">    Rays (2) at Yankees (3)</span>
-<span class="sd">    Mets (3) at Dodgers (4)</span>
-<span class="sd">    Orioles (2) at White Sox (3)</span>
-<span class="sd">    Phillies (5) at Braves (9)</span>
-<span class="sd">    Mariners (0) at Athletics (2)</span>
-<span class="sd">    Giants (3) at Nationals (9)</span>
-<span class="sd">    Brewers (7) at Reds (3)</span>
-<span class="sd">    Padres (1) at Cardinals (2)</span>
-<span class="sd">    Twins (5) at Royals (3)</span>
-<span class="sd">    Astros (1) at Red Sox (6)</span>
-<span class="sd">    Marlins (2) at Cubs (7)</span>
-<span class="sd">    Blue Jays (3) at Tigers (8)</span>
-
 <span class="sd">Maybe you want to know the pitchers for the Royals game on April 30th, 2015:</span>
 
 <span class="sd">    #!python</span>
@@ -1373,7 +1324,7 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
 <span class="sd">    import mlbgame</span>
 <span class="sd">    </span>
 <span class="sd">    game = mlbgame.day(2015, 11, 1, home=&quot;Mets&quot;)[0]</span>
-<span class="sd">    stats = mlbgame.stats(game.game_id)</span>
+<span class="sd">    stats = mlbgame.player_stats(game.game_id)</span>
 <span class="sd">    for x in stats[&#39;home_batting&#39;]:</span>
 <span class="sd">        print x</span>
 
@@ -1409,6 +1360,7 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
 	<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">mlbgame.game</span>
+<span class="kn">import</span> <span class="nn">mlbgame.stats</span>
 <span class="kn">import</span> <span class="nn">calendar</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
 
@@ -1490,18 +1442,18 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
 			<span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">output</span>
 
-<span class="k">def</span> <span class="nf">stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">player_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
 	<span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">	Return dictionary of player stats for game matching the game id</span>
 <span class="sd">	&#39;&#39;&#39;</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">get_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">get_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
 	<span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;home_batting&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span> <span class="p">[]}</span>
 	<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
 		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">]:</span>
 			<span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_pitching&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span>
-				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GamePitcherStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">PitcherStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 			<span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_batting&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span>
-				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameBatterStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">BatterStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 			<span class="n">output</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">output</span>
 
@@ -1714,8 +1666,8 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
   
       
   <div class="item">
-    <div class="name def" id="mlbgame.stats">
-    <p>def <span class="ident">stats</span>(</p><p>game_id)</p>
+    <div class="name def" id="mlbgame.player_stats">
+    <p>def <span class="ident">player_stats</span>(</p><p>game_id)</p>
     </div>
     
 
@@ -1723,20 +1675,20 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
   
     <div class="desc"><p>Return dictionary of player stats for game matching the game id</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats', this);">Show source &equiv;</a></p>
-  <div id="source-mlbgame.stats" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.player_stats', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.player_stats" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">player_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
 	<span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">	Return dictionary of player stats for game matching the game id</span>
 <span class="sd">	&#39;&#39;&#39;</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">get_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">get_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
 	<span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;home_batting&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span> <span class="p">[]}</span>
 	<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
 		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">]:</span>
 			<span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_pitching&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span>
-				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GamePitcherStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">PitcherStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 			<span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_batting&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span>
-				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameBatterStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">BatterStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 			<span class="n">output</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">output</span>
 </pre></div>
@@ -1751,6 +1703,24 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
     <h2 class="section-title" id="header-submodules">Sub-modules</h2>
       <div class="item">
       <p class="name"><a href="game.m.html">mlbgame.game</a></p>
+      
+  
+
+      </div>
+      <div class="item">
+      <p class="name"><a href="statmap.m.html">mlbgame.statmap</a></p>
+      
+  
+    <div class="desc"><p>This module maps stat indentifiers to what they most likely mean.
+If there are blanks and you know what should go there,
+or there is a missing stat identifier, 
+please <a href="https://github.com/zachpanz88/mlbgame/issues/new">submit an issue</a> 
+with the correct stat and description.</p>
+<p>This module also provid...</p></div>
+
+      </div>
+      <div class="item">
+      <p class="name"><a href="stats.m.html">mlbgame.stats</a></p>
       
   
 
