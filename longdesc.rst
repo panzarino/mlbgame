@@ -1,7 +1,7 @@
 mlbgame
 -------
 
-mlbgame is an API to read MLB GameDay XML and JSON data.
+mlbgame is an API to read MLB GameDay XML data.
 mlbgame works with real time data, getting information as games are being played.
 
 mlbgame uses the same data that MLB GameDay uses,
@@ -12,9 +12,6 @@ from 2012 to the end of the 2015 season,
 but will be updated regularly during the season.
 Therefore, accessing this data does not actually make a request to mlb.com
 
-If you try to get data from a game that is not cached,
-mlbgame will download the data from mlb.com.
-
 mlbgame `documentation <http://zachpanz88.github.io/mlbgame>`__
 
 mlbgame on `Github <https://github.com/zachpanz88/mlbgame>`__  (Source Code)
@@ -22,8 +19,8 @@ mlbgame on `Github <https://github.com/zachpanz88/mlbgame>`__  (Source Code)
 If you have a question or need help, the quickest way to get a response 
 is to file an issue on the `Github issue tracker <https://github.com/zachpanz88/mlbgame/issues/new>`__
 
-mlbgame's submodules (except for `statmap`) should not really be used other than as 
-used by the main functions of the package (in `__init__.py`).
+mlbgame's submodules (except for ``statmap``) should not really be used other than as 
+used by the main functions of the package (in ``__init__.py``).
 
 Updating the Game Database
 --------------------------
@@ -46,7 +43,7 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     Arguments:
     -h (--help)             display this help menu
     --hide                  hides output from update script
-    --box_score             caches the box scores and individual game stats from every game
+    --extra                 saves the box scores and individual game stats from every game
     --start_date <year>     year to start updating from (runs until current day)
 
 Use of mlbgame must follow the terms stated in the 

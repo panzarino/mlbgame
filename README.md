@@ -1,6 +1,6 @@
 # mlbgame
 
-mlbgame is an API to read MLB GameDay XML and JSON data.
+mlbgame is an API to read MLB GameDay XML data.
 mlbgame works with real time data, getting information as games are being played.
 
 mlbgame uses the same data that MLB GameDay uses,
