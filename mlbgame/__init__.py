@@ -234,7 +234,7 @@ def player_stats(game_id):
 	'''
 	Return dictionary of player stats for game matching the game id
 	'''
-	data = mlbgame.stats.get_stats(game_id)
+	data = mlbgame.stats.player_stats(game_id)
 	output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [], 'away_batting': []}
 	for y in data:
 		for x in data[y]:

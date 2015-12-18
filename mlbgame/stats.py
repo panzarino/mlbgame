@@ -2,7 +2,7 @@ import urllib2 as url
 import lxml.etree as etree
 import os
 
-def get_stats(game_id):
+def player_stats(game_id):
     '''
     Return individual stats of a game with matching id
     '''
