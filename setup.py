@@ -28,7 +28,7 @@ setup(
     download_url=download_link,
     classifiers=[
         'License :: OSI Approved :: MIT License',
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: Other Audience',
