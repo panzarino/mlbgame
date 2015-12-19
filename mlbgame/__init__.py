@@ -245,6 +245,13 @@ def player_stats(game_id):
 			output[y].append(obj)
 	return output
 
+def team_stats(game_id):
+	'''
+	Return dictionary of team stats for game matching the game id
+	'''
+	data = mlbgame.stats.team_stats(game_id)
+	pass
+
 def combine_stats(stats):
 	'''
 	Combines player stat objects from a game into a single list

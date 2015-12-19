@@ -114,3 +114,9 @@ class BatterStats(object):
     
     def __str__(self):
         return self.nice_output()
+
+def team_stats(game_id):
+    '''
+    Return team stats of a game with matching id
+    '''
+    pass
