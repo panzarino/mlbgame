@@ -159,7 +159,10 @@ class GameBoxScore(object):
         data.pop('game_id', None)
         self.innings = []
         for x in sorted(data):
-            result = {'inning':int(x), 'home':int(data[x]['home']), 'away':int(data[x]['away'])}
+            try:
+                result = {'inning':int(x), 'home':int(data[x]['home']), 'away':int(data[x]['away'])}
+            except ValueError:
+                result = {'inning':int(x), 'home':data[x]['home'], 'away':int(data[x]['away'])}
             self.innings.append(result)
     
     def __iter__(self):
