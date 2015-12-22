@@ -1,18 +1,16 @@
-import urllib2 as url
+'''
+Module that controls getting stats 
+and creating objects to hold that information.
+'''
+
 import lxml.etree as etree
-import os
+import mlbgame.data
 
 def player_stats(game_id):
     '''
     Return individual stats of a game with matching id
     '''
-    year, month, day, rest = game_id.split('_', 3)
-    filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id)
-    file = os.path.join(os.path.dirname(__file__), filename)
-    if os.path.isfile(file):
-        data = file
-    else:
-        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id))
+    data = mlbgame.data.get_box_score(game_id)
     parsed = etree.parse(data)
     root = parsed.getroot()
     pitching = root.findall('pitching')
