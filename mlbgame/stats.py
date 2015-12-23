@@ -117,4 +117,30 @@ def team_stats(game_id):
     '''
     Return team stats of a game with matching id
     '''
-    pass
+    data = mlbgame.data.get_box_score(game_id)
+    parsed = etree.parse(data)
+    root = parsed.getroot()
+    pitching = root.findall('pitching')
+    batting = root.findall('batting')
+    output = {}
+    for x in pitching:
+        stats = {}
+        if x.attrib['team_flag']=='home':
+            for y in x.attrib:
+                stats[y] = x.attrib[y]
+            output['home_pitching']=stats
+        elif x.attrib['team_flag']=='away':
+            for y in x.attrib:
+                stats[y] = x.attrib[y]
+            output['away_pitching']=stats
+    for x in batting:
+        stats = {}
+        if x.attrib['team_flag']=='home':
+            for y in x.attrib:
+                stats[y] = x.attrib[y]
+            output['home_batting']=stats
+        elif x.attrib['team_flag']=='away':
+            for y in x.attrib:
+                stats[y] = x.attrib[y]
+            output['away_batting']=stats
+    return output
