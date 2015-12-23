@@ -144,3 +144,20 @@ def team_stats(game_id):
                 stats[y] = x.attrib[y]
             output['away_batting']=stats
     return output
+
+class TeamStats(object):
+    '''
+    Holds total pitching stats for a team
+    '''
+    def __init__(self, data):
+        '''
+        Creates a team object that matches the corresponding stats in `data`
+        '''
+        for x in data:
+            try:
+                setattr(self, x, int(data[x]))
+            except ValueError:
+                try:
+                    setattr(self, x, float(data[x]))
+                except ValueError:
+                    setattr(self, x, data[x])
