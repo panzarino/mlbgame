@@ -250,7 +250,11 @@ def team_stats(game_id):
 	Return dictionary of team stats for game matching the game id
 	'''
 	data = mlbgame.stats.team_stats(game_id)
-	pass
+	output = {}
+	for x in data:
+		obj = mlbgame.stats.TeamStats(data[x])
+		output[x]=obj
+	return output
 
 def combine_stats(stats):
 	'''
