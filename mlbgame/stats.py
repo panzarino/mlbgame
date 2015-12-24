@@ -46,73 +46,6 @@ def player_stats(game_id):
     output = {'home_pitching':home_pitching, 'away_pitching':away_pitching, 'home_batting':home_batting, 'away_batting':away_batting}
     return output
 
-class PitcherStats(object):
-    '''
-    Holds stats information for a pitcher
-    
-    Check out `statmap.py` for a full list of object properties
-    '''
-    def __init__(self, data):
-        '''
-        Creates a pitcher object that matches the corresponding stats in `data`
-        
-        `data` should be a dictionary for a single pitcher that comes from `get_stats()`
-        '''
-        for x in data:
-            try:
-                setattr(self, x, int(data[x]))
-            except ValueError:
-                try:
-                    setattr(self, x, float(data[x]))
-                except ValueError:
-                    try:
-                        setattr(self, x, bool(data[x]))
-                    except ValueError:
-                        setattr(self, x, str(data[x]))
-    
-    def nice_output(self):
-        '''
-        Prints basic player stats in a nice way
-        '''
-        return "%s - %i Earned Runs, %i Strikouts, %i Hits" % (self.name_display_first_last, self.er, self.so, self.h)
-    
-    def __str__(self):
-        return self.nice_output()
-
-class BatterStats(object):
-    '''
-    Holds stats information for a batter
-    
-    Check out `statmap.py` for a full list of object properties
-    '''
-    def __init__(self, data):
-        '''
-        Creates a batter object that matches the corresponding stats in `data`
-        
-        `data` should be a dictionary for a batter pitcher that comes from `get_stats()`
-        '''
-        for x in data:
-            try:
-                setattr(self, x, int(data[x]))
-            except ValueError:
-                try:
-                    setattr(self, x, float(data[x]))
-                except ValueError:
-                    setattr(self, x, data[x])
-    
-    def nice_output(self):
-        '''
-        Prints basic player stats in a nice way
-        '''
-        if self.rbi > 0:
-            if self.hr > 0:
-                return "%s - %i for %i with %i RBI and %i Home Runs" % (self.name_display_first_last, self.h, self.ab, self.rbi, self.hr)
-            return "%s - %i for %i with %i RBI" % (self.name_display_first_last, self.h, self.ab, self.rbi)
-        return "%s - %i for %i" % (self.name_display_first_last, self.h, self.ab)
-    
-    def __str__(self):
-        return self.nice_output()
-
 def team_stats(game_id):
     '''
     Return team stats of a game with matching id
@@ -145,13 +78,16 @@ def team_stats(game_id):
             output['away_batting']=stats
     return output
 
-class TeamStats(object):
+class Stats(object):
     '''
-    Holds total pitching stats for a team
+    Basic stats class for any type of stats
     '''
+    
     def __init__(self, data):
         '''
-        Creates a team object that matches the corresponding stats in `data`
+        Creates a stats object that matches the corresponding stats in `data`
+        
+        `data` should be an dictionary of values
         '''
         for x in data:
             try:
@@ -160,4 +96,49 @@ class TeamStats(object):
                 try:
                     setattr(self, x, float(data[x]))
                 except ValueError:
-                    setattr(self, x, data[x])
+                    try:
+                        setattr(self, x, bool(data[x]))
+                    except ValueError:
+                        setattr(self, x, str(data[x]))
+
+class PitcherStats(Stats):
+    '''
+    Holds stats information for a pitcher
+    
+    Check out `statmap.py` for a full list of object properties
+    '''
+
+    def nice_output(self):
+        '''
+        Prints basic pitcher stats in a nice way
+        '''
+        return "%s - %i Earned Runs, %i Strikouts, %i Hits" % (self.name_display_first_last, self.er, self.so, self.h)
+    
+    def __str__(self):
+        return self.nice_output()
+
+class BatterStats(Stats):
+    '''
+    Holds stats information for a batter
+    
+    Check out `statmap.py` for a full list of object properties
+    '''
+    
+    def nice_output(self):
+        '''
+        Prints basic batter stats in a nice way
+        '''
+        if self.rbi > 0:
+            if self.hr > 0:
+                return "%s - %i for %i with %i RBI and %i Home Runs" % (self.name_display_first_last, self.h, self.ab, self.rbi, self.hr)
+            return "%s - %i for %i with %i RBI" % (self.name_display_first_last, self.h, self.ab, self.rbi)
+        return "%s - %i for %i" % (self.name_display_first_last, self.h, self.ab)
+    
+    def __str__(self):
+        return self.nice_output()
+
+class TeamStats(Stats):
+    '''
+    Holds total pitching stats for a team
+    '''
+    pass
