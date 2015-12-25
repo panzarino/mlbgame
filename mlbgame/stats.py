@@ -139,6 +139,6 @@ class BatterStats(Stats):
 
 class TeamStats(Stats):
     '''
-    Holds total pitching stats for a team
+    Holds total pitching or batting stats for a team
     '''
     pass
