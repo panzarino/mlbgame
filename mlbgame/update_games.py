@@ -6,16 +6,17 @@ import gzip
 import mlbgame
 import getopt
 
-def run(hide=False, extra=False, start_date=2012):
+def run(hide=False, extra=False, start_date="01-01-2012"):
     '''
     Update local game data
     '''
     year = date.today().year
     month = date.today().month
     day = date.today().day
+    start_day, start_month, start_year = start_date.split("-")
     if not hide:
         print "Checking data..."
-    for i in range(start_date, year+1):
+    for i in range(int(start_year), year+1):
         for x in range(1, 13):
             monthstr = str(x).zfill(2)
             loading = False
@@ -98,10 +99,10 @@ def usage():
     print "usage: "+sys.argv[0]+" <arguments>"
     print
     print "Arguments:"
-    print "-h (--help)\t\tdisplay this help menu"
-    print "--hide\t\t\thides output from update script"
-    print "--extra\t\t\tsaves the box scores and individual game stats from every game"
-    print "--start_date <year>\tyear to start updating from (runs until current day)"
+    print "-h (--help)\t\t\tdisplay this help menu"
+    print "--hide\t\t\t\thides output from update script"
+    print "--extra\t\t\t\tsaves the box scores and individual game stats from every game"
+    print "--start_date <DD-MM-YYYY>\tdate to start updating from (runs until current day)"
 
 def start():
     try:
@@ -111,7 +112,7 @@ def start():
         sys.exit(2)
     hide = False
     extra = False
-    start_date = 2012
+    start_date = "01-01-2012"
     for x in data[0]:
         if x[0] == "-h" or x[0] == "--help":
             usage()
@@ -121,7 +122,7 @@ def start():
         elif x[0] == "--extra":
             extra = True
         elif x[0] == "--start_date":
-            start_date = int(x[1])
+            start_date = x[1]
     run(hide, extra, start_date)
     
 
