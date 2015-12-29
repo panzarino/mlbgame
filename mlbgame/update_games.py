@@ -15,7 +15,7 @@ def run(hide=False, extra=False, start_date="01-01-2012"):
     day = date.today().day
     start_day, start_month, start_year = start_date.split("-")
     if not hide:
-        print "Checking data..."
+        print "Checking local data..."
     for i in range(int(start_year), year+1):
         for x in range(1, 13):
             monthstr = str(x).zfill(2)
