@@ -1,6 +1,4 @@
 '''
-# mlbgame
-
 mlbgame is a Python API to retrieve and read MLB GameDay XML data.
 mlbgame works with real time data, getting information as games are being played.
 
@@ -58,8 +56,8 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     Arguments:
     --help (-h)\t\t\t\tdisplay this help menu
     --hide\t\t\t\thides output from update script
-    --extra (-e)\t\t\t\tsaves the box scores and individual game stats from every game
-    --start_date (-s) <DD-MM-YYYY>\t\tyear to start updating from (runs until current day)
+    --extra (-e)\t\t\tsaves the box scores and individual game stats from every game
+    --start_date (-s) <DD-MM-YYYY>\tyear to start updating from (runs until current day)
 
 Examples
 --------
