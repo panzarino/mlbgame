@@ -42,10 +42,10 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     usage: mlbgame-update-games <arguments>
     
     Arguments:
-    -h (--help)                 display this help menu
-    --hide                      hides output from update script
-    --extra                     saves the box scores and individual game stats from every game
-    --start_date <DD-MM-YYYY>   year to start updating from (runs until current day)
+    --help (-h)                     display this help menu
+    --hide                          hides output from update script
+    --extra (-e)                    saves the box scores and individual game stats from every game
+    --start_date (-s) <DD-MM-YYYY>  year to start updating from (runs until current day)
 
 Use of mlbgame must follow the terms stated in the 
 `license <https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE>`__ 

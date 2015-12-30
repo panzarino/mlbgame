@@ -115,14 +115,14 @@ def usage():
     print "usage: "+sys.argv[0]+" <arguments>"
     print
     print "Arguments:"
-    print "-h (--help)\t\t\tdisplay this help menu"
+    print "--help (-h)\t\t\tdisplay this help menu"
     print "--hide\t\t\t\thides output from update script"
-    print "--extra\t\t\t\tsaves the box scores and individual game stats from every game"
-    print "--start_date <DD-MM-YYYY>\tdate to start updating from (runs until current day)"
+    print "--extra (-e)\t\t\tsaves the box scores and individual game stats from every game"
+    print "--start_date (-s) <DD-MM-YYYY>\tdate to start updating from (runs until current day)"
 
 def start():
     try:
-        data = getopt.getopt(sys.argv[1:], "h", ["help", "hide", "extra", "start_date="])
+        data = getopt.getopt(sys.argv[1:], "hes:", ["help", "hide", "extra", "start_date="])
     except getopt.GetoptError:
         usage()
         sys.exit(2)
@@ -135,9 +135,9 @@ def start():
             sys.exit()
         elif x[0] == "--hide":
             hide = True
-        elif x[0] == "--extra":
+        elif x[0] == "-e" or x[0] == "--extra":
             extra = True
-        elif x[0] == "--start_date":
+        elif x[0] == "-s" or x[0] == "--start_date":
             start_date = x[1]
     run(hide, extra, start_date)
     
