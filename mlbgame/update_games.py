@@ -14,15 +14,31 @@ def run(hide=False, extra=False, start_date="01-01-2012"):
     month = date.today().month
     day = date.today().day
     start_day, start_month, start_year = start_date.split("-")
+    first_day, first_month = [True, True]
     if not hide:
         print "Checking local data..."
+    # looping years
     for i in range(int(start_year), year+1):
-        for x in range(1, 13):
+        # checking if starting month value needs to be used
+        if first_month:
+            ms = int(start_month)
+            first_month = False
+        else:
+            ms = 1
+        # looping months
+        for x in range(ms, 13):
             monthstr = str(x).zfill(2)
             loading = False
             if i == year and x > month:
                 break
-            for y in range(1, 31):
+            # checking if starting day value needs to be used
+            if first_day:
+                ds = int(start_day)
+                first_day = False
+            else:
+                ds = 1
+            # looping days
+            for y in range(ds, 31):
                 if i == year and x >= month and y >= day:
                     break
                 daystr = str(y).zfill(2)
