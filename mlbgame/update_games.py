@@ -13,7 +13,7 @@ def run(hide=False, extra=False, start_date="01-01-2012"):
     year = date.today().year
     month = date.today().month
     day = date.today().day
-    start_day, start_month, start_year = start_date.split("-")
+    start_month, start_day, start_year = start_date.split("-")
     first_day, first_month = [True, True]
     if not hide:
         print "Checking local data..."
@@ -118,7 +118,7 @@ def usage():
     print "--help (-h)\t\t\tdisplay this help menu"
     print "--hide\t\t\t\thides output from update script"
     print "--extra (-e)\t\t\tsaves the box scores and individual game stats from every game"
-    print "--start_date (-s) <DD-MM-YYYY>\tdate to start updating from (runs until current day)"
+    print "--start_date (-s) <MM-DD-YYYY>\tdate to start updating from (runs until current day)"
 
 def start():
     try:
