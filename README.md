@@ -61,7 +61,7 @@ Arguments:
 --help (-h)                     display this help menu
 --hide                          hides output from update script
 --extra (-e)                    saves the box scores and individual game stats from every game
---start_date (-s) <MM-DD-YYYY>  year to start updating from (runs until current day)
+--start (-s) <MM-DD-YYYY>       date to start updating from (runs until current day)
 ```
 
 
