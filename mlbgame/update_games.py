@@ -6,14 +6,14 @@ import gzip
 import mlbgame
 import getopt
 
-def run(hide=False, extra=False, start_date="01-01-2012"):
+def run(hide=False, extra=False, start="01-01-2012"):
     '''
     Update local game data
     '''
     year = date.today().year
     month = date.today().month
     day = date.today().day
-    start_month, start_day, start_year = start_date.split("-")
+    start_month, start_day, start_year = start.split("-")
     first_day, first_month = [True, True]
     if not hide:
         print "Checking local data..."
@@ -128,7 +128,7 @@ def start():
         sys.exit(2)
     hide = False
     extra = False
-    start_date = "01-01-2012"
+    start = "01-01-2012"
     for x in data[0]:
         if x[0] == "-h" or x[0] == "--help":
             usage()
@@ -138,8 +138,8 @@ def start():
         elif x[0] == "-e" or x[0] == "--extra":
             extra = True
         elif x[0] == "-s" or x[0] == "--start":
-            start_date = x[1]
-    run(hide, extra, start_date)
+            start = x[1]
+    run(hide, extra, start)
     
 
 if __name__ == "__main__":
