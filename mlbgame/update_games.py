@@ -6,7 +6,7 @@ import gzip
 import mlbgame
 import getopt
 
-def run(hide=False, extra=False, start="01-01-2012"):
+def run(hide=False, more=False, start="01-01-2012"):
     '''
     Update local game data
     '''
@@ -70,7 +70,7 @@ def run(hide=False, extra=False, start="01-01-2012"):
                             sys.exit(1)
                     except url.HTTPError:
                         pass
-                if extra:
+                if more:
                     try:
                         games = mlbgame.day(i, x, y)
                         for z in games:
@@ -117,17 +117,17 @@ def usage():
     print "Arguments:"
     print "--help (-h)\t\t\tdisplay this help menu"
     print "--hide\t\t\t\thides output from update script"
-    print "--extra (-e)\t\t\tsaves the box scores and individual game stats from every game"
+    print "--more (-m)\t\t\tsaves the box scores and individual game stats from every game"
     print "--start (-s) <MM-DD-YYYY>\tdate to start updating from (runs until current day)"
 
 def start():
     try:
-        data = getopt.getopt(sys.argv[1:], "hes:", ["help", "hide", "extra", "start="])
+        data = getopt.getopt(sys.argv[1:], "hms:", ["help", "hide", "more", "start="])
     except getopt.GetoptError:
         usage()
         sys.exit(2)
     hide = False
-    extra = False
+    more = False
     start = "01-01-2012"
     for x in data[0]:
         if x[0] == "-h" or x[0] == "--help":
@@ -135,11 +135,11 @@ def start():
             sys.exit()
         elif x[0] == "--hide":
             hide = True
-        elif x[0] == "-e" or x[0] == "--extra":
-            extra = True
+        elif x[0] == "-m" or x[0] == "--more":
+            more = True
         elif x[0] == "-s" or x[0] == "--start":
             start = x[1]
-    run(hide, extra, start)
+    run(hide, more, start)
     
 
 if __name__ == "__main__":

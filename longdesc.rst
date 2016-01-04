@@ -44,7 +44,7 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     Arguments:
     --help (-h)                     display this help menu
     --hide                          hides output from update script
-    --extra (-e)                    saves the box scores and individual game stats from every game
+    --more (-m)                     saves the box scores and individual game stats from every game
     --start (-s) <MM-DD-YYYY>       date to start updating from (runs until current day)
 
 Use of mlbgame must follow the terms stated in the 
