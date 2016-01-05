@@ -120,6 +120,9 @@ def usage():
     print "--more (-m)\t\t\tsaves the box scores and individual game stats from every game"
     print "--start (-s) <MM-DD-YYYY>\tdate to start updating from (runs until current day)"
 
+def date_usage():
+    print "Incorrect date: Dates must be correct and in the format <MM-DD-YYYY>"
+
 def start():
     try:
         data = getopt.getopt(sys.argv[1:], "hms:", ["help", "hide", "more", "start="])
@@ -139,6 +142,20 @@ def start():
             more = True
         elif x[0] == "-s" or x[0] == "--start":
             start = x[1]
+    # verify that date is acceptable
+    try:
+        split = start.split("-")
+        for x in split:
+            int(x)
+            if x<0:
+                date_usage()
+                sys.exit(2)
+    except:
+        date_usage()
+        sys.exit(2)
+    if len(split)!=3 or int(split[0])>12 or int(split[1])>31 or int(split[2])<1900 or int(split[2])>date.today().year:
+            date_usage()
+            sys.exit(2)
     run(hide, more, start)
     
 
