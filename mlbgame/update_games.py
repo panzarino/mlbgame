@@ -6,6 +6,14 @@ import gzip
 import mlbgame
 import getopt
 
+def access_error(name):
+    '''
+    Error message when program cannot write to file
+    '''
+    print 'I do not have write access to "%s".' % (name)
+    print 'Without write access, I cannot update the game database.'
+    sys.exit(1)
+
 def run(hide=False, more=False, start="01-01-2012"):
     '''
     Update local game data
@@ -47,9 +55,9 @@ def run(hide=False, more=False, start="01-01-2012"):
                 daystr = str(y).zfill(2)
                 # file information
                 filename = "gameday-data/year_%i/month_%s/day_%s/scoreboard.xml.gz" % (i, monthstr, daystr)
-                f = os.path.join(os.path.dirname(__file__), filename)
+                f = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
                 dirn = "gameday-data/year_%i/month_%s/day_%s" % (i, monthstr, daystr)
-                dirname = os.path.join(os.path.dirname(__file__), dirn)
+                dirname = os.path.join(os.path.dirname(os.path.abspath(__file__)), dirn)
                 # check if file exists
                 # aka is the data saved
                 if not os.path.isfile(f):
@@ -70,17 +78,13 @@ def run(hide=False, more=False, start="01-01-2012"):
                                 # try to make the folder if permissions allow
                                 os.makedirs(dirname)
                             except OSError:
-                                print 'I do not have write access to "%s".' % (os.path.join(os.path.dirname(__file__), 'gameday-data/'))
-                                print 'Without write access, I cannot update the game database.'
-                                sys.exit(1)
+                                access_error(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gameday-data/'))
                         try:
                             # try to create the file if permissions allow
                             with gzip.open(f, "w") as fi:
                                 fi.write(response)
                         except OSError:
-                            print 'I do not have write access to "%s".' % dirname
-                            print 'Without write access, I cannot update the game database.'
-                            sys.exit(1)
+                            access_error(dirname)
                     # do nothing if the file is not on mlb.com
                     except url.HTTPError:
                         pass
@@ -94,9 +98,9 @@ def run(hide=False, more=False, start="01-01-2012"):
                             game_id = z.game_id
                             # file information
                             filename2 = "gameday-data/year_%i/month_%s/day_%s/gid_%s/boxscore.xml.gz" % (i, monthstr, daystr, game_id)
-                            f2 = os.path.join(os.path.dirname(__file__), filename2)
+                            f2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename2)
                             dirn2 = "gameday-data/year_%i/month_%s/day_%s/gid_%s" % (i, monthstr, daystr, game_id)
-                            dirname2 = os.path.join(os.path.dirname(__file__), dirn2)
+                            dirname2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), dirn2)
                             # check if file exists
                             # aka is the information saved
                             if not os.path.isfile(f2):
@@ -116,17 +120,13 @@ def run(hide=False, more=False, start="01-01-2012"):
                                         try:
                                             os.makedirs(dirname2)
                                         except OSError:
-                                            print 'I do not have write access to "%s".' % (os.path.join(os.path.dirname(__file__), 'gameday-data/'))
-                                            print 'Without write access, I cannot update the game database.'
-                                            sys.exit(1)
+                                            access_error(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gameday-data/'))
                                     # try to write file
                                     try:
                                         with gzip.open(f2, "w") as fi:
                                             fi.write(response2)
                                     except OSError:
-                                        print 'I do not have write access to "%s".' % dirname2
-                                        print 'Without write access, I cannot update the game database.'
-                                        sys.exit(1)
+                                        access_error(dirname2)
                                 except url.HTTPError:
                                     pass
                     except:
@@ -135,6 +135,7 @@ def run(hide=False, more=False, start="01-01-2012"):
                 # make sure loading ends at 100%
                 sys.stdout.write('Loading games for %s-%d (100.00%%).\n' % (monthstr, i))
                 sys.stdout.flush()
+    # print finished message
     if not hide:
         print "Complete."
 
