@@ -41,7 +41,7 @@ def run(hide=False, more=False, start="01-01-2012"):
             else:
                 ds = 1
             # looping days
-            for y in range(ds, 31):
+            for y in range(ds, 32):
                 if i == year and x >= month and y >= day:
                     break
                 daystr = str(y).zfill(2)
@@ -119,6 +119,7 @@ def run(hide=False, more=False, start="01-01-2012"):
                                             print 'I do not have write access to "%s".' % (os.path.join(os.path.dirname(__file__), 'gameday-data/'))
                                             print 'Without write access, I cannot update the game database.'
                                             sys.exit(1)
+                                    # try to write file
                                     try:
                                         with gzip.open(f2, "w") as fi:
                                             fi.write(response2)
@@ -138,6 +139,9 @@ def run(hide=False, more=False, start="01-01-2012"):
         print "Complete."
 
 def usage():
+    '''
+    Usage of command line arguments
+    '''
     print "usage: "+sys.argv[0]+" <arguments>"
     print
     print "Arguments:"
@@ -150,6 +154,9 @@ def date_usage():
     print "Incorrect date: Dates must be correct and in the format <MM-DD-YYYY>"
 
 def start():
+    '''
+    Start updating from a command and arguments
+    '''
     try:
         data = getopt.getopt(sys.argv[1:], "hms:", ["help", "hide", "more", "start="])
     except getopt.GetoptError:
