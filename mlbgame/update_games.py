@@ -192,6 +192,6 @@ def start():
             sys.exit(2)
     run(hide, more, start)
     
-
+# start program when run from command line
 if __name__ == "__main__":
     start()

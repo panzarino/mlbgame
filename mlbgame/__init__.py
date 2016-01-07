@@ -139,6 +139,7 @@ and on [mlb.com](http://gd2.mlb.com/components/copyright.txt)
 
 import sys
 
+# check if user is running correct version
 if sys.version_info[0] != 2 or sys.version_info[1] < 6:
 	print("mlbgame is designed for Python 2.6+ and does not work with Python 3")
 	print("You are running Python version {}.{}".format(sys.version_info.major, sys.version_info.minor))
@@ -171,9 +172,11 @@ def day(year, month, day, home=None, away=None):
 		return []
 	elif year >= today.year and month >= today.month and day > today.day:
 		return []
+	# get data
 	data = mlbgame.game.scoreboard(year, month, day, home=home, away=away)
 	results = []
 	for x in data:
+		# create objects for every data instance and put in array
 		obj = mlbgame.game.GameScoreboard(data[x])
 		results.append(obj)
 	return results
@@ -184,6 +187,7 @@ def games(years, months=None, days=None, home=None, away=None):
 	
 	If home and away are the same team, it will return all games for that team
 	'''
+	# put in data if months and days are not specified
 	if months == None:
 		months = []
 		for x in range(1, 13):
@@ -193,6 +197,8 @@ def games(years, months=None, days=None, home=None, away=None):
 		for x in range(1, 32):
 			days.append(x)
 	results = []
+	# check if lists, if not make lists
+	# allows users to input either numbers or lists
 	if not isinstance(years, list):
 		years = [years]
 	if not isinstance(months, list):
@@ -201,9 +207,11 @@ def games(years, months=None, days=None, home=None, away=None):
 		days = [days]
 	for i in years:
 		for y in months:
+			# get the days in a month
 			daysinmonth = calendar.monthrange(i, y)[1]
 			for x in days:
 				if daysinmonth >= x:
+					# use the day function to get data for each day in range
 					game = day(i, y, x, home=home, away=away)
 					if game != []:
 						results.append(game)
@@ -213,7 +221,9 @@ def box_score(game_id):
 	'''
 	Return box score for game matching the game id
 	'''
+	# get box score data
 	data = mlbgame.game.box_score(game_id)
+	# create object with data
 	obj = mlbgame.game.GameBoxScore(data)
 	return obj
 
@@ -222,6 +232,7 @@ def combine_games(games):
 	Combines games from multiple days into a single list
 	'''
 	output = []
+	# loop through 2d array and make it single array
 	for x in games:
 		for y in x:
 			output.append(y)
@@ -231,14 +242,17 @@ def player_stats(game_id):
 	'''
 	Return dictionary of player stats for game matching the game id
 	'''
+	# get information for that day
 	data = mlbgame.stats.player_stats(game_id)
 	output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [], 'away_batting': []}
 	for y in data:
 		for x in data[y]:
+			# create objects for all data
 			if y == 'home_pitching' or y == 'away_pitching':
 				obj = mlbgame.stats.PitcherStats(x)
 			elif y == 'home_batting' or y == 'away_batting':
 				obj = mlbgame.stats.BatterStats(x)
+			# place into correct place in return dictionary
 			output[y].append(obj)
 	return output
 
@@ -246,9 +260,12 @@ def team_stats(game_id):
 	'''
 	Return dictionary of team stats for game matching the game id
 	'''
+	# get data
 	data = mlbgame.stats.team_stats(game_id)
 	output = {}
 	for x in data:
+		# create objects and place in output based on name in original dictionary
+		# dictionary will have home/away_batting/pitching
 		obj = mlbgame.stats.TeamStats(data[x])
 		output[x]=obj
 	return output
@@ -257,6 +274,7 @@ def combine_stats(stats):
 	'''
 	Combines player stat objects from a game into a single list
 	'''
+	# loops through dictionary and makes into single array
 	output = []
 	for x in stats:
 		for y in stats[x]:
