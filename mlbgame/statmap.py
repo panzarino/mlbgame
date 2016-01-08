@@ -376,6 +376,7 @@ batter_stats = {}
 '''
 The stats that appear in the `BatterStats` objects
 '''
+# loop through idmap and check if object is batter
 for x in idmap:
     for y in idmap[x]['obj']:
         if y == 'BatterStats':
@@ -385,6 +386,7 @@ pitcher_stats = {}
 '''
 The stats that appear in the `PitcherStats` objects
 '''
+# loop through idmap and check if object is pitcher
 for x in idmap:
     for y in idmap[x]['obj']:
         if y == 'PitcherStats':
