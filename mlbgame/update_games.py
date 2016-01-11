@@ -149,7 +149,7 @@ def usage():
     print "--help (-h)\t\t\tdisplay this help menu"
     print "--hide\t\t\t\thides output from update script"
     print "--more (-m)\t\t\tsaves the box scores and individual game stats from every game"
-    print "--start (-s) <MM-DD-YYYY>\tdate to start updating from (runs until current day)"
+    print "--start (-s) <MM-DD-YYYY>\tdate to start updating from (runs until current day) (default: 01-01-2012)"
 
 def date_usage():
     print "Incorrect date: Dates must be correct and in the format <MM-DD-YYYY>"
