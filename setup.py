@@ -6,7 +6,7 @@ import os.path as path
 
 cwd = path.dirname(__file__)
 
-longdesc = codecs.open(path.join(cwd, 'longdesc.rst'), 'r', 'ascii').read()
+longdesc = codecs.open(path.join(cwd, 'description.rst'), 'r', 'ascii').read()
 
 version = '0.0.0'
 with codecs.open(path.join(cwd, 'mlbgame/version.py'), 'r', 'ascii') as f:
@@ -50,6 +50,6 @@ setup(
     platforms='ANY',
     packages=['mlbgame'],
     package_data={'mlbgame': ['gameday-data/*/*/*/*.xml.gz']},
-    data_files=[('docs', ['README.md', 'LICENSE', 'longdesc.rst'])],
+    data_files=[('docs', ['README.md', 'LICENSE', 'description.rst'])],
     scripts=['scripts/mlbgame-update'],
 )
