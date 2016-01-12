@@ -51,5 +51,5 @@ setup(
     packages=['mlbgame'],
     package_data={'mlbgame': ['gameday-data/*/*/*/*.xml.gz']},
     data_files=[('docs', ['README.md', 'LICENSE', 'longdesc.rst'])],
-    scripts=['scripts/mlbgame-update-games'],
+    scripts=['scripts/mlbgame-update'],
 )

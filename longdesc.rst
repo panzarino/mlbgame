@@ -31,7 +31,7 @@ The database can be updated by running the following command:
 
 ::
 
-    mlbgame-update-games
+    mlbgame-update
 
 There are some optional arguments that will cache extra data that is not included with the original install.
 This extra data may take up a lot of disk space, so only cache if you really need it (it will make processes much faster).
@@ -39,7 +39,7 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
 
 ::
 
-    usage: mlbgame-update-games <arguments>
+    usage: mlbgame-update <arguments>
     
     Arguments:
     --help (-h)                     display this help menu

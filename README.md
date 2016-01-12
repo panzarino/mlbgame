@@ -47,7 +47,7 @@ Since games happen every day, new game data exists that is not stored on disk fr
 The database can be updated by running the following command:
 
 ```
-mlbgame-update-games
+mlbgame-update
 ```
 
 There are some optional arguments that will cache extra data that is not included with the original install.
@@ -55,7 +55,7 @@ This extra data may take up a lot of disk space, so only cache if you really nee
 If this data is not cached, mlbgame will make a request to mlb.com every time you try to access the data.
 
 ```
-usage: mlbgame-update-games <arguments>
+usage: mlbgame-update <arguments>
     
 Arguments:
 --help (-h)                     display this help menu
