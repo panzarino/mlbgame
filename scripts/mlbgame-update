@@ -1,4 +1,4 @@
 #!/usr/bin/env python2
 
-import mlbgame.update_games
-mlbgame.update_games.start()
+import mlbgame.update
+mlbgame.update.start()
