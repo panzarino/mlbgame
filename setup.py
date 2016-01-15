@@ -4,18 +4,25 @@ from distutils.core import setup
 import codecs
 import os.path as path
 
+# where this file is located
 cwd = path.dirname(__file__)
 
+# get full description from rst file
 longdesc = codecs.open(path.join(cwd, 'description.rst'), 'r', 'ascii').read()
 
 version = '0.0.0'
+# read version file to get version
 with codecs.open(path.join(cwd, 'mlbgame/version.py'), 'r', 'ascii') as f:
     exec(f.read())
     version = __version__
+# make sure version is not default
+# make sure file reading worked
 assert version != '0.0.0'
 
+# download link based off tagged releases
 download_link = 'https://github.com/zachpanz88/mlbgame/archive/v%s.zip' % (version)
 
+# setup options
 setup(
     name='mlbgame',
     author='Zach Panzarino',
