@@ -162,10 +162,15 @@ def day(year, month, day, home=None, away=None):
 	
 	If the home and away team are the same, it will return the game(s) for that team
 	'''
+	# get the days per month
 	daysinmonth = calendar.monthrange(year, month)[1]
+	# do not even try to get data if day is too high
 	if daysinmonth < day:
 		return []
+	# get today's date
 	today = date.today()
+	# do not even try to get data if date is in the future
+	# statements separated for readability
 	if year > today.year:
 		return []
 	elif year >= today.year and month > today.month:
