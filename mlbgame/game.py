@@ -12,16 +12,23 @@ def scoreboard(year, month, day, home=None, away=None):
     '''
     Return the scoreboard information for a game matching the parameters as a dictionary
     '''
+    # get data
     data = mlbgame.data.get_scoreboard(year, month, day)
+    # parse data
     parsed = etree.parse(data)
     root = parsed.getroot()
     games = {}
+    # loop through games
     for game in root:
+        # check type of game
         if game.tag == "go_game":
+            # get team names
             teams = game.findall('team')
             home_name = teams[0].attrib['name']
             away_name = teams[1].attrib['name']
+            # check if teams match parameters
             if (home_name == home and home!=None) or (away_name == away and away!=None) or (away==None and home==None):
+                # throw all the data into a complicated dictionary
                 game_type = "go_game"
                 game_data = game.find('game')
                 game_id = game_data.attrib['id']
@@ -42,12 +49,17 @@ def scoreboard(year, month, day, home=None, away=None):
                 sv_pitcher_name = sv_pitcher_data.find('pitcher').attrib['name']
                 sv_pitcher = {'name':sv_pitcher_name, 'saves':int(sv_pitcher_data.attrib['saves'])}
                 output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':w_pitcher, 'l_pitcher':l_pitcher, 'sv_pitcher':sv_pitcher}
+                # put this dictionary into the larger dictionary
                 games[game_id]=output
+        # games taht were not played
         elif game.tag == "sg_game":
+            # get team information
             teams = game.findall('team')
             home_name = teams[0].attrib['name']
             away_name = teams[1].attrib['name']
+            # check if teams match parameters
             if (home_name == home and home!=None) or (away_name == away and away!=None) or (away==None and home==None):
+                # throw all the data into a complicated dictionary
                 game_type = "sg_game"
                 game_data = game.find('game')
                 game_id = game_data.attrib['id']
@@ -61,6 +73,7 @@ def scoreboard(year, month, day, home=None, away=None):
                 away_team_data = teams[1].find('gameteam')
                 away_team = {'name': teams[1].attrib['name'], 'runs': int(away_team_data.attrib['R']), 'hits':int(away_team_data.attrib['H']), 'errors':int(away_team_data.attrib['E'])}
                 output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'delay_reason':delay_reason, 'w_pitcher':{}, 'l_pitcher':{}, 'sv_pitcher':{}}
+                # put this dictionary into the larger dictionary
                 games[game_id]=output
     return games
 
@@ -68,12 +81,14 @@ class GameScoreboard(object):
     '''
     Object to hold scoreboard information about a certain game
     '''
+    
     def __init__(self, data):
         '''
         Creates a `GameScoreboard` object
 
         data is expected to come from the `scoreboard()` function
         '''
+        # go through dictionary and assign it to object properties
         self.game_id = data['game_id']
         self.game_type = data.get('game_type', '')
         self.game_status = data.get('game_status', '')
@@ -97,12 +112,14 @@ class GameScoreboard(object):
         self.sv_pitcher_saves = data.get('sv_pitcher', {}).get('saves', 0)
         self.w_team = ''
         self.l_team = ''
+        # calculate the winning team
         if self.home_team_runs > self.away_team_runs:
             self.w_team = self.home_team
             self.l_team = self.away_team
         elif self.away_team_runs > self.home_team_runs:
             self.w_team = self.away_team
             self.l_team = self.home_team
+        # create the datetime object for the game
         year, month, day, rest = self.game_id.split('_', 3)
         hour, other = self.game_start_time.split(':', 2)
         minute = other[:2]
@@ -121,12 +138,15 @@ class GameScoreboard(object):
         return self.nice_score()
 
 def box_score(game_id):
+    # get data
     data = mlbgame.data.get_box_score(game_id)
+    # parse data
     parsed = etree.parse(data)
     root = parsed.getroot()
     linescore = root.find('linescore')
     result = {}
     result['game_id']=game_id
+    # loop through innings and add them to output
     for x in linescore:
         inning = x.attrib['inning']
         home = x.attrib['home']
@@ -138,6 +158,7 @@ class GameBoxScore(object):
     '''
     Object to hold the box score of a certain game
     '''
+    
     def __init__(self, data):
         '''
         Creates a `GameBoxScore` object
@@ -146,10 +167,13 @@ class GameBoxScore(object):
         '''
         self.game_id = data['game_id']
         data.pop('game_id', None)
+        # dictionary of innings
         self.innings = []
+        # loops through the innings
         for x in sorted(data):
             try:
                 result = {'inning':int(x), 'home':int(data[x]['home']), 'away':int(data[x]['away'])}
+            # possible error when 9th innning home team has 'x' becuase they did not bat
             except ValueError:
                 result = {'inning':int(x), 'home':data[x]['home'], 'away':int(data[x]['away'])}
             self.innings.append(result)
@@ -166,6 +190,7 @@ class GameBoxScore(object):
         Print object as a scoreboard
         '''
         output = ''
+        # parallel dictionaries with innings and scores
         innings = []
         away = []
         home = []
@@ -173,6 +198,8 @@ class GameBoxScore(object):
             innings.append(x['inning'])
             away.append(x['away'])
             home.append(x['home'])
+        # go through all the information and make a nice output
+        # that looks like a scoreboard
         output += "Inning\t"
         for x in innings:
             output += str(x)+" "
