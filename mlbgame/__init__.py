@@ -58,6 +58,7 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     --hide\t\t\t\thides output from update script
     --more (-m)\t\t\tsaves the box scores and individual game stats from every game
     --start (-s) <MM-DD-YYYY>\tdate to start updating from (runs until current day) (default: 01-01-2012)
+    --end (-e) <MM-DD-YYYY>\t\tdate to update until (default: current day)
 
 Examples
 --------
