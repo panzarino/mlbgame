@@ -14,7 +14,7 @@ def access_error(name):
     print 'Without write access, I cannot update the game database.'
     sys.exit(1)
 
-def run(hide=False, more=False, start="01-01-2012"):
+def run(hide=False, more=False, start="01-01-2012", end=None):
     '''
     Update local game data
     '''
@@ -22,6 +22,13 @@ def run(hide=False, more=False, start="01-01-2012"):
     year = date.today().year
     month = date.today().month
     day = date.today().day
+    # get ending date information
+    if end != None:
+        end_month, end_day, end_year = start.split("-")
+    else:
+        end_year = year
+        end_month = month
+        end_day = day
     # get starting date information
     start_month, start_day, start_year = start.split("-")
     first_day, first_month = [True, True]
@@ -153,7 +160,7 @@ def usage():
     print "--end (-e) <MM-DD-YYYY>\t\tdate to update until (default: current day)"
 
 def date_usage():
-    print "Incorrect date: Dates must be correct and in the format <MM-DD-YYYY>"
+    print "Something was wrong with your date(s): Dates must be correct and in the format <MM-DD-YYYY>"
 
 def start():
     '''
@@ -167,6 +174,9 @@ def start():
     hide = False
     more = False
     start = "01-01-2012"
+    today = date.today()
+    end = "%i-%i-%i" % (today.month, today.day, today.year)
+    # parse arguments
     for x in data[0]:
         if x[0] == "-h" or x[0] == "--help":
             usage()
@@ -177,20 +187,30 @@ def start():
             more = True
         elif x[0] == "-s" or x[0] == "--start":
             start = x[1]
-    # verify that date is acceptable
+        elif x[0] == "-e" or x[0] == "--end":
+            end = x[1]
+    # verify that dates are acceptable
     try:
         split = start.split("-")
+        split2 = end.split("-")
         for x in split:
             int(x)
             if x<0:
                 date_usage()
                 sys.exit(2)
+        for x in split2:
+            int(x)
+            if x<0:
+                date_usage()
+                sys.exit(2)
+        date1 = date(int(split[2]), int(split[0]), int(split[1]))
+        date2 = date(int(split2[2]), int(split2[0]), int(split2[1]))
+        if date1 > date2 or date1 >= today or date2 >= today:
+            date_usage()
+            sys.exit(2)
     except:
         date_usage()
         sys.exit(2)
-    if len(split)!=3 or int(split[0])>12 or int(split[1])>31 or int(split[2])<1900 or int(split[2])>date.today().year:
-            date_usage()
-            sys.exit(2)
     run(hide, more, start)
     
 # start program when run from command line
