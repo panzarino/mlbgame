@@ -193,25 +193,15 @@ def start():
     try:
         split = start.split("-")
         split2 = end.split("-")
-        for x in split:
-            int(x)
-            if x<0:
-                date_usage()
-                sys.exit(2)
-        for x in split2:
-            int(x)
-            if x<0:
-                date_usage()
-                sys.exit(2)
         date1 = date(int(split[2]), int(split[0]), int(split[1]))
         date2 = date(int(split2[2]), int(split2[0]), int(split2[1]))
-        if date1 > date2 or date1 >= today or date2 >= today:
+        if date1 > date2 or date1 >= today or date2 > today:
             date_usage()
             sys.exit(2)
     except:
         date_usage()
         sys.exit(2)
-    run(hide, more, start)
+    run(hide, more, start, end)
     
 # start program when run from command line
 if __name__ == "__main__":
