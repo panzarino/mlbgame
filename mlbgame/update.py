@@ -24,19 +24,20 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
     day = date.today().day
     # get ending date information
     if end != None:
-        end_month, end_day, end_year = start.split("-")
+        end_month, end_day, end_year = end.split("-")
+        end_month, end_day, end_year = [int(end_month), int(end_day), int(end_year)]
     else:
         end_year = year
         end_month = month
         end_day = day
     # get starting date information
     start_month, start_day, start_year = start.split("-")
-    first_day, first_month = [True, True]
+    first_day, first_month, last_month = [True, True, False]
     # print a message becuase sometimes it seems like the program is not doing anything
     if not hide:
         print "Checking local data..."
     # looping years
-    for i in range(int(start_year), year+1):
+    for i in range(int(start_year), end_year+1):
         # checking if starting month value needs to be used
         if first_month:
             ms = int(start_month)
@@ -44,7 +45,11 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
         else:
             ms = 1
         # looping months
-        for x in range(ms, 13):
+        me = 13
+        if i == end_year:
+            me = end_month+1
+            last_month = True
+        for x in range(ms, me):
             monthstr = str(x).zfill(2)
             loading = False
             if i == year and x > month:
@@ -56,7 +61,10 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
             else:
                 ds = 1
             # looping days
-            for y in range(ds, 32):
+            de = 32
+            if last_month:
+                de = end_day+1
+            for y in range(ds, de):
                 if i == year and x >= month and y >= day:
                     break
                 daystr = str(y).zfill(2)
