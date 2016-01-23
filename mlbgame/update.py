@@ -199,10 +199,13 @@ def start():
             end = x[1]
     # verify that dates are acceptable
     try:
+        # split argument
         split = start.split("-")
         split2 = end.split("-")
+        # create example dates
         date1 = date(int(split[2]), int(split[0]), int(split[1]))
         date2 = date(int(split2[2]), int(split2[0]), int(split2[1]))
+        # verify dates
         if date1 > date2 or date1 >= today or date2 > today:
             date_usage()
             sys.exit(2)
