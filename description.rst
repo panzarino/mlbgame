@@ -23,6 +23,24 @@ is to file an issue on the `Github issue tracker <https://github.com/zachpanz88/
 mlbgame's submodules (except for ``statmap``) should not really be used other than as 
 used by the main functions of the package (in ``__init__.py``).
 
+Installation
+------------
+
+mlbgame is in the [Python Package Index (PyPI)](http://pypi.python.org/pypi/mlbgame/).
+Installing with `pip` is recommended for all systems.
+
+mlbgame can be installed by running:
+
+    pip install mlbgame
+
+(You may need to use `pip2` if Python 3 is the default on your system.)
+
+Alternatively, the latest release of mlbgame can be downloaded as a 
+`zip <https://github.com/zachpanz88/mlbgame/archive/master.zip>`__ or 
+`tarball <https://github.com/zachpanz88/mlbgame/archive/master.tar.gz>`__.
+
+mlbgame does not yet work on Python 3, but it should work with Python 2.6 and 2.7.
+
 Updating the Game Database
 --------------------------
 
