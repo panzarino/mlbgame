@@ -27,13 +27,15 @@ Installation
 ------------
 
 mlbgame is in the [Python Package Index (PyPI)](http://pypi.python.org/pypi/mlbgame/).
-Installing with `pip` is recommended for all systems.
+Installing with ``pip`` is recommended for all systems.
 
 mlbgame can be installed by running:
 
+::
+
     pip install mlbgame
 
-(You may need to use `pip2` if Python 3 is the default on your system.)
+(You may need to use ``pip2`` if Python 3 is the default on your system.)
 
 Alternatively, the latest release of mlbgame can be downloaded as a 
 `zip <https://github.com/zachpanz88/mlbgame/archive/master.zip>`__ or 
