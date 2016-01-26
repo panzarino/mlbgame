@@ -40,7 +40,7 @@ mlbgame can be installed by running:
 Alternatively, the latest release of mlbgame can be downloaded as a 
 [zip](https://github.com/zachpanz88/mlbgame/archive/master.zip) or [tarball](https://github.com/zachpanz88/mlbgame/archive/master.tar.gz).
 
-mlbgame does not yet work on Python 3, because it is desinged for Python 2.6 and 2.7.
+mlbgame does not yet work on Python 3, but it should work with Python 2.6 and 2.7.
 
 Updating the Game Database
 --------------------------
@@ -57,11 +57,15 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     usage: mlbgame-update <arguments>
     
     Arguments:
-    --help (-h)\t\t\t\tdisplay this help menu
-    --hide\t\t\t\thides output from update script
-    --more (-m)\t\t\tsaves the box scores and individual game stats from every game
-    --start (-s) <MM-DD-YYYY>\tdate to start updating from (runs until current day) (default: 01-01-2012)
-    --end (-e) <MM-DD-YYYY>\t\tdate to update until (default: current day)
+    --help (-h): display this help menu
+    --hide: hides output from update script
+    --more (-m): saves the box scores and individual game stats from every game
+    --start (-s) <MM-DD-YYYY>: date to start updating from (default: 01-01-2012)
+    --end (-e) <MM-DD-YYYY>: date to update until (default: current day)
+
+Use of mlbgame must follow the terms stated in the 
+[license](https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE) 
+and on [mlb.com](http://gd2.mlb.com/components/copyright.txt>).
 
 Examples
 --------

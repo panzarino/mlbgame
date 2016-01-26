@@ -68,6 +68,9 @@ Arguments:
 --end (-e) <MM-DD-YYYY>         date to update until (default: current day)
 ```
 
+Use of mlbgame must follow the terms stated in the 
+[license](https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE) 
+and on [mlb.com](http://gd2.mlb.com/components/copyright.txt>).
 
 Examples
 --------
