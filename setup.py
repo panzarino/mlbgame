@@ -35,7 +35,7 @@ setup(
     download_url=download_link,
     classifiers=[
         'License :: OSI Approved :: MIT License',
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: Other Audience',
@@ -51,6 +51,7 @@ setup(
         'baseball',
         'Major League Baseball',
         'baseball scores',
+        'baseball stats',
         'baseball data',
         'MLB GameDay',
     ],
