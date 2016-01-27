@@ -3,8 +3,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
-    <title>mlbgame.version API documentation</title>
-    <meta name="description" content="" />
+    <title>mlbgame.data API documentation</title>
+    <meta name="description" content="This module gets the XML data that other functions use.
+It checks if the data is cached first, and i..." />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
   
@@ -1035,6 +1036,14 @@ table {
     <h1>Index</h1>
     <ul id="index">
 
+    <li class="set"><h3><a href="#header-functions">Functions</a></h3>
+      
+  <ul>
+    <li class="mono"><a href="#mlbgame.data.get_box_score">get_box_score</a></li>
+    <li class="mono"><a href="#mlbgame.data.get_scoreboard">get_scoreboard</a></li>
+  </ul>
+
+    </li>
 
 
     </ul>
@@ -1048,13 +1057,55 @@ table {
 
 
   <header id="section-intro">
-  <h1 class="title"><span class="name">mlbgame.version</span> module</h1>
+  <h1 class="title"><span class="name">mlbgame.data</span> module</h1>
+  <p>This module gets the XML data that other functions use.
+It checks if the data is cached first, and if not, 
+gets the data from mlb.com</p>
   
-  
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.version', this);">Show source &equiv;</a></p>
-  <div id="source-mlbgame.version" class="source">
-    <div class="codehilite"><pre><span class="c"># installed version</span>
-<span class="n">__version__</span><span class="o">=</span><span class="s">&quot;1.0.0&quot;</span>
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.data" class="source">
+    <div class="codehilite"><pre><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">This module gets the XML data that other functions use.</span>
+<span class="sd">It checks if the data is cached first, and if not, </span>
+<span class="sd">gets the data from mlb.com</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">urllib2</span> <span class="kn">as</span> <span class="nn">url</span>
+
+<span class="k">def</span> <span class="nf">get_scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return the game file for a certain day matching certain criteria</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c"># add zeros if less than 10</span>
+    <span class="n">monthstr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">daystr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">day</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c"># file</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml.gz&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">)</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="c"># check if file exits</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">file</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># get data if file does not exist</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">get_box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return the box score file of a game with matching id</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c"># get relevant information from game id</span>
+    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="c"># file</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="c"># check if file exits</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">file</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># get data if file does not exist</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">data</span>
 </pre></div>
 
   </div>
@@ -1063,6 +1114,80 @@ table {
 
   <section id="section-items">
 
+    <h2 class="section-title" id="header-functions">Functions</h2>
+      
+  <div class="item">
+    <div class="name def" id="mlbgame.data.get_box_score">
+    <p>def <span class="ident">get_box_score</span>(</p><p>game_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return the box score file of a game with matching id</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_box_score', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.data.get_box_score" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return the box score file of a game with matching id</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c"># get relevant information from game id</span>
+    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="c"># file</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="c"># check if file exits</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">file</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># get data if file does not exist</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="mlbgame.data.get_scoreboard">
+    <p>def <span class="ident">get_scoreboard</span>(</p><p>year, month, day)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return the game file for a certain day matching certain criteria</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_scoreboard', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.data.get_scoreboard" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return the game file for a certain day matching certain criteria</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c"># add zeros if less than 10</span>
+    <span class="n">monthstr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">month</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">daystr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">day</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c"># file</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml.gz&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">)</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="c"># check if file exits</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">file</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># get data if file does not exist</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
 
 
   </section>
