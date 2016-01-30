@@ -26,7 +26,7 @@ used by the main functions of the package (in ``__init__.py``).
 Installation
 ------------
 
-mlbgame is in the [Python Package Index (PyPI)](http://pypi.python.org/pypi/mlbgame/).
+mlbgame is in the `Python Package Index (PyPI) <http://pypi.python.org/pypi/mlbgame/>`__.
 Installing with ``pip`` is recommended for all systems.
 
 mlbgame can be installed by running:
