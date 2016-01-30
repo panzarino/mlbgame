@@ -10,10 +10,14 @@ from 2012 to the end of the 2015 season,
 but will be updated regularly during the season.
 Therefore, accessing this data does not actually make a request to mlb.com.
 
-There is a lot of data for individual games that does not come
-pre-installed with mlbgame, but you can install it by running update scripts
+If you try to get data from a game that is not cached,
+mlbgame will download the data from mlb.com.
+
+There are a lot of extra data for individual games that do not come
+pre-installed with mlbgame, but can be installed by running update scripts
 shown below. This data is not included becuase it takes up too much space, 
-and therefore a request to mlb.com every time is a better option in most cases.
+and therefore a request to mlb.com every time is a better option 
+because not everyone will want to access this data.
 
 mlbgame [documentation](http://zachpanz88.github.io/mlbgame)
 

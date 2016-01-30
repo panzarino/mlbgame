@@ -14,6 +14,12 @@ Therefore, accessing this data does not actually make a request to mlb.com.
 If you try to get data from a game that is not cached,
 mlbgame will download the data from mlb.com.
 
+There are a lot of extra data for individual games that do not come
+pre-installed with mlbgame, but can be installed by running update scripts
+shown below. This data is not included becuase it takes up too much space, 
+and therefore a request to mlb.com every time is a better option 
+because not everyone will want to access this data.
+
 mlbgame [documentation](http://zachpanz88.github.io/mlbgame)
 
 mlbgame on [Github](https://github.com/zachpanz88/mlbgame) (Source Code)
