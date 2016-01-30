@@ -1088,10 +1088,13 @@ and therefore is updated as soon as something happens in a game.</p>
 from 2012 to the end of the 2015 season,
 but will be updated regularly during the season.
 Therefore, accessing this data does not actually make a request to mlb.com.</p>
-<p>There is a lot of data for individual games that does not come
-pre-installed with mlbgame, but you can install it by running update scripts
+<p>If you try to get data from a game that is not cached,
+mlbgame will download the data from mlb.com.</p>
+<p>There are a lot of extra data for individual games that do not come
+pre-installed with mlbgame, but can be installed by running update scripts
 shown below. This data is not included becuase it takes up too much space, 
-and therefore a request to mlb.com every time is a better option in most cases.</p>
+and therefore a request to mlb.com every time is a better option 
+because not everyone will want to access this data.</p>
 <p>mlbgame <a href="http://zachpanz88.github.io/mlbgame">documentation</a></p>
 <p>mlbgame on <a href="https://github.com/zachpanz88/mlbgame">Github</a> (Source Code)</p>
 <p>If you have a question or need help, the quickest way to get a response 
@@ -1108,7 +1111,8 @@ Installing with <code>pip</code> is recommended for all systems.</p>
 
 <p>(You may need to use <code>pip2</code> if Python 3 is the default on your system.)</p>
 <p>Alternatively, the latest release of mlbgame can be downloaded as a 
-<a href="https://github.com/zachpanz88/mlbgame/archive/master.zip">zip</a> or <a href="https://github.com/zachpanz88/mlbgame/archive/master.tar.gz">tarball</a>.</p>
+<a href="https://github.com/zachpanz88/mlbgame/archive/master.zip">zip</a> or <a href="https://github.com/zachpanz88/mlbgame/archive/master.tar.gz">tarball</a>. 
+If you do not install with <code>pip</code>, you must also install <a href="http://lxml.de/">lxml</a> for mlbgame to work.</p>
 <p>mlbgame does not yet work on Python 3, but it should work with Python 2.6 and 2.7.</p>
 <h2>Updating the Game Database</h2>
 <p>Since games happen every day, new game data exists that is not stored on disk from the original install.
@@ -1226,10 +1230,14 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
 <span class="sd">but will be updated regularly during the season.</span>
 <span class="sd">Therefore, accessing this data does not actually make a request to mlb.com.</span>
 
-<span class="sd">There is a lot of data for individual games that does not come</span>
-<span class="sd">pre-installed with mlbgame, but you can install it by running update scripts</span>
+<span class="sd">If you try to get data from a game that is not cached,</span>
+<span class="sd">mlbgame will download the data from mlb.com.</span>
+
+<span class="sd">There are a lot of extra data for individual games that do not come</span>
+<span class="sd">pre-installed with mlbgame, but can be installed by running update scripts</span>
 <span class="sd">shown below. This data is not included becuase it takes up too much space, </span>
-<span class="sd">and therefore a request to mlb.com every time is a better option in most cases.</span>
+<span class="sd">and therefore a request to mlb.com every time is a better option </span>
+<span class="sd">because not everyone will want to access this data.</span>
 
 <span class="sd">mlbgame [documentation](http://zachpanz88.github.io/mlbgame)</span>
 
@@ -1254,7 +1262,8 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt">mlb.com</a></p>
 <span class="sd">(You may need to use `pip2` if Python 3 is the default on your system.)</span>
 
 <span class="sd">Alternatively, the latest release of mlbgame can be downloaded as a </span>
-<span class="sd">[zip](https://github.com/zachpanz88/mlbgame/archive/master.zip) or [tarball](https://github.com/zachpanz88/mlbgame/archive/master.tar.gz).</span>
+<span class="sd">[zip](https://github.com/zachpanz88/mlbgame/archive/master.zip) or [tarball](https://github.com/zachpanz88/mlbgame/archive/master.tar.gz). </span>
+<span class="sd">If you do not install with `pip`, you must also install [lxml](http://lxml.de/) for mlbgame to work.</span>
 
 <span class="sd">mlbgame does not yet work on Python 3, but it should work with Python 2.6 and 2.7.</span>
 
