@@ -160,7 +160,3 @@ Jon Niese - 0 for 0
 Addison Reed - 0 for 0
 Bartolo Colon - 0 for 0
 ```
-
-Use of mlbgame must follow the terms stated in the 
-[license](https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE) 
-and on [mlb.com](http://gd2.mlb.com/components/copyright.txt)
