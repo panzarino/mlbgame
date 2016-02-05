@@ -1,2 +1,2 @@
-# installed version
-__version__="1.0.2"
+# package version
+__version__="1.0.3"
