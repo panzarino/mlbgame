@@ -119,11 +119,8 @@ class Stats(object):
                 try:
                     setattr(self, x, float(data[x]))
                 except ValueError:
-                    try:
-                        setattr(self, x, bool(data[x]))
-                    except ValueError:
-                        # string as last resort if nothing else works
-                        setattr(self, x, str(data[x]))
+                    # string if not number
+                    setattr(self, x, str(data[x]))
 
 class PitcherStats(Stats):
     '''
