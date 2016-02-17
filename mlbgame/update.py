@@ -2,7 +2,6 @@
 
 from __future__ import print_function
 
-import urllib2 as url
 import os
 import sys
 from datetime import date
@@ -92,7 +91,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                     # or some months don't have a 31st day
                     try:
                         # get data from url
-                        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/scoreboard.xml" % (i, monthstr, daystr))
+                        data = urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/scoreboard.xml" % (i, monthstr, daystr))
                         # loding bar to show something is actually happening
                         if not hide:
                             sys.stdout.write('Loading games for %s-%d (%00.2f%%) \r' % (monthstr, i, y/31.0*100))
@@ -135,7 +134,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                                 # or some months don't have a 31st day
                                 try:
                                     # get data
-                                    data2 = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/gid_%s/boxscore.xml" % (i, monthstr, daystr, game_id))
+                                    data2 = urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/gid_%s/boxscore.xml" % (i, monthstr, daystr, game_id))
                                     if not hide:
                                         # progress
                                         sys.stdout.write('Loading games for %s-%d (%00.2f%%). \r' % (monthstr, i, y/31.0*100))
@@ -180,7 +179,7 @@ def usage():
     print( "--end (-e) <MM-DD-YYYY>\t\tdate to update until (default: current day)")
 
 def date_usage():
-    print( "Something was wrong with your date(s): Dates must be correct and in the format <MM-DD-YYYY>"
+    print( "Something was wrong with your date(s): Dates must be correct and in the format <MM-DD-YYYY>")
 
 def start():
     '''
