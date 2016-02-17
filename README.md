@@ -78,7 +78,7 @@ Examples
 
 Here is a quick teaser to find the scores of all home Mets games for the month of June, 2015:
 
-    #!python
+    from __future__ import print_function
     import mlbgame
     
     month = mlbgame.games(2015, 6, home="Mets")
@@ -103,7 +103,7 @@ And the output is:
 
 Maybe you want to know the pitchers for the Royals game on April 30th, 2015:
 
-    #!python
+    from __future__ import print_function
     import mlbgame
     
     day = mlbgame.day(2015, 4, 12, home="Royals", away="Royals")
@@ -119,6 +119,7 @@ Finding stats for the Mets batters
 in the final game of the 2015 World Series
 can also be done:
 
+    from __future__ import print_function
     import mlbgame
     
     game = mlbgame.day(2015, 11, 1, home="Mets")[0]
