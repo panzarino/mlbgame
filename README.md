@@ -148,6 +148,6 @@ And the output is:
     
 ---------
     
-Zach Panz
+Zach Panz (Creator, Maintainer)
 
-Robert Simione
+Robert Simione (Python 3 compatibility)
