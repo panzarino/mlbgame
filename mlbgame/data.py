@@ -1,10 +1,22 @@
+#!/usr/bin/env python
+
 '''
 This module gets the XML data that other functions use.
 It checks if the data is cached first, and if not, 
 gets the data from mlb.com
 '''
+
+from __future__ import print_function
+
+import sys
 import os
-import urllib2 as url
+
+if sys.version_info[0] == 2:
+    from urllib2 import urlopen
+else:
+    from urllib.request import urlopen
+
+
 
 def get_scoreboard(year, month, day):
     '''
@@ -21,7 +33,7 @@ def get_scoreboard(year, month, day):
         data = file
     else:
         # get data if file does not exist
-        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/scoreboard.xml" % (year, monthstr, daystr))
+        data = urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/scoreboard.xml" % (year, monthstr, daystr))
     return data
 
 def get_box_score(game_id):
@@ -38,5 +50,5 @@ def get_box_score(game_id):
         data = file
     else:
         # get data if file does not exist
-        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id))
+        data = urlopen("http://gd2.mlb.com/components/game/mlb/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id))
     return data

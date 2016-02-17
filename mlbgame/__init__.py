@@ -82,8 +82,7 @@ Here is a quick teaser to find the scores of all home Mets games for the month o
     
     month = mlbgame.games(2015, 6, home="Mets")
     games = mlbgame.combine_games(month)
-    for x in games:
-        print x
+    print(*games, sep='\n')
     
 And the output is:
 
@@ -109,7 +108,7 @@ Maybe you want to know the pitchers for the Royals game on April 30th, 2015:
     day = mlbgame.day(2015, 4, 12, home="Royals", away="Royals")
     game = day[0]
     output = "Winning pitcher: %s (%s) - Losing Pitcher: %s (%s)"
-    print output % (game.w_pitcher, game.w_team, game.l_pitcher, game.l_team)
+    print(output % (game.w_pitcher, game.w_team, game.l_pitcher, game.l_team))
 
 And the output is:
 
@@ -123,8 +122,7 @@ can also be done:
     
     game = mlbgame.day(2015, 11, 1, home="Mets")[0]
     stats = mlbgame.player_stats(game.game_id)
-    for x in stats['home_batting']:
-        print x
+    print(*stats['home_batting'], sep='\n')
 
 And the output is:
 
@@ -146,13 +144,9 @@ And the output is:
 
 '''
 
-import sys
+from __future__ import print_function
 
-# check if user is running correct version
-if sys.version_info[0] != 2 or sys.version_info[1] < 6:
-	print("mlbgame is designed for Python 2.6+ and does not work with Python 3")
-	print("You are running Python version {}.{}".format(sys.version_info.major, sys.version_info.minor))
-	sys.exit(1)
+import sys
 
 import mlbgame.game
 import mlbgame.stats
@@ -188,11 +182,7 @@ def day(year, month, day, home=None, away=None):
 		return []
 	# get data
 	data = mlbgame.game.scoreboard(year, month, day, home=home, away=away)
-	results = []
-	for x in data:
-		# create objects for every data instance and put in array
-		obj = mlbgame.game.GameScoreboard(data[x])
-		results.append(obj)
+	results = [mlbgame.game.GameScoreboard(data[x]) for x in data]
 	return results
 
 def games(years, months=None, days=None, home=None, away=None):
@@ -203,13 +193,9 @@ def games(years, months=None, days=None, home=None, away=None):
 	'''
 	# put in data if months and days are not specified
 	if months == None:
-		months = []
-		for x in range(1, 13):
-			months.append(x)
+		months = list(range(1,13))
 	if days == None:
-		days = []
-		for x in range(1, 32):
-			days.append(x)
+		days = list(range(1,32))
 	results = []
 	# check if lists, if not make lists
 	# allows users to input either numbers or lists
@@ -245,11 +231,7 @@ def combine_games(games):
 	'''
 	Combines games from multiple days into a single list
 	'''
-	output = []
-	# loop through 2d array and make it single array
-	for x in games:
-		for y in x:
-			output.append(y)
+	output = [y for x in games for y in x]
 	return output
 
 def player_stats(game_id):
@@ -276,21 +258,12 @@ def team_stats(game_id):
 	'''
 	# get data
 	data = mlbgame.stats.team_stats(game_id)
-	output = {}
-	for x in data:
-		# create objects and place in output based on name in original dictionary
-		# dictionary will have home/away_batting/pitching
-		obj = mlbgame.stats.TeamStats(data[x])
-		output[x]=obj
+	output = {x:mlbgame.stats.TeamStats(data[x]) for x in data}
 	return output
 
 def combine_stats(stats):
 	'''
 	Combines player stat objects from a game into a single list
 	'''
-	# loops through dictionary and makes into single array
-	output = []
-	for x in stats:
-		for y in stats[x]:
-			output.append(y)
+	output = [y for x in stats for y in stats[x]]
 	return output

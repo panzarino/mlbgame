@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 '''
 This module maps stat indentifiers to what they most likely mean.
 If there are blanks and you know what should go there,
@@ -8,6 +10,8 @@ with the correct stat and description.
 This module also provides what stat objects
 will contain each property.
 '''
+
+from __future__ import print_function
 
 # full idmap description at bottom of file
 idmap = {
