@@ -144,9 +144,9 @@ And the output is:
     Addison Reed - 0 for 0
     Bartolo Colon - 0 for 0
     
-    #Contributors
+#Contributors
     
-    ---------
+---------
     
-    Zach Panz
-    Robert Simione
+Zach Panz
+Robert Simione
