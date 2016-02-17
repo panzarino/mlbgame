@@ -143,3 +143,10 @@ And the output is:
     Jon Niese - 0 for 0
     Addison Reed - 0 for 0
     Bartolo Colon - 0 for 0
+    
+    #Contributors
+    
+    ---------
+    
+    Zach Panz
+    Robert Simione
