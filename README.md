@@ -144,10 +144,9 @@ And the output is:
     Addison Reed - 0 for 0
     Bartolo Colon - 0 for 0
     
-#Contributors
+Contributors
+------------
     
----------
-    
-Zach Panz (Creator, Maintainer)
+[Zach Panzarino](https://github.com/zachpanz88) (Creator, Maintainer)
 
-Robert Simione (Python 3 compatibility)
+[Robert Simione](https://github.com/robertsimione) (Python 3 Compatibility)
