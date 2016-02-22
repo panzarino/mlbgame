@@ -1,4 +1,7 @@
-import urllib2 as url
+#!/usr/bin/env python
+
+from __future__ import print_function
+
 import os
 import sys
 from datetime import date
@@ -6,12 +9,20 @@ import gzip
 import mlbgame
 import getopt
 
+if sys.version_info[0] == 2:
+    from urllib2 import urlopen
+    from urllib2 import HTTPError
+else:
+    from urllib.request import urlopen
+    from urllib.error import HTTPError
+
+
 def access_error(name):
     '''
     Error message when program cannot write to file
     '''
-    print 'I do not have write access to "%s".' % (name)
-    print 'Without write access, I cannot update the game database.'
+    print('I do not have write access to "%s".' % (name))
+    print('Without write access, I cannot update the game database.')
     sys.exit(1)
 
 def run(hide=False, more=False, start="01-01-2012", end=None):
@@ -35,7 +46,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
     first_day, first_month, last_month = [True, True, False]
     # print a message becuase sometimes it seems like the program is not doing anything
     if not hide:
-        print "Checking local data..."
+        print("Checking local data...")
     # looping years
     for i in range(int(start_year), end_year+1):
         # checking if starting month value needs to be used
@@ -80,7 +91,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                     # or some months don't have a 31st day
                     try:
                         # get data from url
-                        data = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/scoreboard.xml" % (i, monthstr, daystr))
+                        data = urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/scoreboard.xml" % (i, monthstr, daystr))
                         # loding bar to show something is actually happening
                         if not hide:
                             sys.stdout.write('Loading games for %s-%d (%00.2f%%) \r' % (monthstr, i, y/31.0*100))
@@ -101,7 +112,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                         except OSError:
                             access_error(dirname)
                     # do nothing if the file is not on mlb.com
-                    except url.HTTPError:
+                    except HTTPError:
                         pass
                 # get extra data if specified
                 if more:
@@ -123,7 +134,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                                 # or some months don't have a 31st day
                                 try:
                                     # get data
-                                    data2 = url.urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/gid_%s/boxscore.xml" % (i, monthstr, daystr, game_id))
+                                    data2 = urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/gid_%s/boxscore.xml" % (i, monthstr, daystr, game_id))
                                     if not hide:
                                         # progress
                                         sys.stdout.write('Loading games for %s-%d (%00.2f%%). \r' % (monthstr, i, y/31.0*100))
@@ -142,7 +153,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                                             fi.write(response2)
                                     except OSError:
                                         access_error(dirname2)
-                                except url.HTTPError:
+                                except HTTPError:
                                     pass
                     except:
                         pass
@@ -152,23 +163,23 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                 sys.stdout.flush()
     # print finished message
     if not hide:
-        print "Complete."
+        print("Complete.")
 
 def usage():
     '''
     Usage of command line arguments
     '''
-    print "usage: "+sys.argv[0]+" <arguments>"
-    print
-    print "Arguments:"
-    print "--help (-h)\t\t\tdisplay this help menu"
-    print "--hide\t\t\t\thides output from update script"
-    print "--more (-m)\t\t\tsaves the box scores and individual game stats from every game"
-    print "--start (-s) <MM-DD-YYYY>\tdate to start updating from (default: 01-01-2012)"
-    print "--end (-e) <MM-DD-YYYY>\t\tdate to update until (default: current day)"
+    print("usage: "+sys.argv[0]+" <arguments>")
+    print()
+    print( "Arguments:")
+    print( "--help (-h)\t\t\tdisplay this help menu")
+    print( "--hide\t\t\t\thides output from update script")
+    print( "--more (-m)\t\t\tsaves the box scores and individual game stats from every game")
+    print( "--start (-s) <MM-DD-YYYY>\tdate to start updating from (default: 01-01-2012)")
+    print( "--end (-e) <MM-DD-YYYY>\t\tdate to update until (default: current day)")
 
 def date_usage():
-    print "Something was wrong with your date(s): Dates must be correct and in the format <MM-DD-YYYY>"
+    print( "Something was wrong with your date(s): Dates must be correct and in the format <MM-DD-YYYY>")
 
 def start():
     '''
