@@ -6,15 +6,12 @@ It checks if the data is cached first, and if not,
 gets the data from mlb.com
 '''
 
-import sys
 import os
 
-if sys.version_info[0] == 2:
+try:
+    from urlib.request import urlopen
+except:
     from urllib2 import urlopen
-else:
-    from urllib.request import urlopen
-
-
 
 def get_scoreboard(year, month, day):
     '''
