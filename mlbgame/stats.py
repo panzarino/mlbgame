@@ -5,8 +5,6 @@ Module that controls getting stats
 and creating objects to hold that information.
 '''
 
-from __future__ import print_function
-
 import lxml.etree as etree
 import mlbgame.data
 

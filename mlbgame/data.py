@@ -6,8 +6,6 @@ It checks if the data is cached first, and if not,
 gets the data from mlb.com
 '''
 
-from __future__ import print_function
-
 import sys
 import os
 

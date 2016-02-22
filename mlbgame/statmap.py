@@ -11,8 +11,6 @@ This module also provides what stat objects
 will contain each property.
 '''
 
-from __future__ import print_function
-
 # full idmap description at bottom of file
 idmap = {
     'name_display_first_last':{

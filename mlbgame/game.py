@@ -6,8 +6,6 @@ about a game such as
 the scoreboard and the box score.
 '''
 
-from __future__ import print_function
-
 import lxml.etree as etree
 import datetime
 import mlbgame.data
