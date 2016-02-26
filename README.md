@@ -78,13 +78,15 @@ Examples
 
 Here is a quick teaser to find the scores of all home Mets games for the month of June, 2015:
 
-    from __future__ import print_function
-    import mlbgame
-    
-    month = mlbgame.games(2015, 6, home="Mets")
-    games = mlbgame.combine_games(month)
-    print(*games, sep='\n')
-    
+```python
+from __future__ import print_function
+import mlbgame
+
+month = mlbgame.games(2015, 6, home="Mets")
+games = mlbgame.combine_games(month)
+print(*games, sep='\n')
+```
+
 And the output is:
 
     Giants (5) at Mets (0)
@@ -103,13 +105,15 @@ And the output is:
 
 Maybe you want to know the pitchers for the Royals game on April 30th, 2015:
 
-    from __future__ import print_function
-    import mlbgame
-    
-    day = mlbgame.day(2015, 4, 12, home="Royals", away="Royals")
-    game = day[0]
-    output = "Winning pitcher: %s (%s) - Losing Pitcher: %s (%s)"
-    print(output % (game.w_pitcher, game.w_team, game.l_pitcher, game.l_team))
+```python
+from __future__ import print_function
+import mlbgame
+
+day = mlbgame.day(2015, 4, 12, home="Royals", away="Royals")
+game = day[0]
+output = "Winning pitcher: %s (%s) - Losing Pitcher: %s (%s)"
+print(output % (game.w_pitcher, game.w_team, game.l_pitcher, game.l_team))
+```
 
 And the output is:
 
@@ -119,12 +123,14 @@ Finding stats for the Mets batters
 in the final game of the 2015 World Series
 can also be done:
 
-    from __future__ import print_function
-    import mlbgame
-    
-    game = mlbgame.day(2015, 11, 1, home="Mets")[0]
-    stats = mlbgame.player_stats(game.game_id)
-    print(*stats['home_batting'], sep='\n')
+```python
+from __future__ import print_function
+import mlbgame
+
+game = mlbgame.day(2015, 11, 1, home="Mets")[0]
+stats = mlbgame.player_stats(game.game_id)
+print(*stats['home_batting'], sep='\n')
+```
 
 And the output is:
 
