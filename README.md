@@ -40,9 +40,7 @@ mlbgame can be installed by running:
 
     pip install mlbgame
 
-(You may need to use `pip2` if Python 3 is the default on your system.)
-
-Alternatively, a Python 3 compatible version that is the latest release of mlbgame can be downloaded as a 
+Alternatively, the latest release of mlbgame can be downloaded as a 
 [zip](https://github.com/zachpanz88/mlbgame/archive/master.zip) or [tarball](https://github.com/zachpanz88/mlbgame/archive/master.tar.gz). 
 If you do not install with `pip`, you must also install [lxml](http://lxml.de/) for mlbgame to work.
 
