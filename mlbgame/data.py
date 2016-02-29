@@ -48,5 +48,8 @@ def get_box_score(game_id):
         data = file
     else:
         # get data if file does not exist
-        data = urlopen("http://gd2.mlb.com/components/game/mlb/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id))
+        try:
+            data = urlopen("http://gd2.mlb.com/components/game/mlb/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id))
+        except HTTPError:
+            raise ValueError("Could not find a game with that id.")
     return data
