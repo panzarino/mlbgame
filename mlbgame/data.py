@@ -8,9 +8,10 @@ gets the data from mlb.com
 
 import os
 try:
-    from urlib.request import urlopen
+    from urllib2 import urlopen, HTTPError
 except:
-    from urllib2 import urlopen
+    from urllib.request import urlopen
+    from urllib.error import HTTPError
 
 def get_scoreboard(year, month, day):
     '''
@@ -27,7 +28,10 @@ def get_scoreboard(year, month, day):
         data = file
     else:
         # get data if file does not exist
-        data = urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/scoreboard.xml" % (year, monthstr, daystr))
+        try:
+            data = urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/scoreboard.xml" % (year, monthstr, daystr))
+        except HTTPError:
+            data = os.path.join(os.path.dirname(__file__), "gameday-data/default.xml")
     return data
 
 def get_box_score(game_id):
