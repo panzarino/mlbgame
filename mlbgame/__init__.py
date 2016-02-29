@@ -166,110 +166,110 @@ Installed version of mlbgame
 '''
 
 def day(year, month, day, home=None, away=None):
-	'''
-	Return a list of games for a certain day
-	
-	If the home and away team are the same, it will return the game(s) for that team
-	'''
-	# get the days per month
-	daysinmonth = calendar.monthrange(year, month)[1]
-	# do not even try to get data if day is too high
-	if daysinmonth < day:
-		return []
-	# get today's date
-	today = date.today()
-	# do not even try to get data if date is in the future
-	# statements separated for readability
-	if year > today.year:
-		return []
-	elif year >= today.year and month > today.month:
-		return []
-	elif year >= today.year and month >= today.month and day > today.day:
-		return []
-	# get data
-	data = mlbgame.game.scoreboard(year, month, day, home=home, away=away)
-	results = [mlbgame.game.GameScoreboard(data[x]) for x in data]
-	return results
+    '''
+    Return a list of games for a certain day
+    
+    If the home and away team are the same, it will return the game(s) for that team
+    '''
+    # get the days per month
+    daysinmonth = calendar.monthrange(year, month)[1]
+    # do not even try to get data if day is too high
+    if daysinmonth < day:
+        return []
+    # get today's date
+    today = date.today()
+    # do not even try to get data if date is in the future
+    # statements separated for readability
+    if year > today.year:
+        return []
+    elif year >= today.year and month > today.month:
+        return []
+    elif year >= today.year and month >= today.month and day > today.day:
+        return []
+    # get data
+    data = mlbgame.game.scoreboard(year, month, day, home=home, away=away)
+    results = [mlbgame.game.GameScoreboard(data[x]) for x in data]
+    return results
 
 def games(years, months=None, days=None, home=None, away=None):
-	'''
-	Return a list of lists of games for multiple days
-	
-	If home and away are the same team, it will return all games for that team
-	'''
-	# put in data if months and days are not specified
-	if months == None:
-		months = list(range(1,13))
-	if days == None:
-		days = list(range(1,32))
-	results = []
-	# check if lists, if not make lists
-	# allows users to input either numbers or lists
-	if not isinstance(years, list):
-		years = [years]
-	if not isinstance(months, list):
-		months = [months]
-	if not isinstance(days, list):
-		days = [days]
-	for i in years:
-		for y in months:
-			# get the days in a month
-			daysinmonth = calendar.monthrange(i, y)[1]
-			for x in days:
-				if daysinmonth >= x:
-					# use the day function to get data for each day in range
-					game = day(i, y, x, home=home, away=away)
-					if game != []:
-						results.append(game)
-	return results
+    '''
+    Return a list of lists of games for multiple days
+    
+    If home and away are the same team, it will return all games for that team
+    '''
+    # put in data if months and days are not specified
+    if months == None:
+        months = list(range(1,13))
+    if days == None:
+        days = list(range(1,32))
+    results = []
+    # check if lists, if not make lists
+    # allows users to input either numbers or lists
+    if not isinstance(years, list):
+        years = [years]
+    if not isinstance(months, list):
+        months = [months]
+    if not isinstance(days, list):
+        days = [days]
+    for i in years:
+        for y in months:
+            # get the days in a month
+            daysinmonth = calendar.monthrange(i, y)[1]
+            for x in days:
+                if daysinmonth >= x:
+                    # use the day function to get data for each day in range
+                    game = day(i, y, x, home=home, away=away)
+                    if game != []:
+                        results.append(game)
+    return results
 
 def box_score(game_id):
-	'''
-	Return box score for game matching the game id
-	'''
-	# get box score data
-	data = mlbgame.game.box_score(game_id)
-	# create object with data
-	obj = mlbgame.game.GameBoxScore(data)
-	return obj
+    '''
+    Return box score for game matching the game id
+    '''
+    # get box score data
+    data = mlbgame.game.box_score(game_id)
+    # create object with data
+    obj = mlbgame.game.GameBoxScore(data)
+    return obj
 
 def combine_games(games):
-	'''
-	Combines games from multiple days into a single list
-	'''
-	output = [y for x in games for y in x]
-	return output
+    '''
+    Combines games from multiple days into a single list
+    '''
+    output = [y for x in games for y in x]
+    return output
 
 def player_stats(game_id):
-	'''
-	Return dictionary of player stats for game matching the game id
-	'''
-	# get information for that day
-	data = mlbgame.stats.player_stats(game_id)
-	output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [], 'away_batting': []}
-	for y in data:
-		for x in data[y]:
-			# create objects for all data
-			if y == 'home_pitching' or y == 'away_pitching':
-				obj = mlbgame.stats.PitcherStats(x)
-			elif y == 'home_batting' or y == 'away_batting':
-				obj = mlbgame.stats.BatterStats(x)
-			# place into correct place in return dictionary
-			output[y].append(obj)
-	return output
+    '''
+    Return dictionary of player stats for game matching the game id
+    '''
+    # get information for that day
+    data = mlbgame.stats.player_stats(game_id)
+    output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [], 'away_batting': []}
+    for y in data:
+        for x in data[y]:
+            # create objects for all data
+            if y == 'home_pitching' or y == 'away_pitching':
+                obj = mlbgame.stats.PitcherStats(x)
+            elif y == 'home_batting' or y == 'away_batting':
+                obj = mlbgame.stats.BatterStats(x)
+            # place into correct place in return dictionary
+            output[y].append(obj)
+    return output
 
 def team_stats(game_id):
-	'''
-	Return dictionary of team stats for game matching the game id
-	'''
-	# get data
-	data = mlbgame.stats.team_stats(game_id)
-	output = {x:mlbgame.stats.TeamStats(data[x]) for x in data}
-	return output
+    '''
+    Return dictionary of team stats for game matching the game id
+    '''
+    # get data
+    data = mlbgame.stats.team_stats(game_id)
+    output = {x:mlbgame.stats.TeamStats(data[x]) for x in data}
+    return output
 
 def combine_stats(stats):
-	'''
-	Combines player stat objects from a game into a single list
-	'''
-	output = [y for x in stats for y in stats[x]]
-	return output
+    '''
+    Combines player stat objects from a game into a single list
+    '''
+    output = [y for x in stats for y in stats[x]]
+    return output
