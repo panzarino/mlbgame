@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
-
 import os
 import sys
 from datetime import date
 import gzip
 import mlbgame
 import getopt
-
-if sys.version_info[0] == 2:
-    from urllib2 import urlopen
-    from urllib2 import HTTPError
-else:
+try:
+    from urllib2 import urlopen, HTTPError
+except:
     from urllib.request import urlopen
     from urllib.error import HTTPError
 

@@ -154,7 +154,6 @@ Contributors
 '''
 
 import sys
-
 import mlbgame.game
 import mlbgame.stats
 import calendar

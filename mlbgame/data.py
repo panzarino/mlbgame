@@ -7,7 +7,6 @@ gets the data from mlb.com
 '''
 
 import os
-
 try:
     from urlib.request import urlopen
 except:
