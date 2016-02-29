@@ -9,7 +9,7 @@ import mlbgame
 import getopt
 try:
     from urllib2 import urlopen, HTTPError
-except:
+except ImportError:
     from urllib.request import urlopen
     from urllib.error import HTTPError
 
