@@ -306,23 +306,23 @@ idmap = {
     'win':{
         'obj': ['PitcherStats'],
         'always': False,
-        'type': bool,
+        'type': str,
         'desc': 'The pitcher got the win for this game '
-                'if set to True',
+                'if set to true',
     },
     'loss':{
         'obj': ['PitcherStats'],
         'always': False,
-        'type': bool,
+        'type': str,
         'desc': 'The pitcher got the loss for this game '
-                'if set to True',
+                'if set to true',
     },
     'save':{
         'obj': ['PitcherStats'],
         'always': False,
-        'type': bool,
+        'type': str,
         'desc': 'The pitcher got the save for this game '
-                'if set to True',
+                'if set to true',
     },
     'note':{
         'obj': ['PitcherStats'],
