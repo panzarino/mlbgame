@@ -49,8 +49,6 @@ Alternatively, the latest release of mlbgame can be downloaded as a
 `tarball <https://github.com/zachpanz88/mlbgame/archive/master.tar.gz>`__.
 If you do not install with ``pip``, you must also install `lxml <http://lxml.de/>`__ for mlbgame to work.
 
-mlbgame does not yet work on Python 3, but it should work with Python 2.6 and 2.7.
-
 Updating the Game Database
 --------------------------
 
