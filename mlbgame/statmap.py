@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-'''
-This module maps stat indentifiers to what they most likely mean.
+"""This module maps stat indentifiers to what they most likely mean.
 If there are blanks and you know what should go there,
 or there is a missing stat identifier, 
 please [submit an issue](https://github.com/zachpanz88/mlbgame/issues/new) 
@@ -9,7 +8,7 @@ with the correct stat and description.
 
 This module also provides what stat objects
 will contain each property.
-'''
+"""
 
 # full idmap description at bottom of file
 idmap = {
@@ -349,8 +348,7 @@ idmap = {
         'desc': 'Unknown',
     },
 }
-'''
-Stat identifiers and their meanings
+"""Stat identifiers and their meanings
 
 `obj` - the objects that contain the stat
 
@@ -372,12 +370,10 @@ you should click "show source" to see all the stat values.
 
 Some official stat abbreviations on 
 [mlb.com](http://mlb.mlb.com/mlb/official_info/baseball_basics/abbreviations.jsp)
-'''
+"""
 
 batter_stats = {}
-'''
-The stats that appear in the `BatterStats` objects
-'''
+"""The stats that appear in the `BatterStats` objects."""
 # loop through idmap and check if object is batter
 for x in idmap:
     for y in idmap[x]['obj']:
@@ -385,9 +381,7 @@ for x in idmap:
             batter_stats[x] = idmap[x]
 
 pitcher_stats = {}
-'''
-The stats that appear in the `PitcherStats` objects
-'''
+"""The stats that appear in the `PitcherStats` objects."""
 # loop through idmap and check if object is pitcher
 for x in idmap:
     for y in idmap[x]['obj']:

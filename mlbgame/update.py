@@ -15,17 +15,13 @@ except ImportError:
 
 
 def access_error(name):
-    '''
-    Error message when program cannot write to file
-    '''
+    """Display error message when program cannot write to file."""
     print('I do not have write access to "%s".' % (name))
     print('Without write access, I cannot update the game database.')
     sys.exit(1)
 
 def run(hide=False, more=False, start="01-01-2012", end=None):
-    '''
-    Update local game data
-    '''
+    """Update local game data."""
     # get today's information
     year = date.today().year
     month = date.today().month
@@ -163,9 +159,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
         print("Complete.")
 
 def usage():
-    '''
-    Usage of command line arguments
-    '''
+    """Display usage of command line arguments."""
     print("usage: "+sys.argv[0]+" <arguments>")
     print()
     print( "Arguments:")
@@ -176,12 +170,11 @@ def usage():
     print( "--end (-e) <MM-DD-YYYY>\t\tdate to update until (default: current day)")
 
 def date_usage():
-    print( "Something was wrong with your date(s): Dates must be correct and in the format <MM-DD-YYYY>")
+    """Display usage of dates."""
+    print("Something was wrong with your date(s): Dates must be correct and in the format <MM-DD-YYYY>")
 
 def start():
-    '''
-    Start updating from a command and arguments
-    '''
+    """Start updating from a command and arguments."""
     try:
         data = getopt.getopt(sys.argv[1:], "hms:e:", ["help", "hide", "more", "start=", "end="])
     except getopt.GetoptError:

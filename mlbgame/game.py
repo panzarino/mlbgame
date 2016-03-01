@@ -1,19 +1,15 @@
 #!/usr/bin/env python
 
-'''
-Module that is used for getting basic information 
-about a game such as 
-the scoreboard and the box score.
-'''
+"""Module that is used for getting basic information about a game 
+such as the scoreboard and the box score.
+"""
 
 import lxml.etree as etree
 import datetime
 import mlbgame.data
 
 def scoreboard(year, month, day, home=None, away=None):
-    '''
-    Return the scoreboard information for a game matching the parameters as a dictionary
-    '''
+    """Return the scoreboard information for a game matching the parameters as a dictionary."""
     # get data
     data = mlbgame.data.get_scoreboard(year, month, day)
     # parse data
@@ -80,16 +76,13 @@ def scoreboard(year, month, day, home=None, away=None):
     return games
 
 class GameScoreboard(object):
-    '''
-    Object to hold scoreboard information about a certain game
-    '''
+    """Object to hold scoreboard information about a certain game."""
     
     def __init__(self, data):
-        '''
-        Creates a `GameScoreboard` object
+        """Creates a `GameScoreboard` object.
 
-        data is expected to come from the `scoreboard()` function
-        '''
+        data is expected to come from the `scoreboard()` function.
+        """
         # go through dictionary and assign it to object properties
         self.game_id = data['game_id']
         self.game_type = data.get('game_type', '')
@@ -131,15 +124,14 @@ class GameScoreboard(object):
         self.date = datetime.datetime(int(year), int(month), int(day), int(hour), int(minute))
     
     def nice_score(self):
-        '''
-        Return a nicely formatted score of the game
-        '''
+        """Return a nicely formatted score of the game."""
         return '%s (%d) at %s (%d)' % (self.away_team, self.away_team_runs, self.home_team, self.home_team_runs)
     
     def __str__(self):
         return self.nice_score()
 
 def box_score(game_id):
+    """Gets the box score information for the game with matching id."""
     # get data
     data = mlbgame.data.get_box_score(game_id)
     # parse data
@@ -157,16 +149,13 @@ def box_score(game_id):
     return result
 
 class GameBoxScore(object):
-    '''
-    Object to hold the box score of a certain game
-    '''
+    """Object to hold the box score of a certain game."""
     
     def __init__(self, data):
-        '''
-        Creates a `GameBoxScore` object
+        """Creates a `GameBoxScore` object.
 
-        data is expected to come from the `box_score()` function
-        '''
+        data is expected to come from the `box_score()` function.
+        """
         self.game_id = data['game_id']
         data.pop('game_id', None)
         # dictionary of innings
@@ -181,16 +170,12 @@ class GameBoxScore(object):
             self.innings.append(result)
     
     def __iter__(self):
-        '''
-        Allows object to be iterated over
-        '''
+        """Allows object to be iterated over."""
         for x in self.innings:
             yield x
     
     def print_scoreboard(self):
-        '''
-        Print object as a scoreboard
-        '''
+        """Print object as a scoreboard."""
         output = ''
         # parallel dictionaries with innings and scores
         innings = []

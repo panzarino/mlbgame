@@ -1,17 +1,12 @@
 #!/usr/bin/env python
 
-'''
-Module that controls getting stats 
-and creating objects to hold that information.
-'''
+"""Module that controls getting stats and creating objects to hold that information."""
 
 import lxml.etree as etree
 import mlbgame.data
 
 def player_stats(game_id):
-    '''
-    Return dictionary of individual stats of a game with matching id
-    '''
+    """Return dictionary of individual stats of a game with matching id."""
     # get data from data module
     data = mlbgame.data.get_box_score(game_id)
     # parse XML
@@ -64,9 +59,7 @@ def player_stats(game_id):
     return output
 
 def team_stats(game_id):
-    '''
-    Return team stats of a game with matching id
-    '''
+    """Return team stats of a game with matching id."""
     # get data from data module
     data = mlbgame.data.get_box_score(game_id)
     # parse XML
@@ -102,16 +95,13 @@ def team_stats(game_id):
     return output
 
 class Stats(object):
-    '''
-    Basic stats class for any type of stats
-    '''
+    """Basic stats class for any type of stats."""
     
     def __init__(self, data):
-        '''
-        Creates a stats object that matches the corresponding stats in `data`
+        """Creates a stats object that matches the corresponding stats in `data`.
         
-        `data` should be an dictionary of values
-        '''
+        `data` should be an dictionary of values.
+        """
         # loop through data
         for x in data:
             # set information as correct data type
@@ -125,32 +115,26 @@ class Stats(object):
                     setattr(self, x, str(data[x]))
 
 class PitcherStats(Stats):
-    '''
-    Holds stats information for a pitcher
+    """Holds stats information for a pitcher.
     
-    Check out `statmap.py` for a full list of object properties
-    '''
+    Check out `statmap.py` for a full list of object properties.
+    """
 
     def nice_output(self):
-        '''
-        Prints basic pitcher stats in a nice way
-        '''
+        """Prints basic pitcher stats in a nice way."""
         return "%s - %i Earned Runs, %i Strikouts, %i Hits" % (self.name_display_first_last, self.er, self.so, self.h)
     
     def __str__(self):
         return self.nice_output()
 
 class BatterStats(Stats):
-    '''
-    Holds stats information for a batter
+    """Holds stats information for a batter.
     
-    Check out `statmap.py` for a full list of object properties
-    '''
+    Check out `statmap.py` for a full list of object properties.
+    """
     
     def nice_output(self):
-        '''
-        Prints basic batter stats in a nice way
-        '''
+        """Prints basic batter stats in a nice way."""
         if self.rbi > 0:
             if self.hr > 0:
                 # display home runs if he has any
@@ -164,8 +148,6 @@ class BatterStats(Stats):
         return self.nice_output()
 
 class TeamStats(Stats):
-    '''
-    Holds total pitching or batting stats for a team
-    '''
+    """Holds total pitching or batting stats for a team"""
     # basically a copy of the Stats class with a different name for clarification
     pass

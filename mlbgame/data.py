@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
-'''
-This module gets the XML data that other functions use.
+"""This module gets the XML data that other functions use.
 It checks if the data is cached first, and if not, 
-gets the data from mlb.com
-'''
+gets the data from mlb.com.
+"""
 
 import os
 try:
@@ -14,9 +13,7 @@ except ImportError:
     from urllib.error import HTTPError
 
 def get_scoreboard(year, month, day):
-    '''
-    Return the game file for a certain day matching certain criteria
-    '''
+    """Return the game file for a certain day matching certain criteria."""
     # add zeros if less than 10
     monthstr = str(month).zfill(2)
     daystr = str(day).zfill(2)
@@ -35,9 +32,7 @@ def get_scoreboard(year, month, day):
     return data
 
 def get_box_score(game_id):
-    '''
-    Return the box score file of a game with matching id
-    '''
+    """Return the box score file of a game with matching id."""
     # get relevant information from game id
     year, month, day, rest = game_id.split('_', 3)
     # file
