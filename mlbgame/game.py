@@ -64,13 +64,12 @@ def scoreboard(year, month, day, home=None, away=None):
                 game_league = game_data.attrib['league']
                 game_status = game_data.attrib['status']
                 game_start_time = game_data.attrib['start_time']
-                delay_reason = game_data.find('delay_reason').text
                 teams = game.findall('team')
                 home_team_data = teams[0].find('gameteam')
                 home_team = {'name': teams[0].attrib['name'], 'runs': int(home_team_data.attrib['R']), 'hits':int(home_team_data.attrib['H']), 'errors':int(home_team_data.attrib['E'])}
                 away_team_data = teams[1].find('gameteam')
                 away_team = {'name': teams[1].attrib['name'], 'runs': int(away_team_data.attrib['R']), 'hits':int(away_team_data.attrib['H']), 'errors':int(away_team_data.attrib['E'])}
-                output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'delay_reason':delay_reason, 'w_pitcher':{}, 'l_pitcher':{}, 'sv_pitcher':{}}
+                output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':{}, 'l_pitcher':{}, 'sv_pitcher':{}}
                 # put this dictionary into the larger dictionary
                 games[game_id]=output
     return games
