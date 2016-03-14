@@ -37,15 +37,24 @@ def scoreboard(year, month, day, home=None, away=None):
                 home_team = {'name': home_name, 'runs': int(home_team_data.attrib['R']), 'hits':int(home_team_data.attrib['H']), 'errors':int(home_team_data.attrib['E'])}
                 away_team_data = teams[1].find('gameteam')
                 away_team = {'name': away_name, 'runs': int(away_team_data.attrib['R']), 'hits':int(away_team_data.attrib['H']), 'errors':int(away_team_data.attrib['E'])}
-                w_pitcher_data = game.find('w_pitcher')
-                w_pitcher_name = w_pitcher_data.find('pitcher').attrib['name']
-                w_pitcher = {'name':w_pitcher_name, 'wins':int(w_pitcher_data.attrib['wins']), 'losses':int(w_pitcher_data.attrib['losses'])}
-                l_pitcher_data = game.find('l_pitcher')
-                l_pitcher_name = l_pitcher_data.find('pitcher').attrib['name']
-                l_pitcher = {'name':l_pitcher_name, 'wins':int(l_pitcher_data.attrib['wins']), 'losses':int(l_pitcher_data.attrib['losses'])}
-                sv_pitcher_data = game.find('sv_pitcher')
-                sv_pitcher_name = sv_pitcher_data.find('pitcher').attrib['name']
-                sv_pitcher = {'name':sv_pitcher_name, 'saves':int(sv_pitcher_data.attrib['saves'])}
+                try:
+                    w_pitcher_data = game.find('w_pitcher')
+                    w_pitcher_name = w_pitcher_data.find('pitcher').attrib['name']
+                    w_pitcher = {'name':w_pitcher_name, 'wins':int(w_pitcher_data.attrib['wins']), 'losses':int(w_pitcher_data.attrib['losses'])}
+                except:
+                    W_pitcher = {'name':'', 'wins':0, 'losses':0}
+                try:
+                    l_pitcher_data = game.find('l_pitcher')
+                    l_pitcher_name = l_pitcher_data.find('pitcher').attrib['name']
+                    l_pitcher = {'name':l_pitcher_name, 'wins':int(l_pitcher_data.attrib['wins']), 'losses':int(l_pitcher_data.attrib['losses'])}
+                except:
+                    l_pitcher = {'name':'', 'wins':0, 'losses':0}
+                try:
+                    sv_pitcher_data = game.find('sv_pitcher')
+                    sv_pitcher_name = sv_pitcher_data.find('pitcher').attrib['name']
+                    sv_pitcher = {'name':sv_pitcher_name, 'saves':int(sv_pitcher_data.attrib['saves'])}
+                except:
+                    sv_pitcher = {'name':'', 'saves':0}
                 output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':w_pitcher, 'l_pitcher':l_pitcher, 'sv_pitcher':sv_pitcher}
                 # put this dictionary into the larger dictionary
                 games[game_id]=output
