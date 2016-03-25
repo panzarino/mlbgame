@@ -19,7 +19,7 @@ def scoreboard(year, month, day, home=None, away=None):
     # loop through games
     for game in root:
         # check type of game
-        if game.tag == "go_game":
+        if game.tag == "go_game" or game.tag == "ig_game":
             # get team names
             teams = game.findall('team')
             home_name = teams[0].attrib['name']
