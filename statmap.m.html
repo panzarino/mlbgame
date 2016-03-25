@@ -555,7 +555,7 @@ table {
   html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100%;
   }
   body {
     background: #fff;
@@ -1071,8 +1071,9 @@ will contain each property.</p>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.statmap', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.statmap" class="source">
-    <div class="codehilite"><pre><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">This module maps stat indentifiers to what they most likely mean.</span>
+    <div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;This module maps stat indentifiers to what they most likely mean.</span>
 <span class="sd">If there are blanks and you know what should go there,</span>
 <span class="sd">or there is a missing stat identifier, </span>
 <span class="sd">please [submit an issue](https://github.com/zachpanz88/mlbgame/issues/new) </span>
@@ -1080,7 +1081,7 @@ will contain each property.</p>
 
 <span class="sd">This module also provides what stat objects</span>
 <span class="sd">will contain each property.</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c"># full idmap description at bottom of file</span>
 <span class="n">idmap</span> <span class="o">=</span> <span class="p">{</span>
@@ -1377,23 +1378,23 @@ will contain each property.</p>
     <span class="s">&#39;win&#39;</span><span class="p">:{</span>
         <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;PitcherStats&#39;</span><span class="p">],</span>
         <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;The pitcher got the win for this game &#39;</span>
-                <span class="s">&#39;if set to True&#39;</span><span class="p">,</span>
+                <span class="s">&#39;if set to true&#39;</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="s">&#39;loss&#39;</span><span class="p">:{</span>
         <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;PitcherStats&#39;</span><span class="p">],</span>
         <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;The pitcher got the loss for this game &#39;</span>
-                <span class="s">&#39;if set to True&#39;</span><span class="p">,</span>
+                <span class="s">&#39;if set to true&#39;</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="s">&#39;save&#39;</span><span class="p">:{</span>
         <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;PitcherStats&#39;</span><span class="p">],</span>
         <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;The pitcher got the save for this game &#39;</span>
-                <span class="s">&#39;if set to True&#39;</span><span class="p">,</span>
+                <span class="s">&#39;if set to true&#39;</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="s">&#39;note&#39;</span><span class="p">:{</span>
         <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;PitcherStats&#39;</span><span class="p">],</span>
@@ -1420,8 +1421,7 @@ will contain each property.</p>
         <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;Unknown&#39;</span><span class="p">,</span>
     <span class="p">},</span>
 <span class="p">}</span>
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">Stat identifiers and their meanings</span>
+<span class="sd">&quot;&quot;&quot;Stat identifiers and their meanings</span>
 
 <span class="sd">`obj` - the objects that contain the stat</span>
 
@@ -1443,12 +1443,10 @@ will contain each property.</p>
 
 <span class="sd">Some official stat abbreviations on </span>
 <span class="sd">[mlb.com](http://mlb.mlb.com/mlb/official_info/baseball_basics/abbreviations.jsp)</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">batter_stats</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">The stats that appear in the `BatterStats` objects</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&quot;&quot;&quot;The stats that appear in the `BatterStats` objects.&quot;&quot;&quot;</span>
 <span class="c"># loop through idmap and check if object is batter</span>
 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">idmap</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">idmap</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;obj&#39;</span><span class="p">]:</span>
@@ -1456,9 +1454,7 @@ will contain each property.</p>
             <span class="n">batter_stats</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">idmap</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
 
 <span class="n">pitcher_stats</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">The stats that appear in the `PitcherStats` objects</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&quot;&quot;&quot;The stats that appear in the `PitcherStats` objects.&quot;&quot;&quot;</span>
 <span class="c"># loop through idmap and check if object is pitcher</span>
 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">idmap</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">idmap</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;obj&#39;</span><span class="p">]:</span>
@@ -1476,7 +1472,7 @@ will contain each property.</p>
       <p id="mlbgame.statmap.batter_stats" class="name">var <span class="ident">batter_stats</span></p>
       
   
-    <div class="desc"><p>The stats that appear in the <code>BatterStats</code> objects</p></div>
+    <div class="desc"><p>The stats that appear in the <code>BatterStats</code> objects.</p></div>
   <div class="source_cont">
 </div>
 
@@ -1507,7 +1503,7 @@ you should click "show source" to see all the stat values.</p>
       <p id="mlbgame.statmap.pitcher_stats" class="name">var <span class="ident">pitcher_stats</span></p>
       
   
-    <div class="desc"><p>The stats that appear in the <code>PitcherStats</code> objects</p></div>
+    <div class="desc"><p>The stats that appear in the <code>PitcherStats</code> objects.</p></div>
   <div class="source_cont">
 </div>
 
@@ -1538,7 +1534,7 @@ you should click "show source" to see all the stat values.</p>
   <footer id="footer">
     <p>
       Documentation generated by
-      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.1</a>
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.2</a>
     </p>
 
     <p>pdoc is in the public domain with the

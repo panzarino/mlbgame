@@ -555,7 +555,7 @@ table {
   html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100%;
   }
   body {
     background: #fff;
@@ -1109,11 +1109,9 @@ Installing with <code>pip</code> is recommended for all systems.</p>
 </pre></div>
 
 
-<p>(You may need to use <code>pip2</code> if Python 3 is the default on your system.)</p>
 <p>Alternatively, the latest release of mlbgame can be downloaded as a 
 <a href="https://github.com/zachpanz88/mlbgame/archive/master.zip">zip</a> or <a href="https://github.com/zachpanz88/mlbgame/archive/master.tar.gz">tarball</a>. 
 If you do not install with <code>pip</code>, you must also install <a href="http://lxml.de/">lxml</a> for mlbgame to work.</p>
-<p>mlbgame does not yet work on Python 3, but it should work with Python 2.6 and 2.7.</p>
 <h2>Updating the Game Database</h2>
 <p>Since games happen every day, new game data exists that is not stored on disk from the original install.
 The database can be updated by running the following command:</p>
@@ -1140,15 +1138,16 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
 and on <a href="http://gd2.mlb.com/components/copyright.txt&gt;">mlb.com</a>.</p>
 <h2>Examples</h2>
 <p>Here is a quick teaser to find the scores of all home Mets games for the month of June, 2015:</p>
-<div class="codehilite"><pre><span class="kn">import</span> <span class="nn">mlbgame</span>
+<div class="codehilite"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">mlbgame</span>
 
 <span class="n">month</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">games</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="s">&quot;Mets&quot;</span><span class="p">)</span>
 <span class="n">games</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">combine_games</span><span class="p">(</span><span class="n">month</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">games</span><span class="p">:</span>
-    <span class="k">print</span> <span class="n">x</span>
+<span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">games</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;</span>
 </pre></div>
 
 
+<p>')</p>
 <p>And the output is:</p>
 <div class="codehilite"><pre>Giants (5) at Mets (0)
 Giants (8) at Mets (5)
@@ -1167,12 +1166,13 @@ Cubs (1) at Mets (0)
 
 
 <p>Maybe you want to know the pitchers for the Royals game on April 30th, 2015:</p>
-<div class="codehilite"><pre><span class="kn">import</span> <span class="nn">mlbgame</span>
+<div class="codehilite"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">mlbgame</span>
 
 <span class="n">day</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">day</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="s">&quot;Royals&quot;</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="s">&quot;Royals&quot;</span><span class="p">)</span>
 <span class="n">game</span> <span class="o">=</span> <span class="n">day</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;Winning pitcher: </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">) - Losing Pitcher: </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&quot;</span>
-<span class="k">print</span> <span class="n">output</span> <span class="o">%</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">w_pitcher</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">w_team</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">l_pitcher</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">l_team</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">output</span> <span class="o">%</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">w_pitcher</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">w_team</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">l_pitcher</span><span class="p">,</span> <span class="n">game</span><span class="o">.</span><span class="n">l_team</span><span class="p">))</span>
 </pre></div>
 
 
@@ -1184,15 +1184,16 @@ Cubs (1) at Mets (0)
 <p>Finding stats for the Mets batters
 in the final game of the 2015 World Series
 can also be done:</p>
-<div class="codehilite"><pre><span class="kn">import</span> <span class="nn">mlbgame</span>
+<div class="codehilite"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">mlbgame</span>
 
 <span class="n">game</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">day</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="s">&quot;Mets&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">stats</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">player_stats</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">game_id</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">[</span><span class="s">&#39;home_batting&#39;</span><span class="p">]:</span>
-    <span class="k">print</span> <span class="n">x</span>
+<span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">stats</span><span class="p">[</span><span class="s">&#39;home_batting&#39;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;</span>
 </pre></div>
 
 
+<p>')</p>
 <p>And the output is:</p>
 <div class="codehilite"><pre>Curtis Granderson - 1 for 4 with 1 RBI and 1 Home Runs
 David Wright - 1 for 5
@@ -1210,11 +1211,17 @@ Jon Niese - 0 for 0
 Addison Reed - 0 for 0
 Bartolo Colon - 0 for 0
 </pre></div>
+
+
+<h2>Contributors</h2>
+<p><a href="https://github.com/zachpanz88">Zach Panzarino</a> (Creator, Maintainer)</p>
+<p><a href="https://github.com/robertsimione">Robert Simione</a> (Python 3 Compatibility)</p>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame" class="source">
-    <div class="codehilite"><pre><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">mlbgame is a Python API to retrieve and read MLB GameDay XML data.</span>
+    <div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;mlbgame is a Python API to retrieve and read MLB GameDay XML data.</span>
 <span class="sd">mlbgame works with real time data, getting information as games are being played.</span>
 
 <span class="sd">mlbgame uses the same data that MLB GameDay uses,</span>
@@ -1254,13 +1261,9 @@ Bartolo Colon - 0 for 0
 
 <span class="sd">    pip install mlbgame</span>
 
-<span class="sd">(You may need to use `pip2` if Python 3 is the default on your system.)</span>
-
 <span class="sd">Alternatively, the latest release of mlbgame can be downloaded as a </span>
 <span class="sd">[zip](https://github.com/zachpanz88/mlbgame/archive/master.zip) or [tarball](https://github.com/zachpanz88/mlbgame/archive/master.tar.gz). </span>
 <span class="sd">If you do not install with `pip`, you must also install [lxml](http://lxml.de/) for mlbgame to work.</span>
-
-<span class="sd">mlbgame does not yet work on Python 3, but it should work with Python 2.6 and 2.7.</span>
 
 <span class="sd">Updating the Game Database</span>
 <span class="sd">--------------------------</span>
@@ -1293,12 +1296,12 @@ Bartolo Colon - 0 for 0
 <span class="sd">Here is a quick teaser to find the scores of all home Mets games for the month of June, 2015:</span>
 
 <span class="sd">    #!python</span>
+<span class="sd">    from __future__ import print_function</span>
 <span class="sd">    import mlbgame</span>
 <span class="sd">    </span>
 <span class="sd">    month = mlbgame.games(2015, 6, home=&quot;Mets&quot;)</span>
 <span class="sd">    games = mlbgame.combine_games(month)</span>
-<span class="sd">    for x in games:</span>
-<span class="sd">        print x</span>
+<span class="sd">    print(*games, sep=&#39;\n&#39;)</span>
 <span class="sd">    </span>
 <span class="sd">And the output is:</span>
 
@@ -1319,12 +1322,13 @@ Bartolo Colon - 0 for 0
 <span class="sd">Maybe you want to know the pitchers for the Royals game on April 30th, 2015:</span>
 
 <span class="sd">    #!python</span>
+<span class="sd">    from __future__ import print_function</span>
 <span class="sd">    import mlbgame</span>
 <span class="sd">    </span>
 <span class="sd">    day = mlbgame.day(2015, 4, 12, home=&quot;Royals&quot;, away=&quot;Royals&quot;)</span>
 <span class="sd">    game = day[0]</span>
 <span class="sd">    output = &quot;Winning pitcher: %s (%s) - Losing Pitcher: %s (%s)&quot;</span>
-<span class="sd">    print output % (game.w_pitcher, game.w_team, game.l_pitcher, game.l_team)</span>
+<span class="sd">    print(output % (game.w_pitcher, game.w_team, game.l_pitcher, game.l_team))</span>
 
 <span class="sd">And the output is:</span>
 
@@ -1334,12 +1338,13 @@ Bartolo Colon - 0 for 0
 <span class="sd">in the final game of the 2015 World Series</span>
 <span class="sd">can also be done:</span>
 
+<span class="sd">    #!python</span>
+<span class="sd">    from __future__ import print_function</span>
 <span class="sd">    import mlbgame</span>
 <span class="sd">    </span>
 <span class="sd">    game = mlbgame.day(2015, 11, 1, home=&quot;Mets&quot;)[0]</span>
 <span class="sd">    stats = mlbgame.player_stats(game.game_id)</span>
-<span class="sd">    for x in stats[&#39;home_batting&#39;]:</span>
-<span class="sd">        print x</span>
+<span class="sd">    print(*stats[&#39;home_batting&#39;], sep=&#39;\n&#39;)</span>
 
 <span class="sd">And the output is:</span>
 
@@ -1359,16 +1364,15 @@ Bartolo Colon - 0 for 0
 <span class="sd">    Addison Reed - 0 for 0</span>
 <span class="sd">    Bartolo Colon - 0 for 0</span>
 
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Contributors</span>
+<span class="sd">------------</span>
+<span class="sd">    </span>
+<span class="sd">[Zach Panzarino](https://github.com/zachpanz88) (Creator, Maintainer)</span>
+
+<span class="sd">[Robert Simione](https://github.com/robertsimione) (Python 3 Compatibility)</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="c"># check if user is running correct version</span>
-<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">:</span>
-	<span class="k">print</span><span class="p">(</span><span class="s">&quot;mlbgame is designed for Python 2.6+ and does not work with Python 3&quot;</span><span class="p">)</span>
-	<span class="k">print</span><span class="p">(</span><span class="s">&quot;You are running Python version {}.{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span><span class="p">))</span>
-	<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
 <span class="kn">import</span> <span class="nn">mlbgame.game</span>
 <span class="kn">import</span> <span class="nn">mlbgame.stats</span>
 <span class="kn">import</span> <span class="nn">calendar</span>
@@ -1376,139 +1380,104 @@ Bartolo Colon - 0 for 0
 
 <span class="kn">import</span> <span class="nn">mlbgame.version</span>
 <span class="n">VERSION</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">__version__</span>
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">Installed version of mlbgame</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&quot;&quot;&quot;Installed version of mlbgame.&quot;&quot;&quot;</span>
 
 <span class="k">def</span> <span class="nf">day</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Return a list of games for a certain day</span>
-<span class="sd">	</span>
-<span class="sd">	If the home and away team are the same, it will return the game(s) for that team</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># get the days per month</span>
-	<span class="n">daysinmonth</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-	<span class="c"># do not even try to get data if day is too high</span>
-	<span class="k">if</span> <span class="n">daysinmonth</span> <span class="o">&lt;</span> <span class="n">day</span><span class="p">:</span>
-		<span class="k">return</span> <span class="p">[]</span>
-	<span class="c"># get today&#39;s date</span>
-	<span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
-	<span class="c"># do not even try to get data if date is in the future</span>
-	<span class="c"># statements separated for readability</span>
-	<span class="k">if</span> <span class="n">year</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span><span class="p">:</span>
-		<span class="k">return</span> <span class="p">[]</span>
-	<span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span><span class="p">:</span>
-		<span class="k">return</span> <span class="p">[]</span>
-	<span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span> <span class="ow">and</span> <span class="n">day</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">day</span><span class="p">:</span>
-		<span class="k">return</span> <span class="p">[]</span>
-	<span class="c"># get data</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="n">home</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="n">away</span><span class="p">)</span>
-	<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-		<span class="c"># create objects for every data instance and put in array</span>
-		<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameScoreboard</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
-		<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">results</span>
+    <span class="sd">&quot;&quot;&quot;Return a list of games for a certain day.</span>
+<span class="sd">    </span>
+<span class="sd">    If the home and away team are the same, it will return the game(s) for that team.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># get the days per month</span>
+    <span class="n">daysinmonth</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c"># do not even try to get data if day is too high</span>
+    <span class="k">if</span> <span class="n">daysinmonth</span> <span class="o">&lt;</span> <span class="n">day</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="c"># get today&#39;s date</span>
+    <span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="c"># do not even try to get data if date is in the future</span>
+    <span class="c"># statements separated for readability</span>
+    <span class="k">if</span> <span class="n">year</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span> <span class="ow">and</span> <span class="n">day</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">day</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="c"># get data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="n">home</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="n">away</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameScoreboard</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">results</span>
 
 <span class="k">def</span> <span class="nf">games</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Return a list of lists of games for multiple days</span>
-<span class="sd">	</span>
-<span class="sd">	If home and away are the same team, it will return all games for that team</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># put in data if months and days are not specified</span>
-	<span class="k">if</span> <span class="n">months</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-		<span class="n">months</span> <span class="o">=</span> <span class="p">[]</span>
-		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
-			<span class="n">months</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-	<span class="k">if</span> <span class="n">days</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-		<span class="n">days</span> <span class="o">=</span> <span class="p">[]</span>
-		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">):</span>
-			<span class="n">days</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-	<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="c"># check if lists, if not make lists</span>
-	<span class="c"># allows users to input either numbers or lists</span>
-	<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-		<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="n">years</span><span class="p">]</span>
-	<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-		<span class="n">months</span> <span class="o">=</span> <span class="p">[</span><span class="n">months</span><span class="p">]</span>
-	<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-		<span class="n">days</span> <span class="o">=</span> <span class="p">[</span><span class="n">days</span><span class="p">]</span>
-	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
-		<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">months</span><span class="p">:</span>
-			<span class="c"># get the days in a month</span>
-			<span class="n">daysinmonth</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-			<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">days</span><span class="p">:</span>
-				<span class="k">if</span> <span class="n">daysinmonth</span> <span class="o">&gt;=</span> <span class="n">x</span><span class="p">:</span>
-					<span class="c"># use the day function to get data for each day in range</span>
-					<span class="n">game</span> <span class="o">=</span> <span class="n">day</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="n">home</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="n">away</span><span class="p">)</span>
-					<span class="k">if</span> <span class="n">game</span> <span class="o">!=</span> <span class="p">[]:</span>
-						<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">results</span>
+    <span class="sd">&quot;&quot;&quot;Return a list of lists of games for multiple days.</span>
+<span class="sd">    </span>
+<span class="sd">    If home and away are the same team, it will return all games for that team.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># put in data if months and days are not specified</span>
+    <span class="k">if</span> <span class="n">months</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">months</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">days</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">days</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">32</span><span class="p">))</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c"># check if lists, if not make lists</span>
+    <span class="c"># allows users to input either numbers or lists</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="n">years</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">months</span> <span class="o">=</span> <span class="p">[</span><span class="n">months</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">days</span> <span class="o">=</span> <span class="p">[</span><span class="n">days</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">months</span><span class="p">:</span>
+            <span class="c"># get the days in a month</span>
+            <span class="n">daysinmonth</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">days</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">daysinmonth</span> <span class="o">&gt;=</span> <span class="n">x</span><span class="p">:</span>
+                    <span class="c"># use the day function to get data for each day in range</span>
+                    <span class="n">game</span> <span class="o">=</span> <span class="n">day</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="n">home</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="n">away</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">game</span> <span class="o">!=</span> <span class="p">[]:</span>
+                        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
 
 <span class="k">def</span> <span class="nf">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Return box score for game matching the game id</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># get box score data</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
-	<span class="c"># create object with data</span>
-	<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameBoxScore</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">obj</span>
+    <span class="sd">&quot;&quot;&quot;Return box score for game matching the game id.&quot;&quot;&quot;</span>
+    <span class="c"># get box score data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="c"># create object with data</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameBoxScore</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">obj</span>
 
 <span class="k">def</span> <span class="nf">combine_games</span><span class="p">(</span><span class="n">games</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Combines games from multiple days into a single list</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="c"># loop through 2d array and make it single array</span>
-	<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">games</span><span class="p">:</span>
-		<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
-			<span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">output</span>
+    <span class="sd">&quot;&quot;&quot;Combines games from multiple days into a single list.&quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">games</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output</span>
 
 <span class="k">def</span> <span class="nf">player_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Return dictionary of player stats for game matching the game id</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># get information for that day</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">player_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
-	<span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;home_batting&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span> <span class="p">[]}</span>
-	<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">]:</span>
-			<span class="c"># create objects for all data</span>
-			<span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_pitching&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span>
-				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">PitcherStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-			<span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_batting&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span>
-				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">BatterStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-			<span class="c"># place into correct place in return dictionary</span>
-			<span class="n">output</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">output</span>
+    <span class="sd">&quot;&quot;&quot;Return dictionary of player stats for game matching the game id.&quot;&quot;&quot;</span>
+    <span class="c"># get information for that day</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">player_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;home_batting&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">]:</span>
+            <span class="c"># create objects for all data</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_pitching&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">PitcherStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_batting&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">BatterStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="c"># place into correct place in return dictionary</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span>
 
 <span class="k">def</span> <span class="nf">team_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Return dictionary of team stats for game matching the game id</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># get data</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">team_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
-	<span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
-	<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-		<span class="c"># create objects and place in output based on name in original dictionary</span>
-		<span class="c"># dictionary will have home/away_batting/pitching</span>
-		<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">TeamStats</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
-		<span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="n">obj</span>
-	<span class="k">return</span> <span class="n">output</span>
+    <span class="sd">&quot;&quot;&quot;Return dictionary of team stats for game matching the game id.&quot;&quot;&quot;</span>
+    <span class="c"># get data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">team_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">TeamStats</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">output</span>
 
 <span class="k">def</span> <span class="nf">combine_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Combines player stat objects from a game into a single list</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># loops through dictionary and makes into single array</span>
-	<span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">:</span>
-		<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
-			<span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">output</span>
+    <span class="sd">&quot;&quot;&quot;Combines player stat objects from a game into a single list.&quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">output</span>
 </pre></div>
 
   </div>
@@ -1521,7 +1490,7 @@ Bartolo Colon - 0 for 0
       <p id="mlbgame.VERSION" class="name">var <span class="ident">VERSION</span></p>
       
   
-    <div class="desc"><p>Installed version of mlbgame</p></div>
+    <div class="desc"><p>Installed version of mlbgame.</p></div>
   <div class="source_cont">
 </div>
 
@@ -1537,19 +1506,17 @@ Bartolo Colon - 0 for 0
 
     
   
-    <div class="desc"><p>Return box score for game matching the game id</p></div>
+    <div class="desc"><p>Return box score for game matching the game id.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.box_score', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.box_score" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Return box score for game matching the game id</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># get box score data</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
-	<span class="c"># create object with data</span>
-	<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameBoxScore</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">obj</span>
+    <span class="sd">&quot;&quot;&quot;Return box score for game matching the game id.&quot;&quot;&quot;</span>
+    <span class="c"># get box score data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="c"># create object with data</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameBoxScore</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">obj</span>
 </pre></div>
 
   </div>
@@ -1566,20 +1533,14 @@ Bartolo Colon - 0 for 0
 
     
   
-    <div class="desc"><p>Combines games from multiple days into a single list</p></div>
+    <div class="desc"><p>Combines games from multiple days into a single list.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.combine_games', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.combine_games" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">combine_games</span><span class="p">(</span><span class="n">games</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Combines games from multiple days into a single list</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="c"># loop through 2d array and make it single array</span>
-	<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">games</span><span class="p">:</span>
-		<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
-			<span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">output</span>
+    <span class="sd">&quot;&quot;&quot;Combines games from multiple days into a single list.&quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">games</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output</span>
 </pre></div>
 
   </div>
@@ -1596,20 +1557,14 @@ Bartolo Colon - 0 for 0
 
     
   
-    <div class="desc"><p>Combines player stat objects from a game into a single list</p></div>
+    <div class="desc"><p>Combines player stat objects from a game into a single list.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.combine_stats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.combine_stats" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">combine_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Combines player stat objects from a game into a single list</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># loops through dictionary and makes into single array</span>
-	<span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">:</span>
-		<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
-			<span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">output</span>
+    <span class="sd">&quot;&quot;&quot;Combines player stat objects from a game into a single list.&quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">output</span>
 </pre></div>
 
   </div>
@@ -1626,40 +1581,35 @@ Bartolo Colon - 0 for 0
 
     
   
-    <div class="desc"><p>Return a list of games for a certain day</p>
-<p>If the home and away team are the same, it will return the game(s) for that team</p></div>
+    <div class="desc"><p>Return a list of games for a certain day.</p>
+<p>If the home and away team are the same, it will return the game(s) for that team.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.day', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.day" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">day</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Return a list of games for a certain day</span>
-<span class="sd">	</span>
-<span class="sd">	If the home and away team are the same, it will return the game(s) for that team</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># get the days per month</span>
-	<span class="n">daysinmonth</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-	<span class="c"># do not even try to get data if day is too high</span>
-	<span class="k">if</span> <span class="n">daysinmonth</span> <span class="o">&lt;</span> <span class="n">day</span><span class="p">:</span>
-		<span class="k">return</span> <span class="p">[]</span>
-	<span class="c"># get today&#39;s date</span>
-	<span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
-	<span class="c"># do not even try to get data if date is in the future</span>
-	<span class="c"># statements separated for readability</span>
-	<span class="k">if</span> <span class="n">year</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span><span class="p">:</span>
-		<span class="k">return</span> <span class="p">[]</span>
-	<span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span><span class="p">:</span>
-		<span class="k">return</span> <span class="p">[]</span>
-	<span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span> <span class="ow">and</span> <span class="n">day</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">day</span><span class="p">:</span>
-		<span class="k">return</span> <span class="p">[]</span>
-	<span class="c"># get data</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="n">home</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="n">away</span><span class="p">)</span>
-	<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-		<span class="c"># create objects for every data instance and put in array</span>
-		<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameScoreboard</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
-		<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">results</span>
+    <span class="sd">&quot;&quot;&quot;Return a list of games for a certain day.</span>
+<span class="sd">    </span>
+<span class="sd">    If the home and away team are the same, it will return the game(s) for that team.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># get the days per month</span>
+    <span class="n">daysinmonth</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c"># do not even try to get data if day is too high</span>
+    <span class="k">if</span> <span class="n">daysinmonth</span> <span class="o">&lt;</span> <span class="n">day</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="c"># get today&#39;s date</span>
+    <span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="c"># do not even try to get data if date is in the future</span>
+    <span class="c"># statements separated for readability</span>
+    <span class="k">if</span> <span class="n">year</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span> <span class="ow">and</span> <span class="n">day</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">day</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="c"># get data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="n">home</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="n">away</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameScoreboard</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">results</span>
 </pre></div>
 
   </div>
@@ -1676,46 +1626,41 @@ Bartolo Colon - 0 for 0
 
     
   
-    <div class="desc"><p>Return a list of lists of games for multiple days</p>
-<p>If home and away are the same team, it will return all games for that team</p></div>
+    <div class="desc"><p>Return a list of lists of games for multiple days.</p>
+<p>If home and away are the same team, it will return all games for that team.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.games', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.games" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">games</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">months</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Return a list of lists of games for multiple days</span>
-<span class="sd">	</span>
-<span class="sd">	If home and away are the same team, it will return all games for that team</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># put in data if months and days are not specified</span>
-	<span class="k">if</span> <span class="n">months</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-		<span class="n">months</span> <span class="o">=</span> <span class="p">[]</span>
-		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
-			<span class="n">months</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-	<span class="k">if</span> <span class="n">days</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-		<span class="n">days</span> <span class="o">=</span> <span class="p">[]</span>
-		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">):</span>
-			<span class="n">days</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-	<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="c"># check if lists, if not make lists</span>
-	<span class="c"># allows users to input either numbers or lists</span>
-	<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-		<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="n">years</span><span class="p">]</span>
-	<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-		<span class="n">months</span> <span class="o">=</span> <span class="p">[</span><span class="n">months</span><span class="p">]</span>
-	<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-		<span class="n">days</span> <span class="o">=</span> <span class="p">[</span><span class="n">days</span><span class="p">]</span>
-	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
-		<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">months</span><span class="p">:</span>
-			<span class="c"># get the days in a month</span>
-			<span class="n">daysinmonth</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-			<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">days</span><span class="p">:</span>
-				<span class="k">if</span> <span class="n">daysinmonth</span> <span class="o">&gt;=</span> <span class="n">x</span><span class="p">:</span>
-					<span class="c"># use the day function to get data for each day in range</span>
-					<span class="n">game</span> <span class="o">=</span> <span class="n">day</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="n">home</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="n">away</span><span class="p">)</span>
-					<span class="k">if</span> <span class="n">game</span> <span class="o">!=</span> <span class="p">[]:</span>
-						<span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">results</span>
+    <span class="sd">&quot;&quot;&quot;Return a list of lists of games for multiple days.</span>
+<span class="sd">    </span>
+<span class="sd">    If home and away are the same team, it will return all games for that team.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># put in data if months and days are not specified</span>
+    <span class="k">if</span> <span class="n">months</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">months</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">days</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">days</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">32</span><span class="p">))</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c"># check if lists, if not make lists</span>
+    <span class="c"># allows users to input either numbers or lists</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="n">years</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">months</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">months</span> <span class="o">=</span> <span class="p">[</span><span class="n">months</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">days</span> <span class="o">=</span> <span class="p">[</span><span class="n">days</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">months</span><span class="p">:</span>
+            <span class="c"># get the days in a month</span>
+            <span class="n">daysinmonth</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">days</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">daysinmonth</span> <span class="o">&gt;=</span> <span class="n">x</span><span class="p">:</span>
+                    <span class="c"># use the day function to get data for each day in range</span>
+                    <span class="n">game</span> <span class="o">=</span> <span class="n">day</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="n">home</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="n">away</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">game</span> <span class="o">!=</span> <span class="p">[]:</span>
+                        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span>
 </pre></div>
 
   </div>
@@ -1732,27 +1677,25 @@ Bartolo Colon - 0 for 0
 
     
   
-    <div class="desc"><p>Return dictionary of player stats for game matching the game id</p></div>
+    <div class="desc"><p>Return dictionary of player stats for game matching the game id.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.player_stats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.player_stats" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">player_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Return dictionary of player stats for game matching the game id</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># get information for that day</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">player_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
-	<span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;home_batting&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span> <span class="p">[]}</span>
-	<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-		<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">]:</span>
-			<span class="c"># create objects for all data</span>
-			<span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_pitching&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span>
-				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">PitcherStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-			<span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_batting&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span>
-				<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">BatterStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-			<span class="c"># place into correct place in return dictionary</span>
-			<span class="n">output</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-	<span class="k">return</span> <span class="n">output</span>
+    <span class="sd">&quot;&quot;&quot;Return dictionary of player stats for game matching the game id.&quot;&quot;&quot;</span>
+    <span class="c"># get information for that day</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">player_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;home_batting&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">]:</span>
+            <span class="c"># create objects for all data</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_pitching&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_pitching&#39;</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">PitcherStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;home_batting&#39;</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;away_batting&#39;</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">BatterStats</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="c"># place into correct place in return dictionary</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span>
 </pre></div>
 
   </div>
@@ -1769,23 +1712,16 @@ Bartolo Colon - 0 for 0
 
     
   
-    <div class="desc"><p>Return dictionary of team stats for game matching the game id</p></div>
+    <div class="desc"><p>Return dictionary of team stats for game matching the game id.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.team_stats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.team_stats" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">team_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	Return dictionary of team stats for game matching the game id</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="c"># get data</span>
-	<span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">team_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
-	<span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
-	<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-		<span class="c"># create objects and place in output based on name in original dictionary</span>
-		<span class="c"># dictionary will have home/away_batting/pitching</span>
-		<span class="n">obj</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">TeamStats</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
-		<span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="n">obj</span>
-	<span class="k">return</span> <span class="n">output</span>
+    <span class="sd">&quot;&quot;&quot;Return dictionary of team stats for game matching the game id.&quot;&quot;&quot;</span>
+    <span class="c"># get data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">team_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">TeamStats</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">output</span>
 </pre></div>
 
   </div>
@@ -1802,16 +1738,15 @@ Bartolo Colon - 0 for 0
   
     <div class="desc"><p>This module gets the XML data that other functions use.
 It checks if the data is cached first, and if not, 
-gets the data from mlb.com</p></div>
+gets the data from mlb.com.</p></div>
 
       </div>
       <div class="item">
       <p class="name"><a href="game.m.html">mlbgame.game</a></p>
       
   
-    <div class="desc"><p>Module that is used for getting basic information 
-about a game such as 
-the scoreboard and the box score.</p></div>
+    <div class="desc"><p>Module that is used for getting basic information about a game 
+such as the scoreboard and the box score.</p></div>
 
       </div>
       <div class="item">
@@ -1830,8 +1765,7 @@ with the correct stat and description.</p>
       <p class="name"><a href="stats.m.html">mlbgame.stats</a></p>
       
   
-    <div class="desc"><p>Module that controls getting stats 
-and creating objects to hold that information.</p></div>
+    <div class="desc"><p>Module that controls getting stats and creating objects to hold that information.</p></div>
 
       </div>
       <div class="item">
@@ -1853,7 +1787,7 @@ and creating objects to hold that information.</p></div>
   <footer id="footer">
     <p>
       Documentation generated by
-      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.1</a>
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.2</a>
     </p>
 
     <p>pdoc is in the public domain with the

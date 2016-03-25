@@ -4,8 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
     <title>mlbgame.stats API documentation</title>
-    <meta name="description" content="Module that controls getting stats 
-and creating objects to hold that information." />
+    <meta name="description" content="Module that controls getting stats and creating objects to hold that information." />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
   
@@ -555,7 +554,7 @@ table {
   html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100%;
   }
   body {
     background: #fff;
@@ -1100,23 +1099,19 @@ table {
 
   <header id="section-intro">
   <h1 class="title"><span class="name">mlbgame.stats</span> module</h1>
-  <p>Module that controls getting stats 
-and creating objects to hold that information.</p>
+  <p>Module that controls getting stats and creating objects to hold that information.</p>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats" class="source">
-    <div class="codehilite"><pre><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">Module that controls getting stats </span>
-<span class="sd">and creating objects to hold that information.</span>
-<span class="sd">&#39;&#39;&#39;</span>
+    <div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;Module that controls getting stats and creating objects to hold that information.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">lxml.etree</span> <span class="kn">as</span> <span class="nn">etree</span>
 <span class="kn">import</span> <span class="nn">mlbgame.data</span>
 
 <span class="k">def</span> <span class="nf">player_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Return dictionary of individual stats of a game with matching id</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Return dictionary of individual stats of a game with matching id.&quot;&quot;&quot;</span>
     <span class="c"># get data from data module</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
     <span class="c"># parse XML</span>
@@ -1169,9 +1164,7 @@ and creating objects to hold that information.</p>
     <span class="k">return</span> <span class="n">output</span>
 
 <span class="k">def</span> <span class="nf">team_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Return team stats of a game with matching id</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Return team stats of a game with matching id.&quot;&quot;&quot;</span>
     <span class="c"># get data from data module</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
     <span class="c"># parse XML</span>
@@ -1207,16 +1200,13 @@ and creating objects to hold that information.</p>
     <span class="k">return</span> <span class="n">output</span>
 
 <span class="k">class</span> <span class="nc">Stats</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Basic stats class for any type of stats</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Basic stats class for any type of stats.&quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Creates a stats object that matches the corresponding stats in `data`</span>
+        <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
 <span class="sd">        </span>
-<span class="sd">        `data` should be an dictionary of values</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        `data` should be an dictionary of values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># loop through data</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="c"># set information as correct data type</span>
@@ -1230,32 +1220,26 @@ and creating objects to hold that information.</p>
                     <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
 
 <span class="k">class</span> <span class="nc">PitcherStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Holds stats information for a pitcher</span>
+    <span class="sd">&quot;&quot;&quot;Holds stats information for a pitcher.</span>
 <span class="sd">    </span>
-<span class="sd">    Check out `statmap.py` for a full list of object properties</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    Check out `statmap.py` for a full list of object properties.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Prints basic pitcher stats in a nice way</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;Prints basic pitcher stats in a nice way.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> Earned Runs, </span><span class="si">%i</span><span class="s"> Strikouts, </span><span class="si">%i</span><span class="s"> Hits&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">er</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">so</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
 
 <span class="k">class</span> <span class="nc">BatterStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Holds stats information for a batter</span>
+    <span class="sd">&quot;&quot;&quot;Holds stats information for a batter.</span>
 <span class="sd">    </span>
-<span class="sd">    Check out `statmap.py` for a full list of object properties</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    Check out `statmap.py` for a full list of object properties.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Prints basic batter stats in a nice way</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;Prints basic batter stats in a nice way.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="c"># display home runs if he has any</span>
@@ -1269,9 +1253,7 @@ and creating objects to hold that information.</p>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
 
 <span class="k">class</span> <span class="nc">TeamStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Holds total pitching or batting stats for a team</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Holds total pitching or batting stats for a team&quot;&quot;&quot;</span>
     <span class="c"># basically a copy of the Stats class with a different name for clarification</span>
     <span class="k">pass</span>
 </pre></div>
@@ -1292,14 +1274,12 @@ and creating objects to hold that information.</p>
 
     
   
-    <div class="desc"><p>Return dictionary of individual stats of a game with matching id</p></div>
+    <div class="desc"><p>Return dictionary of individual stats of a game with matching id.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.player_stats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.player_stats" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">player_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Return dictionary of individual stats of a game with matching id</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Return dictionary of individual stats of a game with matching id.&quot;&quot;&quot;</span>
     <span class="c"># get data from data module</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
     <span class="c"># parse XML</span>
@@ -1366,14 +1346,12 @@ and creating objects to hold that information.</p>
 
     
   
-    <div class="desc"><p>Return team stats of a game with matching id</p></div>
+    <div class="desc"><p>Return team stats of a game with matching id.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.team_stats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.team_stats" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">team_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Return team stats of a game with matching id</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Return team stats of a game with matching id.&quot;&quot;&quot;</span>
     <span class="c"># get data from data module</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
     <span class="c"># parse XML</span>
@@ -1421,22 +1399,19 @@ and creating objects to hold that information.</p>
       <p id="mlbgame.stats.BatterStats" class="name">class <span class="ident">BatterStats</span></p>
       
   
-    <div class="desc"><p>Holds stats information for a batter</p>
-<p>Check out <code>statmap.py</code> for a full list of object properties</p></div>
+    <div class="desc"><p>Holds stats information for a batter.</p>
+<p>Check out <code>statmap.py</code> for a full list of object properties.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.BatterStats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.BatterStats" class="source">
     <div class="codehilite"><pre><span class="k">class</span> <span class="nc">BatterStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Holds stats information for a batter</span>
+    <span class="sd">&quot;&quot;&quot;Holds stats information for a batter.</span>
 <span class="sd">    </span>
-<span class="sd">    Check out `statmap.py` for a full list of object properties</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    Check out `statmap.py` for a full list of object properties.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Prints basic batter stats in a nice way</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;Prints basic batter stats in a nice way.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="c"># display home runs if he has any</span>
@@ -1475,17 +1450,16 @@ and creating objects to hold that information.</p>
 
     
   
-    <div class="desc inherited"><p>Creates a stats object that matches the corresponding stats in <code>data</code></p>
-<p><code>data</code> should be an dictionary of values</p></div>
+    <div class="desc inherited"><p>Creates a stats object that matches the corresponding stats in <code>data</code>.</p>
+<p><code>data</code> should be an dictionary of values.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.BatterStats.__init__', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.BatterStats.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Creates a stats object that matches the corresponding stats in `data`</span>
+    <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
 <span class="sd">    </span>
-<span class="sd">    `data` should be an dictionary of values</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    `data` should be an dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># loop through data</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
         <span class="c"># set information as correct data type</span>
@@ -1513,14 +1487,12 @@ and creating objects to hold that information.</p>
 
     
   
-    <div class="desc"><p>Prints basic batter stats in a nice way</p></div>
+    <div class="desc"><p>Prints basic batter stats in a nice way.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.BatterStats.nice_output', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.BatterStats.nice_output" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Prints basic batter stats in a nice way</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Prints basic batter stats in a nice way.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbi</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c"># display home runs if he has any</span>
@@ -1543,22 +1515,19 @@ and creating objects to hold that information.</p>
       <p id="mlbgame.stats.PitcherStats" class="name">class <span class="ident">PitcherStats</span></p>
       
   
-    <div class="desc"><p>Holds stats information for a pitcher</p>
-<p>Check out <code>statmap.py</code> for a full list of object properties</p></div>
+    <div class="desc"><p>Holds stats information for a pitcher.</p>
+<p>Check out <code>statmap.py</code> for a full list of object properties.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.PitcherStats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.PitcherStats" class="source">
     <div class="codehilite"><pre><span class="k">class</span> <span class="nc">PitcherStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Holds stats information for a pitcher</span>
+    <span class="sd">&quot;&quot;&quot;Holds stats information for a pitcher.</span>
 <span class="sd">    </span>
-<span class="sd">    Check out `statmap.py` for a full list of object properties</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    Check out `statmap.py` for a full list of object properties.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Prints basic pitcher stats in a nice way</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;Prints basic pitcher stats in a nice way.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> Earned Runs, </span><span class="si">%i</span><span class="s"> Strikouts, </span><span class="si">%i</span><span class="s"> Hits&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">er</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">so</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1590,17 +1559,16 @@ and creating objects to hold that information.</p>
 
     
   
-    <div class="desc inherited"><p>Creates a stats object that matches the corresponding stats in <code>data</code></p>
-<p><code>data</code> should be an dictionary of values</p></div>
+    <div class="desc inherited"><p>Creates a stats object that matches the corresponding stats in <code>data</code>.</p>
+<p><code>data</code> should be an dictionary of values.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.PitcherStats.__init__', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.PitcherStats.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Creates a stats object that matches the corresponding stats in `data`</span>
+    <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
 <span class="sd">    </span>
-<span class="sd">    `data` should be an dictionary of values</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    `data` should be an dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># loop through data</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
         <span class="c"># set information as correct data type</span>
@@ -1628,14 +1596,12 @@ and creating objects to hold that information.</p>
 
     
   
-    <div class="desc"><p>Prints basic pitcher stats in a nice way</p></div>
+    <div class="desc"><p>Prints basic pitcher stats in a nice way.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.PitcherStats.nice_output', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.PitcherStats.nice_output" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Prints basic pitcher stats in a nice way</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Prints basic pitcher stats in a nice way.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%i</span><span class="s"> Earned Runs, </span><span class="si">%i</span><span class="s"> Strikouts, </span><span class="si">%i</span><span class="s"> Hits&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_display_first_last</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">er</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">so</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
 </pre></div>
 
@@ -1651,21 +1617,18 @@ and creating objects to hold that information.</p>
       <p id="mlbgame.stats.Stats" class="name">class <span class="ident">Stats</span></p>
       
   
-    <div class="desc"><p>Basic stats class for any type of stats</p></div>
+    <div class="desc"><p>Basic stats class for any type of stats.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.Stats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.Stats" class="source">
     <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Stats</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Basic stats class for any type of stats</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Basic stats class for any type of stats.&quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Creates a stats object that matches the corresponding stats in `data`</span>
+        <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
 <span class="sd">        </span>
-<span class="sd">        `data` should be an dictionary of values</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        `data` should be an dictionary of values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># loop through data</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="c"># set information as correct data type</span>
@@ -1699,17 +1662,16 @@ and creating objects to hold that information.</p>
 
     
   
-    <div class="desc"><p>Creates a stats object that matches the corresponding stats in <code>data</code></p>
-<p><code>data</code> should be an dictionary of values</p></div>
+    <div class="desc"><p>Creates a stats object that matches the corresponding stats in <code>data</code>.</p>
+<p><code>data</code> should be an dictionary of values.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.Stats.__init__', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.Stats.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Creates a stats object that matches the corresponding stats in `data`</span>
+    <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
 <span class="sd">    </span>
-<span class="sd">    `data` should be an dictionary of values</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    `data` should be an dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># loop through data</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
         <span class="c"># set information as correct data type</span>
@@ -1740,9 +1702,7 @@ and creating objects to hold that information.</p>
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.TeamStats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.TeamStats" class="source">
     <div class="codehilite"><pre><span class="k">class</span> <span class="nc">TeamStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Holds total pitching or batting stats for a team</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Holds total pitching or batting stats for a team&quot;&quot;&quot;</span>
     <span class="c"># basically a copy of the Stats class with a different name for clarification</span>
     <span class="k">pass</span>
 </pre></div>
@@ -1772,17 +1732,16 @@ and creating objects to hold that information.</p>
 
     
   
-    <div class="desc inherited"><p>Creates a stats object that matches the corresponding stats in <code>data</code></p>
-<p><code>data</code> should be an dictionary of values</p></div>
+    <div class="desc inherited"><p>Creates a stats object that matches the corresponding stats in <code>data</code>.</p>
+<p><code>data</code> should be an dictionary of values.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.TeamStats.__init__', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.TeamStats.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Creates a stats object that matches the corresponding stats in `data`</span>
+    <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
 <span class="sd">    </span>
-<span class="sd">    `data` should be an dictionary of values</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    `data` should be an dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># loop through data</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
         <span class="c"># set information as correct data type</span>
@@ -1811,7 +1770,7 @@ and creating objects to hold that information.</p>
   <footer id="footer">
     <p>
       Documentation generated by
-      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.1</a>
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.2</a>
     </p>
 
     <p>pdoc is in the public domain with the

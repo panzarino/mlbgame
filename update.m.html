@@ -554,7 +554,7 @@ table {
   html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100%;
   }
   body {
     background: #fff;
@@ -1064,26 +1064,30 @@ table {
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.update', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.update" class="source">
-    <div class="codehilite"><pre><span class="kn">import</span> <span class="nn">urllib2</span> <span class="kn">as</span> <span class="nn">url</span>
+    <div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
 <span class="kn">import</span> <span class="nn">gzip</span>
 <span class="kn">import</span> <span class="nn">mlbgame</span>
 <span class="kn">import</span> <span class="nn">getopt</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">HTTPError</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
+    <span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">HTTPError</span>
+
 
 <span class="k">def</span> <span class="nf">access_error</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Error message when program cannot write to file</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">print</span> <span class="s">&#39;I do not have write access to &quot;</span><span class="si">%s</span><span class="s">&quot;.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span>
-    <span class="k">print</span> <span class="s">&#39;Without write access, I cannot update the game database.&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Display error message when program cannot write to file.&quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;I do not have write access to &quot;</span><span class="si">%s</span><span class="s">&quot;.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Without write access, I cannot update the game database.&#39;</span><span class="p">)</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">hide</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">more</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s">&quot;01-01-2012&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Update local game data</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Update local game data.&quot;&quot;&quot;</span>
     <span class="c"># get today&#39;s information</span>
     <span class="n">year</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">year</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">month</span>
@@ -1101,7 +1105,7 @@ table {
     <span class="n">first_day</span><span class="p">,</span> <span class="n">first_month</span><span class="p">,</span> <span class="n">last_month</span> <span class="o">=</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">]</span>
     <span class="c"># print a message becuase sometimes it seems like the program is not doing anything</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s">&quot;Checking local data...&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Checking local data...&quot;</span><span class="p">)</span>
     <span class="c"># looping years</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">start_year</span><span class="p">),</span> <span class="n">end_year</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
         <span class="c"># checking if starting month value needs to be used</span>
@@ -1146,7 +1150,7 @@ table {
                     <span class="c"># or some months don&#39;t have a 31st day</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="c"># get data from url</span>
-                        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">))</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">))</span>
                         <span class="c"># loding bar to show something is actually happening</span>
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
                             <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Loading games for </span><span class="si">%s</span><span class="s">-</span><span class="si">%d</span><span class="s"> (</span><span class="si">%00.2f%%</span><span class="s">) </span><span class="se">\r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">monthstr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="o">/</span><span class="mf">31.0</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
@@ -1167,7 +1171,7 @@ table {
                         <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                             <span class="n">access_error</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
                     <span class="c"># do nothing if the file is not on mlb.com</span>
-                    <span class="k">except</span> <span class="n">url</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span>
+                    <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
                         <span class="k">pass</span>
                 <span class="c"># get extra data if specified</span>
                 <span class="k">if</span> <span class="n">more</span><span class="p">:</span>
@@ -1189,7 +1193,7 @@ table {
                                 <span class="c"># or some months don&#39;t have a 31st day</span>
                                 <span class="k">try</span><span class="p">:</span>
                                     <span class="c"># get data</span>
-                                    <span class="n">data2</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
+                                    <span class="n">data2</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
                                     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
                                         <span class="c"># progress</span>
                                         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Loading games for </span><span class="si">%s</span><span class="s">-</span><span class="si">%d</span><span class="s"> (</span><span class="si">%00.2f%%</span><span class="s">). </span><span class="se">\r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">monthstr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="o">/</span><span class="mf">31.0</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
@@ -1208,7 +1212,7 @@ table {
                                             <span class="n">fi</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response2</span><span class="p">)</span>
                                     <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                                         <span class="n">access_error</span><span class="p">(</span><span class="n">dirname2</span><span class="p">)</span>
-                                <span class="k">except</span> <span class="n">url</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span>
+                                <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
                                     <span class="k">pass</span>
                     <span class="k">except</span><span class="p">:</span>
                         <span class="k">pass</span>
@@ -1218,28 +1222,25 @@ table {
                 <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
     <span class="c"># print finished message</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s">&quot;Complete.&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Complete.&quot;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">usage</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Usage of command line arguments</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">print</span> <span class="s">&quot;usage: &quot;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot; &lt;arguments&gt;&quot;</span>
-    <span class="k">print</span>
-    <span class="k">print</span> <span class="s">&quot;Arguments:&quot;</span>
-    <span class="k">print</span> <span class="s">&quot;--help (-h)</span><span class="se">\t\t\t</span><span class="s">display this help menu&quot;</span>
-    <span class="k">print</span> <span class="s">&quot;--hide</span><span class="se">\t\t\t\t</span><span class="s">hides output from update script&quot;</span>
-    <span class="k">print</span> <span class="s">&quot;--more (-m)</span><span class="se">\t\t\t</span><span class="s">saves the box scores and individual game stats from every game&quot;</span>
-    <span class="k">print</span> <span class="s">&quot;--start (-s) &lt;MM-DD-YYYY&gt;</span><span class="se">\t</span><span class="s">date to start updating from (default: 01-01-2012)&quot;</span>
-    <span class="k">print</span> <span class="s">&quot;--end (-e) &lt;MM-DD-YYYY&gt;</span><span class="se">\t\t</span><span class="s">date to update until (default: current day)&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Display usage of command line arguments.&quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;usage: &quot;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot; &lt;arguments&gt;&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;Arguments:&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;--help (-h)</span><span class="se">\t\t\t</span><span class="s">display this help menu&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;--hide</span><span class="se">\t\t\t\t</span><span class="s">hides output from update script&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;--more (-m)</span><span class="se">\t\t\t</span><span class="s">saves the box scores and individual game stats from every game&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;--start (-s) &lt;MM-DD-YYYY&gt;</span><span class="se">\t</span><span class="s">date to start updating from (default: 01-01-2012)&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;--end (-e) &lt;MM-DD-YYYY&gt;</span><span class="se">\t\t</span><span class="s">date to update until (default: current day)&quot;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">date_usage</span><span class="p">():</span>
-    <span class="k">print</span> <span class="s">&quot;Something was wrong with your date(s): Dates must be correct and in the format &lt;MM-DD-YYYY&gt;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Display usage of dates.&quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Something was wrong with your date(s): Dates must be correct and in the format &lt;MM-DD-YYYY&gt;&quot;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">start</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Start updating from a command and arguments</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Start updating from a command and arguments.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&quot;hms:e:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;help&quot;</span><span class="p">,</span> <span class="s">&quot;hide&quot;</span><span class="p">,</span> <span class="s">&quot;more&quot;</span><span class="p">,</span> <span class="s">&quot;start=&quot;</span><span class="p">,</span> <span class="s">&quot;end=&quot;</span><span class="p">])</span>
     <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span><span class="p">:</span>
@@ -1301,16 +1302,14 @@ table {
 
     
   
-    <div class="desc"><p>Error message when program cannot write to file</p></div>
+    <div class="desc"><p>Display error message when program cannot write to file.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.update.access_error', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.update.access_error" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">access_error</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Error message when program cannot write to file</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">print</span> <span class="s">&#39;I do not have write access to &quot;</span><span class="si">%s</span><span class="s">&quot;.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span>
-    <span class="k">print</span> <span class="s">&#39;Without write access, I cannot update the game database.&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Display error message when program cannot write to file.&quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;I do not have write access to &quot;</span><span class="si">%s</span><span class="s">&quot;.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Without write access, I cannot update the game database.&#39;</span><span class="p">)</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
@@ -1328,11 +1327,13 @@ table {
 
     
   
+    <div class="desc"><p>Display usage of dates.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.update.date_usage', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.update.date_usage" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">date_usage</span><span class="p">():</span>
-    <span class="k">print</span> <span class="s">&quot;Something was wrong with your date(s): Dates must be correct and in the format &lt;MM-DD-YYYY&gt;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Display usage of dates.&quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Something was wrong with your date(s): Dates must be correct and in the format &lt;MM-DD-YYYY&gt;&quot;</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1349,14 +1350,12 @@ table {
 
     
   
-    <div class="desc"><p>Update local game data</p></div>
+    <div class="desc"><p>Update local game data.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.update.run', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.update.run" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">hide</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">more</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s">&quot;01-01-2012&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Update local game data</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Update local game data.&quot;&quot;&quot;</span>
     <span class="c"># get today&#39;s information</span>
     <span class="n">year</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">year</span>
     <span class="n">month</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">month</span>
@@ -1374,7 +1373,7 @@ table {
     <span class="n">first_day</span><span class="p">,</span> <span class="n">first_month</span><span class="p">,</span> <span class="n">last_month</span> <span class="o">=</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">]</span>
     <span class="c"># print a message becuase sometimes it seems like the program is not doing anything</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s">&quot;Checking local data...&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Checking local data...&quot;</span><span class="p">)</span>
     <span class="c"># looping years</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">start_year</span><span class="p">),</span> <span class="n">end_year</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
         <span class="c"># checking if starting month value needs to be used</span>
@@ -1419,7 +1418,7 @@ table {
                     <span class="c"># or some months don&#39;t have a 31st day</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="c"># get data from url</span>
-                        <span class="n">data</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">))</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/scoreboard.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">))</span>
                         <span class="c"># loding bar to show something is actually happening</span>
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
                             <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Loading games for </span><span class="si">%s</span><span class="s">-</span><span class="si">%d</span><span class="s"> (</span><span class="si">%00.2f%%</span><span class="s">) </span><span class="se">\r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">monthstr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="o">/</span><span class="mf">31.0</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
@@ -1440,7 +1439,7 @@ table {
                         <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                             <span class="n">access_error</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
                     <span class="c"># do nothing if the file is not on mlb.com</span>
-                    <span class="k">except</span> <span class="n">url</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span>
+                    <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
                         <span class="k">pass</span>
                 <span class="c"># get extra data if specified</span>
                 <span class="k">if</span> <span class="n">more</span><span class="p">:</span>
@@ -1462,7 +1461,7 @@ table {
                                 <span class="c"># or some months don&#39;t have a 31st day</span>
                                 <span class="k">try</span><span class="p">:</span>
                                     <span class="c"># get data</span>
-                                    <span class="n">data2</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
+                                    <span class="n">data2</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%i</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/boxscore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">monthstr</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
                                     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
                                         <span class="c"># progress</span>
                                         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;Loading games for </span><span class="si">%s</span><span class="s">-</span><span class="si">%d</span><span class="s"> (</span><span class="si">%00.2f%%</span><span class="s">). </span><span class="se">\r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">monthstr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="o">/</span><span class="mf">31.0</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
@@ -1481,7 +1480,7 @@ table {
                                             <span class="n">fi</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response2</span><span class="p">)</span>
                                     <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                                         <span class="n">access_error</span><span class="p">(</span><span class="n">dirname2</span><span class="p">)</span>
-                                <span class="k">except</span> <span class="n">url</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span>
+                                <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
                                     <span class="k">pass</span>
                     <span class="k">except</span><span class="p">:</span>
                         <span class="k">pass</span>
@@ -1491,7 +1490,7 @@ table {
                 <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
     <span class="c"># print finished message</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">hide</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s">&quot;Complete.&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Complete.&quot;</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1508,14 +1507,12 @@ table {
 
     
   
-    <div class="desc"><p>Start updating from a command and arguments</p></div>
+    <div class="desc"><p>Start updating from a command and arguments.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.update.start', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.update.start" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">start</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Start updating from a command and arguments</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Start updating from a command and arguments.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&quot;hms:e:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;help&quot;</span><span class="p">,</span> <span class="s">&quot;hide&quot;</span><span class="p">,</span> <span class="s">&quot;more&quot;</span><span class="p">,</span> <span class="s">&quot;start=&quot;</span><span class="p">,</span> <span class="s">&quot;end=&quot;</span><span class="p">])</span>
     <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span><span class="p">:</span>
@@ -1571,22 +1568,20 @@ table {
 
     
   
-    <div class="desc"><p>Usage of command line arguments</p></div>
+    <div class="desc"><p>Display usage of command line arguments.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.update.usage', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.update.usage" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">usage</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Usage of command line arguments</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">print</span> <span class="s">&quot;usage: &quot;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot; &lt;arguments&gt;&quot;</span>
-    <span class="k">print</span>
-    <span class="k">print</span> <span class="s">&quot;Arguments:&quot;</span>
-    <span class="k">print</span> <span class="s">&quot;--help (-h)</span><span class="se">\t\t\t</span><span class="s">display this help menu&quot;</span>
-    <span class="k">print</span> <span class="s">&quot;--hide</span><span class="se">\t\t\t\t</span><span class="s">hides output from update script&quot;</span>
-    <span class="k">print</span> <span class="s">&quot;--more (-m)</span><span class="se">\t\t\t</span><span class="s">saves the box scores and individual game stats from every game&quot;</span>
-    <span class="k">print</span> <span class="s">&quot;--start (-s) &lt;MM-DD-YYYY&gt;</span><span class="se">\t</span><span class="s">date to start updating from (default: 01-01-2012)&quot;</span>
-    <span class="k">print</span> <span class="s">&quot;--end (-e) &lt;MM-DD-YYYY&gt;</span><span class="se">\t\t</span><span class="s">date to update until (default: current day)&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Display usage of command line arguments.&quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;usage: &quot;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s">&quot; &lt;arguments&gt;&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;Arguments:&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;--help (-h)</span><span class="se">\t\t\t</span><span class="s">display this help menu&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;--hide</span><span class="se">\t\t\t\t</span><span class="s">hides output from update script&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;--more (-m)</span><span class="se">\t\t\t</span><span class="s">saves the box scores and individual game stats from every game&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;--start (-s) &lt;MM-DD-YYYY&gt;</span><span class="se">\t</span><span class="s">date to start updating from (default: 01-01-2012)&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span> <span class="s">&quot;--end (-e) &lt;MM-DD-YYYY&gt;</span><span class="se">\t\t</span><span class="s">date to update until (default: current day)&quot;</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1603,7 +1598,7 @@ table {
   <footer id="footer">
     <p>
       Documentation generated by
-      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.1</a>
+      <a href="https://github.com/BurntSushi/pdoc">pdoc 0.3.2</a>
     </p>
 
     <p>pdoc is in the public domain with the
