@@ -1143,11 +1143,11 @@ and on <a href="http://gd2.mlb.com/components/copyright.txt&gt;">mlb.com</a>.</p
 
 <span class="n">month</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">games</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="s">&quot;Mets&quot;</span><span class="p">)</span>
 <span class="n">games</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">combine_games</span><span class="p">(</span><span class="n">month</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">games</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;</span>
+<span class="k">for</span> <span class="n">game</span> <span class="ow">in</span> <span class="n">games</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
 </pre></div>
 
 
-<p>')</p>
 <p>And the output is:</p>
 <div class="codehilite"><pre>Giants (5) at Mets (0)
 Giants (8) at Mets (5)
@@ -1189,11 +1189,11 @@ can also be done:</p>
 
 <span class="n">game</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">day</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="s">&quot;Mets&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">stats</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">player_stats</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">game_id</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">stats</span><span class="p">[</span><span class="s">&#39;home_batting&#39;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;</span>
+<span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">[</span><span class="s">&#39;home_batting&#39;</span><span class="p">]:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
 </pre></div>
 
 
-<p>')</p>
 <p>And the output is:</p>
 <div class="codehilite"><pre>Curtis Granderson - 1 for 4 with 1 RBI and 1 Home Runs
 David Wright - 1 for 5
@@ -1301,7 +1301,8 @@ Bartolo Colon - 0 for 0
 <span class="sd">    </span>
 <span class="sd">    month = mlbgame.games(2015, 6, home=&quot;Mets&quot;)</span>
 <span class="sd">    games = mlbgame.combine_games(month)</span>
-<span class="sd">    print(*games, sep=&#39;\n&#39;)</span>
+<span class="sd">    for game in games:</span>
+<span class="sd">        print(game)</span>
 <span class="sd">    </span>
 <span class="sd">And the output is:</span>
 
@@ -1344,7 +1345,8 @@ Bartolo Colon - 0 for 0
 <span class="sd">    </span>
 <span class="sd">    game = mlbgame.day(2015, 11, 1, home=&quot;Mets&quot;)[0]</span>
 <span class="sd">    stats = mlbgame.player_stats(game.game_id)</span>
-<span class="sd">    print(*stats[&#39;home_batting&#39;], sep=&#39;\n&#39;)</span>
+<span class="sd">    for player in stats[&#39;home_batting&#39;]:</span>
+<span class="sd">        print(player)</span>
 
 <span class="sd">And the output is:</span>
 
