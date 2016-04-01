@@ -80,7 +80,8 @@ Here is a quick teaser to find the scores of all home Mets games for the month o
     
     month = mlbgame.games(2015, 6, home="Mets")
     games = mlbgame.combine_games(month)
-    print(*games, sep='\n')
+    for game in games:
+        print(game)
     
 And the output is:
 
@@ -123,7 +124,8 @@ can also be done:
     
     game = mlbgame.day(2015, 11, 1, home="Mets")[0]
     stats = mlbgame.player_stats(game.game_id)
-    print(*stats['home_batting'], sep='\n')
+    for player in stats['home_batting']:
+        print(player)
 
 And the output is:
 
