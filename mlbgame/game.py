@@ -42,7 +42,7 @@ def scoreboard(year, month, day, home=None, away=None):
                     w_pitcher_name = w_pitcher_data.find('pitcher').attrib['name']
                     w_pitcher = {'name':w_pitcher_name, 'wins':int(w_pitcher_data.attrib['wins']), 'losses':int(w_pitcher_data.attrib['losses'])}
                 except:
-                    W_pitcher = {'name':'', 'wins':0, 'losses':0}
+                    w_pitcher = {'name':'', 'wins':0, 'losses':0}
                 try:
                     l_pitcher_data = game.find('l_pitcher')
                     l_pitcher_name = l_pitcher_data.find('pitcher').attrib['name']
