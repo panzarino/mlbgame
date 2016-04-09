@@ -74,9 +74,11 @@ idmap = {
     },
     'slg':{
         'obj': ['BatterStats'],
-        'always': True,
+        'always': False,
         'type': float,
-        'desc': 'Slugging percentage',
+        'desc': 'Slugging percentage. '
+                'Always availible in regular '
+                'and postseason games.',
     },
     'obp':{
         'obj': ['BatterStats'],
@@ -86,9 +88,11 @@ idmap = {
     },
     'ops':{
         'obj': ['BatterStats'],
-        'always': True,
+        'always': False,
         'type': float,
-        'desc': 'On base (percentage) plus slugging (percentage)',
+        'desc': 'On base (percentage) plus slugging (percentage) '
+                'Always availible in regular '
+                'and postseason games.',
     },
     'fldg':{
         'obj': ['BatterStats'],
@@ -359,7 +363,7 @@ idmap = {
 `desc` - description of the stat
 
 Total season stats (stats prefixed with `s_`) for postseason games are total stats for that series only, 
-not the entire season.
+not the entire season. If it is a preseason game, it is cumulative stats for that preseason.
 
 Assume that batting stats on a `PitcherStats` object are what he has given up.
 Example: `hr` is home runs given up not home runs hit by that pitcher. 
