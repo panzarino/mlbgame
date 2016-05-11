@@ -54,6 +54,18 @@ idmap = {
         'type': int,
         'desc': 'Hits',
     },
+    'd':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Doubles',
+    },
+    't':{
+        'obj': ['BatterStats'],
+        'always': True,
+        'type': int,
+        'desc': 'Triples',
+    },
     'r':{
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
@@ -223,18 +235,6 @@ idmap = {
         'always': True,
         'type': int,
         'desc': 'Total season base on balls (walks)',
-    },
-    'd':{
-        'obj': ['BatterStats'],
-        'always': False,
-        'type': int,
-        'desc': 'Unknown',
-    },
-    't':{
-        'obj': ['BatterStats'],
-        'always': True,
-        'type': int,
-        'desc': 'Unknown',
     },
     'l':{
         'obj': ['PitcherStats'],
