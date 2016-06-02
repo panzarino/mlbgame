@@ -375,19 +375,3 @@ you should click "show source" to see all the stat values.
 Some official stat abbreviations on 
 [mlb.com](http://mlb.mlb.com/mlb/official_info/baseball_basics/abbreviations.jsp)
 """
-
-batter_stats = {}
-"""The stats that appear in the `BatterStats` objects."""
-# loop through idmap and check if object is batter
-for x in idmap:
-    for y in idmap[x]['obj']:
-        if y == 'BatterStats':
-            batter_stats[x] = idmap[x]
-
-pitcher_stats = {}
-"""The stats that appear in the `PitcherStats` objects."""
-# loop through idmap and check if object is pitcher
-for x in idmap:
-    for y in idmap[x]['obj']:
-        if y == 'PitcherStats':
-            pitcher_stats[x] = idmap[x]
