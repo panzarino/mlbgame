@@ -8,10 +8,10 @@ import gzip
 import mlbgame
 import getopt
 try:
-    from urllib2 import urlopen, HTTPError
-except ImportError:
     from urllib.request import urlopen
     from urllib.error import HTTPError
+except ImportError:
+    from urllib2 import urlopen, HTTPError
 
 
 def access_error(name):

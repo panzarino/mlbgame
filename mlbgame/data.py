@@ -7,10 +7,10 @@ gets the data from mlb.com.
 
 import os
 try:
-    from urllib2 import urlopen, HTTPError
-except ImportError:
     from urllib.request import urlopen
     from urllib.error import HTTPError
+except ImportError:
+    from urllib2 import urlopen, HTTPError
 
 def get_scoreboard(year, month, day):
     """Return the game file for a certain day matching certain criteria."""
