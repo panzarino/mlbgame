@@ -77,10 +77,3 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
 Use of mlbgame must follow the terms stated in the 
 `license <https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE>`__ 
 and on `mlb.com <http://gd2.mlb.com/components/copyright.txt>`__
-
-Contributors
-------------
-    
-`Zach Panzarino <https://github.com/zachpanz88>`__ (Creator, Maintainer)
-
-`Robert Simione <https://github.com/robertsimione>`__ (Python 3 Compatibility)
