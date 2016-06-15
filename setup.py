@@ -26,7 +26,7 @@ download_link = 'https://github.com/zachpanz88/mlbgame/archive/v%s.zip' % (versi
 setup(
     name='mlbgame',
     author='Zach Panzarino',
-    author_email='zachary@panzarino.com',
+    author_email='zach@panz.io',
     version=version,
     license='MIT',
     description='An API to retrieve and read MLB GameDay XML data',
