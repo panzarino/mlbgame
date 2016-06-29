@@ -4,6 +4,31 @@
 that occured throughout games.
 """
 
+import lxml.etree as etree
+import mlbgame.data
+
+def game_events(game_id):
+    """Return dictionary of events for a game with matching id."""
+    # get data from data module
+    data = mlbgame.data.get_game_events(game_id)
+    # parse XML
+    parsed = etree.parse(data)
+    root = parsed.getroot()
+    # empty output file
+    output = {}
+    # loop through innings
+    innings = root.findall('inning')
+    for x in innings:
+        # loop through the top half
+        top = x.findall('top')[0]
+        for y in top.findall('atbat'):
+            pass
+        # loop through the bottom half
+        bot = x.findall('bottom')[0]
+        for y in bot.findall('atbat'):
+            pass
+        
+
 class Event(object):
     def __init__(self, data):
         """Creates an event object that matches the corresponding info in `data`.
