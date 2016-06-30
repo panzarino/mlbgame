@@ -28,10 +28,13 @@ def game_events(game_id):
             # loop through and save info
             for i in y.attrib:
                 atbat[i] = y.attrib[i]
-            atbat['pitches'] = {}
+            atbat['pitches'] = []
             for i in y.findall('pitch'):
+                pitch = {}
+                # loop through pitch info
                 for n in i.attrib:
-                    atbat['pitches'][n] = i.attrib[n]
+                    pitch[n] = i.attrib[n]
+                atbat['pitches'].append(pitch)
             topinfo.append(atbat)
         # loop through the bottom half
         bot = x.findall('bottom')[0]
@@ -45,10 +48,13 @@ def game_events(game_id):
                 # loop through and save info
                 for i in y.attrib:
                     atbat[i] = y.attrib[i]
-                atbat['pitches'] = {}
+                atbat['pitches'] = []
                 for i in y.findall('pitch'):
+                    pitch = {}
+                    # loop through pitch info
                     for n in i.attrib:
-                        atbat['pitches'][n] = i.attrib[n]
+                        pitch[n] = i.attrib[n]
+                    atbat['pitches'].append(pitch)
                 botinfo.append(atbat)
         output[x.attrib['num']] = {'top': topinfo, 'bottom': botinfo}
     return output
@@ -61,6 +67,34 @@ class Event(object):
         """
         # loop through data
         for x in data:
+            # remove spanish info (causes text encoding errors)
+            if '_es' in x:
+                continue
+            # create pitches list if attribute name is pitches
+            if x == 'pitches':
+                self.pitches = []
+                for y in data[x]:
+                    self.pitches.append(Pitch(y))
+                continue
+            # set information as correct data type
+            try:
+                setattr(self, x, int(data[x]))
+            except ValueError:
+                try:
+                    setattr(self, x, float(data[x]))
+                except ValueError:
+                    # string if not number
+                    setattr(self, x, str(data[x]))
+
+class Pitch(object):
+    def __init__(self, data):
+        """Creates a pitch object that matches the corresponding info in `data`.
+        
+        `data` should be an dictionary of values.
+        """
+        # loop through data
+        for x in data:
+            # remove spanish info (causes text encoding errors)
             if 'es' in x:
                 continue
             # set information as correct data type
