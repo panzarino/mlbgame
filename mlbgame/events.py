@@ -20,7 +20,7 @@ def game_events(game_id):
     innings = root.findall('inning')
     for x in innings:
         # top info
-        topinfo = {}
+        topinfo = []
         # loop through the top half
         top = x.findall('top')[0]
         for y in top.findall('atbat'):
@@ -32,12 +32,12 @@ def game_events(game_id):
             for i in y.findall('pitch'):
                 for n in i.attrib:
                     atbat['pitches'][n] = i.attrib[n]
-            topinfo[y.attrib['num']] = atbat
+            topinfo.append(atbat)
         # loop through the bottom half
         bot = x.findall('bottom')[0]
         for y in bot.findall('atbat'):
             # top info
-            botinfo = {}
+            botinfo = []
             # loop through the top half
             bot = x.findall('top')[0]
             for y in bot.findall('atbat'):
@@ -49,7 +49,7 @@ def game_events(game_id):
                 for i in y.findall('pitch'):
                     for n in i.attrib:
                         atbat['pitches'][n] = i.attrib[n]
-                botinfo[y.attrib['num']] = atbat
+                botinfo.append(atbat)
         output[x.attrib['num']] = {'top': topinfo, 'bot': botinfo}
     return output
 

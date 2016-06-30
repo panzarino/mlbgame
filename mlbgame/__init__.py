@@ -252,3 +252,13 @@ def combine_stats(stats):
     """Combines player stat objects from a game into a single list."""
     output = [y for x in stats for y in stats[x]]
     return output
+
+def game_events(game_id):
+    """Return dictionary of game events for game matching the game id.
+    
+    Top level of dictionary is inning of game. 
+    Next level is top or bottom of the inning. 
+    Final level is a list of at bats in that part of the inning. 
+    Ex. events['inningnumber']['top/bottom'][inningnumber]
+    """
+    data = mlbgame.events.game_events(game_id)
