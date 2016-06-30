@@ -19,15 +19,39 @@ def game_events(game_id):
     # loop through innings
     innings = root.findall('inning')
     for x in innings:
+        # top info
+        topinfo = {}
         # loop through the top half
         top = x.findall('top')[0]
         for y in top.findall('atbat'):
-            pass
+            atbat = {}
+            # loop through and save info
+            for i in y.attrib:
+                atbat[i] = y.attrib[i]
+            atbat['pitches'] = {}
+            for i in y.findall('pitch'):
+                for n in i.attrib:
+                    atbat['pitches'][n] = i.attrib[n]
+            topinfo[y.attrib['num']] = atbat
         # loop through the bottom half
         bot = x.findall('bottom')[0]
         for y in bot.findall('atbat'):
-            pass
-        
+            # top info
+            botinfo = {}
+            # loop through the top half
+            bot = x.findall('top')[0]
+            for y in bot.findall('atbat'):
+                atbat = {}
+                # loop through and save info
+                for i in y.attrib:
+                    atbat[i] = y.attrib[i]
+                atbat['pitches'] = {}
+                for i in y.findall('pitch'):
+                    for n in i.attrib:
+                        atbat['pitches'][n] = i.attrib[n]
+                botinfo[y.attrib['num']] = atbat
+        output[x.attrib['num']] = {'top': topinfo, 'bot': botinfo}
+    return output
 
 class Event(object):
     def __init__(self, data):
