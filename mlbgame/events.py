@@ -60,6 +60,7 @@ def game_events(game_id):
     return output
 
 class Event(object):
+    
     def __init__(self, data):
         """Creates an event object that matches the corresponding info in `data`.
         
@@ -85,8 +86,16 @@ class Event(object):
                 except ValueError:
                     # string if not number
                     setattr(self, x, str(data[x]))
+    
+    def nice_output(self):
+        """Prints basic event info in a nice way."""
+        return self.des
+    
+    def __str__(self):
+        return self.nice_output()
 
 class Pitch(object):
+    
     def __init__(self, data):
         """Creates a pitch object that matches the corresponding info in `data`.
         
@@ -106,3 +115,10 @@ class Pitch(object):
                 except ValueError:
                     # string if not number
                     setattr(self, x, str(data[x]))
+    
+    def nice_output(self):
+        """Prints basic event info in a nice way."""
+        return "%s at %s" % (self.pitch_type, self.start_speed)
+    
+    def __str__(self):
+        return self.nice_output()
