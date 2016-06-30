@@ -262,3 +262,11 @@ def game_events(game_id):
     Ex. events['inningnumber']['top/bottom'][inningnumber]
     """
     data = mlbgame.events.game_events(game_id)
+    output = {}
+    for x in data:
+        output[x] = {}
+        for y in data[x]:
+            output[x][y] = []
+            for i in data[x][y]:
+                output[x][y].append(mlbgame.events.Event(i))
+    return output

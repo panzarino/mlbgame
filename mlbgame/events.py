@@ -50,7 +50,7 @@ def game_events(game_id):
                     for n in i.attrib:
                         atbat['pitches'][n] = i.attrib[n]
                 botinfo.append(atbat)
-        output[x.attrib['num']] = {'top': topinfo, 'bot': botinfo}
+        output[x.attrib['num']] = {'top': topinfo, 'bottom': botinfo}
     return output
 
 class Event(object):
@@ -61,6 +61,8 @@ class Event(object):
         """
         # loop through data
         for x in data:
+            if 'es' in x:
+                continue
             # set information as correct data type
             try:
                 setattr(self, x, int(data[x]))
