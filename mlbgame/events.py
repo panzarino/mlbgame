@@ -59,7 +59,8 @@ def game_events(game_id):
         output[x.attrib['num']] = {'top': topinfo, 'bottom': botinfo}
     return output
 
-class Event(object):
+class AtBat(object):
+    """Class that holds information about at bats in games."""
     
     def __init__(self, data):
         """Creates an event object that matches the corresponding info in `data`.

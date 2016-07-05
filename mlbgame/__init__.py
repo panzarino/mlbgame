@@ -259,7 +259,8 @@ def game_events(game_id):
     Top level of dictionary is inning of game. 
     Next level is top or bottom of the inning. 
     Final level is a list of at bats in that part of the inning. 
-    Ex. events['inningnumber']['top/bottom'][inningnumber]
+    Lowest level is AtBat object.
+    Ex. events['inningnumber']['top/bottom'][atbatnumber]
     """
     data = mlbgame.events.game_events(game_id)
     output = {}
@@ -268,5 +269,5 @@ def game_events(game_id):
         for y in data[x]:
             output[x][y] = []
             for i in data[x][y]:
-                output[x][y].append(mlbgame.events.Event(i))
+                output[x][y].append(mlbgame.events.AtBat(i))
     return output
