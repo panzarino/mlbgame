@@ -1038,11 +1038,7 @@ table {
     <li class="set"><h3><a href="#header-variables">Module variables</a></h3>
       
   <ul>
-    <li class="mono"><a href="#mlbgame.statmap.batter_stats">batter_stats</a></li>
     <li class="mono"><a href="#mlbgame.statmap.idmap">idmap</a></li>
-    <li class="mono"><a href="#mlbgame.statmap.pitcher_stats">pitcher_stats</a></li>
-    <li class="mono"><a href="#mlbgame.statmap.x">x</a></li>
-    <li class="mono"><a href="#mlbgame.statmap.y">y</a></li>
   </ul>
 
     </li>
@@ -1127,6 +1123,18 @@ will contain each property.</p>
         <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;Hits&#39;</span><span class="p">,</span>
     <span class="p">},</span>
+    <span class="s">&#39;d&#39;</span><span class="p">:{</span>
+        <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;BatterStats&#39;</span><span class="p">],</span>
+        <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;Doubles&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s">&#39;t&#39;</span><span class="p">:{</span>
+        <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;BatterStats&#39;</span><span class="p">],</span>
+        <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;Triples&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
     <span class="s">&#39;r&#39;</span><span class="p">:{</span>
         <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;PitcherStats&#39;</span><span class="p">,</span> <span class="s">&#39;BatterStats&#39;</span><span class="p">],</span>
         <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
@@ -1147,9 +1155,11 @@ will contain each property.</p>
     <span class="p">},</span>
     <span class="s">&#39;slg&#39;</span><span class="p">:{</span>
         <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;BatterStats&#39;</span><span class="p">],</span>
-        <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
         <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;Slugging percentage&#39;</span><span class="p">,</span>
+        <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;Slugging percentage. &#39;</span>
+                <span class="s">&#39;Always availible in regular &#39;</span>
+                <span class="s">&#39;and postseason games.&#39;</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="s">&#39;obp&#39;</span><span class="p">:{</span>
         <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;BatterStats&#39;</span><span class="p">],</span>
@@ -1159,9 +1169,11 @@ will contain each property.</p>
     <span class="p">},</span>
     <span class="s">&#39;ops&#39;</span><span class="p">:{</span>
         <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;BatterStats&#39;</span><span class="p">],</span>
-        <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
         <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;On base (percentage) plus slugging (percentage)&#39;</span><span class="p">,</span>
+        <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;On base (percentage) plus slugging (percentage) &#39;</span>
+                <span class="s">&#39;Always availible in regular &#39;</span>
+                <span class="s">&#39;and postseason games.&#39;</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="s">&#39;fldg&#39;</span><span class="p">:{</span>
         <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;BatterStats&#39;</span><span class="p">],</span>
@@ -1293,18 +1305,6 @@ will contain each property.</p>
         <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;Total season base on balls (walks)&#39;</span><span class="p">,</span>
     <span class="p">},</span>
-    <span class="s">&#39;d&#39;</span><span class="p">:{</span>
-        <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;BatterStats&#39;</span><span class="p">],</span>
-        <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;Unknown&#39;</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="s">&#39;t&#39;</span><span class="p">:{</span>
-        <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;BatterStats&#39;</span><span class="p">],</span>
-        <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
-        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="s">&#39;desc&#39;</span><span class="p">:</span> <span class="s">&#39;Unknown&#39;</span><span class="p">,</span>
-    <span class="p">},</span>
     <span class="s">&#39;l&#39;</span><span class="p">:{</span>
         <span class="s">&#39;obj&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;PitcherStats&#39;</span><span class="p">],</span>
         <span class="s">&#39;always&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
@@ -1432,7 +1432,7 @@ will contain each property.</p>
 <span class="sd">`desc` - description of the stat</span>
 
 <span class="sd">Total season stats (stats prefixed with `s_`) for postseason games are total stats for that series only, </span>
-<span class="sd">not the entire season.</span>
+<span class="sd">not the entire season. If it is a preseason game, it is cumulative stats for that preseason.</span>
 
 <span class="sd">Assume that batting stats on a `PitcherStats` object are what he has given up.</span>
 <span class="sd">Example: `hr` is home runs given up not home runs hit by that pitcher. </span>
@@ -1444,22 +1444,6 @@ will contain each property.</p>
 <span class="sd">Some official stat abbreviations on </span>
 <span class="sd">[mlb.com](http://mlb.mlb.com/mlb/official_info/baseball_basics/abbreviations.jsp)</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="n">batter_stats</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="sd">&quot;&quot;&quot;The stats that appear in the `BatterStats` objects.&quot;&quot;&quot;</span>
-<span class="c"># loop through idmap and check if object is batter</span>
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">idmap</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">idmap</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;obj&#39;</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;BatterStats&#39;</span><span class="p">:</span>
-            <span class="n">batter_stats</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">idmap</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
-
-<span class="n">pitcher_stats</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="sd">&quot;&quot;&quot;The stats that appear in the `PitcherStats` objects.&quot;&quot;&quot;</span>
-<span class="c"># loop through idmap and check if object is pitcher</span>
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">idmap</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">idmap</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;obj&#39;</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="s">&#39;PitcherStats&#39;</span><span class="p">:</span>
-            <span class="n">pitcher_stats</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">idmap</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
 </pre></div>
 
   </div>
@@ -1468,15 +1452,6 @@ will contain each property.</p>
 
   <section id="section-items">
     <h2 class="section-title" id="header-variables">Module variables</h2>
-      <div class="item">
-      <p id="mlbgame.statmap.batter_stats" class="name">var <span class="ident">batter_stats</span></p>
-      
-  
-    <div class="desc"><p>The stats that appear in the <code>BatterStats</code> objects.</p></div>
-  <div class="source_cont">
-</div>
-
-      </div>
       <div class="item">
       <p id="mlbgame.statmap.idmap" class="name">var <span class="ident">idmap</span></p>
       
@@ -1487,7 +1462,7 @@ will contain each property.</p>
 <p><code>type</code> - the value type of the stat</p>
 <p><code>desc</code> - description of the stat</p>
 <p>Total season stats (stats prefixed with <code>s_</code>) for postseason games are total stats for that series only, 
-not the entire season.</p>
+not the entire season. If it is a preseason game, it is cumulative stats for that preseason.</p>
 <p>Assume that batting stats on a <code>PitcherStats</code> object are what he has given up.
 Example: <code>hr</code> is home runs given up not home runs hit by that pitcher. 
 Pitchers have their own <code>BatterStats</code> object for their own hitting stats.</p>
@@ -1495,31 +1470,6 @@ Pitchers have their own <code>BatterStats</code> object for their own hitting st
 you should click "show source" to see all the stat values.</p>
 <p>Some official stat abbreviations on 
 <a href="http://mlb.mlb.com/mlb/official_info/baseball_basics/abbreviations.jsp">mlb.com</a></p></div>
-  <div class="source_cont">
-</div>
-
-      </div>
-      <div class="item">
-      <p id="mlbgame.statmap.pitcher_stats" class="name">var <span class="ident">pitcher_stats</span></p>
-      
-  
-    <div class="desc"><p>The stats that appear in the <code>PitcherStats</code> objects.</p></div>
-  <div class="source_cont">
-</div>
-
-      </div>
-      <div class="item">
-      <p id="mlbgame.statmap.x" class="name">var <span class="ident">x</span></p>
-      
-  
-  <div class="source_cont">
-</div>
-
-      </div>
-      <div class="item">
-      <p id="mlbgame.statmap.y" class="name">var <span class="ident">y</span></p>
-      
-  
   <div class="source_cont">
 </div>
 

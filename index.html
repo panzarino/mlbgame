@@ -1050,6 +1050,7 @@ table {
     <li class="mono"><a href="#mlbgame.combine_games">combine_games</a></li>
     <li class="mono"><a href="#mlbgame.combine_stats">combine_stats</a></li>
     <li class="mono"><a href="#mlbgame.day">day</a></li>
+    <li class="mono"><a href="#mlbgame.game_events">game_events</a></li>
     <li class="mono"><a href="#mlbgame.games">games</a></li>
     <li class="mono"><a href="#mlbgame.player_stats">player_stats</a></li>
     <li class="mono"><a href="#mlbgame.team_stats">team_stats</a></li>
@@ -1061,6 +1062,7 @@ table {
     <li class="set"><h3><a href="#header-submodules">Sub-modules</a></h3>
       <ul>
         <li class="mono"><a href="data.m.html">mlbgame.data</a></li>
+        <li class="mono"><a href="events.m.html">mlbgame.events</a></li>
         <li class="mono"><a href="game.m.html">mlbgame.game</a></li>
         <li class="mono"><a href="statmap.m.html">mlbgame.statmap</a></li>
         <li class="mono"><a href="stats.m.html">mlbgame.stats</a></li>
@@ -1181,9 +1183,8 @@ Cubs (1) at Mets (0)
 </pre></div>
 
 
-<p>Finding stats for the Mets batters
-in the final game of the 2015 World Series
-can also be done:</p>
+<p>You can easily find stats for the Mets batters
+in the final game of the 2015 World Series:</p>
 <div class="codehilite"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">mlbgame</span>
 
@@ -1211,11 +1212,6 @@ Jon Niese - 0 for 0
 Addison Reed - 0 for 0
 Bartolo Colon - 0 for 0
 </pre></div>
-
-
-<h2>Contributors</h2>
-<p><a href="https://github.com/zachpanz88">Zach Panzarino</a> (Creator, Maintainer)</p>
-<p><a href="https://github.com/robertsimione">Robert Simione</a> (Python 3 Compatibility)</p>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame" class="source">
@@ -1335,9 +1331,8 @@ Bartolo Colon - 0 for 0
 
 <span class="sd">    Winning pitcher: Y. Ventura (Royals) - Losing Pitcher: C. Wilson (Angels)</span>
 
-<span class="sd">Finding stats for the Mets batters</span>
-<span class="sd">in the final game of the 2015 World Series</span>
-<span class="sd">can also be done:</span>
+<span class="sd">You can easily find stats for the Mets batters</span>
+<span class="sd">in the final game of the 2015 World Series:</span>
 
 <span class="sd">    #!python</span>
 <span class="sd">    from __future__ import print_function</span>
@@ -1366,12 +1361,6 @@ Bartolo Colon - 0 for 0
 <span class="sd">    Addison Reed - 0 for 0</span>
 <span class="sd">    Bartolo Colon - 0 for 0</span>
 
-<span class="sd">Contributors</span>
-<span class="sd">------------</span>
-<span class="sd">    </span>
-<span class="sd">[Zach Panzarino](https://github.com/zachpanz88) (Creator, Maintainer)</span>
-
-<span class="sd">[Robert Simione](https://github.com/robertsimione) (Python 3 Compatibility)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -1479,6 +1468,25 @@ Bartolo Colon - 0 for 0
 <span class="k">def</span> <span class="nf">combine_stats</span><span class="p">(</span><span class="n">stats</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Combines player stat objects from a game into a single list.&quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">stats</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">game_events</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return dictionary of game events for game matching the game id.</span>
+<span class="sd">    </span>
+<span class="sd">    Top level of dictionary is inning of game. </span>
+<span class="sd">    Next level is top or bottom of the inning. </span>
+<span class="sd">    Final level is a list of at bats in that part of the inning. </span>
+<span class="sd">    Lowest level is AtBat object.</span>
+<span class="sd">    Ex. events[&#39;inningnumber&#39;][&#39;top/bottom&#39;][atbatnumber]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">game_events</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]:</span>
+                <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">AtBat</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span>
 </pre></div>
 
@@ -1621,6 +1629,49 @@ Bartolo Colon - 0 for 0
   
       
   <div class="item">
+    <div class="name def" id="mlbgame.game_events">
+    <p>def <span class="ident">game_events</span>(</p><p>game_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return dictionary of game events for game matching the game id.</p>
+<p>Top level of dictionary is inning of game. 
+Next level is top or bottom of the inning. 
+Final level is a list of at bats in that part of the inning. 
+Lowest level is AtBat object.
+Ex. events['inningnumber']['top/bottom'][atbatnumber]</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game_events', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game_events" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">game_events</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return dictionary of game events for game matching the game id.</span>
+<span class="sd">    </span>
+<span class="sd">    Top level of dictionary is inning of game. </span>
+<span class="sd">    Next level is top or bottom of the inning. </span>
+<span class="sd">    Final level is a list of at bats in that part of the inning. </span>
+<span class="sd">    Lowest level is AtBat object.</span>
+<span class="sd">    Ex. events[&#39;inningnumber&#39;][&#39;top/bottom&#39;][atbatnumber]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">game_events</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]:</span>
+                <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">events</span><span class="o">.</span><span class="n">AtBat</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
     <div class="name def" id="mlbgame.games">
     <p>def <span class="ident">games</span>(</p><p>years, months=None, days=None, home=None, away=None)</p>
     </div>
@@ -1741,6 +1792,14 @@ Bartolo Colon - 0 for 0
     <div class="desc"><p>This module gets the XML data that other functions use.
 It checks if the data is cached first, and if not, 
 gets the data from mlb.com.</p></div>
+
+      </div>
+      <div class="item">
+      <p class="name"><a href="events.m.html">mlbgame.events</a></p>
+      
+  
+    <div class="desc"><p>Module that is used for getting the events 
+that occured throughout games.</p></div>
 
       </div>
       <div class="item">
