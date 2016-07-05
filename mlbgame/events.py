@@ -120,6 +120,7 @@ class Pitch(object):
     Properties of pitches are wildly inconsistent, 
     sometimes they have a value, sometimes they don't.
     Properties:
+    
     - sv_id
     - des = description of pitch outcome
     - type = ball (B), strike (S), or in play (X)
