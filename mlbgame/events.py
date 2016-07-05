@@ -60,7 +60,26 @@ def game_events(game_id):
     return output
 
 class AtBat(object):
-    """Class that holds information about at bats in games."""
+    """Class that holds information about at bats in games.
+    
+    Properties: 
+    
+    - num = Number of at bat in game
+    - b = balls (at end of at bat or currently if live)
+    - s = strikes (at end of at bat or currently if live)
+    - o = outs (at end of at bat)
+    - batter = batter id number
+    - pitcher = pitcher id number
+    - des = description of at bat
+    - event_num = number that corresponds to type of event
+    - event = name of event
+    - home_team_runs = home team runs (at end of at bat)
+    - away_team_runs = away team runs (at end of at bat)
+    - pitches = list of pitches during at bat
+    - b1
+    - b2
+    - b3
+    """
     
     def __init__(self, data):
         """Creates an event object that matches the corresponding info in `data`.
@@ -96,6 +115,17 @@ class AtBat(object):
         return self.nice_output()
 
 class Pitch(object):
+    """Class that holds information about individual pitches.
+    
+    Properties of pitches are wildly inconsistent, 
+    sometimes they have a value, sometimes they don't.
+    Properties:
+    - sv_id
+    - des = description of pitch outcome
+    - type = ball (B), strike (S), or in play (X)
+    - start_speed = pitch speed
+    - pitch_type = type of pitch (fastball, curve, etc.)
+    """
     
     def __init__(self, data):
         """Creates a pitch object that matches the corresponding info in `data`.
@@ -105,7 +135,7 @@ class Pitch(object):
         # loop through data
         for x in data:
             # remove spanish info (causes text encoding errors)
-            if 'es' in x:
+            if '_es' in x:
                 continue
             # set information as correct data type
             try:
@@ -119,7 +149,7 @@ class Pitch(object):
     
     def nice_output(self):
         """Prints basic event info in a nice way."""
-        return "%s at %s" % (self.pitch_type, self.start_speed)
+        return "Pitch: %s at %s: %s" % (self.pitch_type, self.start_speed, self.des)
     
     def __str__(self):
         return self.nice_output()
