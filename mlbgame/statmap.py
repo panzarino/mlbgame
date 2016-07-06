@@ -213,7 +213,7 @@ idmap = {
         'desc': 'Total season runs',
     },
     's_hr':{
-        'obj': ['PitcherStats', 'BatterStats'],
+        'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Total season home runs',
