@@ -1041,6 +1041,7 @@ table {
   <ul>
     <li class="mono"><a href="#mlbgame.data.get_box_score">get_box_score</a></li>
     <li class="mono"><a href="#mlbgame.data.get_game_events">get_game_events</a></li>
+    <li class="mono"><a href="#mlbgame.data.get_overview">get_overview</a></li>
     <li class="mono"><a href="#mlbgame.data.get_scoreboard">get_scoreboard</a></li>
   </ul>
 
@@ -1133,6 +1134,24 @@ gets the data from mlb.com.</p>
         <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Could not find a game with that id.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data</span>
+
+<span class="k">def</span> <span class="nf">get_overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the linescore file of a game with matching id.&quot;&quot;&quot;</span>
+    <span class="c"># get relevant information from game id</span>
+    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="c"># file</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/linescore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="c"># check if file exits</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">file</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># get data if file does not exist</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/linescore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Could not find a game with that id.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
 </pre></div>
 
   </div>
@@ -1206,6 +1225,43 @@ gets the data from mlb.com.</p>
         <span class="c"># get data if file does not exist</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/game_events.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Could not find a game with that id.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="mlbgame.data.get_overview">
+    <p>def <span class="ident">get_overview</span>(</p><p>game_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return the linescore file of a game with matching id.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_overview', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.data.get_overview" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the linescore file of a game with matching id.&quot;&quot;&quot;</span>
+    <span class="c"># get relevant information from game id</span>
+    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="c"># file</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;gameday-data/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/linescore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="c"># check if file exits</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">file</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># get data if file does not exist</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&quot;http://gd2.mlb.com/components/game/mlb/year_</span><span class="si">%s</span><span class="s">/month_</span><span class="si">%s</span><span class="s">/day_</span><span class="si">%s</span><span class="s">/gid_</span><span class="si">%s</span><span class="s">/linescore.xml&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">game_id</span><span class="p">))</span>
         <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Could not find a game with that id.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data</span>

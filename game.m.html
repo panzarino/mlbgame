@@ -1040,6 +1040,7 @@ table {
       
   <ul>
     <li class="mono"><a href="#mlbgame.game.box_score">box_score</a></li>
+    <li class="mono"><a href="#mlbgame.game.overview">overview</a></li>
     <li class="mono"><a href="#mlbgame.game.scoreboard">scoreboard</a></li>
   </ul>
 
@@ -1064,6 +1065,15 @@ table {
   <ul>
     <li class="mono"><a href="#mlbgame.game.GameScoreboard.__init__">__init__</a></li>
     <li class="mono"><a href="#mlbgame.game.GameScoreboard.nice_score">nice_score</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.game.Overview">Overview</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.game.Overview.__init__">__init__</a></li>
   </ul>
 
         </li>
@@ -1303,6 +1313,45 @@ such as the scoreboard and the box score.</p>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span>
         <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets the overview information for the game with matching id.&quot;&quot;&quot;</span>
+    <span class="c"># get data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="c"># parse data</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c"># get overview attributes</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+        <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">class</span> <span class="nc">Overview</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object to hold an overview of game information</span>
+<span class="sd">    </span>
+<span class="sd">    `elements` property is a set of all properties that an object contains.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates an overview object that matches the corresponding info in `data`.</span>
+<span class="sd">        </span>
+<span class="sd">        `data` should be an dictionary of values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">element_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c"># loop through data</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="c"># set information as correct data type</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="c"># string if not number</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="n">element_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">element_list</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1342,6 +1391,38 @@ such as the scoreboard and the box score.</p>
         <span class="n">away</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;away&#39;</span><span class="p">]</span>
         <span class="n">result</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">inning</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home&#39;</span><span class="p">:</span><span class="n">home</span><span class="p">,</span> <span class="s">&#39;away&#39;</span><span class="p">:</span><span class="n">away</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="mlbgame.game.overview">
+    <p>def <span class="ident">overview</span>(</p><p>game_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Gets the overview information for the game with matching id.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.overview', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.overview" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets the overview information for the game with matching id.&quot;&quot;&quot;</span>
+    <span class="c"># get data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="c"># parse data</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c"># get overview attributes</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+        <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output</span>
 </pre></div>
 
   </div>
@@ -2034,6 +2115,107 @@ such as the scoreboard and the box score.</p>
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">nice_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a nicely formatted score of the game.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%d</span><span class="s">) at </span><span class="si">%s</span><span class="s"> (</span><span class="si">%d</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">away_team</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span><span class="p">)</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="mlbgame.game.Overview" class="name">class <span class="ident">Overview</span></p>
+      
+  
+    <div class="desc"><p>Object to hold an overview of game information</p>
+<p><code>elements</code> property is a set of all properties that an object contains.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Overview', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.Overview" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Overview</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object to hold an overview of game information</span>
+<span class="sd">    </span>
+<span class="sd">    `elements` property is a set of all properties that an object contains.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates an overview object that matches the corresponding info in `data`.</span>
+<span class="sd">        </span>
+<span class="sd">        `data` should be an dictionary of values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">element_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c"># loop through data</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="c"># set information as correct data type</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="c"># string if not number</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="n">element_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">element_list</span><span class="p">)</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.game.Overview">Overview</a></li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="mlbgame.game.Overview.elements" class="name">var <span class="ident">elements</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.game.Overview.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates an overview object that matches the corresponding info in <code>data</code>.</p>
+<p><code>data</code> should be an dictionary of values.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Overview.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.Overview.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates an overview object that matches the corresponding info in `data`.</span>
+<span class="sd">    </span>
+<span class="sd">    `data` should be an dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">element_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c"># loop through data</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="c"># set information as correct data type</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="c"># string if not number</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+        <span class="n">element_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">element_list</span><span class="p">)</span>
 </pre></div>
 
   </div>
