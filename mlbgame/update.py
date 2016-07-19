@@ -20,7 +20,7 @@ def access_error(name):
     print('Without write access, I cannot update the game database.')
     sys.exit(1)
 
-def run(hide=False, stats=False, events=False, start="01-01-2012", end=None):
+def run(hide=False, stats=False, events=False, overview=False, start="01-01-2012", end=None):
     """Update local game data."""
     # get today's information
     year = date.today().year
@@ -180,6 +180,43 @@ def run(hide=False, stats=False, events=False, start="01-01-2012", end=None):
                                     pass
                     except:
                         pass
+                if overview:
+                    try:
+                        # get the data for games on this day
+                        games = mlbgame.day(i, x, y)
+                        for z in games:
+                            # get the game id which is used to fetch data
+                            game_id = z.game_id
+                            # file information
+                            filename4 = "gameday-data/year_%i/month_%s/day_%s/gid_%s/linescore.xml.gz" % (i, monthstr, daystr, game_id)
+                            f4 = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename4)
+                            dirn4 = "gameday-data/year_%i/month_%s/day_%s/gid_%s" % (i, monthstr, daystr, game_id)
+                            dirname4 = os.path.join(os.path.dirname(os.path.abspath(__file__)), dirn4)
+                            # check if file exists
+                            # aka is the information saved
+                            if not os.path.isfile(f4):
+                                # try because some dates may not have a file on the mlb.com server
+                                # or some months don't have a 31st day
+                                try:
+                                    # get data
+                                    data4 = urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/gid_%s/linescore.xml" % (i, monthstr, daystr, game_id))
+                                    response4 = data4.read()
+                                    # checking if files exist and writing new files
+                                    if not os.path.exists(dirname4):
+                                        try:
+                                            os.makedirs(dirname4)
+                                        except OSError:
+                                            access_error(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gameday-data/'))
+                                    # try to write file
+                                    try:
+                                        with gzip.open(f4, "w") as fi:
+                                            fi.write(response4)
+                                    except OSError:
+                                        access_error(dirname4)
+                                except HTTPError:
+                                    pass
+                    except:
+                        pass
             if loading and not hide:
                 # make sure loading ends at 100%
                 sys.stdout.write('Loading games for %s-%d (100.00%%).\n' % (monthstr, i))
@@ -206,7 +243,7 @@ def date_usage():
 def start():
     """Start updating from a command and arguments."""
     try:
-        data = getopt.getopt(sys.argv[1:], "hms:e:", ["help", "hide", "stats", "events", "start=", "end="])
+        data = getopt.getopt(sys.argv[1:], "hms:e:", ["help", "hide", "stats", "events", "overview", "start=", "end="])
     except getopt.GetoptError:
         usage()
         sys.exit(2)
@@ -214,6 +251,7 @@ def start():
     more = False
     stats = False
     events = False
+    overview = False
     start = "01-01-2012"
     today = date.today()
     end = "%i-%i-%i" % (today.month, today.day, today.year)
@@ -228,6 +266,8 @@ def start():
             stats = True
         elif x[0] == "--events":
             events = True
+        elif x[0] == "--overview":
+            overview = True
         elif x[0] == "-s" or x[0] == "--start":
             start = x[1]
         elif x[0] == "-e" or x[0] == "--end":
@@ -247,7 +287,7 @@ def start():
     except:
         date_usage()
         sys.exit(2)
-    run(hide, stats, events, start, end)
+    run(hide, stats, events, overview, start, end)
     
 # start program when run from command line
 if __name__ == "__main__":
