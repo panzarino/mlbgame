@@ -214,3 +214,16 @@ class GameBoxScore(object):
             else:
                 output += str(x)+" "
         return output
+
+def overview(game_id):
+    """Gets the overview information for the game with matching id."""
+    # get data
+    data = mlbgame.data.get_overview(game_id)
+    # parse data
+    parsed = etree.parse(data)
+    root = parsed.getroot()
+    output = {}
+    # get overview attributes
+    for x in root.attrib:
+        output[x] = root.attrib[x]
+    return output
