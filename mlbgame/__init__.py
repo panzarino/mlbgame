@@ -271,3 +271,8 @@ def game_events(game_id):
             for i in data[x][y]:
                 output[x][y].append(mlbgame.events.AtBat(i))
     return output
+
+def overview(game_id):
+    """Return Overview objec that contains game information."""
+    data = mlbgame.game.overview(game_id)
+    return mlbgame.game.Overview(data)
