@@ -229,11 +229,17 @@ def overview(game_id):
     return output
 
 class Overview(object):
+    """Object to hold an overview of game information
+    
+    `elements` property is a set of all properties that an object contains.
+    """
+    
     def __init__(self, data):
         """Creates an overview object that matches the corresponding info in `data`.
         
         `data` should be an dictionary of values.
         """
+        element_list = []
         # loop through data
         for x in data:
             # set information as correct data type
@@ -245,3 +251,5 @@ class Overview(object):
                 except ValueError:
                     # string if not number
                     setattr(self, x, str(data[x]))
+            element_list.append(x)
+        self.elements = set(element_list)
