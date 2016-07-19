@@ -152,7 +152,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                                 # or some months don't have a 31st day
                                 try:
                                     # get data
-                                    data3 = urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/gid_%s/boxscore.xml" % (i, monthstr, daystr, game_id))
+                                    data3 = urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/gid_%s/game_events.xml" % (i, monthstr, daystr, game_id))
                                     response3 = data3.read()
                                     # checking if files exist and writing new files
                                     if not os.path.exists(dirname2):
