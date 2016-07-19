@@ -20,7 +20,7 @@ def access_error(name):
     print('Without write access, I cannot update the game database.')
     sys.exit(1)
 
-def run(hide=False, more=False, start="01-01-2012", end=None):
+def run(hide=False, stats=False, events=False, start="01-01-2012", end=None):
     """Update local game data."""
     # get today's information
     year = date.today().year
@@ -108,7 +108,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                     except HTTPError:
                         pass
                 # get extra data if specified
-                if more:
+                if stats:
                     try:
                         # get the data for games on this day
                         games = mlbgame.day(i, x, y)
@@ -117,9 +117,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                             game_id = z.game_id
                             # file information
                             filename2 = "gameday-data/year_%i/month_%s/day_%s/gid_%s/boxscore.xml.gz" % (i, monthstr, daystr, game_id)
-                            filename3 = "gameday-data/year_%i/month_%s/day_%s/gid_%s/game_events.xml.gz" % (i, monthstr, daystr, game_id)
                             f2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename2)
-                            f3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename3)
                             dirn2 = "gameday-data/year_%i/month_%s/day_%s/gid_%s" % (i, monthstr, daystr, game_id)
                             dirname2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), dirn2)
                             # check if file exists
@@ -145,8 +143,20 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                                         access_error(dirname2)
                                 except HTTPError:
                                     pass
-                            # check if file exists
-                            # aka is the information saved
+                    except:
+                        pass
+                if events:
+                    try:
+                        # get the data for games on this day
+                        games = mlbgame.day(i, x, y)
+                        for z in games:
+                            # get the game id which is used to fetch data
+                            game_id = z.game_id
+                            # file information
+                            filename3 = "gameday-data/year_%i/month_%s/day_%s/gid_%s/game_events.xml.gz" % (i, monthstr, daystr, game_id)
+                            f3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename3)
+                            dirn3 = "gameday-data/year_%i/month_%s/day_%s/gid_%s" % (i, monthstr, daystr, game_id)
+                            dirname3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), dirn3)
                             if not os.path.isfile(f3):
                                 # try because some dates may not have a file on the mlb.com server
                                 # or some months don't have a 31st day
@@ -155,9 +165,9 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                                     data3 = urlopen("http://gd2.mlb.com/components/game/mlb/year_%i/month_%s/day_%s/gid_%s/game_events.xml" % (i, monthstr, daystr, game_id))
                                     response3 = data3.read()
                                     # checking if files exist and writing new files
-                                    if not os.path.exists(dirname2):
+                                    if not os.path.exists(dirname3):
                                         try:
-                                            os.makedirs(dirname2)
+                                            os.makedirs(dirname3)
                                         except OSError:
                                             access_error(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gameday-data/'))
                                     # try to write file
@@ -165,7 +175,7 @@ def run(hide=False, more=False, start="01-01-2012", end=None):
                                         with gzip.open(f3, "w") as fi:
                                             fi.write(response3)
                                     except OSError:
-                                        access_error(dirname2)
+                                        access_error(dirname3)
                                 except HTTPError:
                                     pass
                     except:
@@ -196,12 +206,14 @@ def date_usage():
 def start():
     """Start updating from a command and arguments."""
     try:
-        data = getopt.getopt(sys.argv[1:], "hms:e:", ["help", "hide", "more", "start=", "end="])
+        data = getopt.getopt(sys.argv[1:], "hms:e:", ["help", "hide", "stats", "events", "start=", "end="])
     except getopt.GetoptError:
         usage()
         sys.exit(2)
     hide = False
     more = False
+    stats = False
+    events = False
     start = "01-01-2012"
     today = date.today()
     end = "%i-%i-%i" % (today.month, today.day, today.year)
@@ -212,8 +224,10 @@ def start():
             sys.exit()
         elif x[0] == "--hide":
             hide = True
-        elif x[0] == "-m" or x[0] == "--more":
-            more = True
+        elif x[0] == "--stats":
+            stats = True
+        elif x[0] == "--events":
+            events = True
         elif x[0] == "-s" or x[0] == "--start":
             start = x[1]
         elif x[0] == "-e" or x[0] == "--end":
@@ -233,7 +247,7 @@ def start():
     except:
         date_usage()
         sys.exit(2)
-    run(hide, more, start, end)
+    run(hide, stats, events, start, end)
     
 # start program when run from command line
 if __name__ == "__main__":
