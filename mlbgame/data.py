@@ -66,3 +66,21 @@ def get_game_events(game_id):
         except HTTPError:
             raise ValueError("Could not find a game with that id.")
     return data
+
+def get_overview(game_id):
+    """Return the linescore file of a game with matching id."""
+    # get relevant information from game id
+    year, month, day, rest = game_id.split('_', 3)
+    # file
+    filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/linescore.xml" % (year, month, day, game_id)
+    file = os.path.join(os.path.dirname(__file__), filename)
+    # check if file exits
+    if os.path.isfile(file):
+        data = file
+    else:
+        # get data if file does not exist
+        try:
+            data = urlopen("http://gd2.mlb.com/components/game/mlb/year_%s/month_%s/day_%s/gid_%s/linescore.xml" % (year, month, day, game_id))
+        except HTTPError:
+            raise ValueError("Could not find a game with that id.")
+    return data
