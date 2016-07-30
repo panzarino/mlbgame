@@ -149,6 +149,7 @@ And the output is:
 """
 
 import sys
+import mlbgame.events
 import mlbgame.game
 import mlbgame.stats
 import calendar
