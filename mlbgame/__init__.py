@@ -275,6 +275,6 @@ def game_events(game_id):
     return output
 
 def overview(game_id):
-    """Return Overview objec that contains game information."""
+    """Return Overview object that contains game information."""
     data = mlbgame.game.overview(game_id)
     return mlbgame.game.Overview(data)
