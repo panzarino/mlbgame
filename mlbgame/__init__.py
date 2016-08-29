@@ -168,16 +168,6 @@ def day(year, month, day, home=None, away=None):
     # do not even try to get data if day is too high
     if daysinmonth < day:
         return []
-    # get today's date
-    today = date.today()
-    # do not even try to get data if date is in the future
-    # statements separated for readability
-    if year > today.year:
-        return []
-    elif year >= today.year and month > today.month:
-        return []
-    elif year >= today.year and month >= today.month and day > today.day:
-        return []
     # get data
     data = mlbgame.game.scoreboard(year, month, day, home=home, away=away)
     results = [mlbgame.game.GameScoreboard(data[x]) for x in data]
