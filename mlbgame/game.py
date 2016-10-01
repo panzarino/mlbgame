@@ -9,7 +9,7 @@ import datetime
 import mlbgame.data
 
 def scoreboard(year, month, day, home=None, away=None):
-    """Return the scoreboard information for a game matching the parameters as a dictionary."""
+    """Return the scoreboard information for games matching the parameters as a dictionary."""
     # get data
     data = mlbgame.data.get_scoreboard(year, month, day)
     # parse data
@@ -55,7 +55,7 @@ def scoreboard(year, month, day, home=None, away=None):
                     sv_pitcher = {'name':sv_pitcher_name, 'saves':int(sv_pitcher_data.attrib['saves'])}
                 except:
                     sv_pitcher = {'name':'', 'saves':0}
-                output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':w_pitcher, 'l_pitcher':l_pitcher, 'sv_pitcher':sv_pitcher}
+                output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':w_pitcher, 'l_pitcher':l_pitcher, 'sv_pitcher':sv_pitcher, 'p_pitcher_home':{}, 'p_pitcher_away':{}}
                 # put this dictionary into the larger dictionary
                 games[game_id]=output
         # games taht were not played
@@ -78,7 +78,18 @@ def scoreboard(year, month, day, home=None, away=None):
                 home_team = {'name': teams[0].attrib['name'], 'runs': int(home_team_data.attrib['R']), 'hits':int(home_team_data.attrib['H']), 'errors':int(home_team_data.attrib['E'])}
                 away_team_data = teams[1].find('gameteam')
                 away_team = {'name': teams[1].attrib['name'], 'runs': int(away_team_data.attrib['R']), 'hits':int(away_team_data.attrib['H']), 'errors':int(away_team_data.attrib['E'])}
-                output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':{}, 'l_pitcher':{}, 'sv_pitcher':{}}
+                try:
+                    p_pitcher_data = game.findall('p_pitcher')
+                    p_pitcher_home = p_pitcher_data[0]
+                    p_pitcher_home_name = p_pitcher_home.find('pitcher').attrib['name']
+                    p_pitcher_home = {'name':p_pitcher_home_name, 'wins':int(p_pitcher_home.attrib['wins']), 'losses':int(p_pitcher_home.attrib['losses'])}
+                    p_pitcher_away = p_pitcher_data[1]
+                    p_pitcher_away_name = p_pitcher_away.find('pitcher').attrib['name']
+                    p_pitcher_away = {'name':p_pitcher_away_name, 'wins':int(p_pitcher_away.attrib['wins']), 'losses':int(p_pitcher_away.attrib['losses'])}
+                except:
+                    p_pitcher_home = {'name':'', 'wins':0, 'losses':0}
+                    p_pitcher_away = {'name':'', 'wins':0, 'losses':0}
+                output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':{}, 'l_pitcher':{}, 'sv_pitcher':{}, 'p_pitcher_home':p_pitcher_home, 'p_pitcher_away':p_pitcher_away}
                 # put this dictionary into the larger dictionary
                 games[game_id]=output
     return games
@@ -91,30 +102,17 @@ class GameScoreboard(object):
 
         data is expected to come from the `scoreboard()` function.
         """
-        # go through dictionary and assign it to object properties
-        self.game_id = data['game_id']
-        self.game_type = data.get('game_type', '')
-        self.game_status = data.get('game_status', '')
-        self.game_league = data.get('game_league', '')
-        self.game_start_time = data.get('game_start_time', '')
-        self.home_team = data.get('home_team', {}).get('name', '')
-        self.home_team_runs = data.get('home_team', {}).get('runs', 0)
-        self.home_team_hits = data.get('home_team', {}).get('hits', 0)
-        self.home_team_errors = data.get('home_team', {}).get('errors', 0)
-        self.away_team = data.get('away_team', '').get('name', '')
-        self.away_team_runs = data.get('away_team', {}).get('runs', 0)
-        self.away_team_hits = data.get('away_team', {}).get('hits', 0)
-        self.away_team_errors = data.get('away_team', {}).get('errors', 0)
-        self.w_pitcher = data.get('w_pitcher', {}).get('name', '')
-        self.w_pitcher_wins = data.get('w_pitcher', {}).get('wins', 0)
-        self.w_pitcher_losses = data.get('w_pitcher', {}).get('losses', 0)
-        self.l_pitcher = data.get('l_pitcher', {}).get('name', '')
-        self.l_pitcher_wins = data.get('l_pitcher', {}).get('wins', 0)
-        self.l_pitcher_losses = data.get('l_pitcher', {}).get('losses', 0)
-        self.sv_pitcher = data.get('sv_pitcher', {}).get('name', '')
-        self.sv_pitcher_saves = data.get('sv_pitcher', {}).get('saves', 0)
-        self.w_team = ''
-        self.l_team = ''
+        # loop through data
+        for x in data:
+            # set information as correct data type
+            try:
+                setattr(self, x, int(data[x]))
+            except ValueError:
+                try:
+                    setattr(self, x, float(data[x]))
+                except ValueError:
+                    # string if not number
+                    setattr(self, x, str(data[x]))
         # calculate the winning team
         if self.home_team_runs > self.away_team_runs:
             self.w_team = self.home_team
