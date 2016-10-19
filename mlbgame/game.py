@@ -99,16 +99,22 @@ def scoreboard(year, month, day, home=None, away=None):
                 away_team_errors = int(away_team_data.attrib['E'])
                 try:
                     p_pitcher_data = game.findall('p_pitcher')
-                    p_pitcher_home = p_pitcher_data[0]
-                    p_pitcher_home_name = p_pitcher_home.find('pitcher').attrib['name']
-                    p_pitcher_home = {'name':p_pitcher_home_name, 'wins':int(p_pitcher_home.attrib['wins']), 'losses':int(p_pitcher_home.attrib['losses'])}
-                    p_pitcher_away = p_pitcher_data[1]
-                    p_pitcher_away_name = p_pitcher_away.find('pitcher').attrib['name']
-                    p_pitcher_away = {'name':p_pitcher_away_name, 'wins':int(p_pitcher_away.attrib['wins']), 'losses':int(p_pitcher_away.attrib['losses'])}
+                    p_pitcher_home_data = p_pitcher_data[0]
+                    p_pitcher_home = p_pitcher_home_data.find('pitcher').attrib['name']
+                    p_pitcher_home_wins = int(p_pitcher_home_data.attrib['wins'])
+                    p_pitcher_home_losses = int(p_pitcher_home_data.attrib['losses'])
+                    p_pitcher_away_data = p_pitcher_data[1]
+                    p_pitcher_away = p_pitcher_away_data.find('pitcher').attrib['name']
+                    p_pitcher_away_wins = int(p_pitcher_away_data.attrib['wins'])
+                    p_pitcher_away_losses = int(p_pitcher_away_data.attrib['losses'])
                 except:
-                    p_pitcher_home = {'name':'', 'wins':0, 'losses':0}
-                    p_pitcher_away = {'name':'', 'wins':0, 'losses':0}
-                output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'away_team':away_team, 'w_pitcher':{}, 'l_pitcher':{}, 'sv_pitcher':{}, 'p_pitcher_home':p_pitcher_home, 'p_pitcher_away':p_pitcher_away}
+                    p_pitcher_home = ""
+                    p_pitcher_home_wins = 0
+                    p_pitcher_home_losses = 0
+                    p_pitcher_away = ""
+                    p_pitcher_away_wins = 0
+                    p_pitcher_away_losses = 0
+                output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'home_team_runs': home_team_runs, 'home_team_hits': home_team_hits, 'home_team_errors': home_team_errors, 'away_team':away_team, 'away_team_runs': away_team_runs, 'away_team_hits': away_team_hits, 'away_team_errors': away_team_errors, 'p_pitcher_home':p_pitcher_home, 'p_pitcher_home_wins': p_pitcher_home_wins, 'p_pitcher_home_losses': p_pitcher_home_losses, 'p_pitcher_away':p_pitcher_away, 'p_pitcher_away_wins': p_pitcher_away_wins, 'p_pitcher_away_losses': p_pitcher_away_losses,}
                 # put this dictionary into the larger dictionary
                 games[game_id]=output
     return games
