@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+
 import mlbgame
 
-from __future__ import print_function
 from datetime import date
 import getopt
 import gzip
