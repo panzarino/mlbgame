@@ -237,14 +237,14 @@ def usage():
     """Display usage of command line arguments."""
     print("usage: "+sys.argv[0]+" <arguments>")
     print()
-    print( "Arguments:")
-    print( "--help (-h)\t\t\tdisplay this help menu")
-    print( "--hide\t\t\t\thides output from update script")
-    print( "--stats\t\t\t\tsaves the box scores and individual game stats from every game")
+    print("Arguments:")
+    print("--help (-h)\t\t\tdisplay this help menu")
+    print("--hide\t\t\t\thides output from update script")
+    print("--stats\t\t\t\tsaves the box scores and individual game stats from every game")
     print("--events\t\t\tsaves the game events from every game")
     print("--overview\t\t\tsaves the game overview from every game")
-    print( "--start (-s) <MM-DD-YYYY>\tdate to start updating from (default: 01-01-2012)")
-    print( "--end (-e) <MM-DD-YYYY>\t\tdate to update until (default: current day)")
+    print("--start (-s) <MM-DD-YYYY>\tdate to start updating from (default: 01-01-2012)")
+    print("--end (-e) <MM-DD-YYYY>\t\tdate to update until (default: current day)")
 
 def date_usage():
     """Display usage of dates."""
