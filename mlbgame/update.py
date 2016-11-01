@@ -239,6 +239,7 @@ def usage():
     print()
     print("Arguments:")
     print("--help (-h)\t\t\tdisplay this help menu")
+    print("--clear\t\t\t\tdelete all cached data")
     print("--hide\t\t\t\thides output from update script")
     print("--stats\t\t\t\tsaves the box scores and individual game stats from every game")
     print("--events\t\t\tsaves the game events from every game")

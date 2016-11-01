@@ -59,6 +59,7 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     
     Arguments:
     --help (-h): display this help menu
+    --clear: delete all cached data
     --hide: hides output from update script
     --stats: saves the box scores and individual game stats from every game
     --events: saves the game events from every game
