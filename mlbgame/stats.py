@@ -2,8 +2,9 @@
 
 """Module that controls getting stats and creating objects to hold that information."""
 
-import lxml.etree as etree
 import mlbgame.data
+
+import lxml.etree as etree
 
 def player_stats(game_id):
     """Return dictionary of individual stats of a game with matching id."""

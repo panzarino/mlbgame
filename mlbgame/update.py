@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 
+import mlbgame
+
 from __future__ import print_function
+from datetime import date
+import getopt
+import gzip
 import os
 import shutil
 import sys
-from datetime import date
-import gzip
-import mlbgame
-import getopt
+
 try:
     from urllib.request import urlopen
     from urllib.error import HTTPError

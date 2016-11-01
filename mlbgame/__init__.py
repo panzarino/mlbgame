@@ -148,14 +148,15 @@ And the output is:
 
 """
 
-import sys
 import mlbgame.events
 import mlbgame.game
 import mlbgame.stats
+import mlbgame.version
+
 import calendar
 from datetime import date
+import sys
 
-import mlbgame.version
 VERSION = mlbgame.version.__version__
 """Installed version of mlbgame."""
 

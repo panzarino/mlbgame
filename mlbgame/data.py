@@ -6,6 +6,7 @@ gets the data from mlb.com.
 """
 
 import os
+
 try:
     from urllib.request import urlopen
     from urllib.error import HTTPError

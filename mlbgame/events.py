@@ -4,8 +4,9 @@
 that occured throughout games.
 """
 
-import lxml.etree as etree
 import mlbgame.data
+
+import lxml.etree as etree
 
 def game_events(game_id):
     """Return dictionary of events for a game with matching id."""
