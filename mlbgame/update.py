@@ -260,8 +260,7 @@ def start():
     # parse arguments
     for x in data[0]:
         if x[0] == "-h" or x[0] == "--help":
-            usage()
-            sys.exit()
+            return usage()
         elif x[0] == "--hide":
             hide = True
         elif x[0] == "--stats":
