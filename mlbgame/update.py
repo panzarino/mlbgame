@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 import os
+import shutil
 import sys
 from datetime import date
 import gzip
@@ -225,6 +226,13 @@ def run(hide=False, stats=False, events=False, overview=False, start="01-01-2012
     if not hide:
         print("Complete.")
 
+def clear():
+    """Delete all cached data"""
+    try:
+        shutil.rmtree(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gameday-data/'))
+    except OSError:
+        access_error(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gameday-data/'))
+
 def usage():
     """Display usage of command line arguments."""
     print("usage: "+sys.argv[0]+" <arguments>")
@@ -245,7 +253,7 @@ def date_usage():
 def start():
     """Start updating from a command and arguments."""
     try:
-        data = getopt.getopt(sys.argv[1:], "hms:e:", ["help", "hide", "stats", "events", "overview", "start=", "end="])
+        data = getopt.getopt(sys.argv[1:], "hms:e:", ["help", "clear", "hide", "stats", "events", "overview", "start=", "end="])
     except getopt.GetoptError:
         usage()
         sys.exit(2)
@@ -261,6 +269,8 @@ def start():
     for x in data[0]:
         if x[0] == "-h" or x[0] == "--help":
             return usage()
+        elif x[0] == "--clear":
+            return clear()
         elif x[0] == "--hide":
             hide = True
         elif x[0] == "--stats":
