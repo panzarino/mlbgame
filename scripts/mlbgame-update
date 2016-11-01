@@ -3,4 +3,3 @@
 import mlbgame.update
 
 mlbgame.update.start()
-
