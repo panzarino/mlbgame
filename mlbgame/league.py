@@ -16,3 +16,11 @@ def get_league_object():
     data = mlbgame.data.get_properties()
     # return league object
     return etree.parse(data).getroot().find("leagues").find("league")
+
+def league_info():
+    """Returns a dictionary of league information"""
+    league = get_league_object()
+    output = {}
+    for x in league.attrib:
+        output[x] = league.attrib[x]
+    return output
