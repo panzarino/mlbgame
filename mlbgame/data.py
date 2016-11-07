@@ -85,3 +85,11 @@ def get_overview(game_id):
         except HTTPError:
             raise ValueError("Could not find a game with that id.")
     return data
+
+def get_properties():
+    """Return the current mlb properties file"""
+    try:
+        return urlopen("http://mlb.mlb.com/properties/mlb_properties.xml")
+    # in case mlb.com depricates this functionality
+    except HTTPError:
+        raise ValueError("Could not find the properties file. mlb.com does not provide the file that mlbgame needs to perform this operation.")
