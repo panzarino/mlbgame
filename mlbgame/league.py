@@ -24,3 +24,14 @@ def league_info():
     for x in league.attrib:
         output[x] = league.attrib[x]
     return output
+
+def team_info():
+    """Returns a list of team information dictionaries"""
+    teams = get_league_object().find("teams").findall("team")
+    output = []
+    for team in teams:
+        info = {}
+        for x in team.attrib:
+            info[x] = team.attrib[x]
+        output.append(info)
+    return output
