@@ -3,6 +3,7 @@
 """Module that controls getting stats and creating objects to hold that information."""
 
 import mlbgame.data
+import mlbgame.object
 
 import lxml.etree as etree
 
@@ -95,27 +96,7 @@ def team_stats(game_id):
             output['away_batting']=stats
     return output
 
-class Stats(object):
-    """Basic stats class for any type of stats."""
-    
-    def __init__(self, data):
-        """Creates a stats object that matches the corresponding stats in `data`.
-        
-        `data` should be an dictionary of values.
-        """
-        # loop through data
-        for x in data:
-            # set information as correct data type
-            try:
-                setattr(self, x, int(data[x]))
-            except ValueError:
-                try:
-                    setattr(self, x, float(data[x]))
-                except ValueError:
-                    # string if not number
-                    setattr(self, x, str(data[x]))
-
-class PitcherStats(Stats):
+class PitcherStats(mlbgame.object.Object):
     """Holds stats information for a pitcher.
     
     Check out `statmap.py` for a full list of object properties.
@@ -128,7 +109,7 @@ class PitcherStats(Stats):
     def __str__(self):
         return self.nice_output()
 
-class BatterStats(Stats):
+class BatterStats(mlbgame.object.Object):
     """Holds stats information for a batter.
     
     Check out `statmap.py` for a full list of object properties.
@@ -148,7 +129,7 @@ class BatterStats(Stats):
     def __str__(self):
         return self.nice_output()
 
-class TeamStats(Stats):
+class TeamStats(mlbgame.object.Object):
     """Holds total pitching or batting stats for a team"""
     # basically a copy of the Stats class with a different name for clarification
     pass
