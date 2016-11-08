@@ -131,5 +131,5 @@ class BatterStats(mlbgame.object.Object):
 
 class TeamStats(mlbgame.object.Object):
     """Holds total pitching or batting stats for a team"""
-    # basically a copy of the Stats class with a different name for clarification
+    # basically a copy of the object class with a different name for clarification
     pass

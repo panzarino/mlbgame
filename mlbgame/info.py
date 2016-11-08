@@ -5,6 +5,7 @@ about the (MLB) league and the teams in it.
 """
 
 import mlbgame.data
+import mlbgame.object
 
 import lxml.etree as etree
 
@@ -35,3 +36,9 @@ def team_info():
             info[x] = team.attrib[x]
         output.append(info)
     return output
+
+class Info(mlbgame.object.Object):
+    """Holds information about the league or teams"""
+    # basically a copy of the object class with a different name for clarification
+    pass
+
