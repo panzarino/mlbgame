@@ -273,5 +273,6 @@ def overview(game_id):
     return mlbgame.game.Overview(data)
 
 def league():
+    """Return Info object that contains league information"""
     info = mlbgame.info.league_info()
     return mlbgame.info.Info(info)
