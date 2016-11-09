@@ -102,7 +102,7 @@ class Info(mlbgame.object.Object):
 
     def nice_output(self):
         """Return a string for printing"""
-        return '%s (%s)' % (self.club_full_name, self.club)
+        return '%s (%s)' % (self.club_full_name, self.club.upper())
 
     def __str__(self):
         return self.nice_output()
