@@ -150,6 +150,7 @@ And the output is:
 
 import mlbgame.events
 import mlbgame.game
+import mlbgame.info
 import mlbgame.stats
 import mlbgame.version
 
@@ -270,3 +271,7 @@ def overview(game_id):
     """Return Overview object that contains game information."""
     data = mlbgame.game.overview(game_id)
     return mlbgame.game.Overview(data)
+
+def league():
+    info = mlbgame.info.league_info()
+    return mlbgame.info.Info(info)
