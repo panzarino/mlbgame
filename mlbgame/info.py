@@ -39,6 +39,11 @@ def team_info():
 
 class Info(mlbgame.object.Object):
     """Holds information about the league or teams"""
-    # basically a copy of the object class with a different name for clarification
-    pass
+
+    def nice_output(self):
+        """Return a string for printing"""
+        return '%s (%s)' % (self.club_full_name, self.club)
+
+    def __str__(self):
+        return self.nice_output()
 
