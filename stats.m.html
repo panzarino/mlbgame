@@ -1067,15 +1067,6 @@ table {
 
         </li>
         <li class="mono">
-        <span class="class_name"><a href="#mlbgame.stats.Stats">Stats</a></span>
-        
-          
-  <ul>
-    <li class="mono"><a href="#mlbgame.stats.Stats.__init__">__init__</a></li>
-  </ul>
-
-        </li>
-        <li class="mono">
         <span class="class_name"><a href="#mlbgame.stats.TeamStats">TeamStats</a></span>
         
           
@@ -1107,8 +1098,10 @@ table {
 
 <span class="sd">&quot;&quot;&quot;Module that controls getting stats and creating objects to hold that information.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">lxml.etree</span> <span class="kn">as</span> <span class="nn">etree</span>
 <span class="kn">import</span> <span class="nn">mlbgame.data</span>
+<span class="kn">import</span> <span class="nn">mlbgame.object</span>
+
+<span class="kn">import</span> <span class="nn">lxml.etree</span> <span class="kn">as</span> <span class="nn">etree</span>
 
 <span class="k">def</span> <span class="nf">player_stats</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return dictionary of individual stats of a game with matching id.&quot;&quot;&quot;</span>
@@ -1199,27 +1192,7 @@ table {
             <span class="n">output</span><span class="p">[</span><span class="s">&#39;away_batting&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">stats</span>
     <span class="k">return</span> <span class="n">output</span>
 
-<span class="k">class</span> <span class="nc">Stats</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Basic stats class for any type of stats.&quot;&quot;&quot;</span>
-    
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
-<span class="sd">        </span>
-<span class="sd">        `data` should be an dictionary of values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># loop through data</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="c"># set information as correct data type</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="c"># string if not number</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-
-<span class="k">class</span> <span class="nc">PitcherStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">PitcherStats</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Holds stats information for a pitcher.</span>
 <span class="sd">    </span>
 <span class="sd">    Check out `statmap.py` for a full list of object properties.</span>
@@ -1232,7 +1205,7 @@ table {
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
 
-<span class="k">class</span> <span class="nc">BatterStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">BatterStats</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Holds stats information for a batter.</span>
 <span class="sd">    </span>
 <span class="sd">    Check out `statmap.py` for a full list of object properties.</span>
@@ -1252,9 +1225,9 @@ table {
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
 
-<span class="k">class</span> <span class="nc">TeamStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">TeamStats</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Holds total pitching or batting stats for a team&quot;&quot;&quot;</span>
-    <span class="c"># basically a copy of the Stats class with a different name for clarification</span>
+    <span class="c"># basically a copy of the object class with a different name for clarification</span>
     <span class="k">pass</span>
 </pre></div>
 
@@ -1404,7 +1377,7 @@ table {
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.BatterStats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.BatterStats" class="source">
-    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">BatterStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">BatterStats</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Holds stats information for a batter.</span>
 <span class="sd">    </span>
 <span class="sd">    Check out `statmap.py` for a full list of object properties.</span>
@@ -1433,7 +1406,7 @@ table {
           <h3>Ancestors (in MRO)</h3>
           <ul class="class_list">
           <li><a href="#mlbgame.stats.BatterStats">BatterStats</a></li>
-          <li><a href="#mlbgame.stats.Stats">Stats</a></li>
+          <li>mlbgame.object.Object</li>
           <li>__builtin__.object</li>
           </ul>
           <h3>Methods</h3>
@@ -1443,20 +1416,16 @@ table {
     <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
     </div>
     
-    <p class="inheritance">
-     <strong>Inheritance:</strong>
-       <code><a href="#mlbgame.stats.Stats">Stats</a></code>.<code><a href="#mlbgame.stats.Stats.__init__">__init__</a></code>
-    </p>
 
     
   
-    <div class="desc inherited"><p>Creates a stats object that matches the corresponding stats in <code>data</code>.</p>
+    <div class="desc"><p>Creates an object that matches the corresponding stats in <code>data</code>.</p>
 <p><code>data</code> should be an dictionary of values.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.BatterStats.__init__', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.BatterStats.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding stats in `data`.</span>
 <span class="sd">    </span>
 <span class="sd">    `data` should be an dictionary of values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1520,7 +1489,7 @@ table {
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.PitcherStats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.PitcherStats" class="source">
-    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">PitcherStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">PitcherStats</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Holds stats information for a pitcher.</span>
 <span class="sd">    </span>
 <span class="sd">    Check out `statmap.py` for a full list of object properties.</span>
@@ -1542,7 +1511,7 @@ table {
           <h3>Ancestors (in MRO)</h3>
           <ul class="class_list">
           <li><a href="#mlbgame.stats.PitcherStats">PitcherStats</a></li>
-          <li><a href="#mlbgame.stats.Stats">Stats</a></li>
+          <li>mlbgame.object.Object</li>
           <li>__builtin__.object</li>
           </ul>
           <h3>Methods</h3>
@@ -1552,20 +1521,16 @@ table {
     <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
     </div>
     
-    <p class="inheritance">
-     <strong>Inheritance:</strong>
-       <code><a href="#mlbgame.stats.Stats">Stats</a></code>.<code><a href="#mlbgame.stats.Stats.__init__">__init__</a></code>
-    </p>
 
     
   
-    <div class="desc inherited"><p>Creates a stats object that matches the corresponding stats in <code>data</code>.</p>
+    <div class="desc"><p>Creates an object that matches the corresponding stats in <code>data</code>.</p>
 <p><code>data</code> should be an dictionary of values.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.PitcherStats.__init__', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.PitcherStats.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding stats in `data`.</span>
 <span class="sd">    </span>
 <span class="sd">    `data` should be an dictionary of values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1614,86 +1579,6 @@ table {
       </div>
       
       <div class="item">
-      <p id="mlbgame.stats.Stats" class="name">class <span class="ident">Stats</span></p>
-      
-  
-    <div class="desc"><p>Basic stats class for any type of stats.</p></div>
-  <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.Stats', this);">Show source &equiv;</a></p>
-  <div id="source-mlbgame.stats.Stats" class="source">
-    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Stats</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Basic stats class for any type of stats.&quot;&quot;&quot;</span>
-    
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
-<span class="sd">        </span>
-<span class="sd">        `data` should be an dictionary of values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># loop through data</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="c"># set information as correct data type</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="c"># string if not number</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-</pre></div>
-
-  </div>
-</div>
-
-
-      <div class="class">
-          <h3>Ancestors (in MRO)</h3>
-          <ul class="class_list">
-          <li><a href="#mlbgame.stats.Stats">Stats</a></li>
-          <li>__builtin__.object</li>
-          </ul>
-          <h3>Methods</h3>
-            
-  <div class="item">
-    <div class="name def" id="mlbgame.stats.Stats.__init__">
-    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
-    </div>
-    
-
-    
-  
-    <div class="desc"><p>Creates a stats object that matches the corresponding stats in <code>data</code>.</p>
-<p><code>data</code> should be an dictionary of values.</p></div>
-  <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.Stats.__init__', this);">Show source &equiv;</a></p>
-  <div id="source-mlbgame.stats.Stats.__init__" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
-<span class="sd">    </span>
-<span class="sd">    `data` should be an dictionary of values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c"># loop through data</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-        <span class="c"># set information as correct data type</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="c"># string if not number</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-</pre></div>
-
-  </div>
-</div>
-
-  </div>
-  
-      </div>
-      </div>
-      
-      <div class="item">
       <p id="mlbgame.stats.TeamStats" class="name">class <span class="ident">TeamStats</span></p>
       
   
@@ -1701,9 +1586,9 @@ table {
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.TeamStats', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.TeamStats" class="source">
-    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">TeamStats</span><span class="p">(</span><span class="n">Stats</span><span class="p">):</span>
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">TeamStats</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Holds total pitching or batting stats for a team&quot;&quot;&quot;</span>
-    <span class="c"># basically a copy of the Stats class with a different name for clarification</span>
+    <span class="c"># basically a copy of the object class with a different name for clarification</span>
     <span class="k">pass</span>
 </pre></div>
 
@@ -1715,7 +1600,7 @@ table {
           <h3>Ancestors (in MRO)</h3>
           <ul class="class_list">
           <li><a href="#mlbgame.stats.TeamStats">TeamStats</a></li>
-          <li><a href="#mlbgame.stats.Stats">Stats</a></li>
+          <li>mlbgame.object.Object</li>
           <li>__builtin__.object</li>
           </ul>
           <h3>Methods</h3>
@@ -1725,20 +1610,16 @@ table {
     <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
     </div>
     
-    <p class="inheritance">
-     <strong>Inheritance:</strong>
-       <code><a href="#mlbgame.stats.Stats">Stats</a></code>.<code><a href="#mlbgame.stats.Stats.__init__">__init__</a></code>
-    </p>
 
     
   
-    <div class="desc inherited"><p>Creates a stats object that matches the corresponding stats in <code>data</code>.</p>
+    <div class="desc"><p>Creates an object that matches the corresponding stats in <code>data</code>.</p>
 <p><code>data</code> should be an dictionary of values.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.stats.TeamStats.__init__', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.stats.TeamStats.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a stats object that matches the corresponding stats in `data`.</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding stats in `data`.</span>
 <span class="sd">    </span>
 <span class="sd">    `data` should be an dictionary of values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

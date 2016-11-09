@@ -1052,9 +1052,11 @@ table {
     <li class="mono"><a href="#mlbgame.day">day</a></li>
     <li class="mono"><a href="#mlbgame.game_events">game_events</a></li>
     <li class="mono"><a href="#mlbgame.games">games</a></li>
+    <li class="mono"><a href="#mlbgame.league">league</a></li>
     <li class="mono"><a href="#mlbgame.overview">overview</a></li>
     <li class="mono"><a href="#mlbgame.player_stats">player_stats</a></li>
     <li class="mono"><a href="#mlbgame.team_stats">team_stats</a></li>
+    <li class="mono"><a href="#mlbgame.teams">teams</a></li>
   </ul>
 
     </li>
@@ -1065,6 +1067,8 @@ table {
         <li class="mono"><a href="data.m.html">mlbgame.data</a></li>
         <li class="mono"><a href="events.m.html">mlbgame.events</a></li>
         <li class="mono"><a href="game.m.html">mlbgame.game</a></li>
+        <li class="mono"><a href="info.m.html">mlbgame.info</a></li>
+        <li class="mono"><a href="object.m.html">mlbgame.object</a></li>
         <li class="mono"><a href="statmap.m.html">mlbgame.statmap</a></li>
         <li class="mono"><a href="stats.m.html">mlbgame.stats</a></li>
         <li class="mono"><a href="update.m.html">mlbgame.update</a></li>
@@ -1088,7 +1092,7 @@ mlbgame works with real time data, getting information as games are being played
 <p>mlbgame uses the same data that MLB GameDay uses,
 and therefore is updated as soon as something happens in a game.</p>
 <p>mlbgame currently comes pre-loaded with scoreboard information for every game
-from 2012 to the end of the 2015 season. 
+from 2012 to the end of the 2016 season. 
 Therefore, accessing this data does not actually make a request to mlb.com.</p>
 <p>If you try to get data from a game that is not cached,
 mlbgame will download the data from mlb.com.</p>
@@ -1128,6 +1132,7 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
 
 <span class="n">Arguments</span><span class="o">:</span>
 <span class="o">--</span><span class="n">help</span> <span class="o">(-</span><span class="n">h</span><span class="o">):</span> <span class="n">display</span> <span class="k">this</span> <span class="n">help</span> <span class="n">menu</span>
+<span class="o">--</span><span class="n">clear</span><span class="o">:</span> <span class="n">delete</span> <span class="n">all</span> <span class="n">cached</span> <span class="n">data</span>
 <span class="o">--</span><span class="n">hide</span><span class="o">:</span> <span class="n">hides</span> <span class="n">output</span> <span class="n">from</span> <span class="n">update</span> <span class="n">script</span>
 <span class="o">--</span><span class="n">stats</span><span class="o">:</span> <span class="n">saves</span> <span class="n">the</span> <span class="n">box</span> <span class="n">scores</span> <span class="n">and</span> <span class="n">individual</span> <span class="n">game</span> <span class="n">stats</span> <span class="n">from</span> <span class="n">every</span> <span class="n">game</span>
 <span class="o">--</span><span class="n">events</span><span class="o">:</span> <span class="n">saves</span> <span class="n">the</span> <span class="n">game</span> <span class="n">events</span> <span class="n">from</span> <span class="n">every</span> <span class="n">game</span>
@@ -1226,7 +1231,7 @@ Bartolo Colon - 0 for 0
 <span class="sd">and therefore is updated as soon as something happens in a game.</span>
 
 <span class="sd">mlbgame currently comes pre-loaded with scoreboard information for every game</span>
-<span class="sd">from 2012 to the end of the 2015 season. </span>
+<span class="sd">from 2012 to the end of the 2016 season. </span>
 <span class="sd">Therefore, accessing this data does not actually make a request to mlb.com.</span>
 
 <span class="sd">If you try to get data from a game that is not cached,</span>
@@ -1278,6 +1283,7 @@ Bartolo Colon - 0 for 0
 <span class="sd">    </span>
 <span class="sd">    Arguments:</span>
 <span class="sd">    --help (-h): display this help menu</span>
+<span class="sd">    --clear: delete all cached data</span>
 <span class="sd">    --hide: hides output from update script</span>
 <span class="sd">    --stats: saves the box scores and individual game stats from every game</span>
 <span class="sd">    --events: saves the game events from every game</span>
@@ -1366,14 +1372,16 @@ Bartolo Colon - 0 for 0
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">mlbgame.events</span>
 <span class="kn">import</span> <span class="nn">mlbgame.game</span>
+<span class="kn">import</span> <span class="nn">mlbgame.info</span>
 <span class="kn">import</span> <span class="nn">mlbgame.stats</span>
+<span class="kn">import</span> <span class="nn">mlbgame.version</span>
+
 <span class="kn">import</span> <span class="nn">calendar</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="kn">import</span> <span class="nn">mlbgame.version</span>
 <span class="n">VERSION</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">__version__</span>
 <span class="sd">&quot;&quot;&quot;Installed version of mlbgame.&quot;&quot;&quot;</span>
 
@@ -1386,16 +1394,6 @@ Bartolo Colon - 0 for 0
     <span class="n">daysinmonth</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">monthrange</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
     <span class="c"># do not even try to get data if day is too high</span>
     <span class="k">if</span> <span class="n">daysinmonth</span> <span class="o">&lt;</span> <span class="n">day</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-    <span class="c"># get today&#39;s date</span>
-    <span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
-    <span class="c"># do not even try to get data if date is in the future</span>
-    <span class="c"># statements separated for readability</span>
-    <span class="k">if</span> <span class="n">year</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-    <span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-    <span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span> <span class="ow">and</span> <span class="n">day</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">day</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
     <span class="c"># get data</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="n">home</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="n">away</span><span class="p">)</span>
@@ -1494,9 +1492,20 @@ Bartolo Colon - 0 for 0
     <span class="k">return</span> <span class="n">output</span>
 
 <span class="k">def</span> <span class="nf">overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return Overview objec that contains game information.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Return Overview object that contains game information.&quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">Overview</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">league</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return Info object that contains league information&quot;&quot;&quot;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">league_info</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">teams</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return list of Info objects for each team&quot;&quot;&quot;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">team_info</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">info</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output</span>
 </pre></div>
 
   </div>
@@ -1615,16 +1624,6 @@ Bartolo Colon - 0 for 0
     <span class="c"># do not even try to get data if day is too high</span>
     <span class="k">if</span> <span class="n">daysinmonth</span> <span class="o">&lt;</span> <span class="n">day</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
-    <span class="c"># get today&#39;s date</span>
-    <span class="n">today</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
-    <span class="c"># do not even try to get data if date is in the future</span>
-    <span class="c"># statements separated for readability</span>
-    <span class="k">if</span> <span class="n">year</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-    <span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
-    <span class="k">elif</span> <span class="n">year</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">month</span> <span class="o">&gt;=</span> <span class="n">today</span><span class="o">.</span><span class="n">month</span> <span class="ow">and</span> <span class="n">day</span> <span class="o">&gt;</span> <span class="n">today</span><span class="o">.</span><span class="n">day</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span>
     <span class="c"># get data</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="n">home</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="n">away</span><span class="p">)</span>
     <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">GameScoreboard</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
@@ -1732,6 +1731,30 @@ Ex. events['inningnumber']['top/bottom'][atbatnumber]</p></div>
   
       
   <div class="item">
+    <div class="name def" id="mlbgame.league">
+    <p>def <span class="ident">league</span>(</p><p>)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return Info object that contains league information</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.league', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.league" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">league</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return Info object that contains league information&quot;&quot;&quot;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">league_info</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
     <div class="name def" id="mlbgame.overview">
     <p>def <span class="ident">overview</span>(</p><p>game_id)</p>
     </div>
@@ -1739,12 +1762,12 @@ Ex. events['inningnumber']['top/bottom'][atbatnumber]</p></div>
 
     
   
-    <div class="desc"><p>Return Overview objec that contains game information.</p></div>
+    <div class="desc"><p>Return Overview object that contains game information.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.overview', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.overview" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return Overview objec that contains game information.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Return Overview object that contains game information.&quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">Overview</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
@@ -1815,6 +1838,31 @@ Ex. events['inningnumber']['top/bottom'][atbatnumber]</p></div>
 
   </div>
   
+      
+  <div class="item">
+    <div class="name def" id="mlbgame.teams">
+    <p>def <span class="ident">teams</span>(</p><p>)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Return list of Info objects for each team</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.teams', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.teams" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">teams</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return list of Info objects for each team&quot;&quot;&quot;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">team_info</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">info</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
 
 
     <h2 class="section-title" id="header-submodules">Sub-modules</h2>
@@ -1841,6 +1889,21 @@ that occured throughout games.</p></div>
   
     <div class="desc"><p>Module that is used for getting basic information about a game 
 such as the scoreboard and the box score.</p></div>
+
+      </div>
+      <div class="item">
+      <p class="name"><a href="info.m.html">mlbgame.info</a></p>
+      
+  
+    <div class="desc"><p>Module that is used for getting information
+about the (MLB) league and the teams in it.</p></div>
+
+      </div>
+      <div class="item">
+      <p class="name"><a href="object.m.html">mlbgame.object</a></p>
+      
+  
+    <div class="desc"><p>Module that is used for holding basic objects</p></div>
 
       </div>
       <div class="item">

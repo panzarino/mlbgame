@@ -1103,12 +1103,13 @@ such as the scoreboard and the box score.</p>
 <span class="sd">such as the scoreboard and the box score.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">lxml.etree</span> <span class="kn">as</span> <span class="nn">etree</span>
-<span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">mlbgame.data</span>
 
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">lxml.etree</span> <span class="kn">as</span> <span class="nn">etree</span>
+
 <span class="k">def</span> <span class="nf">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return the scoreboard information for a game matching the parameters as a dictionary.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Return the scoreboard information for games matching the parameters as a dictionary.&quot;&quot;&quot;</span>
     <span class="c"># get data</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
     <span class="c"># parse data</span>
@@ -1133,31 +1134,44 @@ such as the scoreboard and the box score.</p>
                 <span class="n">game_status</span> <span class="o">=</span> <span class="n">game_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span>
                 <span class="n">game_start_time</span> <span class="o">=</span> <span class="n">game_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;start_time&#39;</span><span class="p">]</span>
                 <span class="n">home_team_data</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;gameteam&#39;</span><span class="p">)</span>
-                <span class="n">home_team</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">home_name</span><span class="p">,</span> <span class="s">&#39;runs&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">]),</span> <span class="s">&#39;hits&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">]),</span> <span class="s">&#39;errors&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])}</span>
+                <span class="n">home_team</span> <span class="o">=</span> <span class="n">home_name</span>
+                <span class="n">home_team_runs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">])</span>
+                <span class="n">home_team_hits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">])</span>
+                <span class="n">home_team_errors</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])</span>
                 <span class="n">away_team_data</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;gameteam&#39;</span><span class="p">)</span>
-                <span class="n">away_team</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">away_name</span><span class="p">,</span> <span class="s">&#39;runs&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">]),</span> <span class="s">&#39;hits&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">]),</span> <span class="s">&#39;errors&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])}</span>
+                <span class="n">away_team</span> <span class="o">=</span> <span class="n">away_name</span>
+                <span class="n">away_team_runs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">])</span>
+                <span class="n">away_team_hits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">])</span>
+                <span class="n">away_team_errors</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">w_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">)</span>
-                    <span class="n">w_pitcher_name</span> <span class="o">=</span> <span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
-                    <span class="n">w_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">w_pitcher_name</span><span class="p">,</span> <span class="s">&#39;wins&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">]),</span> <span class="s">&#39;losses&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])}</span>
+                    <span class="n">w_pitcher</span> <span class="o">=</span> <span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">w_pitcher_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">w_pitcher_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
                 <span class="k">except</span><span class="p">:</span>
-                    <span class="n">w_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;wins&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;losses&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+                    <span class="n">w_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">w_pitcher_wins</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">w_pitcher_losses</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">l_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;l_pitcher&#39;</span><span class="p">)</span>
-                    <span class="n">l_pitcher_name</span> <span class="o">=</span> <span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
-                    <span class="n">l_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">l_pitcher_name</span><span class="p">,</span> <span class="s">&#39;wins&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">]),</span> <span class="s">&#39;losses&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])}</span>
+                    <span class="n">l_pitcher</span> <span class="o">=</span> <span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">l_pitcher_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">l_pitcher_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
                 <span class="k">except</span><span class="p">:</span>
-                    <span class="n">l_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;wins&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;losses&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+                    <span class="n">l_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">l_pitcher_wins</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">l_pitcher_losses</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">sv_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;sv_pitcher&#39;</span><span class="p">)</span>
-                    <span class="n">sv_pitcher_name</span> <span class="o">=</span> <span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
-                    <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">sv_pitcher_name</span><span class="p">,</span> <span class="s">&#39;saves&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;saves&#39;</span><span class="p">])}</span>
+                    <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">sv_pitcher_saves</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;saves&#39;</span><span class="p">])</span>
                 <span class="k">except</span><span class="p">:</span>
-                    <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;saves&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
-                <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;game_id&#39;</span><span class="p">:</span><span class="n">game_id</span><span class="p">,</span> <span class="s">&#39;game_type&#39;</span><span class="p">:</span><span class="n">game_type</span><span class="p">,</span> <span class="s">&#39;game_league&#39;</span><span class="p">:</span><span class="n">game_league</span><span class="p">,</span> <span class="s">&#39;game_status&#39;</span><span class="p">:</span><span class="n">game_status</span><span class="p">,</span> <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span><span class="n">game_start_time</span><span class="p">,</span> <span class="s">&#39;home_team&#39;</span><span class="p">:</span><span class="n">home_team</span><span class="p">,</span> <span class="s">&#39;away_team&#39;</span><span class="p">:</span><span class="n">away_team</span><span class="p">,</span> <span class="s">&#39;w_pitcher&#39;</span><span class="p">:</span><span class="n">w_pitcher</span><span class="p">,</span> <span class="s">&#39;l_pitcher&#39;</span><span class="p">:</span><span class="n">l_pitcher</span><span class="p">,</span> <span class="s">&#39;sv_pitcher&#39;</span><span class="p">:</span><span class="n">sv_pitcher</span><span class="p">}</span>
+                    <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">sv_pitcher_saves</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;game_id&#39;</span><span class="p">:</span><span class="n">game_id</span><span class="p">,</span> <span class="s">&#39;game_type&#39;</span><span class="p">:</span><span class="n">game_type</span><span class="p">,</span> <span class="s">&#39;game_league&#39;</span><span class="p">:</span><span class="n">game_league</span><span class="p">,</span> <span class="s">&#39;game_status&#39;</span><span class="p">:</span><span class="n">game_status</span><span class="p">,</span> <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span><span class="n">game_start_time</span><span class="p">,</span> <span class="s">&#39;home_team&#39;</span><span class="p">:</span><span class="n">home_team</span><span class="p">,</span> <span class="s">&#39;home_team_runs&#39;</span><span class="p">:</span> <span class="n">home_team_runs</span><span class="p">,</span> <span class="s">&#39;home_team_hits&#39;</span><span class="p">:</span> <span class="n">home_team_hits</span><span class="p">,</span> <span class="s">&#39;home_team_errors&#39;</span><span class="p">:</span> <span class="n">home_team_errors</span><span class="p">,</span> <span class="s">&#39;away_team&#39;</span><span class="p">:</span><span class="n">away_team</span><span class="p">,</span> <span class="s">&#39;away_team_runs&#39;</span><span class="p">:</span> <span class="n">away_team_runs</span><span class="p">,</span> <span class="s">&#39;away_team_hits&#39;</span><span class="p">:</span> <span class="n">away_team_hits</span><span class="p">,</span> <span class="s">&#39;away_team_errors&#39;</span><span class="p">:</span> <span class="n">away_team_errors</span><span class="p">,</span> <span class="s">&#39;w_pitcher&#39;</span><span class="p">:</span><span class="n">w_pitcher</span><span class="p">,</span> <span class="s">&#39;w_pitcher_wins&#39;</span><span class="p">:</span> <span class="n">w_pitcher_wins</span><span class="p">,</span> <span class="s">&#39;w_pitcher_losses&#39;</span><span class="p">:</span> <span class="n">w_pitcher_losses</span><span class="p">,</span> <span class="s">&#39;l_pitcher&#39;</span><span class="p">:</span><span class="n">l_pitcher</span><span class="p">,</span> <span class="s">&#39;l_pitcher_wins&#39;</span><span class="p">:</span> <span class="n">l_pitcher_wins</span><span class="p">,</span> <span class="s">&#39;l_pitcher_losses&#39;</span><span class="p">:</span> <span class="n">l_pitcher_losses</span><span class="p">,</span> <span class="s">&#39;sv_pitcher&#39;</span><span class="p">:</span><span class="n">sv_pitcher</span><span class="p">,</span> <span class="s">&#39;sv_pitcher_saves&#39;</span><span class="p">:</span> <span class="n">sv_pitcher_saves</span><span class="p">}</span>
                 <span class="c"># put this dictionary into the larger dictionary</span>
                 <span class="n">games</span><span class="p">[</span><span class="n">game_id</span><span class="p">]</span><span class="o">=</span><span class="n">output</span>
-        <span class="c"># games taht were not played</span>
+        <span class="c"># games that were not played</span>
         <span class="k">elif</span> <span class="n">game</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;sg_game&quot;</span><span class="p">:</span>
             <span class="c"># get team information</span>
             <span class="n">teams</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">)</span>
@@ -1174,10 +1188,33 @@ such as the scoreboard and the box score.</p>
                 <span class="n">game_start_time</span> <span class="o">=</span> <span class="n">game_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;start_time&#39;</span><span class="p">]</span>
                 <span class="n">teams</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">)</span>
                 <span class="n">home_team_data</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;gameteam&#39;</span><span class="p">)</span>
-                <span class="n">home_team</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">teams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="s">&#39;runs&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">]),</span> <span class="s">&#39;hits&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">]),</span> <span class="s">&#39;errors&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])}</span>
+                <span class="n">home_team</span> <span class="o">=</span> <span class="n">home_name</span>
+                <span class="n">home_team_runs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">])</span>
+                <span class="n">home_team_hits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">])</span>
+                <span class="n">home_team_errors</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])</span>
                 <span class="n">away_team_data</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;gameteam&#39;</span><span class="p">)</span>
-                <span class="n">away_team</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">teams</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="s">&#39;runs&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">]),</span> <span class="s">&#39;hits&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">]),</span> <span class="s">&#39;errors&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])}</span>
-                <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;game_id&#39;</span><span class="p">:</span><span class="n">game_id</span><span class="p">,</span> <span class="s">&#39;game_type&#39;</span><span class="p">:</span><span class="n">game_type</span><span class="p">,</span> <span class="s">&#39;game_league&#39;</span><span class="p">:</span><span class="n">game_league</span><span class="p">,</span> <span class="s">&#39;game_status&#39;</span><span class="p">:</span><span class="n">game_status</span><span class="p">,</span> <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span><span class="n">game_start_time</span><span class="p">,</span> <span class="s">&#39;home_team&#39;</span><span class="p">:</span><span class="n">home_team</span><span class="p">,</span> <span class="s">&#39;away_team&#39;</span><span class="p">:</span><span class="n">away_team</span><span class="p">,</span> <span class="s">&#39;w_pitcher&#39;</span><span class="p">:{},</span> <span class="s">&#39;l_pitcher&#39;</span><span class="p">:{},</span> <span class="s">&#39;sv_pitcher&#39;</span><span class="p">:{}}</span>
+                <span class="n">away_team</span> <span class="o">=</span> <span class="n">away_name</span>
+                <span class="n">away_team_runs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">])</span>
+                <span class="n">away_team_hits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">])</span>
+                <span class="n">away_team_errors</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">p_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;p_pitcher&#39;</span><span class="p">)</span>
+                    <span class="n">p_pitcher_home_data</span> <span class="o">=</span> <span class="n">p_pitcher_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">p_pitcher_home_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_home_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_away_data</span> <span class="o">=</span> <span class="n">p_pitcher_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">p_pitcher_away_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_away_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">p_pitcher_home_wins</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">p_pitcher_home_losses</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">p_pitcher_away_wins</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">p_pitcher_away_losses</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;game_id&#39;</span><span class="p">:</span><span class="n">game_id</span><span class="p">,</span> <span class="s">&#39;game_type&#39;</span><span class="p">:</span><span class="n">game_type</span><span class="p">,</span> <span class="s">&#39;game_league&#39;</span><span class="p">:</span><span class="n">game_league</span><span class="p">,</span> <span class="s">&#39;game_status&#39;</span><span class="p">:</span><span class="n">game_status</span><span class="p">,</span> <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span><span class="n">game_start_time</span><span class="p">,</span> <span class="s">&#39;home_team&#39;</span><span class="p">:</span><span class="n">home_team</span><span class="p">,</span> <span class="s">&#39;home_team_runs&#39;</span><span class="p">:</span> <span class="n">home_team_runs</span><span class="p">,</span> <span class="s">&#39;home_team_hits&#39;</span><span class="p">:</span> <span class="n">home_team_hits</span><span class="p">,</span> <span class="s">&#39;home_team_errors&#39;</span><span class="p">:</span> <span class="n">home_team_errors</span><span class="p">,</span> <span class="s">&#39;away_team&#39;</span><span class="p">:</span><span class="n">away_team</span><span class="p">,</span> <span class="s">&#39;away_team_runs&#39;</span><span class="p">:</span> <span class="n">away_team_runs</span><span class="p">,</span> <span class="s">&#39;away_team_hits&#39;</span><span class="p">:</span> <span class="n">away_team_hits</span><span class="p">,</span> <span class="s">&#39;away_team_errors&#39;</span><span class="p">:</span> <span class="n">away_team_errors</span><span class="p">,</span> <span class="s">&#39;p_pitcher_home&#39;</span><span class="p">:</span><span class="n">p_pitcher_home</span><span class="p">,</span> <span class="s">&#39;p_pitcher_home_wins&#39;</span><span class="p">:</span> <span class="n">p_pitcher_home_wins</span><span class="p">,</span> <span class="s">&#39;p_pitcher_home_losses&#39;</span><span class="p">:</span> <span class="n">p_pitcher_home_losses</span><span class="p">,</span> <span class="s">&#39;p_pitcher_away&#39;</span><span class="p">:</span><span class="n">p_pitcher_away</span><span class="p">,</span> <span class="s">&#39;p_pitcher_away_wins&#39;</span><span class="p">:</span> <span class="n">p_pitcher_away_wins</span><span class="p">,</span> <span class="s">&#39;p_pitcher_away_losses&#39;</span><span class="p">:</span> <span class="n">p_pitcher_away_losses</span><span class="p">,}</span>
                 <span class="c"># put this dictionary into the larger dictionary</span>
                 <span class="n">games</span><span class="p">[</span><span class="n">game_id</span><span class="p">]</span><span class="o">=</span><span class="n">output</span>
     <span class="k">return</span> <span class="n">games</span>
@@ -1190,30 +1227,17 @@ such as the scoreboard and the box score.</p>
 
 <span class="sd">        data is expected to come from the `scoreboard()` function.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># go through dictionary and assign it to object properties</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">game_type</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_type&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">game_status</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_status&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">game_league</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_league&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">game_start_time</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_start_time&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;runs&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">home_team_hits</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;hits&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">home_team_errors</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;errors&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">away_team</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;runs&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">away_team_hits</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;hits&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">away_team_errors</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;errors&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w_pitcher</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w_pitcher_wins</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;wins&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w_pitcher_losses</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;losses&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l_pitcher</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;l_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l_pitcher_wins</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;l_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;wins&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l_pitcher_losses</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;l_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;losses&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sv_pitcher</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sv_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sv_pitcher_saves</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sv_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;saves&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l_team</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="c"># loop through data</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="c"># set information as correct data type</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="c"># string if not number</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
         <span class="c"># calculate the winning team</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span>
@@ -1439,12 +1463,12 @@ such as the scoreboard and the box score.</p>
 
     
   
-    <div class="desc"><p>Return the scoreboard information for a game matching the parameters as a dictionary.</p></div>
+    <div class="desc"><p>Return the scoreboard information for games matching the parameters as a dictionary.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.scoreboard', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.game.scoreboard" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return the scoreboard information for a game matching the parameters as a dictionary.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Return the scoreboard information for games matching the parameters as a dictionary.&quot;&quot;&quot;</span>
     <span class="c"># get data</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
     <span class="c"># parse data</span>
@@ -1469,31 +1493,44 @@ such as the scoreboard and the box score.</p>
                 <span class="n">game_status</span> <span class="o">=</span> <span class="n">game_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span>
                 <span class="n">game_start_time</span> <span class="o">=</span> <span class="n">game_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;start_time&#39;</span><span class="p">]</span>
                 <span class="n">home_team_data</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;gameteam&#39;</span><span class="p">)</span>
-                <span class="n">home_team</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">home_name</span><span class="p">,</span> <span class="s">&#39;runs&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">]),</span> <span class="s">&#39;hits&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">]),</span> <span class="s">&#39;errors&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])}</span>
+                <span class="n">home_team</span> <span class="o">=</span> <span class="n">home_name</span>
+                <span class="n">home_team_runs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">])</span>
+                <span class="n">home_team_hits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">])</span>
+                <span class="n">home_team_errors</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])</span>
                 <span class="n">away_team_data</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;gameteam&#39;</span><span class="p">)</span>
-                <span class="n">away_team</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">away_name</span><span class="p">,</span> <span class="s">&#39;runs&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">]),</span> <span class="s">&#39;hits&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">]),</span> <span class="s">&#39;errors&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])}</span>
+                <span class="n">away_team</span> <span class="o">=</span> <span class="n">away_name</span>
+                <span class="n">away_team_runs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">])</span>
+                <span class="n">away_team_hits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">])</span>
+                <span class="n">away_team_errors</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">w_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">)</span>
-                    <span class="n">w_pitcher_name</span> <span class="o">=</span> <span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
-                    <span class="n">w_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">w_pitcher_name</span><span class="p">,</span> <span class="s">&#39;wins&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">]),</span> <span class="s">&#39;losses&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])}</span>
+                    <span class="n">w_pitcher</span> <span class="o">=</span> <span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">w_pitcher_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">w_pitcher_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
                 <span class="k">except</span><span class="p">:</span>
-                    <span class="n">w_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;wins&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;losses&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+                    <span class="n">w_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">w_pitcher_wins</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">w_pitcher_losses</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">l_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;l_pitcher&#39;</span><span class="p">)</span>
-                    <span class="n">l_pitcher_name</span> <span class="o">=</span> <span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
-                    <span class="n">l_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">l_pitcher_name</span><span class="p">,</span> <span class="s">&#39;wins&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">]),</span> <span class="s">&#39;losses&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])}</span>
+                    <span class="n">l_pitcher</span> <span class="o">=</span> <span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">l_pitcher_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">l_pitcher_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
                 <span class="k">except</span><span class="p">:</span>
-                    <span class="n">l_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;wins&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;losses&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+                    <span class="n">l_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">l_pitcher_wins</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">l_pitcher_losses</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">sv_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;sv_pitcher&#39;</span><span class="p">)</span>
-                    <span class="n">sv_pitcher_name</span> <span class="o">=</span> <span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
-                    <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">sv_pitcher_name</span><span class="p">,</span> <span class="s">&#39;saves&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;saves&#39;</span><span class="p">])}</span>
+                    <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">sv_pitcher_saves</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;saves&#39;</span><span class="p">])</span>
                 <span class="k">except</span><span class="p">:</span>
-                    <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;saves&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
-                <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;game_id&#39;</span><span class="p">:</span><span class="n">game_id</span><span class="p">,</span> <span class="s">&#39;game_type&#39;</span><span class="p">:</span><span class="n">game_type</span><span class="p">,</span> <span class="s">&#39;game_league&#39;</span><span class="p">:</span><span class="n">game_league</span><span class="p">,</span> <span class="s">&#39;game_status&#39;</span><span class="p">:</span><span class="n">game_status</span><span class="p">,</span> <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span><span class="n">game_start_time</span><span class="p">,</span> <span class="s">&#39;home_team&#39;</span><span class="p">:</span><span class="n">home_team</span><span class="p">,</span> <span class="s">&#39;away_team&#39;</span><span class="p">:</span><span class="n">away_team</span><span class="p">,</span> <span class="s">&#39;w_pitcher&#39;</span><span class="p">:</span><span class="n">w_pitcher</span><span class="p">,</span> <span class="s">&#39;l_pitcher&#39;</span><span class="p">:</span><span class="n">l_pitcher</span><span class="p">,</span> <span class="s">&#39;sv_pitcher&#39;</span><span class="p">:</span><span class="n">sv_pitcher</span><span class="p">}</span>
+                    <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">sv_pitcher_saves</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;game_id&#39;</span><span class="p">:</span><span class="n">game_id</span><span class="p">,</span> <span class="s">&#39;game_type&#39;</span><span class="p">:</span><span class="n">game_type</span><span class="p">,</span> <span class="s">&#39;game_league&#39;</span><span class="p">:</span><span class="n">game_league</span><span class="p">,</span> <span class="s">&#39;game_status&#39;</span><span class="p">:</span><span class="n">game_status</span><span class="p">,</span> <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span><span class="n">game_start_time</span><span class="p">,</span> <span class="s">&#39;home_team&#39;</span><span class="p">:</span><span class="n">home_team</span><span class="p">,</span> <span class="s">&#39;home_team_runs&#39;</span><span class="p">:</span> <span class="n">home_team_runs</span><span class="p">,</span> <span class="s">&#39;home_team_hits&#39;</span><span class="p">:</span> <span class="n">home_team_hits</span><span class="p">,</span> <span class="s">&#39;home_team_errors&#39;</span><span class="p">:</span> <span class="n">home_team_errors</span><span class="p">,</span> <span class="s">&#39;away_team&#39;</span><span class="p">:</span><span class="n">away_team</span><span class="p">,</span> <span class="s">&#39;away_team_runs&#39;</span><span class="p">:</span> <span class="n">away_team_runs</span><span class="p">,</span> <span class="s">&#39;away_team_hits&#39;</span><span class="p">:</span> <span class="n">away_team_hits</span><span class="p">,</span> <span class="s">&#39;away_team_errors&#39;</span><span class="p">:</span> <span class="n">away_team_errors</span><span class="p">,</span> <span class="s">&#39;w_pitcher&#39;</span><span class="p">:</span><span class="n">w_pitcher</span><span class="p">,</span> <span class="s">&#39;w_pitcher_wins&#39;</span><span class="p">:</span> <span class="n">w_pitcher_wins</span><span class="p">,</span> <span class="s">&#39;w_pitcher_losses&#39;</span><span class="p">:</span> <span class="n">w_pitcher_losses</span><span class="p">,</span> <span class="s">&#39;l_pitcher&#39;</span><span class="p">:</span><span class="n">l_pitcher</span><span class="p">,</span> <span class="s">&#39;l_pitcher_wins&#39;</span><span class="p">:</span> <span class="n">l_pitcher_wins</span><span class="p">,</span> <span class="s">&#39;l_pitcher_losses&#39;</span><span class="p">:</span> <span class="n">l_pitcher_losses</span><span class="p">,</span> <span class="s">&#39;sv_pitcher&#39;</span><span class="p">:</span><span class="n">sv_pitcher</span><span class="p">,</span> <span class="s">&#39;sv_pitcher_saves&#39;</span><span class="p">:</span> <span class="n">sv_pitcher_saves</span><span class="p">}</span>
                 <span class="c"># put this dictionary into the larger dictionary</span>
                 <span class="n">games</span><span class="p">[</span><span class="n">game_id</span><span class="p">]</span><span class="o">=</span><span class="n">output</span>
-        <span class="c"># games taht were not played</span>
+        <span class="c"># games that were not played</span>
         <span class="k">elif</span> <span class="n">game</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;sg_game&quot;</span><span class="p">:</span>
             <span class="c"># get team information</span>
             <span class="n">teams</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">)</span>
@@ -1510,10 +1547,33 @@ such as the scoreboard and the box score.</p>
                 <span class="n">game_start_time</span> <span class="o">=</span> <span class="n">game_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;start_time&#39;</span><span class="p">]</span>
                 <span class="n">teams</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">)</span>
                 <span class="n">home_team_data</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;gameteam&#39;</span><span class="p">)</span>
-                <span class="n">home_team</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">teams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="s">&#39;runs&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">]),</span> <span class="s">&#39;hits&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">]),</span> <span class="s">&#39;errors&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])}</span>
+                <span class="n">home_team</span> <span class="o">=</span> <span class="n">home_name</span>
+                <span class="n">home_team_runs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">])</span>
+                <span class="n">home_team_hits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">])</span>
+                <span class="n">home_team_errors</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">home_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])</span>
                 <span class="n">away_team_data</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;gameteam&#39;</span><span class="p">)</span>
-                <span class="n">away_team</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">teams</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="s">&#39;runs&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">]),</span> <span class="s">&#39;hits&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">]),</span> <span class="s">&#39;errors&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])}</span>
-                <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;game_id&#39;</span><span class="p">:</span><span class="n">game_id</span><span class="p">,</span> <span class="s">&#39;game_type&#39;</span><span class="p">:</span><span class="n">game_type</span><span class="p">,</span> <span class="s">&#39;game_league&#39;</span><span class="p">:</span><span class="n">game_league</span><span class="p">,</span> <span class="s">&#39;game_status&#39;</span><span class="p">:</span><span class="n">game_status</span><span class="p">,</span> <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span><span class="n">game_start_time</span><span class="p">,</span> <span class="s">&#39;home_team&#39;</span><span class="p">:</span><span class="n">home_team</span><span class="p">,</span> <span class="s">&#39;away_team&#39;</span><span class="p">:</span><span class="n">away_team</span><span class="p">,</span> <span class="s">&#39;w_pitcher&#39;</span><span class="p">:{},</span> <span class="s">&#39;l_pitcher&#39;</span><span class="p">:{},</span> <span class="s">&#39;sv_pitcher&#39;</span><span class="p">:{}}</span>
+                <span class="n">away_team</span> <span class="o">=</span> <span class="n">away_name</span>
+                <span class="n">away_team_runs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;R&#39;</span><span class="p">])</span>
+                <span class="n">away_team_hits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">])</span>
+                <span class="n">away_team_errors</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">p_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;p_pitcher&#39;</span><span class="p">)</span>
+                    <span class="n">p_pitcher_home_data</span> <span class="o">=</span> <span class="n">p_pitcher_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">p_pitcher_home_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_home_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_away_data</span> <span class="o">=</span> <span class="n">p_pitcher_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">p_pitcher_away_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_away_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">p_pitcher_home_wins</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">p_pitcher_home_losses</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">p_pitcher_away_wins</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">p_pitcher_away_losses</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;game_id&#39;</span><span class="p">:</span><span class="n">game_id</span><span class="p">,</span> <span class="s">&#39;game_type&#39;</span><span class="p">:</span><span class="n">game_type</span><span class="p">,</span> <span class="s">&#39;game_league&#39;</span><span class="p">:</span><span class="n">game_league</span><span class="p">,</span> <span class="s">&#39;game_status&#39;</span><span class="p">:</span><span class="n">game_status</span><span class="p">,</span> <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span><span class="n">game_start_time</span><span class="p">,</span> <span class="s">&#39;home_team&#39;</span><span class="p">:</span><span class="n">home_team</span><span class="p">,</span> <span class="s">&#39;home_team_runs&#39;</span><span class="p">:</span> <span class="n">home_team_runs</span><span class="p">,</span> <span class="s">&#39;home_team_hits&#39;</span><span class="p">:</span> <span class="n">home_team_hits</span><span class="p">,</span> <span class="s">&#39;home_team_errors&#39;</span><span class="p">:</span> <span class="n">home_team_errors</span><span class="p">,</span> <span class="s">&#39;away_team&#39;</span><span class="p">:</span><span class="n">away_team</span><span class="p">,</span> <span class="s">&#39;away_team_runs&#39;</span><span class="p">:</span> <span class="n">away_team_runs</span><span class="p">,</span> <span class="s">&#39;away_team_hits&#39;</span><span class="p">:</span> <span class="n">away_team_hits</span><span class="p">,</span> <span class="s">&#39;away_team_errors&#39;</span><span class="p">:</span> <span class="n">away_team_errors</span><span class="p">,</span> <span class="s">&#39;p_pitcher_home&#39;</span><span class="p">:</span><span class="n">p_pitcher_home</span><span class="p">,</span> <span class="s">&#39;p_pitcher_home_wins&#39;</span><span class="p">:</span> <span class="n">p_pitcher_home_wins</span><span class="p">,</span> <span class="s">&#39;p_pitcher_home_losses&#39;</span><span class="p">:</span> <span class="n">p_pitcher_home_losses</span><span class="p">,</span> <span class="s">&#39;p_pitcher_away&#39;</span><span class="p">:</span><span class="n">p_pitcher_away</span><span class="p">,</span> <span class="s">&#39;p_pitcher_away_wins&#39;</span><span class="p">:</span> <span class="n">p_pitcher_away_wins</span><span class="p">,</span> <span class="s">&#39;p_pitcher_away_losses&#39;</span><span class="p">:</span> <span class="n">p_pitcher_away_losses</span><span class="p">,}</span>
                 <span class="c"># put this dictionary into the larger dictionary</span>
                 <span class="n">games</span><span class="p">[</span><span class="n">game_id</span><span class="p">]</span><span class="o">=</span><span class="n">output</span>
     <span class="k">return</span> <span class="n">games</span>
@@ -1735,30 +1795,17 @@ such as the scoreboard and the box score.</p>
 
 <span class="sd">        data is expected to come from the `scoreboard()` function.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># go through dictionary and assign it to object properties</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">game_type</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_type&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">game_status</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_status&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">game_league</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_league&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">game_start_time</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_start_time&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;runs&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">home_team_hits</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;hits&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">home_team_errors</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;errors&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">away_team</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;runs&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">away_team_hits</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;hits&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">away_team_errors</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;errors&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w_pitcher</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w_pitcher_wins</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;wins&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w_pitcher_losses</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;losses&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l_pitcher</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;l_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l_pitcher_wins</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;l_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;wins&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l_pitcher_losses</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;l_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;losses&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sv_pitcher</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sv_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sv_pitcher_saves</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sv_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;saves&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l_team</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="c"># loop through data</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="c"># set information as correct data type</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="c"># string if not number</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
         <span class="c"># calculate the winning team</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span>
@@ -1795,237 +1842,7 @@ such as the scoreboard and the box score.</p>
           </ul>
           <h3>Instance variables</h3>
             <div class="item">
-            <p id="mlbgame.game.GameScoreboard.away_team" class="name">var <span class="ident">away_team</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.away_team_errors" class="name">var <span class="ident">away_team_errors</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.away_team_hits" class="name">var <span class="ident">away_team_hits</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.away_team_runs" class="name">var <span class="ident">away_team_runs</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
             <p id="mlbgame.game.GameScoreboard.date" class="name">var <span class="ident">date</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.game_id" class="name">var <span class="ident">game_id</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.game_league" class="name">var <span class="ident">game_league</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.game_start_time" class="name">var <span class="ident">game_start_time</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.game_status" class="name">var <span class="ident">game_status</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.game_type" class="name">var <span class="ident">game_type</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.home_team" class="name">var <span class="ident">home_team</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.home_team_errors" class="name">var <span class="ident">home_team_errors</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.home_team_hits" class="name">var <span class="ident">home_team_hits</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.home_team_runs" class="name">var <span class="ident">home_team_runs</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.l_pitcher" class="name">var <span class="ident">l_pitcher</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.l_pitcher_losses" class="name">var <span class="ident">l_pitcher_losses</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.l_pitcher_wins" class="name">var <span class="ident">l_pitcher_wins</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.l_team" class="name">var <span class="ident">l_team</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.sv_pitcher" class="name">var <span class="ident">sv_pitcher</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.sv_pitcher_saves" class="name">var <span class="ident">sv_pitcher_saves</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.w_pitcher" class="name">var <span class="ident">w_pitcher</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.w_pitcher_losses" class="name">var <span class="ident">w_pitcher_losses</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.w_pitcher_wins" class="name">var <span class="ident">w_pitcher_wins</span></p>
-            
-
-            
-  
-  <div class="source_cont">
-</div>
-
-            </div>
-            <div class="item">
-            <p id="mlbgame.game.GameScoreboard.w_team" class="name">var <span class="ident">w_team</span></p>
             
 
             
@@ -2053,30 +1870,17 @@ such as the scoreboard and the box score.</p>
     <span class="sd">&quot;&quot;&quot;Creates a `GameScoreboard` object.</span>
 <span class="sd">    data is expected to come from the `scoreboard()` function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c"># go through dictionary and assign it to object properties</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">game_type</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_type&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">game_status</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_status&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">game_league</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_league&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">game_start_time</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;game_start_time&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;runs&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">home_team_hits</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;hits&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">home_team_errors</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;home_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;errors&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">away_team</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;runs&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">away_team_hits</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;hits&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">away_team_errors</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;away_team&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;errors&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">w_pitcher</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">w_pitcher_wins</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;wins&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">w_pitcher_losses</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;losses&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">l_pitcher</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;l_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">l_pitcher_wins</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;l_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;wins&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">l_pitcher_losses</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;l_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;losses&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">sv_pitcher</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sv_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">sv_pitcher_saves</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sv_pitcher&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;saves&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">l_team</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="c"># loop through data</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="c"># set information as correct data type</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="c"># string if not number</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
     <span class="c"># calculate the winning team</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span>
