@@ -276,3 +276,9 @@ def league():
     """Return Info object that contains league information"""
     info = mlbgame.info.league_info()
     return mlbgame.info.Info(info)
+
+def teams():
+    """Return list of Info objects for each team"""
+    info = mlbgame.info.team_info()
+    output = [mlbgame.info.Info(x) for x in info]
+    return output
