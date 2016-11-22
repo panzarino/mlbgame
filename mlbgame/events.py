@@ -37,26 +37,23 @@ def game_events(game_id):
                     pitch[n] = i.attrib[n]
                 atbat['pitches'].append(pitch)
             topinfo.append(atbat)
+        # bottom info
+        botinfo = []
         # loop through the bottom half
         bot = x.findall('bottom')[0]
         for y in bot.findall('atbat'):
-            # top info
-            botinfo = []
-            # loop through the top half
-            bot = x.findall('top')[0]
-            for y in bot.findall('atbat'):
-                atbat = {}
-                # loop through and save info
-                for i in y.attrib:
-                    atbat[i] = y.attrib[i]
-                atbat['pitches'] = []
-                for i in y.findall('pitch'):
-                    pitch = {}
-                    # loop through pitch info
-                    for n in i.attrib:
-                        pitch[n] = i.attrib[n]
-                    atbat['pitches'].append(pitch)
-                botinfo.append(atbat)
+            atbat = {}
+            # loop through and save info
+            for i in y.attrib:
+                atbat[i] = y.attrib[i]
+            atbat['pitches'] = []
+            for i in y.findall('pitch'):
+                pitch = {}
+                # loop through pitch info
+                for n in i.attrib:
+                    pitch[n] = i.attrib[n]
+                atbat['pitches'].append(pitch)
+            botinfo.append(atbat)
         output[x.attrib['num']] = {'top': topinfo, 'bottom': botinfo}
     return output
 
