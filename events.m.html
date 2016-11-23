@@ -1125,26 +1125,23 @@ that occured throughout games.</p>
                     <span class="n">pitch</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
                 <span class="n">atbat</span><span class="p">[</span><span class="s">&#39;pitches&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span>
             <span class="n">topinfo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atbat</span><span class="p">)</span>
+        <span class="c"># bottom info</span>
+        <span class="n">botinfo</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c"># loop through the bottom half</span>
         <span class="n">bot</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;bottom&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">bot</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;atbat&#39;</span><span class="p">):</span>
-            <span class="c"># top info</span>
-            <span class="n">botinfo</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="c"># loop through the top half</span>
-            <span class="n">bot</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;top&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">bot</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;atbat&#39;</span><span class="p">):</span>
-                <span class="n">atbat</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="c"># loop through and save info</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-                    <span class="n">atbat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="n">atbat</span><span class="p">[</span><span class="s">&#39;pitches&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;pitch&#39;</span><span class="p">):</span>
-                    <span class="n">pitch</span> <span class="o">=</span> <span class="p">{}</span>
-                    <span class="c"># loop through pitch info</span>
-                    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-                        <span class="n">pitch</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
-                    <span class="n">atbat</span><span class="p">[</span><span class="s">&#39;pitches&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span>
-                <span class="n">botinfo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atbat</span><span class="p">)</span>
+            <span class="n">atbat</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="c"># loop through and save info</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="n">atbat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">atbat</span><span class="p">[</span><span class="s">&#39;pitches&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;pitch&#39;</span><span class="p">):</span>
+                <span class="n">pitch</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="c"># loop through pitch info</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                    <span class="n">pitch</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                <span class="n">atbat</span><span class="p">[</span><span class="s">&#39;pitches&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span>
+            <span class="n">botinfo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atbat</span><span class="p">)</span>
         <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;num&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;top&#39;</span><span class="p">:</span> <span class="n">topinfo</span><span class="p">,</span> <span class="s">&#39;bottom&#39;</span><span class="p">:</span> <span class="n">botinfo</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">output</span>
 
@@ -1294,26 +1291,23 @@ that occured throughout games.</p>
                     <span class="n">pitch</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
                 <span class="n">atbat</span><span class="p">[</span><span class="s">&#39;pitches&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span>
             <span class="n">topinfo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atbat</span><span class="p">)</span>
+        <span class="c"># bottom info</span>
+        <span class="n">botinfo</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c"># loop through the bottom half</span>
         <span class="n">bot</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;bottom&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">bot</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;atbat&#39;</span><span class="p">):</span>
-            <span class="c"># top info</span>
-            <span class="n">botinfo</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="c"># loop through the top half</span>
-            <span class="n">bot</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;top&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">bot</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;atbat&#39;</span><span class="p">):</span>
-                <span class="n">atbat</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="c"># loop through and save info</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-                    <span class="n">atbat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="n">atbat</span><span class="p">[</span><span class="s">&#39;pitches&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;pitch&#39;</span><span class="p">):</span>
-                    <span class="n">pitch</span> <span class="o">=</span> <span class="p">{}</span>
-                    <span class="c"># loop through pitch info</span>
-                    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-                        <span class="n">pitch</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
-                    <span class="n">atbat</span><span class="p">[</span><span class="s">&#39;pitches&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span>
-                <span class="n">botinfo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atbat</span><span class="p">)</span>
+            <span class="n">atbat</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="c"># loop through and save info</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="n">atbat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">atbat</span><span class="p">[</span><span class="s">&#39;pitches&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;pitch&#39;</span><span class="p">):</span>
+                <span class="n">pitch</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="c"># loop through pitch info</span>
+                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                    <span class="n">pitch</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                <span class="n">atbat</span><span class="p">[</span><span class="s">&#39;pitches&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pitch</span><span class="p">)</span>
+            <span class="n">botinfo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atbat</span><span class="p">)</span>
         <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;num&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;top&#39;</span><span class="p">:</span> <span class="n">topinfo</span><span class="p">,</span> <span class="s">&#39;bottom&#39;</span><span class="p">:</span> <span class="n">botinfo</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">output</span>
 </pre></div>
