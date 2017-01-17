@@ -17,7 +17,7 @@ mlbgame will download the data from mlb.com.
 
 There are a lot of extra data for individual games that do not come
 pre-installed with mlbgame, but can be installed by running update scripts
-shown below. This data is not included becuase it takes up too much space, 
+shown below. This data is not included because it takes up too much space, 
 and therefore a request to mlb.com every time is a better option 
 because not everyone will want to access this data.
 
