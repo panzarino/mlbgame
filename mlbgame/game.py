@@ -19,31 +19,31 @@ def scoreboard(year, month, day, home=None, away=None):
     games = {}
     # loop through games
     for game in root:
-        # check type of game
-        if game.tag == "go_game" or game.tag == "ig_game":
-            # get team names
-            teams = game.findall('team')
-            home_name = teams[0].attrib['name']
-            away_name = teams[1].attrib['name']
-            # check if teams match parameters
-            if (home_name == home and home!=None) or (away_name == away and away!=None) or (away==None and home==None):
-                # throw all the data into a complicated dictionary
-                game_type = "go_game"
-                game_data = game.find('game')
-                game_id = game_data.attrib['id']
-                game_league = game_data.attrib['league']
-                game_status = game_data.attrib['status']
-                game_start_time = game_data.attrib['start_time']
-                home_team_data = teams[0].find('gameteam')
-                home_team = home_name
-                home_team_runs = int(home_team_data.attrib['R'])
-                home_team_hits = int(home_team_data.attrib['H'])
-                home_team_errors = int(home_team_data.attrib['E'])
-                away_team_data = teams[1].find('gameteam')
-                away_team = away_name
-                away_team_runs = int(away_team_data.attrib['R'])
-                away_team_hits = int(away_team_data.attrib['H'])
-                away_team_errors = int(away_team_data.attrib['E'])
+        # get team names
+        teams = game.findall('team')
+        home_name = teams[0].attrib['name']
+        away_name = teams[1].attrib['name']
+        # check if teams match parameters
+        if (home_name == home and home!=None) or (away_name == away and away!=None) or (away==None and home==None):
+            # throw all the data into a complicated dictionary
+            game_type = "go_game"
+            game_data = game.find('game')
+            game_id = game_data.attrib['id']
+            game_league = game_data.attrib['league']
+            game_status = game_data.attrib['status']
+            game_start_time = game_data.attrib['start_time']
+            home_team_data = teams[0].find('gameteam')
+            home_team = home_name
+            home_team_runs = int(home_team_data.attrib['R'])
+            home_team_hits = int(home_team_data.attrib['H'])
+            home_team_errors = int(home_team_data.attrib['E'])
+            away_team_data = teams[1].find('gameteam')
+            away_team = away_name
+            away_team_runs = int(away_team_data.attrib['R'])
+            away_team_hits = int(away_team_data.attrib['H'])
+            away_team_errors = int(away_team_data.attrib['E'])
+            # check type of game
+            if game.tag == "go_game" or game.tag == "ig_game":
                 try:
                     w_pitcher_data = game.find('w_pitcher')
                     w_pitcher = w_pitcher_data.find('pitcher').attrib['name']
@@ -70,34 +70,8 @@ def scoreboard(year, month, day, home=None, away=None):
                     sv_pitcher = ""
                     sv_pitcher_saves = 0
                 output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'home_team_runs': home_team_runs, 'home_team_hits': home_team_hits, 'home_team_errors': home_team_errors, 'away_team':away_team, 'away_team_runs': away_team_runs, 'away_team_hits': away_team_hits, 'away_team_errors': away_team_errors, 'w_pitcher':w_pitcher, 'w_pitcher_wins': w_pitcher_wins, 'w_pitcher_losses': w_pitcher_losses, 'l_pitcher':l_pitcher, 'l_pitcher_wins': l_pitcher_wins, 'l_pitcher_losses': l_pitcher_losses, 'sv_pitcher':sv_pitcher, 'sv_pitcher_saves': sv_pitcher_saves}
-                # put this dictionary into the larger dictionary
-                games[game_id]=output
-        # games that were not played
-        elif game.tag == "sg_game":
-            # get team information
-            teams = game.findall('team')
-            home_name = teams[0].attrib['name']
-            away_name = teams[1].attrib['name']
-            # check if teams match parameters
-            if (home_name == home and home!=None) or (away_name == away and away!=None) or (away==None and home==None):
-                # throw all the data into a complicated dictionary
-                game_type = "sg_game"
-                game_data = game.find('game')
-                game_id = game_data.attrib['id']
-                game_league = game_data.attrib['league']
-                game_status = game_data.attrib['status']
-                game_start_time = game_data.attrib['start_time']
-                teams = game.findall('team')
-                home_team_data = teams[0].find('gameteam')
-                home_team = home_name
-                home_team_runs = int(home_team_data.attrib['R'])
-                home_team_hits = int(home_team_data.attrib['H'])
-                home_team_errors = int(home_team_data.attrib['E'])
-                away_team_data = teams[1].find('gameteam')
-                away_team = away_name
-                away_team_runs = int(away_team_data.attrib['R'])
-                away_team_hits = int(away_team_data.attrib['H'])
-                away_team_errors = int(away_team_data.attrib['E'])
+            # games that were not played
+            elif game.tag == "sg_game":
                 try:
                     p_pitcher_data = game.findall('p_pitcher')
                     p_pitcher_home_data = p_pitcher_data[0]
@@ -115,9 +89,9 @@ def scoreboard(year, month, day, home=None, away=None):
                     p_pitcher_away = ""
                     p_pitcher_away_wins = 0
                     p_pitcher_away_losses = 0
-                output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'home_team_runs': home_team_runs, 'home_team_hits': home_team_hits, 'home_team_errors': home_team_errors, 'away_team':away_team, 'away_team_runs': away_team_runs, 'away_team_hits': away_team_hits, 'away_team_errors': away_team_errors, 'p_pitcher_home':p_pitcher_home, 'p_pitcher_home_wins': p_pitcher_home_wins, 'p_pitcher_home_losses': p_pitcher_home_losses, 'p_pitcher_away':p_pitcher_away, 'p_pitcher_away_wins': p_pitcher_away_wins, 'p_pitcher_away_losses': p_pitcher_away_losses,}
-                # put this dictionary into the larger dictionary
-                games[game_id]=output
+                output = {'game_id':game_id, 'game_type':game_type, 'game_league':game_league, 'game_status':game_status, 'game_start_time':game_start_time, 'home_team':home_team, 'home_team_runs': home_team_runs, 'home_team_hits': home_team_hits, 'home_team_errors': home_team_errors, 'away_team':away_team, 'away_team_runs': away_team_runs, 'away_team_hits': away_team_hits, 'away_team_errors': away_team_errors, 'p_pitcher_home':p_pitcher_home, 'p_pitcher_home_wins': p_pitcher_home_wins, 'p_pitcher_home_losses': p_pitcher_home_losses, 'p_pitcher_away':p_pitcher_away, 'p_pitcher_away_wins': p_pitcher_away_wins, 'p_pitcher_away_losses': p_pitcher_away_losses}
+            # put this dictionary into the larger dictionary
+            games[game_id]=output
     return games
 
 class GameScoreboard(object):
