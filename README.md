@@ -21,12 +21,12 @@ shown below. This data is not included because it takes up too much space,
 and therefore a request to mlb.com every time is a better option 
 because not everyone will want to access this data.
 
-mlbgame [documentation](http://zachpanz88.github.io/mlbgame)
+mlbgame [documentation](http://panz.io/mlbgame)
 
-mlbgame on [Github](https://github.com/zachpanz88/mlbgame) (Source Code)
+mlbgame on [Github](https://github.com/panzarino/mlbgame) (Source Code)
 
 If you have a question or need help, the quickest way to get a response 
-is to file an issue on the [Github issue tracker](https://github.com/zachpanz88/mlbgame/issues/new)
+is to file an issue on the [Github issue tracker](https://github.com/panzarino/mlbgame/issues/new)
 
 mlbgame's submodules (except for `statmap`) should not really be used other than as 
 used by the main functions of the package (in `__init__.py`).
@@ -42,7 +42,7 @@ mlbgame can be installed by running:
     pip install mlbgame
 
 Alternatively, the latest release of mlbgame can be downloaded as a 
-[zip](https://github.com/zachpanz88/mlbgame/archive/master.zip) or [tarball](https://github.com/zachpanz88/mlbgame/archive/master.tar.gz). 
+[zip](https://github.com/panzarino/mlbgame/archive/master.zip) or [tarball](https://github.com/panzarino/mlbgame/archive/master.tar.gz). 
 If you do not install with `pip`, you must also install [lxml](http://lxml.de/) for mlbgame to work.
 
 Updating the Game Database
@@ -70,7 +70,7 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     --end (-e) <MM-DD-YYYY>: date to update until (default: current day)
 
 Use of mlbgame must follow the terms stated in the 
-[license](https://raw.githubusercontent.com/zachpanz88/mlbgame/master/LICENSE) 
+[license](https://raw.githubusercontent.com/panzarino/mlbgame/master/LICENSE) 
 and on [mlb.com](http://gd2.mlb.com/components/copyright.txt>).
 
 Examples
