@@ -6,6 +6,7 @@ gets the data from mlb.com.
 """
 
 import os
+import sys
 
 try:
     from urllib.request import urlopen
@@ -23,6 +24,16 @@ def get_scoreboard(year, month, day):
     file = os.path.join(os.path.dirname(__file__), filename)
     # check if file exits
     if os.path.isfile(file):
+        if sys.platform == 'win32':
+            file_unzipped = file[:-3]
+            if not os.path.exists(file_unzipped):
+                import gzip
+                f_gz = gzip.open(file, 'rb')
+                f = open(file_unzipped, 'wb')
+                f.write(f_gz.read())
+                f.close()
+                f_gz.close()
+            file = file_unzipped
         data = file
     else:
         # get data if file does not exist
