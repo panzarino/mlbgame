@@ -1075,6 +1075,7 @@ gets the data from mlb.com.</p>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
@@ -1092,6 +1093,16 @@ gets the data from mlb.com.</p>
     <span class="nb">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
     <span class="c"># check if file exits</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s">&#39;win32&#39;</span><span class="p">:</span>
+            <span class="n">file_unzipped</span> <span class="o">=</span> <span class="nb">file</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_unzipped</span><span class="p">):</span>
+                <span class="kn">import</span> <span class="nn">gzip</span>
+                <span class="n">f_gz</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_unzipped</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f_gz</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">f_gz</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="nb">file</span> <span class="o">=</span> <span class="n">file_unzipped</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">file</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c"># get data if file does not exist</span>
@@ -1332,6 +1343,16 @@ gets the data from mlb.com.</p>
     <span class="nb">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">filename</span><span class="p">)</span>
     <span class="c"># check if file exits</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s">&#39;win32&#39;</span><span class="p">:</span>
+            <span class="n">file_unzipped</span> <span class="o">=</span> <span class="nb">file</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_unzipped</span><span class="p">):</span>
+                <span class="kn">import</span> <span class="nn">gzip</span>
+                <span class="n">f_gz</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_unzipped</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f_gz</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">f_gz</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="nb">file</span> <span class="o">=</span> <span class="n">file_unzipped</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">file</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c"># get data if file does not exist</span>
