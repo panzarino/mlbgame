@@ -1118,6 +1118,8 @@ such as the scoreboard and the box score.</p>
     <span class="n">games</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c"># loop through games</span>
     <span class="k">for</span> <span class="n">game</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;data&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
         <span class="c"># get team names</span>
         <span class="n">teams</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">)</span>
         <span class="n">home_name</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
@@ -1493,6 +1495,8 @@ such as the scoreboard and the box score.</p>
     <span class="n">games</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c"># loop through games</span>
     <span class="k">for</span> <span class="n">game</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;data&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
         <span class="c"># get team names</span>
         <span class="n">teams</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">)</span>
         <span class="n">home_name</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
