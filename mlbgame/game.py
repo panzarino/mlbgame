@@ -19,6 +19,8 @@ def scoreboard(year, month, day, home=None, away=None):
     games = {}
     # loop through games
     for game in root:
+        if game.tag == "data":
+            return []
         # get team names
         teams = game.findall('team')
         home_name = teams[0].attrib['name']
