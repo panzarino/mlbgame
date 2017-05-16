@@ -10,4 +10,4 @@ python:
   - "nightly"
 cache: pip
 install: "pip install -e .[dev]"
-script: pytest
+script: py.test
