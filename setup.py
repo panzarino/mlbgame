@@ -63,4 +63,7 @@ setup(
     data_files=[('docs', ['README.md', 'LICENSE', 'description.rst'])],
     scripts=['scripts/mlbgame-update'],
     install_requires=['lxml'],
+    extras_require={
+        'dev': ['pytest']
+    }
 )
