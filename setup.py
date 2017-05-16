@@ -64,6 +64,6 @@ setup(
     scripts=['scripts/mlbgame-update'],
     install_requires=['lxml'],
     extras_require={
-        'dev': ['pytest']
+        'dev': ['pytest', 'python-dateutil']
     }
 )

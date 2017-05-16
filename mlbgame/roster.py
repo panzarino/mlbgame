@@ -3,6 +3,8 @@
 """
 Module that is used for getting the MLB rosters.
 """
+from __future__ import print_function
+
 import sys
 import dateutil.parser
 import requests
@@ -27,7 +29,7 @@ class Roster(object):
             try:
                 raise NoTeamID('A `team_id` was not supplied.')
             except NoTeamID as e:
-                print e
+                print(e)
                 raise
 
     @property
@@ -36,7 +38,7 @@ class Roster(object):
         try:
             return requests.get(self.roster_url).json()
         except requests.exceptions.RequestException as e:
-            print e
+            print(e)
             sys.exit(-1)
 
     @property

@@ -3,6 +3,8 @@
 """
 Module that is used for getting the MLB standings.
 """
+from __future__ import print_function
+
 from datetime import datetime
 import sys
 import dateutil.parser
@@ -51,7 +53,7 @@ class Standings(object):
         try:
             return requests.get(self.standings_url).json()
         except requests.exceptions.RequestException as e:
-            print e
+            print(e)
             sys.exit(-1)
 
     @property
@@ -79,7 +81,7 @@ class Standings(object):
                 try:
                     raise UnknownLeagueID('An unknown `league_id` was passed from standings json.')
                 except UnknownLeagueID as e:
-                    print 'StandingsError: ', e
+                    print('StandingsError: %s' % e)
                     raise
                     sys.exit(-1)
 
