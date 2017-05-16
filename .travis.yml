@@ -11,3 +11,5 @@ python:
 cache: pip
 install: "pip install -e .[dev]"
 script: py.test
+notifications:
+  email: false
