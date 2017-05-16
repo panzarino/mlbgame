@@ -8,5 +8,6 @@ python:
   - "3.5"
   - "3.6"
   - "nightly"
+cache: pip
 install: "pip install -e .[dev]"
 script: pytest
