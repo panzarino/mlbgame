@@ -12,8 +12,8 @@ class TestStandings(unittest.TestCase):
     def setUp(self):
         self.date = datetime.now()
         self.hist_date = datetime(2016, 6, 2)
-        self.standings_file = 'files/standings.json'
-        self.hist_standings_file = 'files/historical_standings.json'
+        self.standings_file = 'tests/files/standings.json'
+        self.hist_standings_file = 'tests/files/historical_standings.json'
         self.standings_url = ''.join([
             'http://mlb.mlb.com/lookup/json/',
             'named.standings_schedule_date.bam',

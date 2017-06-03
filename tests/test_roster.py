@@ -13,7 +13,7 @@ class TestRoster(unittest.TestCase):
         base_url = 'http://mlb.mlb.com'
         self.roster_url = '%s/lookup/json/named.roster_40.bam?team_id=%s' % \
             (base_url, self.team_id)
-        self.roster_file = 'files/roster.json'
+        self.roster_file = 'tests/files/roster.json'
         with open(self.roster_file) as json_data:
             self.roster_json = json.load(json_data)
             json_data.close()
