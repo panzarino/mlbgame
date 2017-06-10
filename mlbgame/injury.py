@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Module that is used for getting the MLB injurys.
+Module that is used for getting the MLB injuries.
 """
 from __future__ import print_function
 
@@ -10,7 +10,7 @@ import dateutil.parser
 import requests
 
 class Injury(object):
-    """Represents a the MLB Disabled List
+    """Represents the MLB Disabled List
 
     Properties:
         injury_url
