@@ -284,3 +284,7 @@ def teams():
     info = mlbgame.info.team_info()
     output = [mlbgame.info.Info(x) for x in info]
     return output
+
+def disabled_list(team_id):
+    """Return Injury object that contains DL info for a team"""
+    return mlbgame.injury.Injury(team_id)
