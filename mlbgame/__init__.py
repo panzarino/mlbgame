@@ -153,6 +153,7 @@ And the output is:
 import mlbgame.events
 import mlbgame.game
 import mlbgame.info
+import mlbgame.injury
 import mlbgame.stats
 import mlbgame.version
 
