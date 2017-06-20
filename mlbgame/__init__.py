@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 
-"""mlbgame is a Python API to retrieve and read MLB GameDay XML data.
-mlbgame works with real time data, getting information as games are being played.
+"""mlbgame is a Python API to retrieve and read
+MLB GameDay XML data.
+mlbgame works with real time data, getting information as games are
+being played.
 
 mlbgame uses the same data that MLB GameDay uses,
 and therefore is updated as soon as something happens in a game.
 
 mlbgame currently comes pre-loaded with scoreboard information for every game
-from 2012 to the end of the 2016 season. 
+from 2012 to the end of the 2016 season.
 Therefore, accessing this data does not actually make a request to mlb.com.
 
 If you try to get data from a game that is not cached,
@@ -15,48 +17,57 @@ mlbgame will download the data from mlb.com.
 
 There are a lot of extra data for individual games that do not come
 pre-installed with mlbgame, but can be installed by running update scripts
-shown below. This data is not included because it takes up too much space, 
-and therefore a request to mlb.com every time is a better option 
+shown below. This data is not included because it takes up too much space,
+and therefore a request to mlb.com every time is a better option
 because not everyone will want to access this data.
 
 mlbgame [documentation](http://panz.io/mlbgame)
 
 mlbgame on [Github](https://github.com/panzarino/mlbgame) (Source Code)
 
-If you have a question or need help, the quickest way to get a response 
-is to file an issue on the [Github issue tracker](https://github.com/panzarino/mlbgame/issues/new)
+If you have a question or need help, the quickest way to get a response
+is to file an issue on the
+[Github issue tracker](https://github.com/panzarino/mlbgame/issues/new)
 
-mlbgame's submodules (except for `statmap`) should not really be used other than as 
-used by the main functions of the package (in `__init__.py`).
+mlbgame's submodules (except for `statmap`) should not really be used other
+than as  used by the main functions of the package (in `__init__.py`).
 
 Installation
 ------------
 
-mlbgame is in the [Python Package Index (PyPI)](http://pypi.python.org/pypi/mlbgame/).
+mlbgame is in the [Python Package Index (PyPI)]
+(http://pypi.python.org/pypi/mlbgame/).
 Installing with `pip` is recommended for all systems.
 
 mlbgame can be installed by running:
 
     pip install mlbgame
 
-Alternatively, the latest release of mlbgame can be downloaded as a 
-[zip](https://github.com/panzarino/mlbgame/archive/master.zip) or [tarball](https://github.com/panzarino/mlbgame/archive/master.tar.gz). 
-If you do not install with `pip`, you must also install [lxml](http://lxml.de/) for mlbgame to work.
+Alternatively, the latest release of mlbgame can be downloaded as a
+[zip](https://github.com/panzarino/mlbgame/archive/master.zip) or
+[tarball](https://github.com/panzarino/mlbgame/archive/master.tar.gz).
+If you do not install with `pip`, you must also install
+[lxml](http://lxml.de/) for mlbgame to work.
 
 Updating the Game Database
 --------------------------
 
-Since games happen every day, new game data exists that is not stored on disk from the original install.
+Since games happen every day, new game data exists
+that is not stored on disk from the original install.
 The database can be updated by running the following command:
 
     mlbgame-update
 
-There are some optional arguments that will cache extra data that is not included with the original install.
-This extra data may take up a lot of disk space, so only cache if you really need it (it will make processes much faster).
-If this data is not cached, mlbgame will make a request to mlb.com every time you try to access the data.
+There are some optional arguments that will cache extra data that is
+not included with the original install.
+This extra data may take up a lot of disk space,
+so only cache if you really need it
+(it will make processes much faster).
+If this data is not cached, mlbgame will make a request to mlb.com every time
+you try to access the data.
 
     usage: mlbgame-update <arguments>
-    
+
     Arguments:
     --help (-h): display this help menu
     --clear: delete all cached data
@@ -64,27 +75,29 @@ If this data is not cached, mlbgame will make a request to mlb.com every time yo
     --stats: saves the box scores and individual game stats from every game
     --events: saves the game events from every game
     --overview: saves the game overview from every game
-    --start (-s) <MM-DD-YYYY>: date to start updating from (default: 01-01-2012)
+    --start (-s) <MM-DD-YYYY>: date to start updating from
+        (default: 01-01-2012)
     --end (-e) <MM-DD-YYYY>: date to update until (default: current day)
 
-Use of mlbgame must follow the terms stated in the 
-[license](https://raw.githubusercontent.com/panzarino/mlbgame/master/LICENSE) 
+Use of mlbgame must follow the terms stated in the
+[license](https://raw.githubusercontent.com/panzarino/mlbgame/master/LICENSE)
 and on [mlb.com](http://gd2.mlb.com/components/copyright.txt).
 
 Examples
 --------
 
-Here is a quick teaser to find the scores of all home Mets games for the month of June, 2015:
+Here is a quick teaser to find the scores of all home Mets games for the month
+ of June, 2015:
 
     #!python
     from __future__ import print_function
     import mlbgame
-    
+
     month = mlbgame.games(2015, 6, home="Mets")
     games = mlbgame.combine_games(month)
     for game in games:
         print(game)
-    
+
 And the output is:
 
     Giants (5) at Mets (0)
@@ -106,7 +119,7 @@ Maybe you want to know the pitchers for the Royals game on April 30th, 2015:
     #!python
     from __future__ import print_function
     import mlbgame
-    
+
     day = mlbgame.day(2015, 4, 12, home="Royals", away="Royals")
     game = day[0]
     output = "Winning pitcher: %s (%s) - Losing Pitcher: %s (%s)"
@@ -122,7 +135,7 @@ in the final game of the 2015 World Series:
     #!python
     from __future__ import print_function
     import mlbgame
-    
+
     game = mlbgame.day(2015, 11, 1, home="Mets")[0]
     stats = mlbgame.player_stats(game.game_id)
     for player in stats['home_batting']:
@@ -156,15 +169,16 @@ import mlbgame.version
 
 import calendar
 from datetime import date
-import sys
 
 VERSION = mlbgame.version.__version__
 """Installed version of mlbgame."""
 
+
 def day(year, month, day, home=None, away=None):
     """Return a list of games for a certain day.
-    
-    If the home and away team are the same, it will return the game(s) for that team.
+
+    If the home and away team are the same,
+    it will return the game(s) for that team.
     """
     # get the days per month
     daysinmonth = calendar.monthrange(year, month)[1]
@@ -177,21 +191,23 @@ def day(year, month, day, home=None, away=None):
 
 
 def todays_games(home=None, away=None):
-    from datetime import date
-    data = mlbgame.game.scoreboard(date.today().year, date.today().month, date.today().day, home=home, away=away)
+    year = date.today().year
+    month = date.today().month
+    day = date.today().day
+    data = mlbgame.game.scoreboard(year, month, day, home=home, away=away)
     return [mlbgame.game.GameScoreboard(data[x]) for x in data]
 
 
 def games(years, months=None, days=None, home=None, away=None):
     """Return a list of lists of games for multiple days.
-    
+
     If home and away are the same team, it will return all games for that team.
     """
     # put in data if months and days are not specified
-    if months == None:
-        months = list(range(1,13))
-    if days == None:
-        days = list(range(1,32))
+    if months is None:
+        months = list(range(1, 13))
+    if days is None:
+        days = list(range(1, 32))
     results = []
     # check if lists, if not make lists
     # allows users to input either numbers or lists
@@ -209,9 +225,10 @@ def games(years, months=None, days=None, home=None, away=None):
                 if daysinmonth >= x:
                     # use the day function to get data for each day in range
                     game = day(i, y, x, home=home, away=away)
-                    if game != []:
+                    if not game:
                         results.append(game)
     return results
+
 
 def box_score(game_id):
     """Return box score for game matching the game id."""
@@ -221,16 +238,19 @@ def box_score(game_id):
     obj = mlbgame.game.GameBoxScore(data)
     return obj
 
+
 def combine_games(games):
     """Combines games from multiple days into a single list."""
-    output = [y for x in games for y in x]
-    return output
+    return [y for x in games for y in x]
+
 
 def player_stats(game_id):
     """Return dictionary of player stats for game matching the game id."""
     # get information for that day
+    obj = None
     data = mlbgame.stats.player_stats(game_id)
-    output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [], 'away_batting': []}
+    output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [],
+              'away_batting': []}
     for y in data:
         for x in data[y]:
             # create objects for all data
@@ -242,24 +262,28 @@ def player_stats(game_id):
             output[y].append(obj)
     return output
 
+
 def team_stats(game_id):
     """Return dictionary of team stats for game matching the game id."""
     # get data
     data = mlbgame.stats.team_stats(game_id)
-    output = {x:mlbgame.stats.TeamStats(data[x]) for x in data}
+    output = {x: mlbgame.stats.TeamStats(data[x]) for x in data}
     return output
+
 
 def combine_stats(stats):
     """Combines player stat objects from a game into a single list."""
     output = [y for x in stats for y in stats[x]]
     return output
 
+
 def game_events(game_id):
+
     """Return dictionary of game events for game matching the game id.
-    
-    Top level of dictionary is inning of game. 
-    Next level is top or bottom of the inning. 
-    Final level is a list of at bats in that part of the inning. 
+
+    Top level of dictionary is inning of game.
+    Next level is top or bottom of the inning.
+    Final level is a list of at bats in that part of the inning.
     Lowest level is AtBat object.
     Ex. events['inningnumber']['top/bottom'][atbatnumber]
     """
@@ -273,18 +297,17 @@ def game_events(game_id):
                 output[x][y].append(mlbgame.events.AtBat(i))
     return output
 
+
 def overview(game_id):
     """Return Overview object that contains game information."""
-    data = mlbgame.game.overview(game_id)
-    return mlbgame.game.Overview(data)
+    return mlbgame.game.Overview(mlbgame.game.overview(game_id))
+
 
 def league():
     """Return Info object that contains league information"""
-    info = mlbgame.info.league_info()
-    return mlbgame.info.Info(info)
+    return mlbgame.info.Info(mlbgame.info.league_info())
+
 
 def teams():
     """Return list of Info objects for each team"""
-    info = mlbgame.info.team_info()
-    output = [mlbgame.info.Info(x) for x in info]
-    return output
+    return [mlbgame.info.Info(x) for x in mlbgame.info.team_info()]
