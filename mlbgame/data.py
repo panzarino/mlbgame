@@ -57,8 +57,8 @@ def get_scoreboard(year, month, day):
 def get_box_score(game_id):
     """Return the box score file of a game with matching id."""
     # file
-    year, month, day = get_date_from_game_id(game_id)
-    local_filename = GAME_PATH.format(year, month, day, game_id,
+    local_filename = GAME_PATH.format(*get_date_from_game_id(game_id),
+                                      game_id,
                                       "boxscore.xml")
     local_file = os.path.join(PWD, local_filename)
     # check if file exits
@@ -66,7 +66,8 @@ def get_box_score(game_id):
         return local_file
     # get data if file does not exist
     try:
-        return urlopen(GAME_URL.format(year, month, day, game_id,
+        return urlopen(GAME_URL.format(*get_date_from_game_id(game_id),
+                                       game_id,
                                        "boxscore.xml"))
     except HTTPError:
         raise ValueError("Could not find a game with that id.")
@@ -75,8 +76,8 @@ def get_box_score(game_id):
 def get_game_events(game_id):
     """Return the game events file of a game with matching id."""
     # file
-    year, month, day = get_date_from_game_id(game_id)
-    local_filename = GAME_PATH.format(year, month, day, game_id, game_id,
+    local_filename = GAME_PATH.format(*get_date_from_game_id(game_id),
+                                      game_id,
                                       "game_events.xml")
     local_file = os.path.join(PWD, local_filename)
     # check if file exits
@@ -84,7 +85,8 @@ def get_game_events(game_id):
         return local_file
     # get data if file does not exist
     try:
-        return urlopen(GAME_URL.format(year, month, day, game_id,
+        return urlopen(GAME_URL.format(*get_date_from_game_id(game_id),
+                                       game_id,
                                        "game_events.xml"))
     except HTTPError:
         raise ValueError("Could not find a game with that id.")
@@ -93,8 +95,8 @@ def get_game_events(game_id):
 def get_overview(game_id):
     """Return the linescore file of a game with matching id."""
     # file
-    year, month, day = get_date_from_game_id(game_id)
-    local_filename = GAME_PATH.format(year, month, day, game_id,
+    local_filename = GAME_PATH.format(*get_date_from_game_id(game_id),
+                                      game_id,
                                       "linescore.xml")
     local_file = os.path.join(PWD, local_filename)
     # check if file exits
@@ -102,7 +104,8 @@ def get_overview(game_id):
         return local_file
         # get data if file does not exist
     try:
-        return urlopen(GAME_URL.format(year, month, day, game_id,
+        return urlopen(GAME_URL.format(*get_date_from_game_id(game_id),
+                                       game_id,
                                        "linescore.xml"))
     except HTTPError:
         raise ValueError("Could not find a game with that id.")
