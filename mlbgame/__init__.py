@@ -173,8 +173,14 @@ def day(year, month, day, home=None, away=None):
         return []
     # get data
     data = mlbgame.game.scoreboard(year, month, day, home=home, away=away)
-    results = [mlbgame.game.GameScoreboard(data[x]) for x in data]
-    return results
+    return [mlbgame.game.GameScoreboard(data[x]) for x in data]
+
+
+def todays_games(home=None, away=None):
+    from datetime import date
+    data = mlbgame.game.scoreboard(date.today().year, date.today().month, date.today().day, home=home, away=away)
+    return [mlbgame.game.GameScoreboard(data[x]) for x in data]
+
 
 def games(years, months=None, days=None, home=None, away=None):
     """Return a list of lists of games for multiple days.

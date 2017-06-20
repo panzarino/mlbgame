@@ -9,6 +9,7 @@ import mlbgame.data
 import datetime
 import lxml.etree as etree
 
+
 def scoreboard(year, month, day, home=None, away=None):
     """Return the scoreboard information for games matching the parameters as a dictionary."""
     # get data
