@@ -43,11 +43,16 @@ mlbgame can be installed by running:
 
     pip install mlbgame
 
-Alternatively, the latest release of mlbgame can be downloaded as a
+Alternatively, the latest release of mlbgame can be downloaded as a 
 [zip](https://github.com/panzarino/mlbgame/archive/master.zip) or
 [tarball](https://github.com/panzarino/mlbgame/archive/master.tar.gz).
 If you do not install with `pip`, you must also install
-[lxml](http://lxml.de/) for mlbgame to work.
+the dependencies as specified in `setup.py`.
+
+If you want to help develop mlbgame,
+you must also install the dev dependencies,
+which can be done by running `pip install -e .[dev]`
+from within the directory.
 
 Updating the Game Database
 --------------------------
@@ -164,6 +169,7 @@ And the output is:
 import mlbgame.events
 import mlbgame.game
 import mlbgame.info
+import mlbgame.injury
 import mlbgame.stats
 import mlbgame.version
 
@@ -311,3 +317,7 @@ def league():
 def teams():
     """Return list of Info objects for each team"""
     return [mlbgame.info.Info(x) for x in mlbgame.info.team_info()]
+
+def disabled_list(team_id):
+    """Return Injury object that contains DL info for a team"""
+    return mlbgame.injury.Injury(team_id)
