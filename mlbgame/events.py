@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
-"""Module that is used for getting the events 
+"""Module that is used for getting the events
 that occured throughout games.
 """
 
 import mlbgame.data
 
 import lxml.etree as etree
+
 
 def game_events(game_id):
     """Return dictionary of events for a game with matching id."""
@@ -57,11 +58,12 @@ def game_events(game_id):
         output[x.attrib['num']] = {'top': topinfo, 'bottom': botinfo}
     return output
 
+
 class AtBat(object):
     """Class that holds information about at bats in games.
-    
-    Properties: 
-    
+
+    Properties:
+
     - num = Number of at bat in game
     - b = balls (at end of at bat or currently if live)
     - s = strikes (at end of at bat or currently if live)
@@ -78,10 +80,11 @@ class AtBat(object):
     - b2
     - b3
     """
-    
+
     def __init__(self, data):
-        """Creates an event object that matches the corresponding info in `data`.
-        
+        """Creates an event object that matches the corresponding
+        info in `data`.
+
         `data` should be an dictionary of values.
         """
         # loop through data
@@ -104,31 +107,32 @@ class AtBat(object):
                 except ValueError:
                     # string if not number
                     setattr(self, x, str(data[x]))
-    
+
     def nice_output(self):
         """Prints basic event info in a nice way."""
         return self.des
-    
+
     def __str__(self):
         return self.nice_output()
 
+
 class Pitch(object):
     """Class that holds information about individual pitches.
-    
-    Properties of pitches are wildly inconsistent, 
+
+    Properties of pitches are wildly inconsistent,
     sometimes they have a value, sometimes they don't.
     Properties:
-    
+
     - sv_id
     - des = description of pitch outcome
     - type = ball (B), strike (S), or in play (X)
     - start_speed = pitch speed
     - pitch_type = type of pitch (fastball, curve, etc.)
     """
-    
+
     def __init__(self, data):
         """Creates a pitch object that matches the corresponding info in `data`.
-        
+
         `data` should be an dictionary of values.
         """
         # loop through data
@@ -145,10 +149,11 @@ class Pitch(object):
                 except ValueError:
                     # string if not number
                     setattr(self, x, str(data[x]))
-    
+
     def nice_output(self):
         """Prints basic event info in a nice way."""
-        return "Pitch: %s at %s: %s" % (self.pitch_type, self.start_speed, self.des)
-    
+        return "Pitch: {0} at {1}: {2}".format(
+            self.pitch_type, self.start_speed, self.des)
+
     def __str__(self):
         return self.nice_output()

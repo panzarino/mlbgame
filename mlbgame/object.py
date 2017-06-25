@@ -2,12 +2,13 @@
 
 """Module that is used for holding basic objects"""
 
+
 class Object(object):
     """Basic class"""
-    
+
     def __init__(self, data):
         """Creates an object that matches the corresponding stats in `data`.
-        
+
         `data` should be an dictionary of values.
         """
         # loop through data
