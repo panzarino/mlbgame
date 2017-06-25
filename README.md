@@ -1,7 +1,5 @@
 # mlbgame
 
-![mlbgame demo](http://i.imgur.com/h2kYOyd.gif "mlbgame demo")
-
 [![Build Status](https://travis-ci.org/panzarino/mlbgame.svg)](https://travis-ci.org/panzarino/mlbgame)
 
 mlbgame is a Python API to retrieve and read MLB GameDay XML data.
