@@ -231,7 +231,7 @@ def games(years, months=None, days=None, home=None, away=None):
                 if daysinmonth >= x:
                     # use the day function to get data for each day in range
                     game = day(i, y, x, home=home, away=away)
-                    if not game:
+                    if game:
                         results.append(game)
     return results
 
