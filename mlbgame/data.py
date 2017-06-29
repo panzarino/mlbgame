@@ -6,7 +6,6 @@ gets the data from mlb.com.
 """
 
 import os
-import sys
 
 try:
     from urllib.request import urlopen
@@ -15,12 +14,9 @@ except ImportError:
     from urllib2 import urlopen, HTTPError
 
 
-# Templates For Local Paths and URLS
+# Templates For URLS
 BASE_URL = "http://gd2.mlb.com/components/game/mlb/year_{0}/month_{1}/day_{2}/"
 GAME_URL = BASE_URL + "/gid_{3}/{4}"
-BASE_PATH = "gameday-data/year_{0}/month_{1}/day_{2}/"
-GAME_PATH = BASE_PATH + "gid_{3}{4}/"
-
 PROPERTY_URL = "http://mlb.mlb.com/properties/mlb_properties.xml"
 # Local Directory
 PWD = os.path.join(os.path.dirname(__file__))
@@ -31,41 +27,17 @@ def get_scoreboard(year, month, day):
     # add zeros if less than 10
     monthstr = str(month).zfill(2)
     daystr = str(day).zfill(2)
-    # file
-    local_filename = BASE_PATH.format(year, monthstr, daystr
-                                      ) + "scoreboard.xml.gz"
-    local_file = os.path.join(PWD, local_filename)
-    # check if file exits
-    if os.path.isfile(local_file):
-        if sys.platform == 'win32':
-            file_unzipped = local_file[:-3]
-            if not os.path.exists(file_unzipped):
-                import gzip
-                with(gzip.open(local_file, 'rb')) as f_gz:
-                    with(open(file_unzipped, 'wb')) as f:
-                        f.write(f_gz.read())
-        return local_file
-    # get data if file does not exist
     try:
         data = urlopen(BASE_URL.format(year, monthstr, daystr
                                        ) + "scoreboard.xml")
     except HTTPError:
-        data = os.path.join(PWD, "gameday-data/default.xml")
+        data = os.path.join(PWD, "default.xml")
     return data
 
 
 def get_box_score(game_id):
     """Return the box score file of a game with matching id."""
     year, month, day = get_date_from_game_id(game_id)
-    # file
-    local_filename = GAME_PATH.format(year, month, day,
-                                      game_id,
-                                      "boxscore.xml")
-    local_file = os.path.join(PWD, local_filename)
-    # check if file exits
-    if os.path.isfile(local_file):
-        return local_file
-    # get data if file does not exist
     try:
         return urlopen(GAME_URL.format(year, month, day,
                                        game_id,
@@ -77,15 +49,6 @@ def get_box_score(game_id):
 def get_game_events(game_id):
     """Return the game events file of a game with matching id."""
     year, month, day = get_date_from_game_id(game_id)
-    # file
-    local_filename = GAME_PATH.format(year, month, day,
-                                      game_id,
-                                      "game_events.xml")
-    local_file = os.path.join(PWD, local_filename)
-    # check if file exits
-    if os.path.isfile(local_file):
-        return local_file
-    # get data if file does not exist
     try:
         return urlopen(GAME_URL.format(year, month, day,
                                        game_id,
@@ -97,15 +60,6 @@ def get_game_events(game_id):
 def get_overview(game_id):
     """Return the linescore file of a game with matching id."""
     year, month, day = get_date_from_game_id(game_id)
-    # file
-    local_filename = GAME_PATH.format(year, month, day,
-                                      game_id,
-                                      "linescore.xml")
-    local_file = os.path.join(PWD, local_filename)
-    # check if file exits
-    if os.path.isfile(local_file):
-        return local_file
-        # get data if file does not exist
     try:
         return urlopen(GAME_URL.format(year, month, day,
                                        game_id,

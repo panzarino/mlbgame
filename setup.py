@@ -59,10 +59,8 @@ setup(
     ],
     platforms='ANY',
     packages=['mlbgame'],
-    package_data={'mlbgame': ['gameday-data/*/*/*/*.xml.gz',
-                              'gameday-data/default.xml']},
+    package_data={'mlbgame': ['default.xml']},
     data_files=[('docs', ['README.md', 'LICENSE', 'description.rst'])],
-    scripts=['scripts/mlbgame-update'],
     install_requires=['lxml', 'requests', 'python-dateutil'],
     extras_require={
         'dev': ['pytest', 'requests_mock']
