@@ -48,10 +48,19 @@ def get_box_score(game_id):
     # get relevant information from game id
     year, month, day, rest = game_id.split('_', 3)
     # file
-    filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/boxscore.xml" % (year, month, day, game_id)
+    filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/boxscore.xml.gz" % (year, month, day, game_id)
     file = os.path.join(os.path.dirname(__file__), filename)
     # check if file exits
     if os.path.isfile(file):
+        if sys.platform == 'win32':
+            file_unzipped = file[:-3]
+            if not os.path.exists(file_unzipped):
+                import gzip
+                f_gz = gzip.open(file, 'rb')
+                f = open(file_unzipped, 'wb')
+                f.write(f_gz.read())
+                f.close()
+                f_gz.close()
         data = file
     else:
         # get data if file does not exist
@@ -66,10 +75,19 @@ def get_game_events(game_id):
     # get relevant information from game id
     year, month, day, rest = game_id.split('_', 3)
     # file
-    filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/game_events.xml" % (year, month, day, game_id)
+    filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/game_events.xml.gz" % (year, month, day, game_id)
     file = os.path.join(os.path.dirname(__file__), filename)
     # check if file exits
     if os.path.isfile(file):
+        if sys.platform == 'win32':
+            file_unzipped = file[:-3]
+            if not os.path.exists(file_unzipped):
+                import gzip
+                f_gz = gzip.open(file, 'rb')
+                f = open(file_unzipped, 'wb')
+                f.write(f_gz.read())
+                f.close()
+                f_gz.close()
         data = file
     else:
         # get data if file does not exist
@@ -84,10 +102,19 @@ def get_overview(game_id):
     # get relevant information from game id
     year, month, day, rest = game_id.split('_', 3)
     # file
-    filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/linescore.xml" % (year, month, day, game_id)
+    filename = "gameday-data/year_%s/month_%s/day_%s/gid_%s/linescore.xml.gz" % (year, month, day, game_id)
     file = os.path.join(os.path.dirname(__file__), filename)
     # check if file exits
     if os.path.isfile(file):
+        if sys.platform == 'win32':
+            file_unzipped = file[:-3]
+            if not os.path.exists(file_unzipped):
+                import gzip
+                f_gz = gzip.open(file, 'rb')
+                f = open(file_unzipped, 'wb')
+                f.write(f_gz.read())
+                f.close()
+                f_gz.close()
         data = file
     else:
         # get data if file does not exist
