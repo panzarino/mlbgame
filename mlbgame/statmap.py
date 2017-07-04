@@ -2,8 +2,8 @@
 
 """This module maps stat indentifiers to what they most likely mean.
 If there are blanks and you know what should go there,
-or there is a missing stat identifier, 
-please [submit an issue](https://github.com/zachpanz88/mlbgame/issues/new) 
+or there is a missing stat identifier,
+please [submit an issue](https://github.com/zachpanz88/mlbgame/issues/new)
 with the correct stat and description.
 
 This module also provides what stat objects
@@ -12,79 +12,79 @@ will contain each property.
 
 # full idmap description at bottom of file
 idmap = {
-    'name_display_first_last':{
+    'name_display_first_last': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': str,
         'desc': 'First and last name of player',
     },
-    'name':{
+    'name': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': str,
         'desc': 'Abbreviated name, Either "F. Lastname" or "Lastname"',
     },
-    'pos':{
+    'pos': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': str,
         'desc': 'Player\'s position',
     },
-    'id':{
+    'id': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Player\'s id number for mlb.com',
     },
-    'ab':{
+    'ab': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'At bats',
     },
-    'avg':{
+    'avg': {
         'obj': ['BatterStats'],
         'always': True,
         'type': float,
         'desc': 'Batting average',
     },
-    'h':{
+    'h': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Hits',
     },
-    'd':{
+    'd': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Doubles',
     },
-    't':{
+    't': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Triples',
     },
-    'r':{
+    'r': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'tpye': int,
         'desc': 'Runs',
     },
-    'rbi':{
+    'rbi': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Runs Batted In',
     },
-    'hr':{
+    'hr': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Home runs',
     },
-    'slg':{
+    'slg': {
         'obj': ['BatterStats'],
         'always': False,
         'type': float,
@@ -92,13 +92,13 @@ idmap = {
                 'Always availible in regular '
                 'and postseason games.',
     },
-    'obp':{
+    'obp': {
         'obj': ['BatterStats'],
         'always': True,
         'type': float,
         'desc': 'On base percentage',
     },
-    'ops':{
+    'ops': {
         'obj': ['BatterStats'],
         'always': False,
         'type': float,
@@ -106,13 +106,13 @@ idmap = {
                 'Always availible in regular '
                 'and postseason games.',
     },
-    'fldg':{
+    'fldg': {
         'obj': ['BatterStats'],
         'always': True,
         'type': float,
         'desc': 'Fielding percentage',
     },
-    'bo':{
+    'bo': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
@@ -120,171 +120,172 @@ idmap = {
                 'A number divisible by 100 indicates the starter '
                 'and every increase by one indicates that the player was the '
                 'next player to bat in that position in the order '
-                'ex. 401 means the second player in the game to bat in the fourth position.',
+                'ex. 401 means the second player in the game to bat in '
+                'the fourth position.',
     },
-    'bb':{
+    'bb': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Base on balls (walk)',
     },
-    'sb':{
+    'sb': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Stolen bases',
     },
-    'cs':{
+    'cs': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Caught stealing',
     },
-    'e':{
+    'e': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Errors (fielding)',
     },
-    'hpb':{
+    'hpb': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Hit by pitch',
     },
-    'so':{
+    'so': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Strikeouts',
     },
-    'sac':{
+    'sac': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Sacrifice bunts',
     },
-    'sf':{
+    'sf': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Sacrifice flies',
     },
-    'lob':{
+    'lob': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Left on base',
     },
-    'ao':{
+    'ao': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Fly outs',
     },
-    'po':{
+    'po': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Putouts (fielding)',
     },
-    'a':{
+    'a': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Assists (fielding)',
     },
-    'go':{
+    'go': {
         'obj': ['BatterStats'],
         'always': False,
         'type': int,
         'desc': 'Ground outs',
     },
-    's_h':{
+    's_h': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Total season hits',
     },
-    's_r':{
+    's_r': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Total season runs',
     },
-    's_hr':{
+    's_hr': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Total season home runs',
     },
-    's_rbi':{
+    's_rbi': {
         'obj': ['BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Total season runs batted in',
     },
-    's_so':{
+    's_so': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Total season strikeouts',
     },
-    's_bb':{
+    's_bb': {
         'obj': ['PitcherStats', 'BatterStats'],
         'always': True,
         'type': int,
         'desc': 'Total season base on balls (walks)',
     },
-    'l':{
+    'l': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Losses',
     },
-    'w':{
+    'w': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Wins',
     },
-    'sv':{
+    'sv': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Saves',
     },
-    'er':{
+    'er': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Earned runs',
     },
-    'hld':{
+    'hld': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Hold',
     },
-    'bs':{
+    'bs': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Blown saves',
     },
-    'out':{
+    'out': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Outs recorded',
     },
-    'bf':{
+    'bf': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Batters faced',
     },
-    'game_score':{
+    'game_score': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
@@ -293,59 +294,59 @@ idmap = {
                 'of a pitcher in any baseball game. '
                 'More info: https://en.wikipedia.org/wiki/Game_score',
     },
-    'era':{
+    'era': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': float,
         'desc': 'Earned runs average',
     },
-    'np':{
+    'np': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Number of pitches thrown '
                 '(pitch count)',
     },
-    'win':{
+    'win': {
         'obj': ['PitcherStats'],
         'always': False,
         'type': str,
         'desc': 'The pitcher got the win for this game '
                 'if set to true',
     },
-    'loss':{
+    'loss': {
         'obj': ['PitcherStats'],
         'always': False,
         'type': str,
         'desc': 'The pitcher got the loss for this game '
                 'if set to true',
     },
-    'save':{
+    'save': {
         'obj': ['PitcherStats'],
         'always': False,
         'type': str,
         'desc': 'The pitcher got the save for this game '
                 'if set to true',
     },
-    'note':{
+    'note': {
         'obj': ['PitcherStats'],
         'always': False,
         'type': str,
         'desc': 'Extra information about a pitcher',
     },
-    's_er':{
+    's_er': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Season earned runs',
     },
-    's_ip':{
+    's_ip': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
         'desc': 'Season innings pitched',
     },
-    's':{
+    's': {
         'obj': ['PitcherStats'],
         'always': True,
         'type': int,
@@ -356,22 +357,26 @@ idmap = {
 
 `obj` - the objects that contain the stat
 
-`always` - whether the stat is always present in those objects (None if unknown)
+`always` - whether the stat is always present in those objects
+(None if unknown)
 
 `type` - the value type of the stat
 
 `desc` - description of the stat
 
-Total season stats (stats prefixed with `s_`) for postseason games are total stats for that series only, 
-not the entire season. If it is a preseason game, it is cumulative stats for that preseason.
+Total season stats (stats prefixed with `s_`) for postseason games are total
+stats for that series only,
+not the entire season. If it is a preseason game, it is cumulative stats for
+that preseason.
 
 Assume that batting stats on a `PitcherStats` object are what he has given up.
-Example: `hr` is home runs given up not home runs hit by that pitcher. 
+Example: `hr` is home runs given up not home runs hit by that pitcher.
 Pitchers have their own `BatterStats` object for their own hitting stats.
 
-If you are reading the documentation, 
+If you are reading the documentation,
 you should click "show source" to see all the stat values.
 
-Some official stat abbreviations on 
-[mlb.com](http://mlb.mlb.com/mlb/official_info/baseball_basics/abbreviations.jsp)
+Some official stat abbreviations on
+[mlb.com]
+(http://mlb.mlb.com/mlb/official_info/baseball_basics/abbreviations.jsp)
 """
