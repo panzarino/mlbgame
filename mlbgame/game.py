@@ -178,7 +178,7 @@ class GameScoreboard(object):
             self.w_team = self.away_team
             self.l_team = self.home_team
         # create the datetime object for the game
-        year, month, day, rest = self.game_id.split('_', 3)
+        year, month, day = self.game_id.split('_')[0:3]
         hour, other = self.game_start_time.split(':', 2)
         minute = other[:2]
         am_pm = other[2:]
