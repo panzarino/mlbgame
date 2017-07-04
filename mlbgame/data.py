@@ -25,7 +25,7 @@ PWD = os.path.join(os.path.dirname(__file__))
 def get_scoreboard(year, month, day):
     """Return the game file for a certain day matching certain criteria."""
     try:
-        data = urlopen(BASE_URL.format(year, monthstr, daystr
+        data = urlopen(BASE_URL.format(year, month, day
                                        ) + "scoreboard.xml")
     except HTTPError:
         data = os.path.join(PWD, "default.xml")
