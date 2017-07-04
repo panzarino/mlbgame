@@ -1,9 +1,6 @@
 # mlbgame
 
-<<<<<<< HEAD
-=======
 [![Build Status](https://travis-ci.org/panzarino/mlbgame.svg)](https://travis-ci.org/panzarino/mlbgame)
->>>>>>> 83720b1b13ef328f340874bb99a82a8d400eaec1
 [![Join Slack](https://img.shields.io/badge/slack-join-blue.svg)](https://mlbgame-slack-invite.herokuapp.com/)
 
 mlbgame is a Python API to retrieve and read MLB GameDay XML data.
