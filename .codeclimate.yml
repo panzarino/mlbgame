@@ -15,4 +15,4 @@ ratings:
   - "mlbgame/*.py"
 exclude_paths:
   - "examples/*"
-  - "tests/*"
+  - "tests/**/*"
