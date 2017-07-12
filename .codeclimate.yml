@@ -14,5 +14,10 @@ ratings:
   paths:
   - "mlbgame/*.py"
 exclude_paths:
+  - "description.rst"
   - "examples/*"
+  - "LICENSE"
+  - "mlbgame/default.xml"
+  - "README.md"
+  - "setup.py"
   - "tests/**/*"
