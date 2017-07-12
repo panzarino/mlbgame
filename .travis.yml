@@ -7,7 +7,7 @@ python:
 cache: pip
 install: "pip install -e .[dev]"
 script:
-  coverage run --source=mlbgame setup.py test
+  py.test --cov=mlbgame
 after_success:
   coveralls
 notifications:

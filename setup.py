@@ -25,10 +25,6 @@ assert version != '0.0.0'
 download_link = 'https://github.com/zachpanz88/mlbgame/archive/v{}.zip'.format(
     version)
 
-if sys.argv[-1] == 'test':
-    os.system('py.test')
-    sys.exit()
-
 # setup options
 setup(
     name='mlbgame',
@@ -69,7 +65,7 @@ setup(
     data_files=[('docs', ['README.md', 'LICENSE', 'description.rst'])],
     install_requires=['lxml', 'requests', 'python-dateutil'],
     extras_require={
-        'dev': ['pytest', 'requests_mock', 'coveralls']
+        'dev': ['pytest', 'requests_mock', 'pytest-cov']
     },
     test_suite='py.test',
     tests_require=['pytest'],
