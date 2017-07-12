@@ -2,6 +2,8 @@
 
 from distutils.core import setup
 import codecs
+import sys
+import os
 import os.path as path
 
 # where this file is located
@@ -22,6 +24,10 @@ assert version != '0.0.0'
 # download link based off tagged releases
 download_link = 'https://github.com/zachpanz88/mlbgame/archive/v{}.zip'.format(
     version)
+
+if sys.argv[-1] == 'test':
+    os.system('py.test')
+    sys.exit()
 
 # setup options
 setup(
@@ -63,6 +69,8 @@ setup(
     data_files=[('docs', ['README.md', 'LICENSE', 'description.rst'])],
     install_requires=['lxml', 'requests', 'python-dateutil'],
     extras_require={
-        'dev': ['pytest', 'requests_mock']
-    }
+        'dev': ['pytest', 'requests_mock', 'coveralls']
+    },
+    test_suite='py.test',
+    tests_require=['pytest'],
 )

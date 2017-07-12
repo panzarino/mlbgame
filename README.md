@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/panzarino/mlbgame.svg)](https://travis-ci.org/panzarino/mlbgame)
 [![Code Climate](https://codeclimate.com/github/panzarino/mlbgame/badges/gpa.svg)](https://codeclimate.com/github/panzarino/mlbgame)
+[![Code Coverage](https://coveralls.io/repos/github/panzarino/mlbgame/badge.svg)](https://coveralls.io/github/panzarino/mlbgame)
 
 
 [![Join Slack](https://img.shields.io/badge/slack-join-blue.svg)](https://mlbgame-slack-invite.herokuapp.com/)

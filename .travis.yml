@@ -6,6 +6,9 @@ python:
   - "nightly"
 cache: pip
 install: "pip install -e .[dev]"
-script: py.test
+script:
+  coverage run --source=mlbgame setup.py test
+after_success:
+  coveralls
 notifications:
   email: false
