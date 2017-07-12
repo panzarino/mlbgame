@@ -8,7 +8,6 @@ import mlbgame.data
 
 import lxml.etree as etree
 
-
 def game_events(game_id):
     """Return dictionary of events for a game with matching id."""
     # get data from data module
@@ -152,7 +151,7 @@ class Pitch(object):
 
     def nice_output(self):
         """Prints basic event info in a nice way."""
-        return "Pitch: {0} at {1}: {2}".format(
+        return 'Pitch: {0} at {1}: {2}'.format(
             self.pitch_type, self.start_speed, self.des)
 
     def __str__(self):

@@ -28,7 +28,7 @@ def player_stats(game_id):
     for y in pitching:
         # checks if home team
         home = False
-        if y.attrib['team_flag'] == "home":
+        if y.attrib['team_flag'] == 'home':
             home = True
         # loops through pitchers
         for x in y.findall('pitcher'):
@@ -45,7 +45,7 @@ def player_stats(game_id):
     for y in batting:
         # checks if home team
         home = False
-        if y.attrib['team_flag'] == "home":
+        if y.attrib['team_flag'] == 'home':
             home = True
         # loops through batters
         for x in y.findall('batter'):
@@ -113,7 +113,7 @@ class PitcherStats(mlbgame.object.Object):
 
     def nice_output(self):
         """Prints basic pitcher stats in a nice way."""
-        return "{0} - {1} Earned Runs, {2} Strikouts, {3} Hits".format(
+        return '{0} - {1} Earned Runs, {2} Strikouts, {3} Hits'.format(
             self.name_display_first_last,
             self.er,
             self.so,
@@ -135,19 +135,19 @@ class BatterStats(mlbgame.object.Object):
         if self.rbi > 0:
             if self.hr > 0:
                 # display home runs if he has any
-                return "{0} - {1} for {2} with {3} RBI and {4} Home Runs".\
+                return '{0} - {1} for {2} with {3} RBI and {4} Home Runs'.\
                     format(self.name_display_first_last,
                            self.h, self.ab, self.rbi, self.hr
                            )
             # display RBI if he has any but no HR
-            return "{0} - {1} for {2} with {3} RBI".format(
+            return '{0} - {1} for {2} with {3} RBI'.format(
                 self.name_display_first_last,
                 self.h,
                 self.ab,
                 self.rbi
-            )
+                )
         # display basic game stats
-        return "{0} - {1} for {2}".format(self.name_display_first_last,
+        return '{0} - {1} for {2}'.format(self.name_display_first_last,
                                           self.h,
                                           self.ab
                                           )

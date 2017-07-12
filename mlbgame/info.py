@@ -17,7 +17,7 @@ def get_league_object():
     # get data
     data = mlbgame.data.get_properties()
     # return league object
-    return etree.parse(data).getroot().find("leagues").find("league")
+    return etree.parse(data).getroot().find('leagues').find('league')
 
 
 def league_info():
@@ -31,7 +31,7 @@ def league_info():
 
 def team_info():
     """Returns a list of team information dictionaries"""
-    teams = get_league_object().find("teams").findall("team")
+    teams = get_league_object().find('teams').findall('team')
     output = []
     for team in teams:
         info = {}

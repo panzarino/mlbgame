@@ -23,7 +23,7 @@ def scoreboard(year, month, day, home=None, away=None):
     output = {}
     # loop through games
     for game in root:
-        if game.tag == "data":
+        if game.tag == 'data':
             return []
         # get team names
         teams = game.findall('team')
@@ -51,7 +51,7 @@ def scoreboard(year, month, day, home=None, away=None):
             away_team_hits = int(away_team_data.attrib['H'])
             away_team_errors = int(away_team_data.attrib['E'])
             # check type of game
-            if game_tag == "go_game" or game_tag == "ig_game":
+            if game_tag == 'go_game' or game_tag == 'ig_game':
                 try:
                     w_pitcher_data = game.find('w_pitcher')
                     w_pitcher = w_pitcher_data.find('pitcher').attrib['name']
@@ -101,7 +101,7 @@ def scoreboard(year, month, day, home=None, away=None):
                     'sv_pitcher_saves': sv_pitcher_saves
                 }
             # games that were not played
-            elif game_tag == "sg_game":
+            elif game_tag == 'sg_game':
                 try:
                     p_pitcher_data = game.findall('p_pitcher')
                     p_pitcher_home_data = p_pitcher_data[0]
@@ -119,10 +119,10 @@ def scoreboard(year, month, day, home=None, away=None):
                     p_pitcher_away_losses = int(p_pitcher_away_data.
                                                 attrib['losses'])
                 except Exception:
-                    p_pitcher_home = ""
+                    p_pitcher_home = ''
                     p_pitcher_home_wins = 0
                     p_pitcher_home_losses = 0
-                    p_pitcher_away = ""
+                    p_pitcher_away = ''
                     p_pitcher_away_wins = 0
                     p_pitcher_away_losses = 0
                 output = {
@@ -182,7 +182,7 @@ class GameScoreboard(object):
         hour, other = self.game_start_time.split(':', 2)
         minute = other[:2]
         am_pm = other[2:]
-        if am_pm == "PM":
+        if am_pm == 'PM':
             hour = int(hour)+11
         self.date = datetime.datetime(int(year), int(month), int(day),
                                       int(hour), int(minute))
@@ -261,24 +261,24 @@ class GameBoxScore(object):
             home.append(x['home'])
         # go through all the information and make a nice output
         # that looks like a scoreboard
-        output += "Inning\t"
+        output += 'Inning\t'
         for x in innings:
-            output += str(x)+" "
+            output += str(x)+' '
         output += '\n'
         for x in innings:
-            output += "---"
-        output += "\nAway\t"
+            output += '---'
+        output += '\nAway\t'
         for y, x in enumerate(away, start=1):
             if y >= 10:
-                output += str(x)+"  "
+                output += str(x)+'  '
             else:
-                output += str(x)+" "
-        output += "\nHome\t"
+                output += str(x)+' '
+        output += '\nHome\t'
         for y, x in enumerate(home, start=1):
             if y >= 10:
-                output += str(x)+"  "
+                output += str(x)+'  '
             else:
-                output += str(x)+" "
+                output += str(x)+' '
         return output
 
 

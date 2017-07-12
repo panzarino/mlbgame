@@ -55,7 +55,7 @@ Here is a quick teaser to find the scores of all home Mets games for the month
     from __future__ import print_function
     import mlbgame
 
-    month = mlbgame.games(2015, 6, home="Mets")
+    month = mlbgame.games(2015, 6, home='Mets')
     games = mlbgame.combine_games(month)
     for game in games:
         print(game)
@@ -82,9 +82,9 @@ Maybe you want to know the pitchers for the Royals game on April 30th, 2015:
     from __future__ import print_function
     import mlbgame
 
-    day = mlbgame.day(2015, 4, 12, home="Royals", away="Royals")
+    day = mlbgame.day(2015, 4, 12, home='Royals', away='Royals')
     game = day[0]
-    output = "Winning pitcher: %s (%s) - Losing Pitcher: %s (%s)"
+    output = 'Winning pitcher: %s (%s) - Losing Pitcher: %s (%s)'
     print(output % (game.w_pitcher, game.w_team, game.l_pitcher, game.l_team))
 
 And the output is:
@@ -98,7 +98,7 @@ in the final game of the 2015 World Series:
     from __future__ import print_function
     import mlbgame
 
-    game = mlbgame.day(2015, 11, 1, home="Mets")[0]
+    game = mlbgame.day(2015, 11, 1, home='Mets')[0]
     stats = mlbgame.player_stats(game.game_id)
     for player in stats['home_batting']:
         print(player)
@@ -241,7 +241,6 @@ def combine_stats(stats):
 
 
 def game_events(game_id):
-
     """Return dictionary of game events for game matching the game id.
 
     Top level of dictionary is inning of game.
