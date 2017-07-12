@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import unittest
 import requests_mock
 import requests
