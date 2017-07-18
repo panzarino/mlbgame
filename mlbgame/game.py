@@ -321,3 +321,58 @@ class Overview(object):
                     setattr(self, x, str(data[x]))
             element_list.append(x)
         self.elements = set(element_list)
+
+def players(game_id):
+    """Gets player/coach/umpire information for the game with matching id."""
+    # get data
+    data = mlbgame.data.get_players(game_id)
+    # parse data
+    parsed = etree.parse(data)
+    root = parsed.getroot()
+
+    output = {}
+    output['game_id'] = game_id
+
+    # get player/coach data
+    for team in root.findall('team'):
+        type = team.attrib['type'] + "_team"
+        # the type is either home_team or away_team
+        output[type] = {}
+        output[type]['players'] = []
+        output[type]['coaches'] = []
+
+        for p in team.findall('player'):
+            player = {}
+            for key in p.keys():
+                player[key] = p.get(key)
+            output[type]['players'].append(player)
+
+        for c in team.findall('coach'):
+            coach = {}
+            for key in c.keys():
+                coach[key] = c.get(key)
+            output[type]['coaches'].append(coach)
+
+    # get umpire data
+    output['umpires'] = []
+    for u in root.find('umpires').findall('umpire'):
+        umpire = {}
+        for key in u.keys():
+            umpire[key] = u.get(key)
+        output['umpires'].append(umpire)
+
+    return output
+
+class Players(object):
+    """Object to hold player/coach/umpire information for a game."""
+
+    def __init__(self, data):
+        """Creates an overview object that matches the corresponding info in `data`.
+        `data` should be an dictionary of values.
+        """
+        self.game_id = data['game_id']
+        self.home_players = data['home_team']['players']
+        self.home_coaches = data['home_team']['coaches']
+        self.away_players = data['away_team']['players']
+        self.away_coaches = data['away_team']['coaches']
+        self.umpires = data['umpires']

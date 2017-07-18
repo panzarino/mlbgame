@@ -65,6 +65,18 @@ def get_overview(game_id):
         raise ValueError("Could not find a game with that id.")
 
 
+def get_players(game_id):
+    """Return the players file of a game with matching id."""
+    year, month, day = get_date_from_game_id(game_id)
+    try:
+        print(GAME_URL.format(year, month, day, game_id, "players.xml"))
+        return urlopen(GAME_URL.format(year, month, day,
+                                       game_id,
+                                       "players.xml"))
+    except HTTPError:
+        raise ValueError("Could not find a game with that id.")
+
+
 def get_properties():
     """Return the current mlb properties file"""
     try:
