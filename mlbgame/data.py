@@ -78,4 +78,4 @@ def get_properties():
 
 def get_date_from_game_id(game_id):
     year, month, day, _discard = game_id.split('_', 3)
-    return year, month, day
+    return int(year), int(month), int(day)
