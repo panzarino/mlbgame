@@ -274,6 +274,12 @@ def teams():
     """Return list of Info objects for each team"""
     return [mlbgame.info.Info(x) for x in mlbgame.info.team_info()]
 
+
 def disabled_list(team_id):
     """Return Injury object that contains DL info for a team"""
     return mlbgame.injury.Injury(team_id)
+
+
+def players(game_id):
+    """Return list players/coaches/umpires for game matching the game id."""
+    return mlbgame.game.Players(mlbgame.game.players(game_id))
