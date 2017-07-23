@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
+import mlbgame
+
 import unittest
 import requests_mock
 import requests
 import json
 from datetime import datetime
 import dateutil.parser
-from mlbgame import roster
+
 
 class TestRoster(unittest.TestCase):
     def setUp(self):
@@ -26,22 +28,22 @@ class TestRoster(unittest.TestCase):
         del self.roster_json
 
     def test_roster_url(self):
-        r = roster.Roster(self.team_id)
+        r = mlbgame.team_roster(self.team_id)
         self.assertEqual(r.roster_url, self.roster_url)
 
     def test_roster_is_list(self):
-        r = roster.Roster(self.team_id)
+        r = mlbgame.team_roster(self.team_id)
         self.assertIsInstance(r.roster, list)
 
     @requests_mock.Mocker()
     def test_roster_json(self, requests_mock):
         requests_mock.get(self.roster_url, json=self.roster_json)
-        r = roster.Roster(self.team_id)
+        r = mlbgame.team_roster(self.team_id)
         self.assertEqual(r.roster_json, self.roster_json)
 
     @requests_mock.Mocker()
     def test_last_update(self, requests_mock):
         requests_mock.get(self.roster_url, json=self.roster_json)
-        r = roster.Roster(self.team_id)
+        r = mlbgame.team_roster(self.team_id)
         last_update = self.roster_json['roster_40']['queryResults']['created']
         self.assertEqual(dateutil.parser.parse(last_update), r.last_update)

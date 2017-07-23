@@ -3,12 +3,14 @@
 """
 Module that is used for getting the MLB standings.
 """
+
 from __future__ import print_function
 
 from datetime import datetime
 import sys
 import dateutil.parser
 import requests
+
 
 class Standings(object):
     """Holds information about the league standings

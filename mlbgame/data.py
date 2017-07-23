@@ -13,6 +13,7 @@ try:
 except ImportError:
     from urllib2 import urlopen, HTTPError
 
+
 # Templates For URLS
 BASE_URL = 'http://gd2.mlb.com/components/game/mlb/year_{0}/month_{1:02d}/day_{2:02d}/'
 GAME_URL = BASE_URL + '/gid_{3}/{4}'
@@ -84,6 +85,7 @@ def get_properties():
         raise ValueError('Could not find the properties file. '
                          'mlb.com does not provide the file that '
                          'mlbgame needs to perform this operation.')
+
 
 def get_date_from_game_id(game_id):
     year, month, day, _discard = game_id.split('_', 3)

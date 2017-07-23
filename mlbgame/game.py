@@ -322,6 +322,7 @@ class Overview(object):
             element_list.append(x)
         self.elements = set(element_list)
 
+
 def players(game_id):
     """Gets player/coach/umpire information for the game with matching id."""
     # get data
@@ -362,6 +363,7 @@ def players(game_id):
         output['umpires'].append(umpire)
 
     return output
+
 
 class Players(object):
     """Object to hold player/coach/umpire information for a game."""

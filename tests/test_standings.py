@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
+import mlbgame
+
 import unittest
 import requests_mock
 import requests
 import json
 from datetime import datetime
 import dateutil.parser
-from mlbgame import standings
+
 
 class TestStandings(unittest.TestCase):
     def setUp(self):
@@ -42,29 +44,29 @@ class TestStandings(unittest.TestCase):
         del self.standings_json
 
     def test_standings_url(self):
-        s = standings.Standings(self.date)
+        s = mlbgame.league_standings(self.date)
         self.assertEqual(s.standings_url, self.standings_url)
 
     def test_historical_standings_url(self):
-        s = standings.Standings(self.hist_date)
+        s = mlbgame.league_standings(self.hist_date)
         self.assertEqual(s.standings_url, self.hist_standings_url)
 
     @requests_mock.Mocker()
     def test_divisions_is_list(self, mock_requests):
         mock_requests.get(self.standings_url, json=self.standings_json)
-        s = standings.Standings(self.date)
+        s = mlbgame.league_standings(self.date)
         self.assertIsInstance(s.divisions, list)
 
     @requests_mock.Mocker()
     def test_standings_json(self, mock_requests):
         mock_requests.get(self.standings_url, json=self.standings_json)
-        s = standings.Standings(self.date)
+        s = mlbgame.league_standings(self.date)
         self.assertEqual(s.standings_json, self.standings_json)
 
     @requests_mock.Mocker()
     def test_last_update(self, mock_requests):
         mock_requests.get(self.standings_url, json=self.standings_json)
-        s = standings.Standings(self.date)
+        s = mlbgame.league_standings(self.date)
         last_update = self.standings_json['standings_schedule_date']\
             ['standings_all_date_rptr']['standings_all_date']\
             [0]['queryResults']['created']

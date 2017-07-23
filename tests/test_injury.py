@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
+import mlbgame
+
 import unittest
 import requests_mock
 import requests
 import json
 from datetime import datetime
 import dateutil.parser
-import mlbgame
+
 
 class TestInjury(unittest.TestCase):
     def setUp(self):

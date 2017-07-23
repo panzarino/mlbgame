@@ -9,6 +9,7 @@ import sys
 import dateutil.parser
 import requests
 
+
 class Injury(object):
     """Represents the MLB Disabled List
 

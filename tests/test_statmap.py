@@ -2,6 +2,7 @@
 
 import unittest
 
+
 class TestStatmap(unittest.TestCase):
 
     def test_statmap(self):

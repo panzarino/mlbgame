@@ -2,6 +2,7 @@
 
 import unittest
 
+
 class TestVersion(unittest.TestCase):
 
     def test_version_module(self):

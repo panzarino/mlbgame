@@ -127,6 +127,8 @@ import mlbgame.events
 import mlbgame.game
 import mlbgame.info
 import mlbgame.injury
+import mlbgame.roster
+import mlbgame.standings
 import mlbgame.stats
 import mlbgame.version
 
@@ -283,3 +285,11 @@ def disabled_list(team_id):
 def players(game_id):
     """Return list players/coaches/umpires for game matching the game id."""
     return mlbgame.game.Players(mlbgame.game.players(game_id))
+
+def team_roster(team_id):
+    """Return Roster object that contains roster info for a team"""
+    return mlbgame.roster.Roster(team_id)
+
+def league_standings(date):
+    """Return Standings object that contains standings info"""
+    return mlbgame.standings.Standings(date)

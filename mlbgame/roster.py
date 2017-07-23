@@ -3,11 +3,13 @@
 """
 Module that is used for getting the MLB rosters.
 """
+
 from __future__ import print_function
 
 import sys
 import dateutil.parser
 import requests
+
 
 class Roster(object):
     """Represents an MLB Team
