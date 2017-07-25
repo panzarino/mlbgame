@@ -126,9 +126,6 @@ And the output is:
 import mlbgame.events
 import mlbgame.game
 import mlbgame.info
-import mlbgame.injury
-import mlbgame.roster
-import mlbgame.standings
 import mlbgame.stats
 import mlbgame.version
 
@@ -277,19 +274,21 @@ def teams():
     return [mlbgame.info.Info(x) for x in mlbgame.info.team_info()]
 
 
-def disabled_list(team_id):
+def injury(team_id):
     """Return Injury object that contains DL info for a team"""
-    return mlbgame.injury.Injury(team_id)
+    return mlbgame.info.Injury(team_id)
 
 
 def players(game_id):
     """Return list players/coaches/umpires for game matching the game id."""
     return mlbgame.game.Players(mlbgame.game.players(game_id))
 
-def team_roster(team_id):
-    """Return Roster object that contains roster info for a team"""
-    return mlbgame.roster.Roster(team_id)
 
-def league_standings(date):
+def roster(team_id):
+    """Return Roster object that contains roster info for a team"""
+    return mlbgame.info.Roster(team_id)
+
+
+def standings(date):
     """Return Standings object that contains standings info"""
-    return mlbgame.standings.Standings(date)
+    return mlbgame.info.Standings(date)

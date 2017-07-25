@@ -26,26 +26,26 @@ class TestInjury(unittest.TestCase):
         del self.injury_json
 
     def test_team_id_is_str(self):
-        i = mlbgame.disabled_list(self.team_id)
+        i = mlbgame.injury(self.team_id)
         self.assertIsInstance(i.team_id, str)
 
     def test_injury_url(self):
-        i = mlbgame.disabled_list(self.team_id)
+        i = mlbgame.injury(self.team_id)
         self.assertEqual(i.injury_url, self.injury_url)
 
     def test_injury_is_list(self):
-        i = mlbgame.disabled_list(self.team_id)
+        i = mlbgame.injury(self.team_id)
         self.assertIsInstance(i.injuries, list)
 
     @requests_mock.Mocker()
     def test_injury_json(self, requests_mock):
         requests_mock.get(self.injury_url, json=self.injury_json)
-        i = mlbgame.disabled_list(self.team_id)
+        i = mlbgame.injury(self.team_id)
         self.assertEqual(i.injury_json, self.injury_json)
 
     @requests_mock.Mocker()
     def test_last_update(self, requests_mock):
         requests_mock.get(self.injury_url, json=self.injury_json)
-        i = mlbgame.disabled_list(self.team_id)
+        i = mlbgame.injury(self.team_id)
         last_update = self.injury_json['wsfb_news_injury']['queryResults']['created']
         self.assertEqual(dateutil.parser.parse(last_update), i.last_update)
