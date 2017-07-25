@@ -1,49 +1,42 @@
 #!/usr/bin/env python
 
-import mlbgame
-
 import unittest
-import requests_mock
-import requests
-import json
-from datetime import datetime
-import dateutil.parser
 
 
 class TestRoster(unittest.TestCase):
-    def setUp(self):
-        self.team_id = 117
-        base_url = 'http://mlb.mlb.com'
-        self.roster_url = '%s/lookup/json/named.roster_40.bam?team_id=%s' % \
-            (base_url, self.team_id)
-        self.roster_file = 'tests/files/roster.json'
-        with open(self.roster_file) as json_data:
-            self.roster_json = json.load(json_data)
-            json_data.close()
 
-    def tearDown(self):
-        del self.team_id
-        del self.roster_url
-        del self.roster_file
-        del self.roster_json
-
-    def test_roster_url(self):
-        r = mlbgame.roster(self.team_id)
-        self.assertEqual(r.roster_url, self.roster_url)
-
-    def test_roster_is_list(self):
-        r = mlbgame.roster(self.team_id)
-        self.assertIsInstance(r.roster, list)
-
-    @requests_mock.Mocker()
-    def test_roster_json(self, requests_mock):
-        requests_mock.get(self.roster_url, json=self.roster_json)
-        r = mlbgame.roster(self.team_id)
-        self.assertEqual(r.roster_json, self.roster_json)
-
-    @requests_mock.Mocker()
-    def test_last_update(self, requests_mock):
-        requests_mock.get(self.roster_url, json=self.roster_json)
-        r = mlbgame.roster(self.team_id)
-        last_update = self.roster_json['roster_40']['queryResults']['created']
-        self.assertEqual(dateutil.parser.parse(last_update), r.last_update)
+    def test_roster(self):
+        import mlbgame
+        roster = mlbgame.roster(121)
+        self.assertIsInstance(roster.roster, list)
+        for player in roster.roster:
+            self.assertIsInstance(player.bats, str)
+            self.assertIsInstance(player.birth_date, str)
+            self.assertIsInstance(player.college, str)
+            self.assertIsInstance(player.end_date, str)
+            self.assertIsInstance(player.height_feet, int)
+            self.assertIsInstance(player.height_inches, int)
+            self.assertIsInstance(player.jersey_number, int)
+            self.assertIsInstance(player.name_display_first_last, str)
+            self.assertIsInstance(player.name_display_last_first, str)
+            self.assertIsInstance(player.name_first, str)
+            self.assertIsInstance(player.name_full, str)
+            self.assertIsInstance(player.name_last, str)
+            self.assertIsInstance(player.name_use, str)
+            self.assertIsInstance(player.player_id, int)
+            self.assertIsInstance(player.position_txt, str)
+            self.assertIsInstance(player.primary_position, int)
+            self.assertIsInstance(player.pro_debut_date, str)
+            self.assertIsInstance(player.start_date, str)
+            self.assertIsInstance(player.starter_sw, str)
+            self.assertIsInstance(player.status_code, str)
+            self.assertIsInstance(player.team_abbrev, str)
+            self.assertIsInstance(player.team_code, str)
+            self.assertIsInstance(player.team_id, int)
+            self.assertIsInstance(player.team_name, str)
+            self.assertIsInstance(player.throws, str)
+            self.assertIsInstance(player.weight, int)
+            self.assertEqual(player.team_abbrev, 'NYM')
+            self.assertEqual(player.team_code, 'nyn')
+            self.assertEqual(player.team_id, 121)
+            self.assertEqual(player.team_name, 'New York Mets')

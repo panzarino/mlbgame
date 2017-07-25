@@ -161,7 +161,7 @@ class Roster(object):
         """Parse the json roster"""
         players = self.roster_json['roster_40']['queryResults']['row']
         for player in players:
-            mlbplayer = type('Player', (object,), player)
+            mlbplayer = Player(player)
             self.roster.append(mlbplayer)
 
 
@@ -173,41 +173,38 @@ class NoTeamID(RosterException):
     """A `team_id` was not supplied"""
 
 
-#
-# @meta_classes
-#
+class Player(mlbgame.object.Object):
+    """Represents an MLB Player
 
-#class Player(object):
-#    """Represents an MLB Player
-#
-#    Properties:
-#        position_txt
-#        weight
-#        name_display_first_last
-#        college
-#        height_inches
-#        starter_sw
-#        jersey_number
-#        end_date
-#        name_first
-#        bats
-#        team_code
-#        height_feet
-#        pro_debut_date
-#        status_code
-#        primary_position
-#        birth_date
-#        team_abbrev
-#        throws
-#        team_name
-#        name_display_last_first
-#        name_use
-#        player_id
-#        name_last
-#        team_id
-#        start_date
-#        name_full
-#    """
+    Properties:
+        bats
+        birth_date
+        college
+        end_date
+        height_feet
+        height_inches
+        jersey_number
+        name_display_first_last
+        name_display_last_first
+        name_first
+        name_full
+        name_last
+        name_use
+        player_id
+        position_txt
+        primary_position
+        pro_debut_date
+        start_date
+        starter_sw
+        status_code
+        team_abbrev
+        team_code
+        team_id
+        team_name
+        throws
+        weight
+    """
+    pass
 
 
 class Standings(object):
