@@ -233,13 +233,13 @@ class Standings(object):
         now = datetime.now()
         if date.year == now.year and date.month == now.month and date.day == now.day:
             self.standings_url = ('http://mlb.mlb.com/lookup/json/named.standings_schedule_date.bam?season=%s&'
-            'schedule_game_date.game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
-            'league_id=104&all_star_sw=%%27N%%27&version=2') % (date.year, date.strftime('%Y/%m/%d'))
+                                    'schedule_game_date.game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
+                                    'league_id=104&all_star_sw=%%27N%%27&version=2') % (date.year, date.strftime('%Y/%m/%d'))
             self.standings_schedule_date = 'standings_schedule_date'
         else:
             self.standings_url = ('http://mlb.mlb.com/lookup/json/named.historical_standings_schedule_date.bam?season=%s&'
-            'game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
-            'league_id=104&all_star_sw=%%27N%%27&version=48') % (date.year, date.strftime('%Y/%m/%d'))
+                                    'game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
+                                    'league_id=104&all_star_sw=%%27N%%27&version=48') % (date.year, date.strftime('%Y/%m/%d'))
             self.standings_schedule_date = 'historical_standings_schedule_date'
         self.mlb_standings = []
         self.parse_standings()
@@ -412,7 +412,7 @@ class Injury(object):
     def parse_injury(self):
         """Parse the json injury"""
         injuries = self.injury_json['wsfb_news_injury']['queryResults']['row']
-        injuries = [ injury for injury in injuries if injury['team_id'] == self.team_id ]
+        injuries = [injury for injury in injuries if injury['team_id'] == self.team_id]
         for injury in injuries:
             mlbinjury = type('Player', (object,), injury)
             self.injuries.append(mlbinjury)
