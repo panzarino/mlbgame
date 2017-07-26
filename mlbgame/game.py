@@ -189,7 +189,8 @@ class GameScoreboard(object):
 
     def nice_score(self):
         """Return a nicely formatted score of the game."""
-        return '{0.away_team} ({0.away_team_runs}) at {0.home_team} ({0.home_team_runs})'.format(self)
+        return ('{0.away_team} ({0.away_team_runs}) at '
+            '{0.home_team} ({0.home_team_runs})').format(self)
 
     def __str__(self):
         return self.nice_score()

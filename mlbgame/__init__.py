@@ -34,7 +34,7 @@ mlbgame can be installed by running:
 
     pip install mlbgame
 
-Alternatively, the latest release of mlbgame can be downloaded as a 
+Alternatively, the latest release of mlbgame can be downloaded as a
 [zip](https://github.com/panzarino/mlbgame/archive/master.zip) or
 [tarball](https://github.com/panzarino/mlbgame/archive/master.tar.gz).
 If you do not install with `pip`, you must also install

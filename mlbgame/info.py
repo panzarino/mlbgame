@@ -127,11 +127,11 @@ class Roster(object):
         roster_json
         last_update
     """
-    roster_url = 'http://mlb.mlb.com/lookup/json/named.roster_40.bam?team_id=%s'
+    url = 'http://mlb.mlb.com/lookup/json/named.roster_40.bam?team_id=%s'
 
     def __init__(self, team_id=None):
         if team_id:
-            self.roster_url = Roster.roster_url % team_id
+            self.roster_url = Roster.url % team_id
             self.roster = []
             self.parse_roster()
         else:
@@ -232,14 +232,14 @@ class Standings(object):
     def __init__(self, date=datetime.now()):
         now = datetime.now()
         if date.year == now.year and date.month == now.month and date.day == now.day:
-            self.standings_url = 'http://mlb.mlb.com/lookup/json/named.standings_schedule_date.bam?season=%s&' \
-            'schedule_game_date.game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&' \
-            'league_id=104&all_star_sw=%%27N%%27&version=2' % (date.year, date.strftime('%Y/%m/%d'))
+            self.standings_url = ('http://mlb.mlb.com/lookup/json/named.standings_schedule_date.bam?season=%s&'
+            'schedule_game_date.game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
+            'league_id=104&all_star_sw=%%27N%%27&version=2') % (date.year, date.strftime('%Y/%m/%d'))
             self.standings_schedule_date = 'standings_schedule_date'
         else:
-            self.standings_url = 'http://mlb.mlb.com/lookup/json/named.historical_standings_schedule_date.bam?season=%s&' \
-            'game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&' \
-            'league_id=104&all_star_sw=%%27N%%27&version=48' % (date.year, date.strftime('%Y/%m/%d'))
+            self.standings_url = ('http://mlb.mlb.com/lookup/json/named.historical_standings_schedule_date.bam?season=%s&'
+            'game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
+            'league_id=104&all_star_sw=%%27N%%27&version=48') % (date.year, date.strftime('%Y/%m/%d'))
             self.standings_schedule_date = 'historical_standings_schedule_date'
         self.mlb_standings = []
         self.parse_standings()
@@ -301,68 +301,64 @@ class UnknownLeagueID(StandingsException):
     """An unknown `league_id` was passed from standings json"""
 
 
-#
-# @meta_classes
-#
+# class Division(object):
+#     """Represents an MLB Division in the standings
 
-#class Division(object):
-#    """Represents an MLB Division in the standings
-#
-#    Properties:
-#        name
-#        teams
-#    """
+#     Properties:
+#         name
+#         teams
+#     """
 
-#class Team(object):
-#    """Represents an MLB team in the standings"""
-#
-#    Properties:
-#        streak
-#        playoff_odds
-#        elim
-#        x_wl_seas
-#        vs_right
-#        gb
-#        sit_code
-#        home
-#        last_ten
-#        one_run
-#        vs_division
-#        playoff_points_sw
-#        vs_left
-#        is_wildcard_sw
-#        vs_west
-#        away
-#        division_champ
-#        pct
-#        team_short
-#        clinched_sw
-#        playoffs_sw
-#        playoffs_flag_mlb
-#        division_id
-#        division
-#        interleague
-#        playoffs_flag_milb
-#        opp_runs
-#        wild_card
-#        elim_wildcard
-#        x_wl
-#        file_code
-#        team_full
-#        runs
-#        wildcard_odds
-#        vs_east
-#        l
-#        gb_wildcard
-#        team_abbrev
-#        points
-#        place
-#        w
-#        division_odds
-#        team_id
-#        vs_central
-#        extra_inn
-#    """
+# class Team(object):
+#     """Represents an MLB team in the standings
+
+#     Properties:
+#         streak
+#         playoff_odds
+#         elim
+#         x_wl_seas
+#         vs_right
+#         gb
+#         sit_code
+#         home
+#         last_ten
+#         one_run
+#         vs_division
+#         playoff_points_sw
+#         vs_left
+#         is_wildcard_sw
+#         vs_west
+#         away
+#         division_champ
+#         pct
+#         team_short
+#         clinched_sw
+#         playoffs_sw
+#         playoffs_flag_mlb
+#         division_id
+#         division
+#         interleague
+#         playoffs_flag_milb
+#         opp_runs
+#         wild_card
+#         elim_wildcard
+#         x_wl
+#         file_code
+#         team_full
+#         runs
+#         wildcard_odds
+#         vs_east
+#         l
+#         gb_wildcard
+#         team_abbrev
+#         points
+#         place
+#         w
+#         division_odds
+#         team_id
+#         vs_central
+#         extra_inn
+#     """
 
 
 class Injury(object):
