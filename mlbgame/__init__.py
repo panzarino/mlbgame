@@ -275,8 +275,8 @@ def teams():
 
 
 def injury(team_id):
-    """Return Injury object that contains DL info for a team"""
-    return mlbgame.info.Injury(team_id)
+    """Return Injuries object that contains injury info for a team"""
+    return mlbgame.info.Injuries(team_id)
 
 
 def players(game_id):

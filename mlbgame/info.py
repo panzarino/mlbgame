@@ -361,7 +361,7 @@ class UnknownLeagueID(StandingsException):
 #     """
 
 
-class Injury(object):
+class Injuries(object):
     """Represents the MLB Disabled List
 
     Properties:
@@ -375,7 +375,7 @@ class Injury(object):
 
     def __init__(self, team_id=None):
         if team_id:
-            self.injury_url = Injury.injury_url
+            self.injury_url = Injuries.injury_url
             self.injuries = []
             if isinstance(team_id, int):
                 self.team_id = str(team_id)
@@ -414,7 +414,7 @@ class Injury(object):
         injuries = self.injury_json['wsfb_news_injury']['queryResults']['row']
         injuries = [injury for injury in injuries if injury['team_id'] == self.team_id]
         for injury in injuries:
-            mlbinjury = type('Player', (object,), injury)
+            mlbinjury = Injury(injury)
             self.injuries.append(mlbinjury)
 
 
@@ -426,24 +426,22 @@ class TeamIDException(injuryException):
     """A `team_id` was not supplied or the `team_id` was not an integer."""
 
 
-#
-# @meta_classes
-#
+class Injury(mlbgame.object.Object):
+    """Represents an MLB injury
 
-#class Player(object):
-#    """Represents an MLB injury
-#
-#    Properties:
-#        display_ts
-#        due_back"
-#        injury_desc
-#        injury_status
-#        injury_update
-#        insert_ts
-#        league_id
-#        name_first
-#        name_last
-#        player_id
-#        position
-#        team_id
-#        team_name
+    Properties:
+        display_ts
+        due_back
+        injury_desc
+        injury_status
+        injury_update
+        insert_ts
+        league_id
+        name_first
+        name_last
+        player_id
+        position
+        team_id
+        team_name
+    """
+    pass
