@@ -16,7 +16,7 @@ except ImportError:
 
 # Templates For URLS
 BASE_URL = ('http://gd2.mlb.com/components/game/mlb/'
-    'year_{0}/month_{1:02d}/day_{2:02d}/')
+            'year_{0}/month_{1:02d}/day_{2:02d}/')
 GAME_URL = BASE_URL + '/gid_{3}/{4}'
 PROPERTY_URL = 'http://mlb.mlb.com/properties/mlb_properties.xml'
 # Local Directory
