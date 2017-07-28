@@ -375,7 +375,6 @@ class Injuries(object):
 
     def __init__(self, team_id=None):
         if team_id:
-            self.injury_url = Injuries.injury_url
             self.injuries = []
             if isinstance(team_id, int):
                 self.team_id = str(team_id)
@@ -397,7 +396,7 @@ class Injuries(object):
     def injury_json(self):
         """Return injury output as json"""
         try:
-            return requests.get(self.injury_url).json()
+            return requests.get(Injuries.injury_url).json()
         except requests.exceptions.RequestException as e:
             print(e)
             sys.exit(-1)
