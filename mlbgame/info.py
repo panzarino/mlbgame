@@ -212,8 +212,9 @@ class Standings(object):
 
     Properties:
         standings_url
-        mlb_standings
+        divisions
         standings_json
+        standings_schedule_date
         last_update
     """
     DIVISIONS = {
@@ -229,7 +230,7 @@ class Standings(object):
         }
     }
 
-    def __init__(self, date=datetime.now()):
+    def __init__(self, date):
         now = datetime.now()
         if date.year == now.year and date.month == now.month and date.day == now.day:
             self.standings_url = ('http://mlb.mlb.com/lookup/json/named.standings_schedule_date.bam?season=%s&'
@@ -241,8 +242,9 @@ class Standings(object):
                                     'game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
                                     'league_id=104&all_star_sw=%%27N%%27&version=48') % (date.year, date.strftime('%Y/%m/%d'))
             self.standings_schedule_date = 'historical_standings_schedule_date'
-        self.mlb_standings = []
+        self.divisions = []
         self.parse_standings()
+        self.last_update = self.set_last_update()
 
     @property
     def standings_json(self):
@@ -253,13 +255,7 @@ class Standings(object):
             print(e)
             sys.exit(-1)
 
-    @property
-    def divisions(self):
-        """Return an array of Divison objects"""
-        return self.mlb_standings
-
-    @property
-    def last_update(self):
+    def set_last_update(self):
         """Return a dateutil object from string [last update]
         originally in ISO 8601 format: YYYY-mm-ddTHH:MM:SS"""
         last_update = self.standings_json[self.standings_schedule_date]['standings_all_date_rptr']['standings_all_date'][0]['queryResults']['created']
@@ -285,7 +281,7 @@ class Standings(object):
             for division in divisions:
                 teams = [team for team in league['queryResults']['row'] if team['division_id'] == division]
                 mlbdiv = Division(divisions[division], teams)
-                self.mlb_standings.append(mlbdiv)
+                self.divisions.append(mlbdiv)
 
 
 class StandingsException(Exception):

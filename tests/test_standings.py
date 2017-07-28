@@ -1,73 +1,66 @@
 #!/usr/bin/env python
 
-import mlbgame
-
 import unittest
-import requests_mock
-import requests
-import json
-from datetime import datetime
-import dateutil.parser
 
 
 class TestStandings(unittest.TestCase):
-    def setUp(self):
-        self.date = datetime.now()
-        self.hist_date = datetime(2016, 6, 2)
-        self.standings_file = 'tests/files/standings.json'
-        self.hist_standings_file = 'tests/files/historical_standings.json'
-        self.standings_url = ''.join([
-            'http://mlb.mlb.com/lookup/json/',
-            'named.standings_schedule_date.bam',
-            '?season={0}&schedule_game_date'.format(self.date.year),
-            '.game_date=%27{0}%27&'.format(self.date.strftime('%Y/%m/%d')),
-            'sit_code=%27h0%27&league_id=103&league_id=104&',
-            'all_star_sw=%27N%27&version=2'])
-        self.hist_standings_url = ''.join([
-            'http://mlb.mlb.com/lookup/json/',
-            'named.historical_standings_schedule_date.bam',
-            '?season={0}&'.format(self.hist_date.year),
-            'game_date=%27{0}%27&'.format(self.hist_date.strftime('%Y/%m/%d')),
-            'sit_code=%27h0%27&league_id=103&league_id=104&'
-            'all_star_sw=%27N%27&version=48'])
-        with open(self.standings_file) as json_data:
-            self.standings_json = json.load(json_data)
-            json_data.close()
+    
+    def test_standings(self):
+        import mlbgame
+        from datetime import datetime
+        standings = mlbgame.standings()
+        self.assertEquals(standings.standings_schedule_date, 'standings_schedule_date')
+        self.assertIsInstance(standings.last_update, datetime)
+        self.assertIsInstance(standings.divisions, list)
+        for division in standings.divisions:
+            self.assertIsInstance(division.name, str)
+            self.assertIsInstance(division.teams, list)
+            for team in division.teams:
+                self.assertIsInstance(team.away, str)
+                self.assertIsInstance(team.clinched_sw, str)
+                self.assertIsInstance(team.division, str)
+                self.assertIsInstance(team.division_champ, str)
+                self.assertIsInstance(team.division_id, int)
+                self.assertIsInstance(team.division_odds, float)
+                self.assertIsInstance(team.elim, (str, int))
+                self.assertIsInstance(team.elim_wildcard, (str, int))
+                self.assertIsInstance(team.extra_inn, str)
+                self.assertIsInstance(team.file_code, str)
+                self.assertIsInstance(team.gb, (str, float))
+                self.assertIsInstance(team.gb_wildcard, (str, float))
+                self.assertIsInstance(team.home, str)
+                self.assertIsInstance(team.interleague, str)
+                self.assertIsInstance(team.is_wildcard_sw, str)
+                self.assertIsInstance(team.l, int)
+                self.assertIsInstance(team.last_ten, str)
+                self.assertIsInstance(team.one_run, str)
+                self.assertIsInstance(team.opp_runs, int)
+                self.assertIsInstance(team.pct, float)
+                self.assertIsInstance(team.place, int)
+                self.assertIsInstance(team.playoff_odds, float)
+                self.assertIsInstance(team.playoff_points_sw, str)
+                self.assertIsInstance(team.playoffs_flag_milb, str)
+                self.assertIsInstance(team.playoffs_flag_mlb, str)
+                self.assertIsInstance(team.playoffs_sw, str)
+                self.assertIsInstance(team.points, str)
+                self.assertIsInstance(team.runs, int)
+                self.assertIsInstance(team.sit_code, str)
+                self.assertIsInstance(team.streak, str)
+                self.assertIsInstance(team.team_abbrev, str)
+                self.assertIsInstance(team.team_full, str)
+                self.assertIsInstance(team.team_id, int)
+                self.assertIsInstance(team.team_short, str)
+                self.assertIsInstance(team.vs_central, str)
+                self.assertIsInstance(team.vs_division, str)
+                self.assertIsInstance(team.vs_east, str)
+                self.assertIsInstance(team.vs_left, str)
+                self.assertIsInstance(team.vs_right, str)
+                self.assertIsInstance(team.vs_west, str)
+                self.assertIsInstance(team.w, int)
+                self.assertIsInstance(team.wild_card, str)
+                self.assertIsInstance(team.wildcard_odds, float)
+                self.assertIsInstance(team.x_wl, str)
+                self.assertIsInstance(team.x_wl_seas, str)
 
-    def tearDown(self):
-        del self.date
-        del self.standings_file
-        del self.hist_standings_file
-        del self.hist_date
-        del self.standings_url
-        del self.hist_standings_url
-        del self.standings_json
-
-    def test_standings_url(self):
-        s = mlbgame.standings(self.date)
-        self.assertEqual(s.standings_url, self.standings_url)
-
-    def test_historical_standings_url(self):
-        s = mlbgame.standings(self.hist_date)
-        self.assertEqual(s.standings_url, self.hist_standings_url)
-
-    @requests_mock.Mocker()
-    def test_divisions_is_list(self, mock_requests):
-        mock_requests.get(self.standings_url, json=self.standings_json)
-        s = mlbgame.standings(self.date)
-        self.assertIsInstance(s.divisions, list)
-
-    @requests_mock.Mocker()
-    def test_standings_json(self, mock_requests):
-        mock_requests.get(self.standings_url, json=self.standings_json)
-        s = mlbgame.standings(self.date)
-        self.assertEqual(s.standings_json, self.standings_json)
-
-    @requests_mock.Mocker()
-    def test_last_update(self, mock_requests):
-        mock_requests.get(self.standings_url, json=self.standings_json)
-        s = mlbgame.standings(self.date)
-        last_update = self.standings_json['standings_schedule_date']\
-            ['standings_all_date_rptr']['standings_all_date']\
-            [0]['queryResults']['created']
-        self.assertEqual(dateutil.parser.parse(last_update), s.last_update)
+    def test_standings_historical(self):
+        pass

@@ -130,7 +130,7 @@ import mlbgame.stats
 import mlbgame.version
 
 import calendar
-from datetime import date
+from datetime import date, datetime
 
 VERSION = mlbgame.version.__version__
 """Installed version of mlbgame."""
@@ -289,7 +289,7 @@ def roster(team_id):
     return mlbgame.info.Roster(team_id)
 
 
-def standings(date=None):
+def standings(date=datetime.now()):
     """Return Standings object that contains standings info
     
     date should be a datetime object,
