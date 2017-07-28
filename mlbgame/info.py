@@ -283,13 +283,8 @@ class Standings(object):
                     sys.exit(-1)
 
             for division in divisions:
-                mlbdivision = []
-                mlbdiv = type('Division', (object,), {'name': divisions[division]})
                 teams = [team for team in league['queryResults']['row'] if team['division_id'] == division]
-                for team in teams:
-                    mlbteam = type('Team', (object,), team)
-                    mlbdivision.append(mlbteam)
-                setattr(mlbdiv, 'standings', mlbdivision)
+                mlbdiv = Division(divisions[division], teams)
                 self.mlb_standings.append(mlbdiv)
 
 
@@ -301,64 +296,71 @@ class UnknownLeagueID(StandingsException):
     """An unknown `league_id` was passed from standings json"""
 
 
-# class Division(object):
-#     """Represents an MLB Division in the standings
+class Division(object):
+    """Represents an MLB Division in the standings
 
-#     Properties:
-#         name
-#         teams
-#     """
+    Properties:
+        name
+        teams
+    """
+    def __init__(self, name, teams):
+        self.name = name
+        self.teams = []
+        for team in teams:
+            self.teams.append(Team(team))
 
-# class Team(object):
-#     """Represents an MLB team in the standings
 
-#     Properties:
-#         streak
-#         playoff_odds
-#         elim
-#         x_wl_seas
-#         vs_right
-#         gb
-#         sit_code
-#         home
-#         last_ten
-#         one_run
-#         vs_division
-#         playoff_points_sw
-#         vs_left
-#         is_wildcard_sw
-#         vs_west
-#         away
-#         division_champ
-#         pct
-#         team_short
-#         clinched_sw
-#         playoffs_sw
-#         playoffs_flag_mlb
-#         division_id
-#         division
-#         interleague
-#         playoffs_flag_milb
-#         opp_runs
-#         wild_card
-#         elim_wildcard
-#         x_wl
-#         file_code
-#         team_full
-#         runs
-#         wildcard_odds
-#         vs_east
-#         l
-#         gb_wildcard
-#         team_abbrev
-#         points
-#         place
-#         w
-#         division_odds
-#         team_id
-#         vs_central
-#         extra_inn
-#     """
+class Team(mlbgame.object.Object):
+    """Represents an MLB team in the standings
+
+    Properties:
+        away
+        clinched_sw
+        division
+        division_champ
+        division_id
+        division_odds
+        elim
+        elim_wildcard
+        extra_inn
+        file_code
+        gb
+        gb_wildcard
+        home
+        interleague
+        is_wildcard_sw
+        l
+        last_ten
+        one_run
+        opp_runs
+        pct
+        place
+        playoff_odds
+        playoff_points_sw
+        playoffs_flag_milb
+        playoffs_flag_mlb
+        playoffs_sw
+        points
+        runs
+        sit_code
+        streak
+        team_abbrev
+        team_full
+        team_id
+        team_short
+        vs_central
+        vs_division
+        vs_east
+        vs_left
+        vs_right
+        vs_west
+        w
+        wild_card
+        wildcard_odds
+        x_wl
+        x_wl_seas
+    """
+    pass
 
 
 class Injuries(object):
