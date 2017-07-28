@@ -289,6 +289,10 @@ def roster(team_id):
     return mlbgame.info.Roster(team_id)
 
 
-def standings(date):
-    """Return Standings object that contains standings info"""
+def standings(date=None):
+    """Return Standings object that contains standings info
+    
+    date should be a datetime object,
+    leave empty to get current standings
+    """
     return mlbgame.info.Standings(date)
