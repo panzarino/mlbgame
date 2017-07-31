@@ -27,7 +27,7 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(league.fb_app_id, 5768707450)
         self.assertEqual(league.field, '')
         self.assertEqual(league.google_tag_manager, 'GTM-TGJ9RZ')
-        self.assertEqual(league.googleplus_id, 109783101935210076456L)
+        self.assertEqual(league.googleplus_id, 109783101935210076456)
         self.assertEqual(league.historical_team_code, '')
         self.assertEqual(league.id, 35003)
         self.assertEqual(league.instagram, 'mlb')
