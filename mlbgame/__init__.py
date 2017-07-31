@@ -264,6 +264,11 @@ def overview(game_id):
     return mlbgame.game.Overview(mlbgame.game.overview(game_id))
 
 
+def players(game_id):
+    """Return list players/coaches/umpires for game matching the game id."""
+    return mlbgame.game.Players(mlbgame.game.players(game_id))
+
+
 def league():
     """Return Info object that contains league information"""
     return mlbgame.info.Info(mlbgame.info.league_info())
@@ -272,16 +277,6 @@ def league():
 def teams():
     """Return list of Info objects for each team"""
     return [mlbgame.info.Info(x) for x in mlbgame.info.team_info()]
-
-
-def injury(team_id):
-    """Return Injuries object that contains injury info for a team"""
-    return mlbgame.info.Injuries(team_id)
-
-
-def players(game_id):
-    """Return list players/coaches/umpires for game matching the game id."""
-    return mlbgame.game.Players(mlbgame.game.players(game_id))
 
 
 def roster(team_id):
@@ -296,3 +291,8 @@ def standings(date=datetime.now()):
     leave empty to get current standings
     """
     return mlbgame.info.Standings(date)
+
+
+def injury(team_id):
+    """Return Injuries object that contains injury info for a team"""
+    return mlbgame.info.Injuries(team_id)
