@@ -7,7 +7,9 @@ class TestInfo(unittest.TestCase):
     
     def test_roster(self):
         import mlbgame
+        from datetime import datetime
         roster = mlbgame.roster(121)
+        self.assertIsInstance(roster.last_update, datetime)
         self.assertIsInstance(roster.roster, list)
         for player in roster.roster:
             self.assertIsInstance(player.bats, str)
@@ -210,7 +212,9 @@ class TestInfo(unittest.TestCase):
 
     def test_injury(self):
         import mlbgame
+        from datetime import datetime
         injury = mlbgame.injury(121)
+        self.assertIsInstance(injury.last_update, datetime)
         self.assertIsInstance(injury.injuries, list)
         for player in injury.injuries:
             self.assertIsInstance(player.display_ts, str)

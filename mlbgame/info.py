@@ -134,6 +134,7 @@ class Roster(object):
             self.roster_url = Roster.url % team_id
             self.roster = []
             self.parse_roster()
+            self.last_update = self.set_last_update()
         else:
             try:
                 raise NoTeamID('A `team_id` was not supplied.')
@@ -150,8 +151,7 @@ class Roster(object):
             print(e)
             sys.exit(-1)
 
-    @property
-    def last_update(self):
+    def set_last_update(self):
         """Return a dateutil object from string [last update]
         originally in ISO 8601 format: YYYY-mm-ddTHH:MM:SS"""
         last_update = self.roster_json['roster_40']['queryResults']['created']
@@ -383,6 +383,7 @@ class Injuries(object):
                     print(e)
                     raise
             self.parse_injury()
+            self.last_update = self.set_last_update()
         else:
             try:
                 raise TeamIDException('A `team_id` was not supplied.')
@@ -399,8 +400,7 @@ class Injuries(object):
             print(e)
             sys.exit(-1)
 
-    @property
-    def last_update(self):
+    def set_last_update(self):
         """Return a dateutil object from string [last update]
         originally in ISO 8601 format: YYYY-mm-ddTHH:MM:SS"""
         last_update = self.injury_json['wsfb_news_injury']['queryResults']['created']
