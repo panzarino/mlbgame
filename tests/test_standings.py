@@ -73,6 +73,8 @@ class TestStandings(unittest.TestCase):
         for division in standings.divisions:
             self.assertIsInstance(division.name, str)
             self.assertIsInstance(division.teams, list)
+            if division.name == 'NL West':
+                d = division
             for team in division.teams:
                 self.assertIsInstance(team.away, str)
                 self.assertIsInstance(team.clinched_sw, str)
@@ -119,9 +121,11 @@ class TestStandings(unittest.TestCase):
                 self.assertIsInstance(team.wildcard_odds, float)
                 self.assertIsInstance(team.x_wl, str)
                 self.assertIsInstance(team.x_wl_seas, str)
-        division = standings.divisions[0]
+                if team.file_code == 'sf':
+                    t = team
+        division = d
         self.assertEqual(division.name, 'NL West')
-        team = division.teams[0]
+        team = t
         self.assertEqual(team.away, '17-11')
         self.assertEqual(team.clinched_sw, 'N')
         self.assertEqual(team.division, 'National League West')
