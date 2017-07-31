@@ -16,7 +16,7 @@ import requests
 import sys
 
 
-def get_league_object():
+def __get_league_object():
     """Returns the xml object corresponding to the league
 
     Only designed for internal use"""
@@ -28,7 +28,7 @@ def get_league_object():
 
 def league_info():
     """Returns a dictionary of league information"""
-    league = get_league_object()
+    league = __get_league_object()
     output = {}
     for x in league.attrib:
         output[x] = league.attrib[x]
@@ -37,7 +37,7 @@ def league_info():
 
 def team_info():
     """Returns a list of team information dictionaries"""
-    teams = get_league_object().find('teams').findall('team')
+    teams = __get_league_object().find('teams').findall('team')
     output = []
     for team in teams:
         info = {}
@@ -51,6 +51,7 @@ class Info(mlbgame.object.Object):
     """Holds information about the league or teams
 
     Properties:
+    aws_club_slug
     club
     club_common_name
     club_common_url
@@ -100,6 +101,7 @@ class Info(mlbgame.object.Object):
     tertiary
     timezone
     track_code
+    track_code_dev
     track_filter
     tumblr
     twitter
