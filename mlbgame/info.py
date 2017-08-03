@@ -51,13 +51,16 @@ class Info(mlbgame.object.Object):
     """Holds information about the league or teams
 
     Properties:
+    address
     aws_club_slug
+    city
     club
     club_common_name
     club_common_url
     club_full_name
     club_id
     club_spanish_name
+    country
     dc_site
     display_code
     division
@@ -86,6 +89,7 @@ class Info(mlbgame.object.Object):
     name_display_short
     newsletter_category_id
     newsletter_group_id
+    phone
     photostore_url
     pinterest
     pinterest_verification
@@ -93,9 +97,12 @@ class Info(mlbgame.object.Object):
     pressbox_url
     primary
     primary_link
+    postal_code
     secondary
+    shop_entry_code
     snapchat
     snapchat_es
+    state_province
     team_code
     team_id
     tertiary
@@ -109,7 +116,9 @@ class Info(mlbgame.object.Object):
     url_cache
     url_esp
     url_prod
+    venue_id
     vine
+    youtube
     """
 
     def nice_output(self):
