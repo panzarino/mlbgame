@@ -20,4 +20,4 @@ exclude_paths:
   - "mlbgame/default.xml"
   - "README.md"
   - "setup.py"
-  - "tests/**/*"
+  - "tests/*"
