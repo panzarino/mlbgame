@@ -93,7 +93,10 @@ class TestInfo(unittest.TestCase):
             self.assertIsInstance(team.fb_app_id, int)
             self.assertIsInstance(team.field, str)
             self.assertIsInstance(team.google_tag_manager, str)
-            self.assertIsInstance(team.googleplus_id, (int, long))
+            try:
+                self.assertIsInstance(team.googleplus_id, long)
+            except NameError:
+                self.assertIsInstance(team.googleplus_id, int)
             self.assertIsInstance(team.historical_team_code, str)
             self.assertIsInstance(team.id, int)
             self.assertIsInstance(team.instagram, str)
