@@ -2,7 +2,7 @@
 mlbgame
 =======
 
-mlbgame is a Python API to retrieve and read MLB GameDay XML data.
+mlbgame is a Python API to retrieve and read MLB GameDay data.
 mlbgame works with real time data, getting information as games are being played.
 
 mlbgame uses the same data that MLB GameDay uses,

@@ -32,7 +32,7 @@ setup(
     author_email='zach@panz.io',
     version=version,
     license='MIT',
-    description='An API to retrieve and read MLB GameDay XML data',
+    description='An API to retrieve and read MLB GameDay data',
     long_description=longdesc,
     url='https://github.com/zachpanz88/mlbgame',
     download_url=download_link,

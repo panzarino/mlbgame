@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """mlbgame is a Python API to retrieve and read
-MLB GameDay XML data.
+MLB GameDay data.
 mlbgame works with real time data, getting information as games are
 being played.
 
