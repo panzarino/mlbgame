@@ -152,14 +152,6 @@ def day(year, month, day, home=None, away=None):
     return [mlbgame.game.GameScoreboard(data[x]) for x in data]
 
 
-def todays_games(home=None, away=None):
-    year = date.today().year
-    month = date.today().month
-    day = date.today().day
-    data = mlbgame.game.scoreboard(year, month, day, home=home, away=away)
-    return [mlbgame.game.GameScoreboard(data[x]) for x in data]
-
-
 def games(years, months=None, days=None, home=None, away=None):
     """Return a list of lists of games for multiple days.
 
@@ -199,6 +191,16 @@ def box_score(game_id):
     # create object with data
     obj = mlbgame.game.GameBoxScore(data)
     return obj
+
+
+def overview(game_id):
+    """Return Overview object that contains game information."""
+    return mlbgame.game.Overview(mlbgame.game.overview(game_id))
+
+
+def players(game_id):
+    """Return list players/coaches/umpires for game matching the game id."""
+    return mlbgame.game.Players(mlbgame.game.players(game_id))
 
 
 def combine_games(games):
@@ -257,16 +259,6 @@ def game_events(game_id):
             for i in data[x][y]:
                 output[x][y].append(mlbgame.events.AtBat(i))
     return output
-
-
-def overview(game_id):
-    """Return Overview object that contains game information."""
-    return mlbgame.game.Overview(mlbgame.game.overview(game_id))
-
-
-def players(game_id):
-    """Return list players/coaches/umpires for game matching the game id."""
-    return mlbgame.game.Players(mlbgame.game.players(game_id))
 
 
 def league():
