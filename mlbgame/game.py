@@ -152,7 +152,34 @@ def scoreboard(year, month, day, home=None, away=None):
 
 
 class GameScoreboard(object):
-    """Object to hold scoreboard information about a certain game."""
+    """Object to hold scoreboard information about a certain game.
+    
+    Properties:
+        away_team
+        away_team_errors
+        away_team_hits
+        away_team_runs
+        date
+        game_id
+        game_league
+        game_start_time
+        game_status
+        game_tag
+        home_team
+        home_team_errors
+        home_team_hits
+        home_team_runs
+        l_pitcher
+        l_pitcher_losses
+        l_pitcher_wins
+        l_team
+        sv_pitcher
+        sv_pitcher_saves
+        w_pitcher
+        w_pitcher_losses
+        w_pitcher_wins
+        w_team
+    """
 
     def __init__(self, data):
         """Creates a `GameScoreboard` object.
