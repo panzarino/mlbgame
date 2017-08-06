@@ -10,6 +10,8 @@ class TestGame(unittest.TestCase):
         from datetime import datetime
         games = mlbgame.day(2016, 8, 2)
         for game in games:
+            if game.home_team == 'Mets':
+                g = game
             self.assertIsInstance(game.away_team, str)
             self.assertIsInstance(game.away_team_errors, int)
             self.assertIsInstance(game.away_team_hits, int)
@@ -34,7 +36,7 @@ class TestGame(unittest.TestCase):
             self.assertIsInstance(game.w_pitcher_losses, int)
             self.assertIsInstance(game.w_pitcher_wins, int)
             self.assertIsInstance(game.w_team, str)
-        game = games[0]
+        game = g
         self.assertEqual(game.away_team, 'Yankees')
         self.assertEqual(game.away_team_errors, 2)
         self.assertEqual(game.away_team_hits, 6)
