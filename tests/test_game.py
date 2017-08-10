@@ -2,12 +2,14 @@
 
 import unittest
 
+import mlbgame
+
+from datetime import datetime
+
 
 class TestGame(unittest.TestCase):
 
     def test_day(self):
-        import mlbgame
-        from datetime import datetime
         games = mlbgame.day(2016, 8, 2)
         for game in games:
             if game.home_team == 'Mets':
@@ -65,8 +67,6 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game.__str__(), 'Yankees (1) at Mets (7)')
 
     def test_games(self):
-        import mlbgame
-        from datetime import datetime
         games = mlbgame.games(2016, 8)
         self.assertIsInstance(games, list)
         for day in games:
@@ -103,7 +103,6 @@ class TestGame(unittest.TestCase):
                 self.assertIsInstance(game.w_team, str)
 
     def test_box_score(self):
-        import mlbgame
         box_score = mlbgame.box_score('2016_08_02_nyamlb_nynmlb_1')
         self.assertEqual(box_score.game_id, '2016_08_02_nyamlb_nynmlb_1')
         self.assertIsInstance(box_score.innings, list)

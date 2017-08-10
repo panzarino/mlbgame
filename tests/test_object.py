@@ -2,10 +2,12 @@
 
 import unittest
 
+import mlbgame
+
+
 class TestObject(unittest.TestCase):
     
     def test_object(self):
-        import mlbgame
         data = {
             'string': 'string',
             'int': '10',

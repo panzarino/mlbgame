@@ -2,11 +2,14 @@
 
 import unittest
 
+import mlbgame
+
+from datetime import datetime
+
 
 class TestInfo(unittest.TestCase):
 
     def test_league(self):
-        import mlbgame
         league = mlbgame.league()
         self.assertEqual(league.aws_club_slug, '')
         self.assertEqual(league.club, 'mlb')
@@ -69,7 +72,6 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(league.vine, 908066689910976512)
 
     def test_teams(self):
-        import mlbgame
         teams = mlbgame.teams()
         for team in teams:
             self.assertIsInstance(team.address, str)
@@ -212,8 +214,6 @@ class TestInfo(unittest.TestCase):
         
 
     def test_roster(self):
-        import mlbgame
-        from datetime import datetime
         roster = mlbgame.roster(121)
         self.assertIsInstance(roster.last_update, datetime)
         self.assertIsInstance(roster.roster, list)
@@ -250,8 +250,6 @@ class TestInfo(unittest.TestCase):
             self.assertEqual(player.team_name, 'New York Mets')
 
     def test_standings(self):
-        import mlbgame
-        from datetime import datetime
         standings = mlbgame.standings()
         self.assertEqual(standings.standings_schedule_date, 'standings_schedule_date')
         self.assertIsInstance(standings.last_update, datetime)
@@ -307,8 +305,6 @@ class TestInfo(unittest.TestCase):
                 self.assertIsInstance(team.x_wl_seas, str)
 
     def test_standings_historical(self):
-        import mlbgame
-        from datetime import datetime
         date = datetime(2016, 6, 1)
         standings = mlbgame.standings(date)
         self.assertEqual(standings.standings_schedule_date, 'historical_standings_schedule_date')
@@ -417,8 +413,6 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(team.x_wl_seas, '88-74')
 
     def test_injury(self):
-        import mlbgame
-        from datetime import datetime
         injury = mlbgame.injury(121)
         self.assertIsInstance(injury.last_update, datetime)
         self.assertIsInstance(injury.injuries, list)
