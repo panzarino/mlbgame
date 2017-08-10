@@ -101,3 +101,46 @@ class TestGame(unittest.TestCase):
                 self.assertIsInstance(game.w_pitcher_losses, int)
                 self.assertIsInstance(game.w_pitcher_wins, int)
                 self.assertIsInstance(game.w_team, str)
+
+    def test_box_score(self):
+        import mlbgame
+        box_score = mlbgame.box_score('2016_08_02_nyamlb_nynmlb_1')
+        self.assertEqual(box_score.game_id, '2016_08_02_nyamlb_nynmlb_1')
+        self.assertIsInstance(box_score.innings, list)
+        for inning in box_score:
+            self.assertIn('inning', inning)
+            self.assertIn('away', inning)
+            self.assertIn('home', inning)
+        self.assertEqual(box_score.innings[0]['inning'], 1)
+        self.assertEqual(box_score.innings[0]['away'], 0)
+        self.assertEqual(box_score.innings[0]['home'], 0)
+        self.assertEqual(box_score.innings[1]['inning'], 2)
+        self.assertEqual(box_score.innings[1]['away'], 0)
+        self.assertEqual(box_score.innings[1]['home'], 0)
+        self.assertEqual(box_score.innings[2]['inning'], 3)
+        self.assertEqual(box_score.innings[2]['away'], 0)
+        self.assertEqual(box_score.innings[2]['home'], 2)
+        self.assertEqual(box_score.innings[3]['inning'], 4)
+        self.assertEqual(box_score.innings[3]['away'], 0)
+        self.assertEqual(box_score.innings[3]['home'], 0)
+        self.assertEqual(box_score.innings[4]['inning'], 5)
+        self.assertEqual(box_score.innings[4]['away'], 0)
+        self.assertEqual(box_score.innings[4]['home'], 1)
+        self.assertEqual(box_score.innings[5]['inning'], 6)
+        self.assertEqual(box_score.innings[5]['away'], 0)
+        self.assertEqual(box_score.innings[5]['home'], 0)
+        self.assertEqual(box_score.innings[6]['inning'], 7)
+        self.assertEqual(box_score.innings[6]['away'], 0)
+        self.assertEqual(box_score.innings[6]['home'], 4)
+        self.assertEqual(box_score.innings[7]['inning'], 8)
+        self.assertEqual(box_score.innings[7]['away'], 0)
+        self.assertEqual(box_score.innings[7]['home'], 0)
+        self.assertEqual(box_score.innings[8]['inning'], 9)
+        self.assertEqual(box_score.innings[8]['away'], 1)
+        self.assertEqual(box_score.innings[8]['home'], 'x')
+        self.assertEqual(box_score.print_scoreboard(), (
+            'Inning\t1 2 3 4 5 6 7 8 9 \n'
+            '---------------------------\n'
+            'Away\t0 0 0 0 0 0 0 0 1 \n'
+            'Home\t0 0 2 0 1 0 4 0 x '
+            ))
