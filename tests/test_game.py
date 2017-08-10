@@ -67,7 +67,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game.__str__(), 'Yankees (1) at Mets (7)')
 
     def test_games(self):
-        games = mlbgame.games(2016, 8)
+        games = mlbgame.games(2016, 7)
         self.assertIsInstance(games, list)
         for day in games:
             self.assertIsInstance(day, list)
