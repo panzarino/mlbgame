@@ -21,4 +21,7 @@ class Object(object):
                     setattr(self, x, float(data[x]))
                 except ValueError:
                     # string if not number
-                    setattr(self, x, str(data[x]))
+                    try:
+                        setattr(self, x, str(data[x]))
+                    except UnicodeEncodeError:
+                        setattr(self, x, data[x])
