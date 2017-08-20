@@ -71,6 +71,11 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(league.url_prod, 'www.mlb.com')
         self.assertEqual(league.vine, 908066689910976512)
 
+    def test_league_empty(self):
+        mlbgame.data.PROPERTY_URL = 'http://mlb.mlb.com/properties/mlb_properties'
+        self.assertRaises(ValueError, lambda: mlbgame.league())
+        mlbgame.data.PROPERTY_URL = 'http://mlb.mlb.com/properties/mlb_properties.xml'
+
     def test_teams(self):
         teams = mlbgame.teams()
         for team in teams:
