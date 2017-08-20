@@ -66,6 +66,10 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game.w_team, 'Mets')
         self.assertEqual(game.__str__(), 'Yankees (1) at Mets (7)')
 
+    def test_day_empty(self):
+        games = mlbgame.day(1000, 1, 1)
+        self.assertEqual(games, [])
+
     def test_games(self):
         games = mlbgame.games(2016, 7)
         self.assertIsInstance(games, list)
@@ -143,3 +147,7 @@ class TestGame(unittest.TestCase):
             'Away\t0 0 0 0 0 0 0 0 1 \n'
             'Home\t0 0 2 0 1 0 4 0 x '
             ))
+
+    def test_box_score_empty(self):
+        self.assertRaises(ValueError, lambda: mlbgame.box_score('game_id'))
+        self.assertRaises(ValueError, lambda: mlbgame.box_score('2016_08_02_nymlb_nymlb_1'))
