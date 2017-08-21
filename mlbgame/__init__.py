@@ -212,15 +212,14 @@ def player_stats(game_id):
     """Return dictionary of player stats for game matching the game id."""
     # get information for that game
     data = mlbgame.stats.player_stats(game_id)
-    return mlbgame.stats.Stats(data, game_id)
+    return mlbgame.stats.Stats(data, game_id, True)
 
 
 def team_stats(game_id):
     """Return dictionary of team stats for game matching the game id."""
     # get data
     data = mlbgame.stats.team_stats(game_id)
-    output = {x: mlbgame.stats.TeamStats(data[x]) for x in data}
-    return output
+    return mlbgame.stats.Stats(data, game_id, False)
 
 
 def combine_stats(stats):

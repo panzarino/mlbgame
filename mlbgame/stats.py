@@ -116,7 +116,7 @@ class Stats(object):
         home_pitching
     """
     
-    def __init__(self, data, game_id):
+    def __init__(self, data, game_id, player):
         """Creates a players object that matches the corresponding info in `data`.
         `data` should be an dictionary of values.
         'game_id' should be the id for the game.
@@ -125,71 +125,137 @@ class Stats(object):
         output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [],
               'away_batting': []}
         for y in data:
-            for x in data[y]:
-                # create objects for all data
-                if y == 'home_pitching' or y == 'away_pitching':
-                    obj = mlbgame.stats.PitcherStats(x)
-                elif y == 'home_batting' or y == 'away_batting':
-                    obj = mlbgame.stats.BatterStats(x)
-                # place into correct place in return dictionary
-                output[y].append(obj)
+            # create objects for all data
+            if player:
+                for x in data[y]:
+                    obj = PlayerStats(x)
+                    output[y].append(obj)
+            else:
+                obj = TeamStats(data[y])
+                output[y] = obj
         self.home_pitching = output['home_pitching']
         self.away_pitching = output['away_pitching']
         self.home_batting = output['home_batting']
         self.away_batting = output['away_batting']
 
 
-class PitcherStats(mlbgame.object.Object):
-    """Holds stats information for a pitcher.
-
-    Check out `statmap.py` for a full list of object properties.
+class PlayerStats(mlbgame.object.Object):
+    """Holds stats information for a player.
+    Properties:
+        Batter:
+            a
+            ab
+            ao
+            avg
+            bb
+            bo
+            cs
+            d
+            e
+            fldg
+            go
+            h
+            hbp
+            hr
+            id
+            lob
+            name
+            name_display_first_last
+            obp
+            ops
+            po
+            pos
+            r
+            rbi
+            s_bb
+            s_h
+            s_hr
+            s_r
+            s_rbi
+            s_so
+            sac
+            sb
+            sf
+            slg
+            so
+            t
+        Pitcher:
+            bb
+            bf
+            bs
+            er
+            era
+            game_score
+            h
+            hld
+            hr
+            id
+            l
+            loss
+            name
+            name_display_first_last
+            note
+            np
+            out
+            pos
+            r
+            s
+            s_bb
+            s_er
+            s_h
+            s_ip
+            s_r
+            s_so
+            save
+            so
+            sv
+            w
+            win
     """
 
     def nice_output(self):
-        """Prints basic pitcher stats in a nice way."""
-        return '{0} - {1} Earned Runs, {2} Strikouts, {3} Hits'.format(
+        """Prints basic player stats in a nice way."""
+        return '{0} ({1})'.format(
             self.name_display_first_last,
-            self.er,
-            self.so,
-            self.h
+            self.pos
         )
 
     def __str__(self):
         return self.nice_output()
 
 
-class BatterStats(mlbgame.object.Object):
-    """Holds stats information for a batter.
-
-    Check out `statmap.py` for a full list of object properties.
-    """
-
-    def nice_output(self):
-        """Prints basic batter stats in a nice way."""
-        if self.rbi > 0:
-            if self.hr > 0:
-                # display home runs if he has any
-                return '{0} - {1} for {2} with {3} RBI and {4} Home Runs'.\
-                    format(self.name_display_first_last,
-                           self.h, self.ab, self.rbi, self.hr
-                           )
-            # display RBI if he has any but no HR
-            return '{0} - {1} for {2} with {3} RBI'.format(
-                self.name_display_first_last,
-                self.h,
-                self.ab,
-                self.rbi
-                )
-        # display basic game stats
-        return '{0} - {1} for {2}'.format(self.name_display_first_last,
-                                          self.h,
-                                          self.ab
-                                          )
-
-    def __str__(self):
-        return self.nice_output()
-
-
 class TeamStats(mlbgame.object.Object):
-    """Holds total pitching or batting stats for a team"""
+    """Holds total pitching or batting stats for a team.
+    
+    Properties:
+        Batting:
+            ab
+            avg
+            bb
+            d
+            da
+            h
+            hr
+            lob
+            obp
+            ops
+            po
+            r
+            rbi
+            slg
+            so
+            t
+            team_flag
+        Pitching:
+            bb
+            bf
+            er
+            era
+            h
+            hr
+            out
+            r
+            so
+            team_flag
+    """
     pass
