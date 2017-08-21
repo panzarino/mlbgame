@@ -210,21 +210,9 @@ def combine_games(games):
 
 def player_stats(game_id):
     """Return dictionary of player stats for game matching the game id."""
-    # get information for that day
-    obj = None
+    # get information for that game
     data = mlbgame.stats.player_stats(game_id)
-    output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [],
-              'away_batting': []}
-    for y in data:
-        for x in data[y]:
-            # create objects for all data
-            if y == 'home_pitching' or y == 'away_pitching':
-                obj = mlbgame.stats.PitcherStats(x)
-            elif y == 'home_batting' or y == 'away_batting':
-                obj = mlbgame.stats.BatterStats(x)
-            # place into correct place in return dictionary
-            output[y].append(obj)
-    return output
+    return mlbgame.stats.Stats(data, game_id)
 
 
 def team_stats(game_id):

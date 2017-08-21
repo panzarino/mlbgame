@@ -486,7 +486,7 @@ class Players(object):
     """
 
     def __init__(self, data):
-        """Creates an overview object that matches the corresponding info in `data`.
+        """Creates a players object that matches the corresponding info in `data`.
         `data` should be an dictionary of values.
         """
         self.game_id = data['game_id']

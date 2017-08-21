@@ -105,6 +105,40 @@ def team_stats(game_id):
     return output
 
 
+class Stats(object):
+    """Hold stats information for a game.
+    
+    Properties:
+        away_batting
+        away_pitching
+        game_id
+        home_batting
+        home_pitching
+    """
+    
+    def __init__(self, data, game_id):
+        """Creates a players object that matches the corresponding info in `data`.
+        `data` should be an dictionary of values.
+        'game_id' should be the id for the game.
+        """
+        self.game_id = game_id
+        output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [],
+              'away_batting': []}
+        for y in data:
+            for x in data[y]:
+                # create objects for all data
+                if y == 'home_pitching' or y == 'away_pitching':
+                    obj = mlbgame.stats.PitcherStats(x)
+                elif y == 'home_batting' or y == 'away_batting':
+                    obj = mlbgame.stats.BatterStats(x)
+                # place into correct place in return dictionary
+                output[y].append(obj)
+        self.home_pitching = output['home_pitching']
+        self.away_pitching = output['away_pitching']
+        self.home_batting = output['home_batting']
+        self.away_batting = output['away_batting']
+
+
 class PitcherStats(mlbgame.object.Object):
     """Holds stats information for a pitcher.
 
@@ -158,6 +192,4 @@ class BatterStats(mlbgame.object.Object):
 
 class TeamStats(mlbgame.object.Object):
     """Holds total pitching or batting stats for a team"""
-    # basically a copy of the object
-    # class with a different name for clarification
     pass
