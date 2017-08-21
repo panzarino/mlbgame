@@ -11,12 +11,15 @@ class TestObject(unittest.TestCase):
         data = {
             'string': 'string',
             'int': '10',
-            'float': '10.1'
+            'float': '10.1',
+            'unicode': u'\xe7\x8c\xab'
         }
         obj = mlbgame.object.Object(data)
         self.assertIsInstance(obj.string, str)
         self.assertIsInstance(obj.int, int)
         self.assertIsInstance(obj.float, float)
+        self.assertIsInstance(obj.unicode, unicode)
         self.assertEqual(obj.string, 'string')
         self.assertEqual(obj.int, 10)
         self.assertEqual(obj.float, 10.1)
+        self.assertEqual(obj.unicode, u'\xe7\x8c\xab')
