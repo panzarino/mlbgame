@@ -18,7 +18,10 @@ class TestObject(unittest.TestCase):
         self.assertIsInstance(obj.string, str)
         self.assertIsInstance(obj.int, int)
         self.assertIsInstance(obj.float, float)
-        self.assertIsInstance(obj.unicode, unicode)
+        try:
+            self.assertIsInstance(obj.unicode, unicode)
+        except NameError:
+            self.assertIsInstance(obj.unicode, str)
         self.assertEqual(obj.string, 'string')
         self.assertEqual(obj.int, 10)
         self.assertEqual(obj.float, 10.1)
