@@ -7,7 +7,7 @@ python:
 cache: pip
 install: "pip install -e .[dev]"
 script:
-  py.test --cov=mlbgame
+  pytest --cov=mlbgame
 after_success:
   coveralls
 notifications:
