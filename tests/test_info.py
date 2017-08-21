@@ -229,7 +229,7 @@ class TestInfo(unittest.TestCase):
             self.assertIsInstance(player.end_date, str)
             self.assertIsInstance(player.height_feet, int)
             self.assertIsInstance(player.height_inches, int)
-            self.assertIsInstance(player.jersey_number, int)
+            self.assertIsInstance(player.jersey_number, (int, str))
             self.assertIsInstance(player.name_display_first_last, str)
             self.assertIsInstance(player.name_display_last_first, str)
             self.assertIsInstance(player.name_first, str)

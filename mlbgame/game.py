@@ -5,6 +5,7 @@ such as the scoreboard and the box score.
 """
 
 import mlbgame.data
+import mlbgame.object
 
 import datetime
 import lxml.etree as etree
@@ -243,7 +244,15 @@ def box_score(game_id):
 
 
 class GameBoxScore(object):
-    """Object to hold the box score of a certain game."""
+    """Object to hold the box score of a certain game.
+    
+    Properties:
+        game_id
+        innings:
+            inning
+            home
+            away
+    """
 
     def __init__(self, data):
         """Creates a `GameBoxScore` object.
@@ -324,31 +333,101 @@ def overview(game_id):
     return output
 
 
-class Overview(object):
+class Overview(mlbgame.object.Object):
     """Object to hold an overview of game information
 
-    `elements` property is a set of all properties that an object contains.
+    Properties:
+        ampm
+        aw_lg_ampm
+        away_ampm
+        away_code
+        away_division
+        away_file_code
+        away_games_back
+        away_games_back_wildcard
+        away_league_id
+        away_loss
+        away_name_abbrev
+        away_preview_link
+        away_recap_link
+        away_sport_code
+        away_team_city
+        away_team_errors
+        away_team_hits
+        away_team_id
+        away_team_name
+        away_team_runs
+        away_time
+        away_time_zone
+        away_win
+        balls
+        day
+        double_header_sw
+        first_pitch_et
+        game_data_directory
+        game_nbr
+        game_pk
+        game_type
+        gameday_link
+        gameday_sw
+        hm_lg_ampm
+        home_ampm
+        home_code
+        home_division
+        home_file_code
+        home_games_back
+        home_games_back_wildcard
+        home_league_id
+        home_loss
+        home_name_abbrev
+        home_preview_link
+        home_recap_link
+        home_sport_code
+        home_team_city
+        home_team_errors
+        home_team_hits
+        home_team_id
+        home_team_name
+        home_team_runs
+        home_time
+        home_time_zone
+        home_win
+        id
+        ind
+        inning
+        inning_state
+        is_no_hitter
+        is_perfect_game
+        league
+        location
+        note
+        original_date
+        outs
+        photos_link
+        preview
+        scheduled_innings
+        status
+        strikes
+        tbd_flag
+        tiebreaker_sw
+        time
+        time_aw_lg
+        time_date
+        time_date_aw_lg
+        time_date_hm_lg
+        time_hm_lg
+        time_zone
+        time_zone_aw_lg
+        time_zone_hm_lg
+        top_inning
+        tv_station
+        tz_aw_lg_gen
+        tz_hm_lg_gen
+        venue
+        venue_id
+        venue_w_chan_loc
+        wrapup_link
     """
-
-    def __init__(self, data):
-        """Creates an overview object that matches the corresponding info in `data`.
-
-        `data` should be an dictionary of values.
-        """
-        element_list = []
-        # loop through data
-        for x in data:
-            # set information as correct data type
-            try:
-                setattr(self, x, int(data[x]))
-            except ValueError:
-                try:
-                    setattr(self, x, float(data[x]))
-                except ValueError:
-                    # string if not number
-                    setattr(self, x, str(data[x]))
-            element_list.append(x)
-        self.elements = set(element_list)
 
 
 def players(game_id):
