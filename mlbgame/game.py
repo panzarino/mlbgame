@@ -428,6 +428,7 @@ class Overview(mlbgame.object.Object):
         venue_w_chan_loc
         wrapup_link
     """
+    pass
 
 
 def players(game_id):
@@ -473,15 +474,72 @@ def players(game_id):
 
 
 class Players(object):
-    """Object to hold player/coach/umpire information for a game."""
+    """Object to hold player/coach/umpire information for a game.
+    
+    Properties:
+        away_coaches
+        away_players
+        game_id
+        home_coaches
+        home_players
+        umpires
+    """
 
     def __init__(self, data):
         """Creates an overview object that matches the corresponding info in `data`.
         `data` should be an dictionary of values.
         """
         self.game_id = data['game_id']
-        self.home_players = data['home_team']['players']
-        self.home_coaches = data['home_team']['coaches']
-        self.away_players = data['away_team']['players']
-        self.away_coaches = data['away_team']['coaches']
-        self.umpires = data['umpires']
+        self.home_players = [Player(x) for x in data['home_team']['players']]
+        self.home_coaches = [Coach(x) for x in data['home_team']['coaches']]
+        self.away_players = [Player(x) for x in data['away_team']['players']]
+        self.away_coaches = [Coach(x) for x in data['away_team']['coaches']]
+        self.umpires = [Umpire(x) for x in data['umpires']]
+
+class Player(mlbgame.object.Object):
+    """Object to hold player information
+    
+    Properties:
+        avg
+        bats
+        boxname
+        current_position
+        first
+        hr
+        id
+        last
+        num
+        parent_team_abbrev
+        parent_team_id
+        position
+        rbi
+        rl
+        status
+        team_abbrev
+        team_id
+    """
+    pass
+
+class Coach(mlbgame.object.Object):
+    """Object to hold coach information
+    
+    Properties:
+        first
+        id
+        last
+        num
+        position
+    """
+    pass
+
+class Umpire(mlbgame.object.Object):
+    """Object to hold umpire information
+    
+    Properties:
+        id
+        position
+        last
+        name
+        first
+    """
+    pass
