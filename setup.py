@@ -65,8 +65,6 @@ setup(
     data_files=[('docs', ['README.md', 'LICENSE', 'description.rst'])],
     install_requires=['lxml', 'requests', 'python-dateutil'],
     extras_require={
-        'dev': ['pytest', 'requests_mock', 'pytest-cov', 'coveralls']
-    },
-    test_suite='py.test',
-    tests_require=['pytest'],
+        'dev': ['pytest', 'pytest-cov', 'coveralls']
+    }
 )
