@@ -70,6 +70,7 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(league.url_esp, '/es/index.jsp?c_id=mlb')
         self.assertEqual(league.url_prod, 'www.mlb.com')
         self.assertEqual(league.vine, 908066689910976512)
+        self.assertEqual(league.__str__(), 'Major League Baseball (MLB)')
 
     def test_league_empty(self):
         mlbgame.data.PROPERTY_URL = 'http://mlb.mlb.com/properties/mlb_properties'
