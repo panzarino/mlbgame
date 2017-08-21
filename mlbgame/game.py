@@ -504,10 +504,12 @@ class Player(mlbgame.object.Object):
         bats
         boxname
         current_position
+        era
         first
         hr
         id
         last
+        losses
         num
         parent_team_abbrev
         parent_team_id
@@ -517,6 +519,7 @@ class Player(mlbgame.object.Object):
         status
         team_abbrev
         team_id
+        wins
     """
     pass
 
@@ -536,10 +539,10 @@ class Umpire(mlbgame.object.Object):
     """Object to hold umpire information
     
     Properties:
+        first
         id
-        position
         last
         name
-        first
+        position
     """
     pass
