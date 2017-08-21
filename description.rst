@@ -15,7 +15,7 @@ mlbgame on `Github <https://github.com/panzarino/mlbgame>`__  (Source Code)
 If you have a question or need help, the quickest way to get a response 
 is to file an issue on the `Github issue tracker <https://github.com/panzarino/mlbgame/issues/new>`__
 
-mlbgame's submodules (except for ``statmap``) should not really be used other than as 
+mlbgame's submodules should not really be used other than as 
 used by the main functions of the package (in ``__init__.py``).
 
 Use of mlbgame must follow the terms stated in the 
