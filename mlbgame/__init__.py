@@ -222,12 +222,6 @@ def team_stats(game_id):
     return mlbgame.stats.Stats(data, game_id, False)
 
 
-def combine_stats(stats):
-    """Combines player stat objects from a game into a single list."""
-    output = [y for x in stats for y in stats[x]]
-    return output
-
-
 def game_events(game_id):
     """Return dictionary of game events for game matching the game id.
 
