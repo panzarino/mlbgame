@@ -245,6 +245,10 @@ class TestGame(unittest.TestCase):
         self.assertEqual(overview.venue_w_chan_loc, 'USNY0504')
         self.assertEqual(overview.wrapup_link, '/mlb/gameday/index.jsp?gid=2016_08_02_nyamlb_nynmlb_1&mode=wrap&c_id=mlb')
 
+    def test_overview_empty(self):
+        self.assertRaises(ValueError, lambda: mlbgame.overview('game_id'))
+        self.assertRaises(ValueError, lambda: mlbgame.overview('2016_08_02_nymlb_nymlb_1'))
+
     def test_players(self):
         players = mlbgame.players('2016_08_02_nyamlb_nynmlb_1')
         coaches = players.home_coaches + players.away_coaches
@@ -311,3 +315,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(ump.last, 'Gorman')
         self.assertEqual(ump.name, 'Brian Gorman')
         self.assertEqual(ump.position, 'home')
+
+    def test_players_empty(self):
+        self.assertRaises(ValueError, lambda: mlbgame.players('game_id'))
+        self.assertRaises(ValueError, lambda: mlbgame.players('2016_08_02_nymlb_nymlb_1'))
