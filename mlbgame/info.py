@@ -245,13 +245,13 @@ class Standings(object):
         now = datetime.now()
         if date.year == now.year and date.month == now.month and date.day == now.day:
             self.standings_url = ('http://mlb.mlb.com/lookup/json/named.standings_schedule_date.bam?season=%s&'
-                                    'schedule_game_date.game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
-                                    'league_id=104&all_star_sw=%%27N%%27&version=2') % (date.year, date.strftime('%Y/%m/%d'))
+                                  'schedule_game_date.game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
+                                  'league_id=104&all_star_sw=%%27N%%27&version=2') % (date.year, date.strftime('%Y/%m/%d'))
             self.standings_schedule_date = 'standings_schedule_date'
         else:
             self.standings_url = ('http://mlb.mlb.com/lookup/json/named.historical_standings_schedule_date.bam?season=%s&'
-                                    'game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
-                                    'league_id=104&all_star_sw=%%27N%%27&version=48') % (date.year, date.strftime('%Y/%m/%d'))
+                                  'game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
+                                  'league_id=104&all_star_sw=%%27N%%27&version=48') % (date.year, date.strftime('%Y/%m/%d'))
             self.standings_schedule_date = 'historical_standings_schedule_date'
         self.divisions = []
         self.parse_standings()
@@ -269,7 +269,8 @@ class Standings(object):
     def set_last_update(self):
         """Return a dateutil object from string [last update]
         originally in ISO 8601 format: YYYY-mm-ddTHH:MM:SS"""
-        last_update = self.standings_json[self.standings_schedule_date]['standings_all_date_rptr']['standings_all_date'][0]['queryResults']['created']
+        last_update = self.standings_json[self.standings_schedule_date][
+            'standings_all_date_rptr']['standings_all_date'][0]['queryResults']['created']
         return dateutil.parser.parse(last_update)
 
     def parse_standings(self):
@@ -283,14 +284,16 @@ class Standings(object):
             else:
                 # Raise Error
                 try:
-                    raise UnknownLeagueID('An unknown `league_id` was passed from standings json.')
+                    raise UnknownLeagueID(
+                        'An unknown `league_id` was passed from standings json.')
                 except UnknownLeagueID as e:
                     print('StandingsError: %s' % e)
                     raise
                     sys.exit(-1)
 
             for division in divisions:
-                teams = [team for team in league['queryResults']['row'] if team['division_id'] == division]
+                teams = [team for team in league['queryResults']
+                         ['row'] if team['division_id'] == division]
                 mlbdiv = Division(divisions[division], teams)
                 self.divisions.append(mlbdiv)
 
@@ -310,6 +313,7 @@ class Division(object):
         name
         teams
     """
+
     def __init__(self, name, teams):
         self.name = name
         self.teams = []
@@ -420,7 +424,8 @@ class Injuries(object):
     def parse_injury(self):
         """Parse the json injury"""
         injuries = self.injury_json['wsfb_news_injury']['queryResults']['row']
-        injuries = [injury for injury in injuries if injury['team_id'] == self.team_id]
+        injuries = [
+            injury for injury in injuries if injury['team_id'] == self.team_id]
         for injury in injuries:
             mlbinjury = Injury(injury)
             self.injuries.append(mlbinjury)

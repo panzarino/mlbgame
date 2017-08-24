@@ -245,7 +245,7 @@ def roster(team_id):
 
 def standings(date=datetime.now()):
     """Return Standings object that contains standings info
-    
+
     date should be a datetime object,
     leave empty to get current standings
     """

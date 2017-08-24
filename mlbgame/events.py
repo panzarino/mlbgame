@@ -62,17 +62,17 @@ def game_events(game_id):
 
 class Inning(object):
     """Class that holds at bats in an inning.
-    
+
     Properties:
         bottom
         num
         top
     """
-    
+
     def __init__(self, data, inning):
         """Creates an inning object that matches the corresponding
         info in `data`.
-        
+
         `data` should be a dictionary of values.
         """
         self.num = int(inning)

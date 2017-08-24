@@ -107,7 +107,7 @@ def team_stats(game_id):
 
 class Stats(object):
     """Hold stats information for a game.
-    
+
     Properties:
         away_batting
         away_pitching
@@ -115,7 +115,7 @@ class Stats(object):
         home_batting
         home_pitching
     """
-    
+
     def __init__(self, data, game_id, player):
         """Creates a players object that matches the corresponding info in `data`.
         `data` should be an dictionary of values.
@@ -123,7 +123,7 @@ class Stats(object):
         """
         self.game_id = game_id
         output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [],
-              'away_batting': []}
+                  'away_batting': []}
         for y in data:
             # create objects for all data
             if player:
@@ -226,7 +226,7 @@ class PlayerStats(mlbgame.object.Object):
 
 class TeamStats(mlbgame.object.Object):
     """Holds total pitching or batting stats for a team.
-    
+
     Properties:
         Batting:
             ab

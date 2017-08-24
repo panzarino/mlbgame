@@ -154,7 +154,7 @@ def scoreboard(year, month, day, home=None, away=None):
 
 class GameScoreboard(object):
     """Object to hold scoreboard information about a certain game.
-    
+
     Properties:
         away_team
         away_team_errors
@@ -211,7 +211,7 @@ class GameScoreboard(object):
         minute = other[:2]
         am_pm = other[2:]
         if am_pm == 'PM':
-            hour = int(hour)+11
+            hour = int(hour) + 11
         self.date = datetime.datetime(int(year), int(month), int(day),
                                       int(hour), int(minute))
 
@@ -245,7 +245,7 @@ def box_score(game_id):
 
 class GameBoxScore(object):
     """Object to hold the box score of a certain game.
-    
+
     Properties:
         game_id
         innings:
@@ -300,22 +300,22 @@ class GameBoxScore(object):
         # that looks like a scoreboard
         output += 'Inning\t'
         for x in innings:
-            output += str(x)+' '
+            output += str(x) + ' '
         output += '\n'
         for x in innings:
             output += '---'
         output += '\nAway\t'
         for y, x in enumerate(away, start=1):
             if y >= 10:
-                output += str(x)+'  '
+                output += str(x) + '  '
             else:
-                output += str(x)+' '
+                output += str(x) + ' '
         output += '\nHome\t'
         for y, x in enumerate(home, start=1):
             if y >= 10:
-                output += str(x)+'  '
+                output += str(x) + '  '
             else:
-                output += str(x)+' '
+                output += str(x) + ' '
         return output
 
 
@@ -475,7 +475,7 @@ def players(game_id):
 
 class Players(object):
     """Object to hold player/coach/umpire information for a game.
-    
+
     Properties:
         away_coaches
         away_players
@@ -496,9 +496,10 @@ class Players(object):
         self.away_coaches = [Coach(x) for x in data['away_team']['coaches']]
         self.umpires = [Umpire(x) for x in data['umpires']]
 
+
 class Player(mlbgame.object.Object):
     """Object to hold player information
-    
+
     Properties:
         avg
         bats
@@ -523,9 +524,10 @@ class Player(mlbgame.object.Object):
     """
     pass
 
+
 class Coach(mlbgame.object.Object):
     """Object to hold coach information
-    
+
     Properties:
         first
         id
@@ -535,9 +537,10 @@ class Coach(mlbgame.object.Object):
     """
     pass
 
+
 class Umpire(mlbgame.object.Object):
     """Object to hold umpire information
-    
+
     Properties:
         first
         id
