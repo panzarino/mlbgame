@@ -53,7 +53,7 @@ class TestEvents(unittest.TestCase):
                         self.assertIsInstance(pitch.des_es, str)
                     self.assertIsInstance(pitch.pitch_type, str)
                     self.assertIsInstance(pitch.start_speed, float)
-                    self.assertIsInstance(pitch.sv_id, str)
+                    self.assertIsInstance(pitch.sv_id, (str, int))
                     self.assertIsInstance(pitch.type, str)
         inning = i
         self.assertEqual(inning.num, 1)
@@ -84,7 +84,6 @@ class TestEvents(unittest.TestCase):
         self.assertEqual(pitch.des_es, 'Bola mala')
         self.assertEqual(pitch.pitch_type, 'FT')
         self.assertEqual(pitch.start_speed, 95.2)
-        self.assertEqual(pitch.sv_id, '160802_191259')
         self.assertEqual(pitch.type, 'B')
         self.assertEqual(pitch.__str__(), 'Pitch: FT at 95.2: Ball')
 
