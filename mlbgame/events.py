@@ -89,9 +89,6 @@ class AtBat(object):
         """
         # loop through data
         for x in data:
-            # remove spanish info (causes text encoding errors)
-            if '_es' in x:
-                continue
             # create pitches list if attribute name is pitches
             if x == 'pitches':
                 self.pitches = []
@@ -106,7 +103,10 @@ class AtBat(object):
                     setattr(self, x, float(data[x]))
                 except ValueError:
                     # string if not number
-                    setattr(self, x, str(data[x]))
+                    try:
+                        setattr(self, x, str(data[x]))
+                    except UnicodeEncodeError:
+                        setattr(self, x, data[x])
 
     def nice_output(self):
         """Prints basic event info in a nice way."""
