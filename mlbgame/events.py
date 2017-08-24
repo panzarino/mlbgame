@@ -59,33 +59,59 @@ def game_events(game_id):
     return output
 
 
+class Inning(object):
+    """Class that holds at bats in an inning.
+    
+    Properties:
+        bottom
+        num
+        top
+    """
+    
+    def __init__(self, data, inning):
+        """Creates an inning object that matches the corresponding
+        info in `data`.
+        
+        `data` should be a dictionary of values.
+        """
+        self.num = inning
+        self.top = [AtBat(x) for x in data['top']]
+        self.bottom = [AtBat(x) for x in data['bottom']]
+
+    def nice_output(self):
+        """Prints basic inning info in a nice way."""
+        return 'Inning {0}'.format(self.num)
+
+    def __str__(self):
+        return self.nice_output()
+
+
 class AtBat(object):
     """Class that holds information about at bats in games.
 
     Properties:
-
-    - num = Number of at bat in game
-    - b = balls (at end of at bat or currently if live)
-    - s = strikes (at end of at bat or currently if live)
-    - o = outs (at end of at bat)
-    - batter = batter id number
-    - pitcher = pitcher id number
-    - des = description of at bat
-    - event_num = number that corresponds to type of event
-    - event = name of event
-    - home_team_runs = home team runs (at end of at bat)
-    - away_team_runs = away team runs (at end of at bat)
-    - pitches = list of pitches during at bat
-    - b1
-    - b2
-    - b3
+        away_team_runs
+        b
+        b1
+        b2
+        b3
+        batter
+        des
+        event
+        event_num
+        home_team_runs
+        num
+        o
+        pitcher
+        pitches
+        s
     """
 
     def __init__(self, data):
-        """Creates an event object that matches the corresponding
+        """Creates an at bat object that matches the corresponding
         info in `data`.
 
-        `data` should be an dictionary of values.
+        `data` should be a dictionary of values.
         """
         # loop through data
         for x in data:
@@ -109,7 +135,7 @@ class AtBat(object):
                         setattr(self, x, data[x])
 
     def nice_output(self):
-        """Prints basic event info in a nice way."""
+        """Prints basic at bat info in a nice way."""
         return self.des
 
     def __str__(self):
@@ -119,21 +145,18 @@ class AtBat(object):
 class Pitch(object):
     """Class that holds information about individual pitches.
 
-    Properties of pitches are wildly inconsistent,
-    sometimes they have a value, sometimes they don't.
     Properties:
-
-    - sv_id
-    - des = description of pitch outcome
-    - type = ball (B), strike (S), or in play (X)
-    - start_speed = pitch speed
-    - pitch_type = type of pitch (fastball, curve, etc.)
+        des
+        pitch_type
+        start_speed
+        sv_id
+        type
     """
 
     def __init__(self, data):
         """Creates a pitch object that matches the corresponding info in `data`.
 
-        `data` should be an dictionary of values.
+        `data` should be a dictionary of values.
         """
         # loop through data
         for x in data:
