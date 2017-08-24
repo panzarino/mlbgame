@@ -223,14 +223,7 @@ def team_stats(game_id):
 
 
 def game_events(game_id):
-    """Return dictionary of game events for game matching the game id.
-
-    Top level of dictionary is inning of game.
-    Next level is top or bottom of the inning.
-    Final level is a list of at bats in that part of the inning.
-    Lowest level is AtBat object.
-    Ex. events['inningnumber']['top/bottom'][atbatnumber]
-    """
+    """Return dictionary of game events for game matching the game id."""
     data = mlbgame.events.game_events(game_id)
     return [mlbgame.events.Inning(data[x], x) for x in data]
 
