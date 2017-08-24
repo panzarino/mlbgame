@@ -107,7 +107,10 @@ class AtBat(object):
         o
         pitcher
         pitches
+        play_guid
         s
+        start_tfs
+        start_tfs_zulu
     """
 
     def __init__(self, data):
@@ -150,6 +153,7 @@ class Pitch(mlbgame.object.Object):
 
     Properties:
         des
+        des_es
         pitch_type
         start_speed
         sv_id
