@@ -5,6 +5,7 @@ that occured throughout games.
 """
 
 import mlbgame.data
+import mlbgame.object
 
 import lxml.etree as etree
 
@@ -74,7 +75,7 @@ class Inning(object):
         
         `data` should be a dictionary of values.
         """
-        self.num = inning
+        self.num = int(inning)
         self.top = [AtBat(x) for x in data['top']]
         self.bottom = [AtBat(x) for x in data['bottom']]
 
@@ -97,7 +98,9 @@ class AtBat(object):
         b3
         batter
         des
+        des_es
         event
+        event_es
         event_num
         home_team_runs
         num
@@ -142,7 +145,7 @@ class AtBat(object):
         return self.nice_output()
 
 
-class Pitch(object):
+class Pitch(mlbgame.object.Object):
     """Class that holds information about individual pitches.
 
     Properties:
@@ -152,26 +155,6 @@ class Pitch(object):
         sv_id
         type
     """
-
-    def __init__(self, data):
-        """Creates a pitch object that matches the corresponding info in `data`.
-
-        `data` should be a dictionary of values.
-        """
-        # loop through data
-        for x in data:
-            # remove spanish info (causes text encoding errors)
-            if '_es' in x:
-                continue
-            # set information as correct data type
-            try:
-                setattr(self, x, int(data[x]))
-            except ValueError:
-                try:
-                    setattr(self, x, float(data[x]))
-                except ValueError:
-                    # string if not number
-                    setattr(self, x, str(data[x]))
 
     def nice_output(self):
         """Prints basic event info in a nice way."""
