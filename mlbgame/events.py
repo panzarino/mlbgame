@@ -128,17 +128,7 @@ class AtBat(object):
                     self.pitches.append(Pitch(y))
                 continue
             # set information as correct data type
-            try:
-                setattr(self, x, int(data[x]))
-            except ValueError:
-                try:
-                    setattr(self, x, float(data[x]))
-                except ValueError:
-                    # string if not number
-                    try:
-                        setattr(self, x, str(data[x]))
-                    except UnicodeEncodeError:
-                        setattr(self, x, data[x])
+            mlbgame.object.setobjattr(self, x, data[x])
 
     def nice_output(self):
         """Prints basic at bat info in a nice way."""
