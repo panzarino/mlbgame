@@ -11,10 +11,14 @@ class TestEvents(unittest.TestCase):
         events = mlbgame.game_events('2016_08_02_nyamlb_nynmlb_1')
         for inning in events:
             self.assertIsInstance(inning.num, int)
+            if inning.num == 1:
+                i = inning
             self.assertIsInstance(inning.top, list)
             self.assertIsInstance(inning.bottom, list)
             atbats = inning.top + inning.bottom
             for atbat in atbats:
+                if inning.num == 1 and atbat.num == 1:
+                    ab = atbat
                 self.assertIsInstance(atbat.away_team_runs, int)
                 self.assertIsInstance(atbat.b, int)
                 self.assertIsInstance(atbat.b1, (int, str))
@@ -51,10 +55,10 @@ class TestEvents(unittest.TestCase):
                     self.assertIsInstance(pitch.start_speed, float)
                     self.assertIsInstance(pitch.sv_id, str)
                     self.assertIsInstance(pitch.type, str)
-        inning = events[0]
+        inning = i
         self.assertEqual(inning.num, 1)
         self.assertEqual(inning.__str__(), 'Inning 1')
-        atbat = inning.top[0]
+        atbat = ab
         self.assertEqual(atbat.away_team_runs, 0)
         self.assertEqual(atbat.b, 1)
         self.assertEqual(atbat.b1, '')
