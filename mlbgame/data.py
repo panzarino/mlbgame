@@ -19,6 +19,7 @@ BASE_URL = ('http://gd2.mlb.com/components/game/mlb/'
             'year_{0}/month_{1:02d}/day_{2:02d}/')
 GAME_URL = BASE_URL + '/gid_{3}/{4}'
 PROPERTY_URL = 'http://mlb.mlb.com/properties/mlb_properties.xml'
+ROSTER_URL = 'http://mlb.mlb.com/lookup/json/named.roster_40.bam?team_id={0}'
 # Local Directory
 PWD = os.path.join(os.path.dirname(__file__))
 
@@ -86,6 +87,14 @@ def get_properties():
         raise ValueError('Could not find the properties file. '
                          'mlb.com does not provide the file that '
                          'mlbgame needs to perform this operation.')
+
+
+def get_roster(team_id):
+    """Return the roster file of team with matching id."""
+    try:
+        return urlopen(ROSTER_URL.format(team_id))
+    except HTTPError:
+        raise ValueError("Could not find a roster for a team with that id.")
 
 
 def get_date_from_game_id(game_id):

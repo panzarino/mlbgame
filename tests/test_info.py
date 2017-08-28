@@ -222,8 +222,8 @@ class TestInfo(unittest.TestCase):
     def test_roster(self):
         roster = mlbgame.roster(121)
         self.assertIsInstance(roster.last_update, datetime)
-        self.assertIsInstance(roster.roster, list)
-        for player in roster.roster:
+        self.assertIsInstance(roster.players, list)
+        for player in roster.players:
             self.assertIsInstance(player.bats, str)
             self.assertIsInstance(player.birth_date, str)
             self.assertIsInstance(player.college, str)
@@ -254,6 +254,9 @@ class TestInfo(unittest.TestCase):
             self.assertEqual(player.team_code, 'nyn')
             self.assertEqual(player.team_id, 121)
             self.assertEqual(player.team_name, 'New York Mets')
+
+    def test_roster_empty(self):
+        self.assertRaises(ValueError, lambda: mlbgame.roster('team_id'))
 
     def test_standings(self):
         standings = mlbgame.standings()
@@ -424,7 +427,7 @@ class TestInfo(unittest.TestCase):
         self.assertIsInstance(injury.injuries, list)
         for player in injury.injuries:
             self.assertIsInstance(player.display_ts, str)
-            self.assertIsInstance(player.due_back, str)
+            self.assertIsInstance(player.due_back, (str, int))
             self.assertIsInstance(player.injury_desc, str)
             self.assertIsInstance(player.injury_status, str)
             self.assertIsInstance(player.injury_update, str)

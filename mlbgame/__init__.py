@@ -240,7 +240,8 @@ def teams():
 
 def roster(team_id):
     """Return Roster object that contains roster info for a team"""
-    return mlbgame.info.Roster(team_id)
+    data = mlbgame.info.roster(team_id)
+    return mlbgame.info.Roster(data)
 
 
 def standings(date=datetime.now()):

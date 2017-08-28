@@ -11,6 +11,7 @@ import mlbgame.object
 
 from datetime import datetime
 import dateutil.parser
+import json
 import lxml.etree as etree
 import requests
 import sys
@@ -129,51 +130,34 @@ class Info(mlbgame.object.Object):
         return self.nice_output()
 
 
+def roster(team_id):
+    """Returns a dictionary of roster information for team id"""
+    data = mlbgame.data.get_roster(team_id)
+    parsed = json.load(data)
+    players = parsed['roster_40']['queryResults']['row']
+    last_update = dateutil.parser.parse(parsed['roster_40']['queryResults']['created'])
+    return {'players': players, 'last_update': last_update, 'team_id': team_id}
+
+
 class Roster(object):
     """Represents an MLB Team
 
     Properties:
-        roster_url
-        roster
-        roster_json
         last_update
+        players
+        team_id
     """
-    url = 'http://mlb.mlb.com/lookup/json/named.roster_40.bam?team_id=%s'
 
-    def __init__(self, team_id=None):
-        if team_id:
-            self.roster_url = Roster.url % team_id
-            self.roster = []
-            self.parse_roster()
-            self.last_update = self.set_last_update()
-        else:
-            try:
-                raise NoTeamID('A `team_id` was not supplied.')
-            except NoTeamID as e:
-                print(e)
-                raise
-
-    @property
-    def roster_json(self):
-        """Return roster output as json"""
-        try:
-            return requests.get(self.roster_url).json()
-        except requests.exceptions.RequestException as e:
-            print(e)
-            sys.exit(-1)
-
-    def set_last_update(self):
-        """Return a dateutil object from string [last update]
-        originally in ISO 8601 format: YYYY-mm-ddTHH:MM:SS"""
-        last_update = self.roster_json['roster_40']['queryResults']['created']
-        return dateutil.parser.parse(last_update)
-
-    def parse_roster(self):
-        """Parse the json roster"""
-        players = self.roster_json['roster_40']['queryResults']['row']
-        for player in players:
-            mlbplayer = Player(player)
-            self.roster.append(mlbplayer)
+    def __init__(self, data):
+        """Creates a roster object to match info in `data`.
+        
+        `data` should be a dictionary of values.
+        """
+        self.last_update = data['last_update']
+        self.team_id = data['team_id']
+        self.players = []
+        for player in data['players']:
+            self.players.append(Player(player))
 
 
 class RosterException(Exception):
