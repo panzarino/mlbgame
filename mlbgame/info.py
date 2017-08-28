@@ -135,7 +135,8 @@ def roster(team_id):
     data = mlbgame.data.get_roster(team_id)
     parsed = json.load(data)
     players = parsed['roster_40']['queryResults']['row']
-    last_update = dateutil.parser.parse(parsed['roster_40']['queryResults']['created'])
+    last_update = dateutil.parser.parse(
+        parsed['roster_40']['queryResults']['created'])
     return {'players': players, 'last_update': last_update, 'team_id': team_id}
 
 
@@ -150,7 +151,7 @@ class Roster(object):
 
     def __init__(self, data):
         """Creates a roster object to match info in `data`.
-        
+
         `data` should be a dictionary of values.
         """
         self.last_update = data['last_update']
