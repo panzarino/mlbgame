@@ -133,7 +133,7 @@ class Info(mlbgame.object.Object):
 def roster(team_id):
     """Returns a dictionary of roster information for team id"""
     data = mlbgame.data.get_roster(team_id)
-    parsed = json.load(data)
+    parsed = json.loads(data.read().decode('utf-8'))
     players = parsed['roster_40']['queryResults']['row']
     last_update = dateutil.parser.parse(
         parsed['roster_40']['queryResults']['created'])
