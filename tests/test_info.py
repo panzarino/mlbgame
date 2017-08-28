@@ -255,9 +255,6 @@ class TestInfo(unittest.TestCase):
             self.assertEqual(player.team_id, 121)
             self.assertEqual(player.team_name, 'New York Mets')
 
-    def test_roster_empty(self):
-        self.assertRaises(ValueError, lambda: mlbgame.roster('team_id'))
-
     def test_standings(self):
         standings = mlbgame.standings()
         self.assertEqual(standings.standings_schedule_date, 'standings_schedule_date')
