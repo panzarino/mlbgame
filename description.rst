@@ -37,6 +37,6 @@ mlbgame can be installed by running:
 Alternatively, the latest release of mlbgame can be downloaded as a 
 `zip <https://github.com/panzarino/mlbgame/archive/master.zip>`__ or 
 `tarball <https://github.com/panzarino/mlbgame/archive/master.tar.gz>`__.
-If you do not install with ``pip``, you must also install the dependencies as specified in ``setup.py``.
+If you do not install with ``pip``, you must also install ``lmxl`` as specified in ``setup.py``.
 
 If you want to help develop mlbgame, you must also install the dev dependencies, which can be done by running ``pip install -e .[dev]`` from within the directory.
