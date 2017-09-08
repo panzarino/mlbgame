@@ -4,8 +4,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
     <title>mlbgame.game API documentation</title>
-    <meta name="description" content="Module that is used for getting basic information about a game 
-such as the scoreboard and the box s..." />
+    <meta name="description" content="Module that is used for getting basic information about a game
+such as the scoreboard and the box sc..." />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
   
@@ -1041,6 +1041,7 @@ table {
   <ul>
     <li class="mono"><a href="#mlbgame.game.box_score">box_score</a></li>
     <li class="mono"><a href="#mlbgame.game.overview">overview</a></li>
+    <li class="mono"><a href="#mlbgame.game.players">players</a></li>
     <li class="mono"><a href="#mlbgame.game.scoreboard">scoreboard</a></li>
   </ul>
 
@@ -1048,6 +1049,15 @@ table {
 
     <li class="set"><h3><a href="#header-classes">Classes</a></h3>
       <ul>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.game.Coach">Coach</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.game.Coach.__init__">__init__</a></li>
+  </ul>
+
+        </li>
         <li class="mono">
         <span class="class_name"><a href="#mlbgame.game.GameBoxScore">GameBoxScore</a></span>
         
@@ -1077,6 +1087,33 @@ table {
   </ul>
 
         </li>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.game.Player">Player</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.game.Player.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.game.Players">Players</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.game.Players.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.game.Umpire">Umpire</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.game.Umpire.__init__">__init__</a></li>
+  </ul>
+
+        </li>
       </ul>
     </li>
 
@@ -1092,40 +1129,47 @@ table {
 
   <header id="section-intro">
   <h1 class="title"><span class="name">mlbgame.game</span> module</h1>
-  <p>Module that is used for getting basic information about a game 
+  <p>Module that is used for getting basic information about a game
 such as the scoreboard and the box score.</p>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.game" class="source">
     <div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
 
-<span class="sd">&quot;&quot;&quot;Module that is used for getting basic information about a game </span>
+<span class="sd">&quot;&quot;&quot;Module that is used for getting basic information about a game</span>
 <span class="sd">such as the scoreboard and the box score.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">mlbgame.data</span>
+<span class="kn">import</span> <span class="nn">mlbgame.object</span>
 
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">lxml.etree</span> <span class="kn">as</span> <span class="nn">etree</span>
 
+
 <span class="k">def</span> <span class="nf">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return the scoreboard information for games matching the parameters as a dictionary.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Return the scoreboard information for games matching the parameters</span>
+<span class="sd">    as a dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># get data</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
     <span class="c"># parse data</span>
     <span class="n">parsed</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
     <span class="n">games</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c"># loop through games</span>
     <span class="k">for</span> <span class="n">game</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;data&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;data&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
         <span class="c"># get team names</span>
         <span class="n">teams</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">)</span>
         <span class="n">home_name</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
         <span class="n">away_name</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
         <span class="c"># check if teams match parameters</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">home_name</span> <span class="o">==</span> <span class="n">home</span> <span class="ow">and</span> <span class="n">home</span><span class="o">!=</span><span class="bp">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">away_name</span> <span class="o">==</span> <span class="n">away</span> <span class="ow">and</span> <span class="n">away</span><span class="o">!=</span><span class="bp">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">away</span><span class="o">==</span><span class="bp">None</span> <span class="ow">and</span> <span class="n">home</span><span class="o">==</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">home_name</span> <span class="o">==</span> <span class="n">home</span> <span class="ow">and</span> <span class="n">home</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> \
+                <span class="ow">or</span> <span class="p">(</span><span class="n">away_name</span> <span class="o">==</span> <span class="n">away</span> <span class="ow">and</span> <span class="n">away</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> \
+                <span class="ow">or</span> <span class="p">(</span><span class="n">away</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">home</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
             <span class="c"># throw all the data into a complicated dictionary</span>
             <span class="n">game_tag</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tag</span>
             <span class="n">game_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;game&#39;</span><span class="p">)</span>
@@ -1144,13 +1188,13 @@ such as the scoreboard and the box score.</p>
             <span class="n">away_team_hits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">])</span>
             <span class="n">away_team_errors</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])</span>
             <span class="c"># check type of game</span>
-            <span class="k">if</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&quot;go_game&quot;</span> <span class="ow">or</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&quot;ig_game&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&#39;go_game&#39;</span> <span class="ow">or</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&#39;ig_game&#39;</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">w_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">)</span>
                     <span class="n">w_pitcher</span> <span class="o">=</span> <span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
                     <span class="n">w_pitcher_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
                     <span class="n">w_pitcher_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="n">w_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
                     <span class="n">w_pitcher_wins</span> <span class="o">=</span> <span class="mi">0</span>
                     <span class="n">w_pitcher_losses</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1159,7 +1203,7 @@ such as the scoreboard and the box score.</p>
                     <span class="n">l_pitcher</span> <span class="o">=</span> <span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
                     <span class="n">l_pitcher_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
                     <span class="n">l_pitcher_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="n">l_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
                     <span class="n">l_pitcher_wins</span> <span class="o">=</span> <span class="mi">0</span>
                     <span class="n">l_pitcher_losses</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1167,7 +1211,7 @@ such as the scoreboard and the box score.</p>
                     <span class="n">sv_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;sv_pitcher&#39;</span><span class="p">)</span>
                     <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
                     <span class="n">sv_pitcher_saves</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;saves&#39;</span><span class="p">])</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
                     <span class="n">sv_pitcher_saves</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
@@ -1194,52 +1238,86 @@ such as the scoreboard and the box score.</p>
                     <span class="s">&#39;sv_pitcher_saves&#39;</span><span class="p">:</span> <span class="n">sv_pitcher_saves</span>
                 <span class="p">}</span>
             <span class="c"># games that were not played</span>
-            <span class="k">elif</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&quot;sg_game&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&#39;sg_game&#39;</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">p_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;p_pitcher&#39;</span><span class="p">)</span>
                     <span class="n">p_pitcher_home_data</span> <span class="o">=</span> <span class="n">p_pitcher_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
-                    <span class="n">p_pitcher_home_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
-                    <span class="n">p_pitcher_home_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+                        <span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">p_pitcher_home_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span>
+                                              <span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_home_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span>
+                                                <span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
                     <span class="n">p_pitcher_away_data</span> <span class="o">=</span> <span class="n">p_pitcher_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
-                    <span class="n">p_pitcher_away_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
-                    <span class="n">p_pitcher_away_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+                        <span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">p_pitcher_away_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span>
+                                              <span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_away_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span>
+                                                <span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
                     <span class="n">p_pitcher_home_wins</span> <span class="o">=</span> <span class="mi">0</span>
                     <span class="n">p_pitcher_home_losses</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
                     <span class="n">p_pitcher_away_wins</span> <span class="o">=</span> <span class="mi">0</span>
                     <span class="n">p_pitcher_away_losses</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s">&#39;game_id&#39;</span><span class="p">:</span><span class="n">game_id</span><span class="p">,</span>
-                    <span class="s">&#39;game_tag&#39;</span><span class="p">:</span><span class="n">game_tag</span><span class="p">,</span>
-                    <span class="s">&#39;game_league&#39;</span><span class="p">:</span><span class="n">game_league</span><span class="p">,</span>
-                    <span class="s">&#39;game_status&#39;</span><span class="p">:</span><span class="n">game_status</span><span class="p">,</span>
-                    <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span><span class="n">game_start_time</span><span class="p">,</span>
-                    <span class="s">&#39;home_team&#39;</span><span class="p">:</span><span class="n">home_team</span><span class="p">,</span>
+                    <span class="s">&#39;game_id&#39;</span><span class="p">:</span> <span class="n">game_id</span><span class="p">,</span>
+                    <span class="s">&#39;game_tag&#39;</span><span class="p">:</span> <span class="n">game_tag</span><span class="p">,</span>
+                    <span class="s">&#39;game_league&#39;</span><span class="p">:</span> <span class="n">game_league</span><span class="p">,</span>
+                    <span class="s">&#39;game_status&#39;</span><span class="p">:</span> <span class="n">game_status</span><span class="p">,</span>
+                    <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span> <span class="n">game_start_time</span><span class="p">,</span>
+                    <span class="s">&#39;home_team&#39;</span><span class="p">:</span> <span class="n">home_team</span><span class="p">,</span>
                     <span class="s">&#39;home_team_runs&#39;</span><span class="p">:</span> <span class="n">home_team_runs</span><span class="p">,</span>
                     <span class="s">&#39;home_team_hits&#39;</span><span class="p">:</span> <span class="n">home_team_hits</span><span class="p">,</span>
                     <span class="s">&#39;home_team_errors&#39;</span><span class="p">:</span> <span class="n">home_team_errors</span><span class="p">,</span>
-                    <span class="s">&#39;away_team&#39;</span><span class="p">:</span><span class="n">away_team</span><span class="p">,</span>
+                    <span class="s">&#39;away_team&#39;</span><span class="p">:</span> <span class="n">away_team</span><span class="p">,</span>
                     <span class="s">&#39;away_team_runs&#39;</span><span class="p">:</span> <span class="n">away_team_runs</span><span class="p">,</span>
                     <span class="s">&#39;away_team_hits&#39;</span><span class="p">:</span> <span class="n">away_team_hits</span><span class="p">,</span>
                     <span class="s">&#39;away_team_errors&#39;</span><span class="p">:</span> <span class="n">away_team_errors</span><span class="p">,</span>
-                    <span class="s">&#39;p_pitcher_home&#39;</span><span class="p">:</span><span class="n">p_pitcher_home</span><span class="p">,</span>
+                    <span class="s">&#39;p_pitcher_home&#39;</span><span class="p">:</span> <span class="n">p_pitcher_home</span><span class="p">,</span>
                     <span class="s">&#39;p_pitcher_home_wins&#39;</span><span class="p">:</span> <span class="n">p_pitcher_home_wins</span><span class="p">,</span>
                     <span class="s">&#39;p_pitcher_home_losses&#39;</span><span class="p">:</span> <span class="n">p_pitcher_home_losses</span><span class="p">,</span>
-                    <span class="s">&#39;p_pitcher_away&#39;</span><span class="p">:</span><span class="n">p_pitcher_away</span><span class="p">,</span>
+                    <span class="s">&#39;p_pitcher_away&#39;</span><span class="p">:</span> <span class="n">p_pitcher_away</span><span class="p">,</span>
                     <span class="s">&#39;p_pitcher_away_wins&#39;</span><span class="p">:</span> <span class="n">p_pitcher_away_wins</span><span class="p">,</span>
                     <span class="s">&#39;p_pitcher_away_losses&#39;</span><span class="p">:</span> <span class="n">p_pitcher_away_losses</span>
                 <span class="p">}</span>
             <span class="c"># put this dictionary into the larger dictionary</span>
-            <span class="n">games</span><span class="p">[</span><span class="n">game_id</span><span class="p">]</span><span class="o">=</span><span class="n">output</span>
+            <span class="n">games</span><span class="p">[</span><span class="n">game_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
     <span class="k">return</span> <span class="n">games</span>
 
+
 <span class="k">class</span> <span class="nc">GameScoreboard</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Object to hold scoreboard information about a certain game.&quot;&quot;&quot;</span>
-    
+    <span class="sd">&quot;&quot;&quot;Object to hold scoreboard information about a certain game.</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        away_team</span>
+<span class="sd">        away_team_errors</span>
+<span class="sd">        away_team_hits</span>
+<span class="sd">        away_team_runs</span>
+<span class="sd">        date</span>
+<span class="sd">        game_id</span>
+<span class="sd">        game_league</span>
+<span class="sd">        game_start_time</span>
+<span class="sd">        game_status</span>
+<span class="sd">        game_tag</span>
+<span class="sd">        home_team</span>
+<span class="sd">        home_team_errors</span>
+<span class="sd">        home_team_hits</span>
+<span class="sd">        home_team_runs</span>
+<span class="sd">        l_pitcher</span>
+<span class="sd">        l_pitcher_losses</span>
+<span class="sd">        l_pitcher_wins</span>
+<span class="sd">        l_team</span>
+<span class="sd">        sv_pitcher</span>
+<span class="sd">        sv_pitcher_saves</span>
+<span class="sd">        w_pitcher</span>
+<span class="sd">        w_pitcher_losses</span>
+<span class="sd">        w_pitcher_wins</span>
+<span class="sd">        w_team</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates a `GameScoreboard` object.</span>
 
@@ -1264,20 +1342,23 @@ such as the scoreboard and the box score.</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">l_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span>
         <span class="c"># create the datetime object for the game</span>
-        <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
         <span class="n">hour</span><span class="p">,</span> <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_start_time</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">minute</span> <span class="o">=</span> <span class="n">other</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">am_pm</span> <span class="o">=</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
-        <span class="k">if</span> <span class="n">am_pm</span> <span class="o">==</span> <span class="s">&quot;PM&quot;</span><span class="p">:</span>
-            <span class="n">hour</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span><span class="o">+</span><span class="mi">11</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minute</span><span class="p">))</span>
-    
+        <span class="k">if</span> <span class="n">am_pm</span> <span class="o">==</span> <span class="s">&#39;PM&#39;</span><span class="p">:</span>
+            <span class="n">hour</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span> <span class="o">+</span> <span class="mi">11</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">),</span>
+                                      <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minute</span><span class="p">))</span>
+
     <span class="k">def</span> <span class="nf">nice_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a nicely formatted score of the game.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%d</span><span class="s">) at </span><span class="si">%s</span><span class="s"> (</span><span class="si">%d</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">away_team</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span><span class="p">)</span>
-    
+        <span class="k">return</span> <span class="p">(</span><span class="s">&#39;{0.away_team} ({0.away_team_runs}) at &#39;</span>
+                <span class="s">&#39;{0.home_team} ({0.home_team_runs})&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_score</span><span class="p">()</span>
+
 
 <span class="k">def</span> <span class="nf">box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Gets the box score information for the game with matching id.&quot;&quot;&quot;</span>
@@ -1287,19 +1368,28 @@ such as the scoreboard and the box score.</p>
     <span class="n">parsed</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
     <span class="n">linescore</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;linescore&#39;</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">result</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">game_id</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">result</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">game_id</span>
     <span class="c"># loop through innings and add them to output</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">linescore</span><span class="p">:</span>
         <span class="n">inning</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;inning&#39;</span><span class="p">]</span>
         <span class="n">home</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;home&#39;</span><span class="p">]</span>
         <span class="n">away</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;away&#39;</span><span class="p">]</span>
-        <span class="n">result</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">inning</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home&#39;</span><span class="p">:</span><span class="n">home</span><span class="p">,</span> <span class="s">&#39;away&#39;</span><span class="p">:</span><span class="n">away</span><span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">inning</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home&#39;</span><span class="p">:</span> <span class="n">home</span><span class="p">,</span> <span class="s">&#39;away&#39;</span><span class="p">:</span> <span class="n">away</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">result</span>
 
+
 <span class="k">class</span> <span class="nc">GameBoxScore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Object to hold the box score of a certain game.&quot;&quot;&quot;</span>
-    
+    <span class="sd">&quot;&quot;&quot;Object to hold the box score of a certain game.</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        game_id</span>
+<span class="sd">        innings:</span>
+<span class="sd">            inning</span>
+<span class="sd">            home</span>
+<span class="sd">            away</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates a `GameBoxScore` object.</span>
 
@@ -1312,17 +1402,25 @@ such as the scoreboard and the box score.</p>
         <span class="c"># loops through the innings</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;inning&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s">&#39;home&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">]),</span> <span class="s">&#39;away&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])}</span>
-            <span class="c"># possible error when 9th innning home team has &#39;x&#39; becuase they did not bat</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;inning&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                          <span class="s">&#39;home&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">]),</span>
+                          <span class="s">&#39;away&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])</span>
+                          <span class="p">}</span>
+            <span class="c"># possible error when 9th innning home team has &#39;x&#39;</span>
+            <span class="c"># becuase they did not bat</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;inning&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s">&#39;home&#39;</span><span class="p">:</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">],</span> <span class="s">&#39;away&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])}</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s">&#39;inning&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                    <span class="s">&#39;home&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">],</span>
+                    <span class="s">&#39;away&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])</span>
+                <span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">innings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-    
+
     <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Allows object to be iterated over.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">innings</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">x</span>
-    
+
     <span class="k">def</span> <span class="nf">print_scoreboard</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print object as a scoreboard.&quot;&quot;&quot;</span>
         <span class="n">output</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
@@ -1336,25 +1434,26 @@ such as the scoreboard and the box score.</p>
             <span class="n">home</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;home&#39;</span><span class="p">])</span>
         <span class="c"># go through all the information and make a nice output</span>
         <span class="c"># that looks like a scoreboard</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;Inning</span><span class="se">\t</span><span class="s">&quot;</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;Inning</span><span class="se">\t</span><span class="s">&#39;</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">innings</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &#39;</span>
         <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">innings</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;---&quot;</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Away</span><span class="se">\t</span><span class="s">&quot;</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;---&#39;</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">Away</span><span class="se">\t</span><span class="s">&#39;</span>
         <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">away</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">y</span><span class="o">&gt;=</span><span class="mi">10</span><span class="p">:</span>
-                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;  &quot;</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;  &#39;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Home</span><span class="se">\t</span><span class="s">&quot;</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &#39;</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">Home</span><span class="se">\t</span><span class="s">&#39;</span>
         <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">home</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">y</span><span class="o">&gt;=</span><span class="mi">10</span><span class="p">:</span>
-                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;  &quot;</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;  &#39;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &#39;</span>
         <span class="k">return</span> <span class="n">output</span>
+
 
 <span class="k">def</span> <span class="nf">overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Gets the overview information for the game with matching id.&quot;&quot;&quot;</span>
@@ -1369,31 +1468,223 @@ such as the scoreboard and the box score.</p>
         <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">output</span>
 
-<span class="k">class</span> <span class="nc">Overview</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<span class="k">class</span> <span class="nc">Overview</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Object to hold an overview of game information</span>
-<span class="sd">    </span>
-<span class="sd">    `elements` property is a set of all properties that an object contains.</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        ampm</span>
+<span class="sd">        aw_lg_ampm</span>
+<span class="sd">        away_ampm</span>
+<span class="sd">        away_code</span>
+<span class="sd">        away_division</span>
+<span class="sd">        away_file_code</span>
+<span class="sd">        away_games_back</span>
+<span class="sd">        away_games_back_wildcard</span>
+<span class="sd">        away_league_id</span>
+<span class="sd">        away_loss</span>
+<span class="sd">        away_name_abbrev</span>
+<span class="sd">        away_preview_link</span>
+<span class="sd">        away_recap_link</span>
+<span class="sd">        away_sport_code</span>
+<span class="sd">        away_team_city</span>
+<span class="sd">        away_team_errors</span>
+<span class="sd">        away_team_hits</span>
+<span class="sd">        away_team_id</span>
+<span class="sd">        away_team_name</span>
+<span class="sd">        away_team_runs</span>
+<span class="sd">        away_time</span>
+<span class="sd">        away_time_zone</span>
+<span class="sd">        away_win</span>
+<span class="sd">        balls</span>
+<span class="sd">        day</span>
+<span class="sd">        double_header_sw</span>
+<span class="sd">        first_pitch_et</span>
+<span class="sd">        game_data_directory</span>
+<span class="sd">        game_nbr</span>
+<span class="sd">        game_pk</span>
+<span class="sd">        game_type</span>
+<span class="sd">        gameday_link</span>
+<span class="sd">        gameday_sw</span>
+<span class="sd">        hm_lg_ampm</span>
+<span class="sd">        home_ampm</span>
+<span class="sd">        home_code</span>
+<span class="sd">        home_division</span>
+<span class="sd">        home_file_code</span>
+<span class="sd">        home_games_back</span>
+<span class="sd">        home_games_back_wildcard</span>
+<span class="sd">        home_league_id</span>
+<span class="sd">        home_loss</span>
+<span class="sd">        home_name_abbrev</span>
+<span class="sd">        home_preview_link</span>
+<span class="sd">        home_recap_link</span>
+<span class="sd">        home_sport_code</span>
+<span class="sd">        home_team_city</span>
+<span class="sd">        home_team_errors</span>
+<span class="sd">        home_team_hits</span>
+<span class="sd">        home_team_id</span>
+<span class="sd">        home_team_name</span>
+<span class="sd">        home_team_runs</span>
+<span class="sd">        home_time</span>
+<span class="sd">        home_time_zone</span>
+<span class="sd">        home_win</span>
+<span class="sd">        id</span>
+<span class="sd">        ind</span>
+<span class="sd">        inning</span>
+<span class="sd">        inning_state</span>
+<span class="sd">        is_no_hitter</span>
+<span class="sd">        is_perfect_game</span>
+<span class="sd">        league</span>
+<span class="sd">        location</span>
+<span class="sd">        note</span>
+<span class="sd">        original_date</span>
+<span class="sd">        outs</span>
+<span class="sd">        photos_link</span>
+<span class="sd">        preview</span>
+<span class="sd">        scheduled_innings</span>
+<span class="sd">        status</span>
+<span class="sd">        strikes</span>
+<span class="sd">        tbd_flag</span>
+<span class="sd">        tiebreaker_sw</span>
+<span class="sd">        time</span>
+<span class="sd">        time_aw_lg</span>
+<span class="sd">        time_date</span>
+<span class="sd">        time_date_aw_lg</span>
+<span class="sd">        time_date_hm_lg</span>
+<span class="sd">        time_hm_lg</span>
+<span class="sd">        time_zone</span>
+<span class="sd">        time_zone_aw_lg</span>
+<span class="sd">        time_zone_hm_lg</span>
+<span class="sd">        top_inning</span>
+<span class="sd">        tv_station</span>
+<span class="sd">        tz_aw_lg_gen</span>
+<span class="sd">        tz_hm_lg_gen</span>
+<span class="sd">        venue</span>
+<span class="sd">        venue_id</span>
+<span class="sd">        venue_w_chan_loc</span>
+<span class="sd">        wrapup_link</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">players</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets player/coach/umpire information for the game with matching id.&quot;&quot;&quot;</span>
+    <span class="c"># get data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_players</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="c"># parse data</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">output</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">game_id</span>
+
+    <span class="c"># get player/coach data</span>
+    <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">):</span>
+        <span class="nb">type</span> <span class="o">=</span> <span class="n">team</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;_team&quot;</span>
+        <span class="c"># the type is either home_team or away_team</span>
+        <span class="n">output</span><span class="p">[</span><span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">output</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="s">&#39;players&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">output</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="s">&#39;coaches&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">team</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;player&#39;</span><span class="p">):</span>
+            <span class="n">player</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">player</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">output</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="s">&#39;players&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">team</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;coach&#39;</span><span class="p">):</span>
+            <span class="n">coach</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">coach</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">output</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="s">&#39;coaches&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coach</span><span class="p">)</span>
+
+    <span class="c"># get umpire data</span>
+    <span class="n">output</span><span class="p">[</span><span class="s">&#39;umpires&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;umpires&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;umpire&#39;</span><span class="p">):</span>
+        <span class="n">umpire</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">umpire</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">[</span><span class="s">&#39;umpires&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">umpire</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+
+<span class="k">class</span> <span class="nc">Players</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object to hold player/coach/umpire information for a game.</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        away_coaches</span>
+<span class="sd">        away_players</span>
+<span class="sd">        game_id</span>
+<span class="sd">        home_coaches</span>
+<span class="sd">        home_players</span>
+<span class="sd">        umpires</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates an overview object that matches the corresponding info in `data`.</span>
-<span class="sd">        </span>
+        <span class="sd">&quot;&quot;&quot;Creates a players object that matches the corresponding info in `data`.</span>
 <span class="sd">        `data` should be an dictionary of values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">element_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c"># loop through data</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="c"># set information as correct data type</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="c"># string if not number</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="n">element_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">element_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">home_players</span> <span class="o">=</span> <span class="p">[</span><span class="n">Player</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;home_team&#39;</span><span class="p">][</span><span class="s">&#39;players&#39;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">home_coaches</span> <span class="o">=</span> <span class="p">[</span><span class="n">Coach</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;home_team&#39;</span><span class="p">][</span><span class="s">&#39;coaches&#39;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">away_players</span> <span class="o">=</span> <span class="p">[</span><span class="n">Player</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;away_team&#39;</span><span class="p">][</span><span class="s">&#39;players&#39;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">away_coaches</span> <span class="o">=</span> <span class="p">[</span><span class="n">Coach</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;away_team&#39;</span><span class="p">][</span><span class="s">&#39;coaches&#39;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">umpires</span> <span class="o">=</span> <span class="p">[</span><span class="n">Umpire</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;umpires&#39;</span><span class="p">]]</span>
+
+
+<span class="k">class</span> <span class="nc">Player</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object to hold player information</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        avg</span>
+<span class="sd">        bats</span>
+<span class="sd">        boxname</span>
+<span class="sd">        current_position</span>
+<span class="sd">        era</span>
+<span class="sd">        first</span>
+<span class="sd">        hr</span>
+<span class="sd">        id</span>
+<span class="sd">        last</span>
+<span class="sd">        losses</span>
+<span class="sd">        num</span>
+<span class="sd">        parent_team_abbrev</span>
+<span class="sd">        parent_team_id</span>
+<span class="sd">        position</span>
+<span class="sd">        rbi</span>
+<span class="sd">        rl</span>
+<span class="sd">        status</span>
+<span class="sd">        team_abbrev</span>
+<span class="sd">        team_id</span>
+<span class="sd">        wins</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Coach</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object to hold coach information</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        first</span>
+<span class="sd">        id</span>
+<span class="sd">        last</span>
+<span class="sd">        num</span>
+<span class="sd">        position</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Umpire</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object to hold umpire information</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        first</span>
+<span class="sd">        id</span>
+<span class="sd">        last</span>
+<span class="sd">        name</span>
+<span class="sd">        position</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
 </pre></div>
 
   </div>
@@ -1424,14 +1715,14 @@ such as the scoreboard and the box score.</p>
     <span class="n">parsed</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
     <span class="n">linescore</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;linescore&#39;</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">result</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">game_id</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">result</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">game_id</span>
     <span class="c"># loop through innings and add them to output</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">linescore</span><span class="p">:</span>
         <span class="n">inning</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;inning&#39;</span><span class="p">]</span>
         <span class="n">home</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;home&#39;</span><span class="p">]</span>
         <span class="n">away</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;away&#39;</span><span class="p">]</span>
-        <span class="n">result</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">inning</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home&#39;</span><span class="p">:</span><span class="n">home</span><span class="p">,</span> <span class="s">&#39;away&#39;</span><span class="p">:</span><span class="n">away</span><span class="p">}</span>
+        <span class="n">result</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">inning</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home&#39;</span><span class="p">:</span> <span class="n">home</span><span class="p">,</span> <span class="s">&#39;away&#39;</span><span class="p">:</span> <span class="n">away</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">result</span>
 </pre></div>
 
@@ -1474,6 +1765,66 @@ such as the scoreboard and the box score.</p>
   
       
   <div class="item">
+    <div class="name def" id="mlbgame.game.players">
+    <p>def <span class="ident">players</span>(</p><p>game_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Gets player/coach/umpire information for the game with matching id.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.players', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.players" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">players</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets player/coach/umpire information for the game with matching id.&quot;&quot;&quot;</span>
+    <span class="c"># get data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_players</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
+    <span class="c"># parse data</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">output</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">game_id</span>
+
+    <span class="c"># get player/coach data</span>
+    <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">):</span>
+        <span class="nb">type</span> <span class="o">=</span> <span class="n">team</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;_team&quot;</span>
+        <span class="c"># the type is either home_team or away_team</span>
+        <span class="n">output</span><span class="p">[</span><span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">output</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="s">&#39;players&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">output</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="s">&#39;coaches&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">team</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;player&#39;</span><span class="p">):</span>
+            <span class="n">player</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">player</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">output</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="s">&#39;players&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">team</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;coach&#39;</span><span class="p">):</span>
+            <span class="n">coach</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">coach</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">output</span><span class="p">[</span><span class="nb">type</span><span class="p">][</span><span class="s">&#39;coaches&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coach</span><span class="p">)</span>
+
+    <span class="c"># get umpire data</span>
+    <span class="n">output</span><span class="p">[</span><span class="s">&#39;umpires&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;umpires&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;umpire&#39;</span><span class="p">):</span>
+        <span class="n">umpire</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">umpire</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">[</span><span class="s">&#39;umpires&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">umpire</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
     <div class="name def" id="mlbgame.game.scoreboard">
     <p>def <span class="ident">scoreboard</span>(</p><p>year, month, day, home=None, away=None)</p>
     </div>
@@ -1481,28 +1832,34 @@ such as the scoreboard and the box score.</p>
 
     
   
-    <div class="desc"><p>Return the scoreboard information for games matching the parameters as a dictionary.</p></div>
+    <div class="desc"><p>Return the scoreboard information for games matching the parameters
+as a dictionary.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.scoreboard', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.game.scoreboard" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">home</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">away</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return the scoreboard information for games matching the parameters as a dictionary.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Return the scoreboard information for games matching the parameters</span>
+<span class="sd">    as a dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># get data</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
     <span class="c"># parse data</span>
     <span class="n">parsed</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
     <span class="n">games</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c"># loop through games</span>
     <span class="k">for</span> <span class="n">game</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;data&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;data&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
         <span class="c"># get team names</span>
         <span class="n">teams</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">)</span>
         <span class="n">home_name</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
         <span class="n">away_name</span> <span class="o">=</span> <span class="n">teams</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
         <span class="c"># check if teams match parameters</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">home_name</span> <span class="o">==</span> <span class="n">home</span> <span class="ow">and</span> <span class="n">home</span><span class="o">!=</span><span class="bp">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">away_name</span> <span class="o">==</span> <span class="n">away</span> <span class="ow">and</span> <span class="n">away</span><span class="o">!=</span><span class="bp">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">away</span><span class="o">==</span><span class="bp">None</span> <span class="ow">and</span> <span class="n">home</span><span class="o">==</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">home_name</span> <span class="o">==</span> <span class="n">home</span> <span class="ow">and</span> <span class="n">home</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> \
+                <span class="ow">or</span> <span class="p">(</span><span class="n">away_name</span> <span class="o">==</span> <span class="n">away</span> <span class="ow">and</span> <span class="n">away</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> \
+                <span class="ow">or</span> <span class="p">(</span><span class="n">away</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">home</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
             <span class="c"># throw all the data into a complicated dictionary</span>
             <span class="n">game_tag</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">tag</span>
             <span class="n">game_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;game&#39;</span><span class="p">)</span>
@@ -1521,13 +1878,13 @@ such as the scoreboard and the box score.</p>
             <span class="n">away_team_hits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;H&#39;</span><span class="p">])</span>
             <span class="n">away_team_errors</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">away_team_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;E&#39;</span><span class="p">])</span>
             <span class="c"># check type of game</span>
-            <span class="k">if</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&quot;go_game&quot;</span> <span class="ow">or</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&quot;ig_game&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&#39;go_game&#39;</span> <span class="ow">or</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&#39;ig_game&#39;</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">w_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;w_pitcher&#39;</span><span class="p">)</span>
                     <span class="n">w_pitcher</span> <span class="o">=</span> <span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
                     <span class="n">w_pitcher_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
                     <span class="n">w_pitcher_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="n">w_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
                     <span class="n">w_pitcher_wins</span> <span class="o">=</span> <span class="mi">0</span>
                     <span class="n">w_pitcher_losses</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1536,7 +1893,7 @@ such as the scoreboard and the box score.</p>
                     <span class="n">l_pitcher</span> <span class="o">=</span> <span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
                     <span class="n">l_pitcher_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
                     <span class="n">l_pitcher_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">l_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="n">l_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
                     <span class="n">l_pitcher_wins</span> <span class="o">=</span> <span class="mi">0</span>
                     <span class="n">l_pitcher_losses</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1544,7 +1901,7 @@ such as the scoreboard and the box score.</p>
                     <span class="n">sv_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;sv_pitcher&#39;</span><span class="p">)</span>
                     <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
                     <span class="n">sv_pitcher_saves</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sv_pitcher_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;saves&#39;</span><span class="p">])</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="n">sv_pitcher</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
                     <span class="n">sv_pitcher_saves</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
@@ -1571,47 +1928,53 @@ such as the scoreboard and the box score.</p>
                     <span class="s">&#39;sv_pitcher_saves&#39;</span><span class="p">:</span> <span class="n">sv_pitcher_saves</span>
                 <span class="p">}</span>
             <span class="c"># games that were not played</span>
-            <span class="k">elif</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&quot;sg_game&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">game_tag</span> <span class="o">==</span> <span class="s">&#39;sg_game&#39;</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">p_pitcher_data</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;p_pitcher&#39;</span><span class="p">)</span>
                     <span class="n">p_pitcher_home_data</span> <span class="o">=</span> <span class="n">p_pitcher_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
-                    <span class="n">p_pitcher_home_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
-                    <span class="n">p_pitcher_home_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="n">p_pitcher_home_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+                        <span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">p_pitcher_home_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span>
+                                              <span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_home_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_home_data</span><span class="o">.</span>
+                                                <span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
                     <span class="n">p_pitcher_away_data</span> <span class="o">=</span> <span class="n">p_pitcher_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
-                    <span class="n">p_pitcher_away_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
-                    <span class="n">p_pitcher_away_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="n">p_pitcher_away_data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+                        <span class="s">&#39;pitcher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+                    <span class="n">p_pitcher_away_wins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span>
+                                              <span class="n">attrib</span><span class="p">[</span><span class="s">&#39;wins&#39;</span><span class="p">])</span>
+                    <span class="n">p_pitcher_away_losses</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p_pitcher_away_data</span><span class="o">.</span>
+                                                <span class="n">attrib</span><span class="p">[</span><span class="s">&#39;losses&#39;</span><span class="p">])</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">p_pitcher_home</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
                     <span class="n">p_pitcher_home_wins</span> <span class="o">=</span> <span class="mi">0</span>
                     <span class="n">p_pitcher_home_losses</span> <span class="o">=</span> <span class="mi">0</span>
-                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="n">p_pitcher_away</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
                     <span class="n">p_pitcher_away_wins</span> <span class="o">=</span> <span class="mi">0</span>
                     <span class="n">p_pitcher_away_losses</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s">&#39;game_id&#39;</span><span class="p">:</span><span class="n">game_id</span><span class="p">,</span>
-                    <span class="s">&#39;game_tag&#39;</span><span class="p">:</span><span class="n">game_tag</span><span class="p">,</span>
-                    <span class="s">&#39;game_league&#39;</span><span class="p">:</span><span class="n">game_league</span><span class="p">,</span>
-                    <span class="s">&#39;game_status&#39;</span><span class="p">:</span><span class="n">game_status</span><span class="p">,</span>
-                    <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span><span class="n">game_start_time</span><span class="p">,</span>
-                    <span class="s">&#39;home_team&#39;</span><span class="p">:</span><span class="n">home_team</span><span class="p">,</span>
+                    <span class="s">&#39;game_id&#39;</span><span class="p">:</span> <span class="n">game_id</span><span class="p">,</span>
+                    <span class="s">&#39;game_tag&#39;</span><span class="p">:</span> <span class="n">game_tag</span><span class="p">,</span>
+                    <span class="s">&#39;game_league&#39;</span><span class="p">:</span> <span class="n">game_league</span><span class="p">,</span>
+                    <span class="s">&#39;game_status&#39;</span><span class="p">:</span> <span class="n">game_status</span><span class="p">,</span>
+                    <span class="s">&#39;game_start_time&#39;</span><span class="p">:</span> <span class="n">game_start_time</span><span class="p">,</span>
+                    <span class="s">&#39;home_team&#39;</span><span class="p">:</span> <span class="n">home_team</span><span class="p">,</span>
                     <span class="s">&#39;home_team_runs&#39;</span><span class="p">:</span> <span class="n">home_team_runs</span><span class="p">,</span>
                     <span class="s">&#39;home_team_hits&#39;</span><span class="p">:</span> <span class="n">home_team_hits</span><span class="p">,</span>
                     <span class="s">&#39;home_team_errors&#39;</span><span class="p">:</span> <span class="n">home_team_errors</span><span class="p">,</span>
-                    <span class="s">&#39;away_team&#39;</span><span class="p">:</span><span class="n">away_team</span><span class="p">,</span>
+                    <span class="s">&#39;away_team&#39;</span><span class="p">:</span> <span class="n">away_team</span><span class="p">,</span>
                     <span class="s">&#39;away_team_runs&#39;</span><span class="p">:</span> <span class="n">away_team_runs</span><span class="p">,</span>
                     <span class="s">&#39;away_team_hits&#39;</span><span class="p">:</span> <span class="n">away_team_hits</span><span class="p">,</span>
                     <span class="s">&#39;away_team_errors&#39;</span><span class="p">:</span> <span class="n">away_team_errors</span><span class="p">,</span>
-                    <span class="s">&#39;p_pitcher_home&#39;</span><span class="p">:</span><span class="n">p_pitcher_home</span><span class="p">,</span>
+                    <span class="s">&#39;p_pitcher_home&#39;</span><span class="p">:</span> <span class="n">p_pitcher_home</span><span class="p">,</span>
                     <span class="s">&#39;p_pitcher_home_wins&#39;</span><span class="p">:</span> <span class="n">p_pitcher_home_wins</span><span class="p">,</span>
                     <span class="s">&#39;p_pitcher_home_losses&#39;</span><span class="p">:</span> <span class="n">p_pitcher_home_losses</span><span class="p">,</span>
-                    <span class="s">&#39;p_pitcher_away&#39;</span><span class="p">:</span><span class="n">p_pitcher_away</span><span class="p">,</span>
+                    <span class="s">&#39;p_pitcher_away&#39;</span><span class="p">:</span> <span class="n">p_pitcher_away</span><span class="p">,</span>
                     <span class="s">&#39;p_pitcher_away_wins&#39;</span><span class="p">:</span> <span class="n">p_pitcher_away_wins</span><span class="p">,</span>
                     <span class="s">&#39;p_pitcher_away_losses&#39;</span><span class="p">:</span> <span class="n">p_pitcher_away_losses</span>
                 <span class="p">}</span>
             <span class="c"># put this dictionary into the larger dictionary</span>
-            <span class="n">games</span><span class="p">[</span><span class="n">game_id</span><span class="p">]</span><span class="o">=</span><span class="n">output</span>
+            <span class="n">games</span><span class="p">[</span><span class="n">game_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
     <span class="k">return</span> <span class="n">games</span>
 </pre></div>
 
@@ -1624,16 +1987,100 @@ such as the scoreboard and the box score.</p>
     <h2 class="section-title" id="header-classes">Classes</h2>
       
       <div class="item">
+      <p id="mlbgame.game.Coach" class="name">class <span class="ident">Coach</span></p>
+      
+  
+    <div class="desc"><p>Object to hold coach information</p>
+<p>Properties:
+    first
+    id
+    last
+    num
+    position</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Coach', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.Coach" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Coach</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object to hold coach information</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        first</span>
+<span class="sd">        id</span>
+<span class="sd">        last</span>
+<span class="sd">        num</span>
+<span class="sd">        position</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.game.Coach">Coach</a></li>
+          <li>mlbgame.object.Object</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.game.Coach.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates an object that matches the corresponding values in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Coach.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.Coach.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding values in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># loop through data</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
       <p id="mlbgame.game.GameBoxScore" class="name">class <span class="ident">GameBoxScore</span></p>
       
   
-    <div class="desc"><p>Object to hold the box score of a certain game.</p></div>
+    <div class="desc"><p>Object to hold the box score of a certain game.</p>
+<p>Properties:
+    game_id
+    innings:
+        inning
+        home
+        away</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.GameBoxScore', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.game.GameBoxScore" class="source">
     <div class="codehilite"><pre><span class="k">class</span> <span class="nc">GameBoxScore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Object to hold the box score of a certain game.&quot;&quot;&quot;</span>
-    
+    <span class="sd">&quot;&quot;&quot;Object to hold the box score of a certain game.</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        game_id</span>
+<span class="sd">        innings:</span>
+<span class="sd">            inning</span>
+<span class="sd">            home</span>
+<span class="sd">            away</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates a `GameBoxScore` object.</span>
 
@@ -1646,17 +2093,25 @@ such as the scoreboard and the box score.</p>
         <span class="c"># loops through the innings</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;inning&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s">&#39;home&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">]),</span> <span class="s">&#39;away&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])}</span>
-            <span class="c"># possible error when 9th innning home team has &#39;x&#39; becuase they did not bat</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;inning&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                          <span class="s">&#39;home&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">]),</span>
+                          <span class="s">&#39;away&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])</span>
+                          <span class="p">}</span>
+            <span class="c"># possible error when 9th innning home team has &#39;x&#39;</span>
+            <span class="c"># becuase they did not bat</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;inning&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s">&#39;home&#39;</span><span class="p">:</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">],</span> <span class="s">&#39;away&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])}</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s">&#39;inning&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                    <span class="s">&#39;home&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">],</span>
+                    <span class="s">&#39;away&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])</span>
+                <span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">innings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-    
+
     <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Allows object to be iterated over.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">innings</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">x</span>
-    
+
     <span class="k">def</span> <span class="nf">print_scoreboard</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print object as a scoreboard.&quot;&quot;&quot;</span>
         <span class="n">output</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
@@ -1670,24 +2125,24 @@ such as the scoreboard and the box score.</p>
             <span class="n">home</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;home&#39;</span><span class="p">])</span>
         <span class="c"># go through all the information and make a nice output</span>
         <span class="c"># that looks like a scoreboard</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;Inning</span><span class="se">\t</span><span class="s">&quot;</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;Inning</span><span class="se">\t</span><span class="s">&#39;</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">innings</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &#39;</span>
         <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">innings</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;---&quot;</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Away</span><span class="se">\t</span><span class="s">&quot;</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;---&#39;</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">Away</span><span class="se">\t</span><span class="s">&#39;</span>
         <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">away</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">y</span><span class="o">&gt;=</span><span class="mi">10</span><span class="p">:</span>
-                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;  &quot;</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;  &#39;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Home</span><span class="se">\t</span><span class="s">&quot;</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &#39;</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">Home</span><span class="se">\t</span><span class="s">&#39;</span>
         <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">home</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">y</span><span class="o">&gt;=</span><span class="mi">10</span><span class="p">:</span>
-                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;  &quot;</span>
+            <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;  &#39;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &#39;</span>
         <span class="k">return</span> <span class="n">output</span>
 </pre></div>
 
@@ -1748,10 +2203,18 @@ such as the scoreboard and the box score.</p>
     <span class="c"># loops through the innings</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;inning&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s">&#39;home&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">]),</span> <span class="s">&#39;away&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])}</span>
-        <span class="c"># possible error when 9th innning home team has &#39;x&#39; becuase they did not bat</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;inning&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                      <span class="s">&#39;home&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">]),</span>
+                      <span class="s">&#39;away&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])</span>
+                      <span class="p">}</span>
+        <span class="c"># possible error when 9th innning home team has &#39;x&#39;</span>
+        <span class="c"># becuase they did not bat</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;inning&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s">&#39;home&#39;</span><span class="p">:</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">],</span> <span class="s">&#39;away&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])}</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;inning&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                <span class="s">&#39;home&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;home&#39;</span><span class="p">],</span>
+                <span class="s">&#39;away&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="s">&#39;away&#39;</span><span class="p">])</span>
+            <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">innings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 
@@ -1786,24 +2249,24 @@ such as the scoreboard and the box score.</p>
         <span class="n">home</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;home&#39;</span><span class="p">])</span>
     <span class="c"># go through all the information and make a nice output</span>
     <span class="c"># that looks like a scoreboard</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;Inning</span><span class="se">\t</span><span class="s">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;Inning</span><span class="se">\t</span><span class="s">&#39;</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">innings</span><span class="p">:</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &#39;</span>
     <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">innings</span><span class="p">:</span>
-        <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;---&quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Away</span><span class="se">\t</span><span class="s">&quot;</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;---&#39;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">Away</span><span class="se">\t</span><span class="s">&#39;</span>
     <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">away</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">y</span><span class="o">&gt;=</span><span class="mi">10</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;  &quot;</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;  &#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span>
-    <span class="n">output</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">Home</span><span class="se">\t</span><span class="s">&quot;</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &#39;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">Home</span><span class="se">\t</span><span class="s">&#39;</span>
     <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">home</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">y</span><span class="o">&gt;=</span><span class="mi">10</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot;  &quot;</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;  &#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; &quot;</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &#39;</span>
     <span class="k">return</span> <span class="n">output</span>
 </pre></div>
 
@@ -1819,13 +2282,65 @@ such as the scoreboard and the box score.</p>
       <p id="mlbgame.game.GameScoreboard" class="name">class <span class="ident">GameScoreboard</span></p>
       
   
-    <div class="desc"><p>Object to hold scoreboard information about a certain game.</p></div>
+    <div class="desc"><p>Object to hold scoreboard information about a certain game.</p>
+<p>Properties:
+    away_team
+    away_team_errors
+    away_team_hits
+    away_team_runs
+    date
+    game_id
+    game_league
+    game_start_time
+    game_status
+    game_tag
+    home_team
+    home_team_errors
+    home_team_hits
+    home_team_runs
+    l_pitcher
+    l_pitcher_losses
+    l_pitcher_wins
+    l_team
+    sv_pitcher
+    sv_pitcher_saves
+    w_pitcher
+    w_pitcher_losses
+    w_pitcher_wins
+    w_team</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.GameScoreboard', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.game.GameScoreboard" class="source">
     <div class="codehilite"><pre><span class="k">class</span> <span class="nc">GameScoreboard</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Object to hold scoreboard information about a certain game.&quot;&quot;&quot;</span>
-    
+    <span class="sd">&quot;&quot;&quot;Object to hold scoreboard information about a certain game.</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        away_team</span>
+<span class="sd">        away_team_errors</span>
+<span class="sd">        away_team_hits</span>
+<span class="sd">        away_team_runs</span>
+<span class="sd">        date</span>
+<span class="sd">        game_id</span>
+<span class="sd">        game_league</span>
+<span class="sd">        game_start_time</span>
+<span class="sd">        game_status</span>
+<span class="sd">        game_tag</span>
+<span class="sd">        home_team</span>
+<span class="sd">        home_team_errors</span>
+<span class="sd">        home_team_hits</span>
+<span class="sd">        home_team_runs</span>
+<span class="sd">        l_pitcher</span>
+<span class="sd">        l_pitcher_losses</span>
+<span class="sd">        l_pitcher_wins</span>
+<span class="sd">        l_team</span>
+<span class="sd">        sv_pitcher</span>
+<span class="sd">        sv_pitcher_saves</span>
+<span class="sd">        w_pitcher</span>
+<span class="sd">        w_pitcher_losses</span>
+<span class="sd">        w_pitcher_wins</span>
+<span class="sd">        w_team</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Creates a `GameScoreboard` object.</span>
 
@@ -1850,18 +2365,20 @@ such as the scoreboard and the box score.</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">l_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span>
         <span class="c"># create the datetime object for the game</span>
-        <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
         <span class="n">hour</span><span class="p">,</span> <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_start_time</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">minute</span> <span class="o">=</span> <span class="n">other</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">am_pm</span> <span class="o">=</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
-        <span class="k">if</span> <span class="n">am_pm</span> <span class="o">==</span> <span class="s">&quot;PM&quot;</span><span class="p">:</span>
-            <span class="n">hour</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span><span class="o">+</span><span class="mi">11</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minute</span><span class="p">))</span>
-    
+        <span class="k">if</span> <span class="n">am_pm</span> <span class="o">==</span> <span class="s">&#39;PM&#39;</span><span class="p">:</span>
+            <span class="n">hour</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span> <span class="o">+</span> <span class="mi">11</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">),</span>
+                                      <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minute</span><span class="p">))</span>
+
     <span class="k">def</span> <span class="nf">nice_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a nicely formatted score of the game.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%d</span><span class="s">) at </span><span class="si">%s</span><span class="s"> (</span><span class="si">%d</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">away_team</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span><span class="p">)</span>
-    
+        <span class="k">return</span> <span class="p">(</span><span class="s">&#39;{0.away_team} ({0.away_team_runs}) at &#39;</span>
+                <span class="s">&#39;{0.home_team} ({0.home_team_runs})&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_score</span><span class="p">()</span>
 </pre></div>
@@ -1925,13 +2442,14 @@ such as the scoreboard and the box score.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">w_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">l_team</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span>
     <span class="c"># create the datetime object for the game</span>
-    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
     <span class="n">hour</span><span class="p">,</span> <span class="n">other</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_start_time</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">minute</span> <span class="o">=</span> <span class="n">other</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
     <span class="n">am_pm</span> <span class="o">=</span> <span class="n">other</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
-    <span class="k">if</span> <span class="n">am_pm</span> <span class="o">==</span> <span class="s">&quot;PM&quot;</span><span class="p">:</span>
-        <span class="n">hour</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span><span class="o">+</span><span class="mi">11</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minute</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">am_pm</span> <span class="o">==</span> <span class="s">&#39;PM&#39;</span><span class="p">:</span>
+        <span class="n">hour</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span> <span class="o">+</span> <span class="mi">11</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">),</span>
+                                  <span class="nb">int</span><span class="p">(</span><span class="n">hour</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">minute</span><span class="p">))</span>
 </pre></div>
 
   </div>
@@ -1954,7 +2472,8 @@ such as the scoreboard and the box score.</p>
   <div id="source-mlbgame.game.GameScoreboard.nice_score" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">nice_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a nicely formatted score of the game.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%d</span><span class="s">) at </span><span class="si">%s</span><span class="s"> (</span><span class="si">%d</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">away_team</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">away_team_runs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">home_team_runs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s">&#39;{0.away_team} ({0.away_team_runs}) at &#39;</span>
+            <span class="s">&#39;{0.home_team} ({0.home_team_runs})&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1970,35 +2489,196 @@ such as the scoreboard and the box score.</p>
       
   
     <div class="desc"><p>Object to hold an overview of game information</p>
-<p><code>elements</code> property is a set of all properties that an object contains.</p></div>
+<p>Properties:
+    ampm
+    aw_lg_ampm
+    away_ampm
+    away_code
+    away_division
+    away_file_code
+    away_games_back
+    away_games_back_wildcard
+    away_league_id
+    away_loss
+    away_name_abbrev
+    away_preview_link
+    away_recap_link
+    away_sport_code
+    away_team_city
+    away_team_errors
+    away_team_hits
+    away_team_id
+    away_team_name
+    away_team_runs
+    away_time
+    away_time_zone
+    away_win
+    balls
+    day
+    double_header_sw
+    first_pitch_et
+    game_data_directory
+    game_nbr
+    game_pk
+    game_type
+    gameday_link
+    gameday_sw
+    hm_lg_ampm
+    home_ampm
+    home_code
+    home_division
+    home_file_code
+    home_games_back
+    home_games_back_wildcard
+    home_league_id
+    home_loss
+    home_name_abbrev
+    home_preview_link
+    home_recap_link
+    home_sport_code
+    home_team_city
+    home_team_errors
+    home_team_hits
+    home_team_id
+    home_team_name
+    home_team_runs
+    home_time
+    home_time_zone
+    home_win
+    id
+    ind
+    inning
+    inning_state
+    is_no_hitter
+    is_perfect_game
+    league
+    location
+    note
+    original_date
+    outs
+    photos_link
+    preview
+    scheduled_innings
+    status
+    strikes
+    tbd_flag
+    tiebreaker_sw
+    time
+    time_aw_lg
+    time_date
+    time_date_aw_lg
+    time_date_hm_lg
+    time_hm_lg
+    time_zone
+    time_zone_aw_lg
+    time_zone_hm_lg
+    top_inning
+    tv_station
+    tz_aw_lg_gen
+    tz_hm_lg_gen
+    venue
+    venue_id
+    venue_w_chan_loc
+    wrapup_link</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Overview', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.game.Overview" class="source">
-    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Overview</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Overview</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Object to hold an overview of game information</span>
-<span class="sd">    </span>
-<span class="sd">    `elements` property is a set of all properties that an object contains.</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        ampm</span>
+<span class="sd">        aw_lg_ampm</span>
+<span class="sd">        away_ampm</span>
+<span class="sd">        away_code</span>
+<span class="sd">        away_division</span>
+<span class="sd">        away_file_code</span>
+<span class="sd">        away_games_back</span>
+<span class="sd">        away_games_back_wildcard</span>
+<span class="sd">        away_league_id</span>
+<span class="sd">        away_loss</span>
+<span class="sd">        away_name_abbrev</span>
+<span class="sd">        away_preview_link</span>
+<span class="sd">        away_recap_link</span>
+<span class="sd">        away_sport_code</span>
+<span class="sd">        away_team_city</span>
+<span class="sd">        away_team_errors</span>
+<span class="sd">        away_team_hits</span>
+<span class="sd">        away_team_id</span>
+<span class="sd">        away_team_name</span>
+<span class="sd">        away_team_runs</span>
+<span class="sd">        away_time</span>
+<span class="sd">        away_time_zone</span>
+<span class="sd">        away_win</span>
+<span class="sd">        balls</span>
+<span class="sd">        day</span>
+<span class="sd">        double_header_sw</span>
+<span class="sd">        first_pitch_et</span>
+<span class="sd">        game_data_directory</span>
+<span class="sd">        game_nbr</span>
+<span class="sd">        game_pk</span>
+<span class="sd">        game_type</span>
+<span class="sd">        gameday_link</span>
+<span class="sd">        gameday_sw</span>
+<span class="sd">        hm_lg_ampm</span>
+<span class="sd">        home_ampm</span>
+<span class="sd">        home_code</span>
+<span class="sd">        home_division</span>
+<span class="sd">        home_file_code</span>
+<span class="sd">        home_games_back</span>
+<span class="sd">        home_games_back_wildcard</span>
+<span class="sd">        home_league_id</span>
+<span class="sd">        home_loss</span>
+<span class="sd">        home_name_abbrev</span>
+<span class="sd">        home_preview_link</span>
+<span class="sd">        home_recap_link</span>
+<span class="sd">        home_sport_code</span>
+<span class="sd">        home_team_city</span>
+<span class="sd">        home_team_errors</span>
+<span class="sd">        home_team_hits</span>
+<span class="sd">        home_team_id</span>
+<span class="sd">        home_team_name</span>
+<span class="sd">        home_team_runs</span>
+<span class="sd">        home_time</span>
+<span class="sd">        home_time_zone</span>
+<span class="sd">        home_win</span>
+<span class="sd">        id</span>
+<span class="sd">        ind</span>
+<span class="sd">        inning</span>
+<span class="sd">        inning_state</span>
+<span class="sd">        is_no_hitter</span>
+<span class="sd">        is_perfect_game</span>
+<span class="sd">        league</span>
+<span class="sd">        location</span>
+<span class="sd">        note</span>
+<span class="sd">        original_date</span>
+<span class="sd">        outs</span>
+<span class="sd">        photos_link</span>
+<span class="sd">        preview</span>
+<span class="sd">        scheduled_innings</span>
+<span class="sd">        status</span>
+<span class="sd">        strikes</span>
+<span class="sd">        tbd_flag</span>
+<span class="sd">        tiebreaker_sw</span>
+<span class="sd">        time</span>
+<span class="sd">        time_aw_lg</span>
+<span class="sd">        time_date</span>
+<span class="sd">        time_date_aw_lg</span>
+<span class="sd">        time_date_hm_lg</span>
+<span class="sd">        time_hm_lg</span>
+<span class="sd">        time_zone</span>
+<span class="sd">        time_zone_aw_lg</span>
+<span class="sd">        time_zone_hm_lg</span>
+<span class="sd">        top_inning</span>
+<span class="sd">        tv_station</span>
+<span class="sd">        tz_aw_lg_gen</span>
+<span class="sd">        tz_hm_lg_gen</span>
+<span class="sd">        venue</span>
+<span class="sd">        venue_id</span>
+<span class="sd">        venue_w_chan_loc</span>
+<span class="sd">        wrapup_link</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates an overview object that matches the corresponding info in `data`.</span>
-<span class="sd">        </span>
-<span class="sd">        `data` should be an dictionary of values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">element_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c"># loop through data</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="c"># set information as correct data type</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="c"># string if not number</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="n">element_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">element_list</span><span class="p">)</span>
+    <span class="k">pass</span>
 </pre></div>
 
   </div>
@@ -2009,11 +2689,243 @@ such as the scoreboard and the box score.</p>
           <h3>Ancestors (in MRO)</h3>
           <ul class="class_list">
           <li><a href="#mlbgame.game.Overview">Overview</a></li>
+          <li>mlbgame.object.Object</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.game.Overview.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates an object that matches the corresponding values in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Overview.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.Overview.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding values in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># loop through data</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="mlbgame.game.Player" class="name">class <span class="ident">Player</span></p>
+      
+  
+    <div class="desc"><p>Object to hold player information</p>
+<p>Properties:
+    avg
+    bats
+    boxname
+    current_position
+    era
+    first
+    hr
+    id
+    last
+    losses
+    num
+    parent_team_abbrev
+    parent_team_id
+    position
+    rbi
+    rl
+    status
+    team_abbrev
+    team_id
+    wins</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Player', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.Player" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Player</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object to hold player information</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        avg</span>
+<span class="sd">        bats</span>
+<span class="sd">        boxname</span>
+<span class="sd">        current_position</span>
+<span class="sd">        era</span>
+<span class="sd">        first</span>
+<span class="sd">        hr</span>
+<span class="sd">        id</span>
+<span class="sd">        last</span>
+<span class="sd">        losses</span>
+<span class="sd">        num</span>
+<span class="sd">        parent_team_abbrev</span>
+<span class="sd">        parent_team_id</span>
+<span class="sd">        position</span>
+<span class="sd">        rbi</span>
+<span class="sd">        rl</span>
+<span class="sd">        status</span>
+<span class="sd">        team_abbrev</span>
+<span class="sd">        team_id</span>
+<span class="sd">        wins</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.game.Player">Player</a></li>
+          <li>mlbgame.object.Object</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.game.Player.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates an object that matches the corresponding values in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Player.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.Player.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding values in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># loop through data</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="mlbgame.game.Players" class="name">class <span class="ident">Players</span></p>
+      
+  
+    <div class="desc"><p>Object to hold player/coach/umpire information for a game.</p>
+<p>Properties:
+    away_coaches
+    away_players
+    game_id
+    home_coaches
+    home_players
+    umpires</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Players', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.Players" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Players</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object to hold player/coach/umpire information for a game.</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        away_coaches</span>
+<span class="sd">        away_players</span>
+<span class="sd">        game_id</span>
+<span class="sd">        home_coaches</span>
+<span class="sd">        home_players</span>
+<span class="sd">        umpires</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a players object that matches the corresponding info in `data`.</span>
+<span class="sd">        `data` should be an dictionary of values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">home_players</span> <span class="o">=</span> <span class="p">[</span><span class="n">Player</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;home_team&#39;</span><span class="p">][</span><span class="s">&#39;players&#39;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">home_coaches</span> <span class="o">=</span> <span class="p">[</span><span class="n">Coach</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;home_team&#39;</span><span class="p">][</span><span class="s">&#39;coaches&#39;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">away_players</span> <span class="o">=</span> <span class="p">[</span><span class="n">Player</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;away_team&#39;</span><span class="p">][</span><span class="s">&#39;players&#39;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">away_coaches</span> <span class="o">=</span> <span class="p">[</span><span class="n">Coach</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;away_team&#39;</span><span class="p">][</span><span class="s">&#39;coaches&#39;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">umpires</span> <span class="o">=</span> <span class="p">[</span><span class="n">Umpire</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;umpires&#39;</span><span class="p">]]</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.game.Players">Players</a></li>
           <li>__builtin__.object</li>
           </ul>
           <h3>Instance variables</h3>
             <div class="item">
-            <p id="mlbgame.game.Overview.elements" class="name">var <span class="ident">elements</span></p>
+            <p id="mlbgame.game.Players.away_coaches" class="name">var <span class="ident">away_coaches</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="mlbgame.game.Players.away_players" class="name">var <span class="ident">away_players</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="mlbgame.game.Players.game_id" class="name">var <span class="ident">game_id</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="mlbgame.game.Players.home_coaches" class="name">var <span class="ident">home_coaches</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="mlbgame.game.Players.home_players" class="name">var <span class="ident">home_players</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="mlbgame.game.Players.umpires" class="name">var <span class="ident">umpires</span></p>
             
 
             
@@ -2025,37 +2937,98 @@ such as the scoreboard and the box score.</p>
           <h3>Methods</h3>
             
   <div class="item">
-    <div class="name def" id="mlbgame.game.Overview.__init__">
+    <div class="name def" id="mlbgame.game.Players.__init__">
     <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
     </div>
     
 
     
   
-    <div class="desc"><p>Creates an overview object that matches the corresponding info in <code>data</code>.</p>
-<p><code>data</code> should be an dictionary of values.</p></div>
+    <div class="desc"><p>Creates a players object that matches the corresponding info in <code>data</code>.
+<code>data</code> should be an dictionary of values.</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Overview.__init__', this);">Show source &equiv;</a></p>
-  <div id="source-mlbgame.game.Overview.__init__" class="source">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Players.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.Players.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates an overview object that matches the corresponding info in `data`.</span>
-<span class="sd">    </span>
+    <span class="sd">&quot;&quot;&quot;Creates a players object that matches the corresponding info in `data`.</span>
 <span class="sd">    `data` should be an dictionary of values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">element_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">game_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;game_id&#39;</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">home_players</span> <span class="o">=</span> <span class="p">[</span><span class="n">Player</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;home_team&#39;</span><span class="p">][</span><span class="s">&#39;players&#39;</span><span class="p">]]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">home_coaches</span> <span class="o">=</span> <span class="p">[</span><span class="n">Coach</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;home_team&#39;</span><span class="p">][</span><span class="s">&#39;coaches&#39;</span><span class="p">]]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">away_players</span> <span class="o">=</span> <span class="p">[</span><span class="n">Player</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;away_team&#39;</span><span class="p">][</span><span class="s">&#39;players&#39;</span><span class="p">]]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">away_coaches</span> <span class="o">=</span> <span class="p">[</span><span class="n">Coach</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;away_team&#39;</span><span class="p">][</span><span class="s">&#39;coaches&#39;</span><span class="p">]]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">umpires</span> <span class="o">=</span> <span class="p">[</span><span class="n">Umpire</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;umpires&#39;</span><span class="p">]]</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="mlbgame.game.Umpire" class="name">class <span class="ident">Umpire</span></p>
+      
+  
+    <div class="desc"><p>Object to hold umpire information</p>
+<p>Properties:
+    first
+    id
+    last
+    name
+    position</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Umpire', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.Umpire" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Umpire</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Object to hold umpire information</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        first</span>
+<span class="sd">        id</span>
+<span class="sd">        last</span>
+<span class="sd">        name</span>
+<span class="sd">        position</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.game.Umpire">Umpire</a></li>
+          <li>mlbgame.object.Object</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.game.Umpire.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates an object that matches the corresponding values in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.game.Umpire.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.game.Umpire.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding values in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># loop through data</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-        <span class="c"># set information as correct data type</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="c"># string if not number</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-        <span class="n">element_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">element_list</span><span class="p">)</span>
+        <span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
 </pre></div>
 
   </div>

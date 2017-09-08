@@ -1039,8 +1039,10 @@ table {
     <li class="set"><h3><a href="#header-functions">Functions</a></h3>
       
   <ul>
-    <li class="mono"><a href="#mlbgame.info.get_league_object">get_league_object</a></li>
+    <li class="mono"><a href="#mlbgame.info.injury">injury</a></li>
     <li class="mono"><a href="#mlbgame.info.league_info">league_info</a></li>
+    <li class="mono"><a href="#mlbgame.info.roster">roster</a></li>
+    <li class="mono"><a href="#mlbgame.info.standings">standings</a></li>
     <li class="mono"><a href="#mlbgame.info.team_info">team_info</a></li>
   </ul>
 
@@ -1049,12 +1051,75 @@ table {
     <li class="set"><h3><a href="#header-classes">Classes</a></h3>
       <ul>
         <li class="mono">
+        <span class="class_name"><a href="#mlbgame.info.Division">Division</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.info.Division.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
         <span class="class_name"><a href="#mlbgame.info.Info">Info</a></span>
         
           
   <ul>
     <li class="mono"><a href="#mlbgame.info.Info.__init__">__init__</a></li>
     <li class="mono"><a href="#mlbgame.info.Info.nice_output">nice_output</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.info.Injuries">Injuries</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.info.Injuries.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.info.Injury">Injury</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.info.Injury.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.info.Player">Player</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.info.Player.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.info.Roster">Roster</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.info.Roster.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.info.Standings">Standings</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.info.Standings.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#mlbgame.info.Team">Team</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.info.Team.__init__">__init__</a></li>
   </ul>
 
         </li>
@@ -1084,31 +1149,40 @@ about the (MLB) league and the teams in it.</p>
 <span class="sd">about the (MLB) league and the teams in it.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
 <span class="kn">import</span> <span class="nn">mlbgame.data</span>
 <span class="kn">import</span> <span class="nn">mlbgame.object</span>
 
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">lxml.etree</span> <span class="kn">as</span> <span class="nn">etree</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="k">def</span> <span class="nf">get_league_object</span><span class="p">():</span>
+
+<span class="k">def</span> <span class="nf">__get_league_object</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Returns the xml object corresponding to the league</span>
-<span class="sd">    </span>
+
 <span class="sd">    Only designed for internal use&quot;&quot;&quot;</span>
     <span class="c"># get data</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_properties</span><span class="p">()</span>
     <span class="c"># return league object</span>
-    <span class="k">return</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;leagues&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;league&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;leagues&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;league&#39;</span><span class="p">)</span>
+
 
 <span class="k">def</span> <span class="nf">league_info</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Returns a dictionary of league information&quot;&quot;&quot;</span>
-    <span class="n">league</span> <span class="o">=</span> <span class="n">get_league_object</span><span class="p">()</span>
+    <span class="n">league</span> <span class="o">=</span> <span class="n">__get_league_object</span><span class="p">()</span>
     <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">league</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
         <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">league</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">output</span>
 
+
 <span class="k">def</span> <span class="nf">team_info</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Returns a list of team information dictionaries&quot;&quot;&quot;</span>
-    <span class="n">teams</span> <span class="o">=</span> <span class="n">get_league_object</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;teams&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&quot;team&quot;</span><span class="p">)</span>
+    <span class="n">teams</span> <span class="o">=</span> <span class="n">__get_league_object</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;teams&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">)</span>
     <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">teams</span><span class="p">:</span>
         <span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1117,75 +1191,315 @@ about the (MLB) league and the teams in it.</p>
         <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">output</span>
 
+
 <span class="k">class</span> <span class="nc">Info</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Holds information about the league or teams</span>
-<span class="sd">    </span>
+
 <span class="sd">    Properties:</span>
-<span class="sd">    club</span>
-<span class="sd">    club_common_name</span>
-<span class="sd">    club_common_url</span>
-<span class="sd">    club_full_name</span>
-<span class="sd">    club_id</span>
-<span class="sd">    club_spanish_name</span>
-<span class="sd">    dc_site</span>
-<span class="sd">    display_code</span>
-<span class="sd">    division</span>
-<span class="sd">    es_track_code</span>
-<span class="sd">    esp_common_name</span>
-<span class="sd">    esp_common_url</span>
-<span class="sd">    facebook</span>
-<span class="sd">    facebook_es</span>
-<span class="sd">    fanphotos_url</span>
-<span class="sd">    fb_app_id</span>
-<span class="sd">    field</span>
-<span class="sd">    google_tag_manager</span>
-<span class="sd">    googleplus_id</span>
-<span class="sd">    historical_team_code</span>
-<span class="sd">    id</span>
-<span class="sd">    instagram</span>
-<span class="sd">    instagram_id</span>
-<span class="sd">    league</span>
-<span class="sd">    location</span>
-<span class="sd">    medianet_id</span>
-<span class="sd">    mobile_es_url</span>
-<span class="sd">    mobile_short_code</span>
-<span class="sd">    mobile_url</span>
-<span class="sd">    mobile_url_base</span>
-<span class="sd">    name_display_long</span>
-<span class="sd">    name_display_short</span>
-<span class="sd">    newsletter_category_id</span>
-<span class="sd">    newsletter_group_id</span>
-<span class="sd">    photostore_url</span>
-<span class="sd">    pinterest</span>
-<span class="sd">    pinterest_verification</span>
-<span class="sd">    pressbox_title</span>
-<span class="sd">    pressbox_url</span>
-<span class="sd">    primary</span>
-<span class="sd">    primary_link</span>
-<span class="sd">    secondary</span>
-<span class="sd">    snapchat</span>
-<span class="sd">    snapchat_es</span>
-<span class="sd">    team_code</span>
-<span class="sd">    team_id</span>
-<span class="sd">    tertiary</span>
-<span class="sd">    timezone</span>
-<span class="sd">    track_code</span>
-<span class="sd">    track_filter</span>
-<span class="sd">    tumblr</span>
-<span class="sd">    twitter</span>
-<span class="sd">    twitter_es</span>
-<span class="sd">    url_cache</span>
-<span class="sd">    url_esp</span>
-<span class="sd">    url_prod</span>
-<span class="sd">    vine</span>
+<span class="sd">        address</span>
+<span class="sd">        aws_club_slug</span>
+<span class="sd">        city</span>
+<span class="sd">        club</span>
+<span class="sd">        club_common_name</span>
+<span class="sd">        club_common_url</span>
+<span class="sd">        club_full_name</span>
+<span class="sd">        club_id</span>
+<span class="sd">        club_spanish_name</span>
+<span class="sd">        country</span>
+<span class="sd">        dc_site</span>
+<span class="sd">        display_code</span>
+<span class="sd">        division</span>
+<span class="sd">        es_track_code</span>
+<span class="sd">        esp_common_name</span>
+<span class="sd">        esp_common_url</span>
+<span class="sd">        facebook</span>
+<span class="sd">        facebook_es</span>
+<span class="sd">        fanphotos_url</span>
+<span class="sd">        fb_app_id</span>
+<span class="sd">        field</span>
+<span class="sd">        google_tag_manager</span>
+<span class="sd">        googleplus_id</span>
+<span class="sd">        historical_team_code</span>
+<span class="sd">        id</span>
+<span class="sd">        instagram</span>
+<span class="sd">        instagram_id</span>
+<span class="sd">        league</span>
+<span class="sd">        location</span>
+<span class="sd">        medianet_id</span>
+<span class="sd">        mobile_es_url</span>
+<span class="sd">        mobile_short_code</span>
+<span class="sd">        mobile_url</span>
+<span class="sd">        mobile_url_base</span>
+<span class="sd">        name_display_long</span>
+<span class="sd">        name_display_short</span>
+<span class="sd">        newsletter_category_id</span>
+<span class="sd">        newsletter_group_id</span>
+<span class="sd">        phone</span>
+<span class="sd">        photostore_url</span>
+<span class="sd">        pinterest</span>
+<span class="sd">        pinterest_verification</span>
+<span class="sd">        pressbox_title</span>
+<span class="sd">        pressbox_url</span>
+<span class="sd">        primary</span>
+<span class="sd">        primary_link</span>
+<span class="sd">        postal_code</span>
+<span class="sd">        secondary</span>
+<span class="sd">        shop_entry_code</span>
+<span class="sd">        snapchat</span>
+<span class="sd">        snapchat_es</span>
+<span class="sd">        state_province</span>
+<span class="sd">        team_code</span>
+<span class="sd">        team_id</span>
+<span class="sd">        tertiary</span>
+<span class="sd">        timezone</span>
+<span class="sd">        track_code</span>
+<span class="sd">        track_code_dev</span>
+<span class="sd">        track_filter</span>
+<span class="sd">        tumblr</span>
+<span class="sd">        twitter</span>
+<span class="sd">        twitter_es</span>
+<span class="sd">        url_cache</span>
+<span class="sd">        url_esp</span>
+<span class="sd">        url_prod</span>
+<span class="sd">        venue_id</span>
+<span class="sd">        vine</span>
+<span class="sd">        youtube</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a string for printing&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">club_full_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">club</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+        <span class="k">return</span> <span class="s">&#39;{0} ({1})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">club_full_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">club</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">roster</span><span class="p">(</span><span class="n">team_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a dictionary of roster information for team id&quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_roster</span><span class="p">(</span><span class="n">team_id</span><span class="p">)</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="n">players</span> <span class="o">=</span> <span class="n">parsed</span><span class="p">[</span><span class="s">&#39;roster_40&#39;</span><span class="p">][</span><span class="s">&#39;queryResults&#39;</span><span class="p">][</span><span class="s">&#39;row&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;players&#39;</span><span class="p">:</span> <span class="n">players</span><span class="p">,</span> <span class="s">&#39;team_id&#39;</span><span class="p">:</span> <span class="n">team_id</span><span class="p">}</span>
+
+
+<span class="k">class</span> <span class="nc">Roster</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents an MLB Team</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        players</span>
+<span class="sd">        team_id</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a roster object to match info in `data`.</span>
+
+<span class="sd">        `data` should be a dictionary of values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">team_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;team_id&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;players&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Player</span><span class="p">(</span><span class="n">player</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">Player</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents an MLB Player</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        bats</span>
+<span class="sd">        birth_date</span>
+<span class="sd">        college</span>
+<span class="sd">        end_date</span>
+<span class="sd">        height_feet</span>
+<span class="sd">        height_inches</span>
+<span class="sd">        jersey_number</span>
+<span class="sd">        name_display_first_last</span>
+<span class="sd">        name_display_last_first</span>
+<span class="sd">        name_first</span>
+<span class="sd">        name_full</span>
+<span class="sd">        name_last</span>
+<span class="sd">        name_use</span>
+<span class="sd">        player_id</span>
+<span class="sd">        position_txt</span>
+<span class="sd">        primary_position</span>
+<span class="sd">        pro_debut_date</span>
+<span class="sd">        start_date</span>
+<span class="sd">        starter_sw</span>
+<span class="sd">        status_code</span>
+<span class="sd">        team_abbrev</span>
+<span class="sd">        team_code</span>
+<span class="sd">        team_id</span>
+<span class="sd">        team_name</span>
+<span class="sd">        throws</span>
+<span class="sd">        weight</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">standings</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
+    <span class="n">DIVISIONS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;AL&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;201&#39;</span><span class="p">:</span> <span class="s">&#39;AL East&#39;</span><span class="p">,</span>
+            <span class="s">&#39;202&#39;</span><span class="p">:</span> <span class="s">&#39;AL Central&#39;</span><span class="p">,</span>
+            <span class="s">&#39;200&#39;</span><span class="p">:</span> <span class="s">&#39;AL West&#39;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s">&#39;NL&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;204&#39;</span><span class="p">:</span> <span class="s">&#39;NL East&#39;</span><span class="p">,</span>
+            <span class="s">&#39;205&#39;</span><span class="p">:</span> <span class="s">&#39;NL Central&#39;</span><span class="p">,</span>
+            <span class="s">&#39;203&#39;</span><span class="p">:</span> <span class="s">&#39;NL West&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">divisions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">now</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">date</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="n">now</span><span class="o">.</span><span class="n">month</span> <span class="ow">and</span> <span class="n">date</span><span class="o">.</span><span class="n">day</span> <span class="o">==</span> <span class="n">now</span><span class="o">.</span><span class="n">day</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_standings</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+        <span class="n">standings_schedule_date</span> <span class="o">=</span> <span class="s">&#39;standings_schedule_date&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_historical_standings</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+        <span class="n">standings_schedule_date</span> <span class="o">=</span> <span class="s">&#39;historical_standings_schedule_date&#39;</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="n">sjson</span> <span class="o">=</span> <span class="n">parsed</span><span class="p">[</span><span class="n">standings_schedule_date</span><span class="p">][</span><span class="s">&#39;standings_all_date_rptr&#39;</span><span class="p">][</span><span class="s">&#39;standings_all_date&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">league</span> <span class="ow">in</span> <span class="n">sjson</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">league</span><span class="p">[</span><span class="s">&#39;league_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;103&#39;</span><span class="p">:</span>
+            <span class="n">divs</span> <span class="o">=</span> <span class="n">DIVISIONS</span><span class="p">[</span><span class="s">&#39;AL&#39;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">league</span><span class="p">[</span><span class="s">&#39;league_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;104&#39;</span><span class="p">:</span>
+            <span class="n">divs</span> <span class="o">=</span> <span class="n">DIVISIONS</span><span class="p">[</span><span class="s">&#39;NL&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">division</span> <span class="ow">in</span> <span class="n">divs</span><span class="p">:</span>
+            <span class="n">teams</span> <span class="o">=</span> <span class="p">[</span><span class="n">team</span> <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">league</span><span class="p">[</span><span class="s">&#39;queryResults&#39;</span><span class="p">]</span>
+                     <span class="p">[</span><span class="s">&#39;row&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">team</span><span class="p">[</span><span class="s">&#39;division_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">division</span><span class="p">]</span>
+            <span class="n">divisions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s">&#39;division&#39;</span><span class="p">:</span> <span class="n">divs</span><span class="p">[</span><span class="n">division</span><span class="p">],</span>
+                <span class="s">&#39;teams&#39;</span><span class="p">:</span> <span class="n">teams</span>
+            <span class="p">})</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s">&#39;standings_schedule_date&#39;</span><span class="p">:</span> <span class="n">standings_schedule_date</span><span class="p">,</span>
+        <span class="s">&#39;divisions&#39;</span><span class="p">:</span> <span class="n">divisions</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="k">class</span> <span class="nc">Standings</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Holds information about the league standings</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        divisions</span>
+<span class="sd">        standings_schedule_date</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a standings object for info specified in `data`.</span>
+<span class="sd">        </span>
+<span class="sd">        `data` should be a dictionary of values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">standings_schedule_date</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;standings_schedule_date&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">divisions</span> <span class="o">=</span> <span class="p">[</span><span class="n">Division</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;division&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s">&#39;teams&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;divisions&#39;</span><span class="p">]]</span>
+
+
+<span class="k">class</span> <span class="nc">Division</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents an MLB Division in the standings</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        name</span>
+<span class="sd">        teams</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">teams</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">teams</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">teams</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">teams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Team</span><span class="p">(</span><span class="n">team</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">Team</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents an MLB team in the standings</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        away</span>
+<span class="sd">        clinched_sw</span>
+<span class="sd">        division</span>
+<span class="sd">        division_champ</span>
+<span class="sd">        division_id</span>
+<span class="sd">        division_odds</span>
+<span class="sd">        elim</span>
+<span class="sd">        elim_wildcard</span>
+<span class="sd">        extra_inn</span>
+<span class="sd">        file_code</span>
+<span class="sd">        gb</span>
+<span class="sd">        gb_wildcard</span>
+<span class="sd">        home</span>
+<span class="sd">        interleague</span>
+<span class="sd">        is_wildcard_sw</span>
+<span class="sd">        l</span>
+<span class="sd">        last_ten</span>
+<span class="sd">        one_run</span>
+<span class="sd">        opp_runs</span>
+<span class="sd">        pct</span>
+<span class="sd">        place</span>
+<span class="sd">        playoff_odds</span>
+<span class="sd">        playoff_points_sw</span>
+<span class="sd">        playoffs_flag_milb</span>
+<span class="sd">        playoffs_flag_mlb</span>
+<span class="sd">        playoffs_sw</span>
+<span class="sd">        points</span>
+<span class="sd">        runs</span>
+<span class="sd">        sit_code</span>
+<span class="sd">        streak</span>
+<span class="sd">        team_abbrev</span>
+<span class="sd">        team_full</span>
+<span class="sd">        team_id</span>
+<span class="sd">        team_short</span>
+<span class="sd">        vs_central</span>
+<span class="sd">        vs_division</span>
+<span class="sd">        vs_east</span>
+<span class="sd">        vs_left</span>
+<span class="sd">        vs_right</span>
+<span class="sd">        vs_west</span>
+<span class="sd">        w</span>
+<span class="sd">        wild_card</span>
+<span class="sd">        wildcard_odds</span>
+<span class="sd">        x_wl</span>
+<span class="sd">        x_wl_seas</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">injury</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_injuries</span><span class="p">()</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">parsed</span><span class="p">[</span><span class="s">&#39;wsfb_news_injury&#39;</span><span class="p">][</span><span class="s">&#39;queryResults&#39;</span><span class="p">][</span><span class="s">&#39;row&#39;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Injuries</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents the MLB Disabled List</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        injuries</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">injuries</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates an Injuries object for given data.</span>
+<span class="sd">        </span>
+<span class="sd">        `injuries` should be a list of injuries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">injuries</span> <span class="o">=</span> <span class="p">[</span><span class="n">Injury</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">injuries</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Injury</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents an MLB injury</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        display_ts</span>
+<span class="sd">        due_back</span>
+<span class="sd">        injury_desc</span>
+<span class="sd">        injury_status</span>
+<span class="sd">        injury_update</span>
+<span class="sd">        insert_ts</span>
+<span class="sd">        league_id</span>
+<span class="sd">        name_first</span>
+<span class="sd">        name_last</span>
+<span class="sd">        player_id</span>
+<span class="sd">        position</span>
+<span class="sd">        team_id</span>
+<span class="sd">        team_name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
 </pre></div>
 
   </div>
@@ -1197,26 +1511,20 @@ about the (MLB) league and the teams in it.</p>
     <h2 class="section-title" id="header-functions">Functions</h2>
       
   <div class="item">
-    <div class="name def" id="mlbgame.info.get_league_object">
-    <p>def <span class="ident">get_league_object</span>(</p><p>)</p>
+    <div class="name def" id="mlbgame.info.injury">
+    <p>def <span class="ident">injury</span>(</p><p>)</p>
     </div>
     
 
     
   
-    <div class="desc"><p>Returns the xml object corresponding to the league</p>
-<p>Only designed for internal use</p></div>
   <div class="source_cont">
-  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.get_league_object', this);">Show source &equiv;</a></p>
-  <div id="source-mlbgame.info.get_league_object" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_league_object</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Returns the xml object corresponding to the league</span>
-<span class="sd">    </span>
-<span class="sd">    Only designed for internal use&quot;&quot;&quot;</span>
-    <span class="c"># get data</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_properties</span><span class="p">()</span>
-    <span class="c"># return league object</span>
-    <span class="k">return</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;leagues&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;league&quot;</span><span class="p">)</span>
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.injury', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.injury" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">injury</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_injuries</span><span class="p">()</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">parsed</span><span class="p">[</span><span class="s">&#39;wsfb_news_injury&#39;</span><span class="p">][</span><span class="s">&#39;queryResults&#39;</span><span class="p">][</span><span class="s">&#39;row&#39;</span><span class="p">]</span>
 </pre></div>
 
   </div>
@@ -1239,11 +1547,95 @@ about the (MLB) league and the teams in it.</p>
   <div id="source-mlbgame.info.league_info" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">league_info</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Returns a dictionary of league information&quot;&quot;&quot;</span>
-    <span class="n">league</span> <span class="o">=</span> <span class="n">get_league_object</span><span class="p">()</span>
+    <span class="n">league</span> <span class="o">=</span> <span class="n">__get_league_object</span><span class="p">()</span>
     <span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">league</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
         <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">league</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">output</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="mlbgame.info.roster">
+    <p>def <span class="ident">roster</span>(</p><p>team_id)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Returns a dictionary of roster information for team id</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.roster', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.roster" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">roster</span><span class="p">(</span><span class="n">team_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a dictionary of roster information for team id&quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_roster</span><span class="p">(</span><span class="n">team_id</span><span class="p">)</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="n">players</span> <span class="o">=</span> <span class="n">parsed</span><span class="p">[</span><span class="s">&#39;roster_40&#39;</span><span class="p">][</span><span class="s">&#39;queryResults&#39;</span><span class="p">][</span><span class="s">&#39;row&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;players&#39;</span><span class="p">:</span> <span class="n">players</span><span class="p">,</span> <span class="s">&#39;team_id&#39;</span><span class="p">:</span> <span class="n">team_id</span><span class="p">}</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      
+  <div class="item">
+    <div class="name def" id="mlbgame.info.standings">
+    <p>def <span class="ident">standings</span>(</p><p>date)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.standings', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.standings" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">standings</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
+    <span class="n">DIVISIONS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;AL&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;201&#39;</span><span class="p">:</span> <span class="s">&#39;AL East&#39;</span><span class="p">,</span>
+            <span class="s">&#39;202&#39;</span><span class="p">:</span> <span class="s">&#39;AL Central&#39;</span><span class="p">,</span>
+            <span class="s">&#39;200&#39;</span><span class="p">:</span> <span class="s">&#39;AL West&#39;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s">&#39;NL&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;204&#39;</span><span class="p">:</span> <span class="s">&#39;NL East&#39;</span><span class="p">,</span>
+            <span class="s">&#39;205&#39;</span><span class="p">:</span> <span class="s">&#39;NL Central&#39;</span><span class="p">,</span>
+            <span class="s">&#39;203&#39;</span><span class="p">:</span> <span class="s">&#39;NL West&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">divisions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">now</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> <span class="n">date</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="n">now</span><span class="o">.</span><span class="n">month</span> <span class="ow">and</span> <span class="n">date</span><span class="o">.</span><span class="n">day</span> <span class="o">==</span> <span class="n">now</span><span class="o">.</span><span class="n">day</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_standings</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+        <span class="n">standings_schedule_date</span> <span class="o">=</span> <span class="s">&#39;standings_schedule_date&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">mlbgame</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_historical_standings</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+        <span class="n">standings_schedule_date</span> <span class="o">=</span> <span class="s">&#39;historical_standings_schedule_date&#39;</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="n">sjson</span> <span class="o">=</span> <span class="n">parsed</span><span class="p">[</span><span class="n">standings_schedule_date</span><span class="p">][</span><span class="s">&#39;standings_all_date_rptr&#39;</span><span class="p">][</span><span class="s">&#39;standings_all_date&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">league</span> <span class="ow">in</span> <span class="n">sjson</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">league</span><span class="p">[</span><span class="s">&#39;league_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;103&#39;</span><span class="p">:</span>
+            <span class="n">divs</span> <span class="o">=</span> <span class="n">DIVISIONS</span><span class="p">[</span><span class="s">&#39;AL&#39;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">league</span><span class="p">[</span><span class="s">&#39;league_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;104&#39;</span><span class="p">:</span>
+            <span class="n">divs</span> <span class="o">=</span> <span class="n">DIVISIONS</span><span class="p">[</span><span class="s">&#39;NL&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">division</span> <span class="ow">in</span> <span class="n">divs</span><span class="p">:</span>
+            <span class="n">teams</span> <span class="o">=</span> <span class="p">[</span><span class="n">team</span> <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">league</span><span class="p">[</span><span class="s">&#39;queryResults&#39;</span><span class="p">]</span>
+                     <span class="p">[</span><span class="s">&#39;row&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">team</span><span class="p">[</span><span class="s">&#39;division_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">division</span><span class="p">]</span>
+            <span class="n">divisions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s">&#39;division&#39;</span><span class="p">:</span> <span class="n">divs</span><span class="p">[</span><span class="n">division</span><span class="p">],</span>
+                <span class="s">&#39;teams&#39;</span><span class="p">:</span> <span class="n">teams</span>
+            <span class="p">})</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s">&#39;standings_schedule_date&#39;</span><span class="p">:</span> <span class="n">standings_schedule_date</span><span class="p">,</span>
+        <span class="s">&#39;divisions&#39;</span><span class="p">:</span> <span class="n">divisions</span><span class="p">,</span>
+    <span class="p">}</span>
 </pre></div>
 
   </div>
@@ -1266,7 +1658,7 @@ about the (MLB) league and the teams in it.</p>
   <div id="source-mlbgame.info.team_info" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">team_info</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Returns a list of team information dictionaries&quot;&quot;&quot;</span>
-    <span class="n">teams</span> <span class="o">=</span> <span class="n">get_league_object</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;teams&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&quot;team&quot;</span><span class="p">)</span>
+    <span class="n">teams</span> <span class="o">=</span> <span class="n">__get_league_object</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;teams&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;team&#39;</span><span class="p">)</span>
     <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">teams</span><span class="p">:</span>
         <span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1285,137 +1677,244 @@ about the (MLB) league and the teams in it.</p>
     <h2 class="section-title" id="header-classes">Classes</h2>
       
       <div class="item">
+      <p id="mlbgame.info.Division" class="name">class <span class="ident">Division</span></p>
+      
+  
+    <div class="desc"><p>Represents an MLB Division in the standings</p>
+<p>Properties:
+    name
+    teams</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Division', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Division" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Division</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents an MLB Division in the standings</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        name</span>
+<span class="sd">        teams</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">teams</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">teams</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">teams</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">teams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Team</span><span class="p">(</span><span class="n">team</span><span class="p">))</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.info.Division">Division</a></li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="mlbgame.info.Division.name" class="name">var <span class="ident">name</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="mlbgame.info.Division.teams" class="name">var <span class="ident">teams</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.info.Division.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, name, teams)</p>
+    </div>
+    
+
+    
+  
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Division.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Division.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">teams</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">teams</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">team</span> <span class="ow">in</span> <span class="n">teams</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">teams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Team</span><span class="p">(</span><span class="n">team</span><span class="p">))</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
       <p id="mlbgame.info.Info" class="name">class <span class="ident">Info</span></p>
       
   
     <div class="desc"><p>Holds information about the league or teams</p>
 <p>Properties:
-club
-club_common_name
-club_common_url
-club_full_name
-club_id
-club_spanish_name
-dc_site
-display_code
-division
-es_track_code
-esp_common_name
-esp_common_url
-facebook
-facebook_es
-fanphotos_url
-fb_app_id
-field
-google_tag_manager
-googleplus_id
-historical_team_code
-id
-instagram
-instagram_id
-league
-location
-medianet_id
-mobile_es_url
-mobile_short_code
-mobile_url
-mobile_url_base
-name_display_long
-name_display_short
-newsletter_category_id
-newsletter_group_id
-photostore_url
-pinterest
-pinterest_verification
-pressbox_title
-pressbox_url
-primary
-primary_link
-secondary
-snapchat
-snapchat_es
-team_code
-team_id
-tertiary
-timezone
-track_code
-track_filter
-tumblr
-twitter
-twitter_es
-url_cache
-url_esp
-url_prod
-vine</p></div>
+    address
+    aws_club_slug
+    city
+    club
+    club_common_name
+    club_common_url
+    club_full_name
+    club_id
+    club_spanish_name
+    country
+    dc_site
+    display_code
+    division
+    es_track_code
+    esp_common_name
+    esp_common_url
+    facebook
+    facebook_es
+    fanphotos_url
+    fb_app_id
+    field
+    google_tag_manager
+    googleplus_id
+    historical_team_code
+    id
+    instagram
+    instagram_id
+    league
+    location
+    medianet_id
+    mobile_es_url
+    mobile_short_code
+    mobile_url
+    mobile_url_base
+    name_display_long
+    name_display_short
+    newsletter_category_id
+    newsletter_group_id
+    phone
+    photostore_url
+    pinterest
+    pinterest_verification
+    pressbox_title
+    pressbox_url
+    primary
+    primary_link
+    postal_code
+    secondary
+    shop_entry_code
+    snapchat
+    snapchat_es
+    state_province
+    team_code
+    team_id
+    tertiary
+    timezone
+    track_code
+    track_code_dev
+    track_filter
+    tumblr
+    twitter
+    twitter_es
+    url_cache
+    url_esp
+    url_prod
+    venue_id
+    vine
+    youtube</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Info', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.info.Info" class="source">
     <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Info</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Holds information about the league or teams</span>
-<span class="sd">    </span>
+
 <span class="sd">    Properties:</span>
-<span class="sd">    club</span>
-<span class="sd">    club_common_name</span>
-<span class="sd">    club_common_url</span>
-<span class="sd">    club_full_name</span>
-<span class="sd">    club_id</span>
-<span class="sd">    club_spanish_name</span>
-<span class="sd">    dc_site</span>
-<span class="sd">    display_code</span>
-<span class="sd">    division</span>
-<span class="sd">    es_track_code</span>
-<span class="sd">    esp_common_name</span>
-<span class="sd">    esp_common_url</span>
-<span class="sd">    facebook</span>
-<span class="sd">    facebook_es</span>
-<span class="sd">    fanphotos_url</span>
-<span class="sd">    fb_app_id</span>
-<span class="sd">    field</span>
-<span class="sd">    google_tag_manager</span>
-<span class="sd">    googleplus_id</span>
-<span class="sd">    historical_team_code</span>
-<span class="sd">    id</span>
-<span class="sd">    instagram</span>
-<span class="sd">    instagram_id</span>
-<span class="sd">    league</span>
-<span class="sd">    location</span>
-<span class="sd">    medianet_id</span>
-<span class="sd">    mobile_es_url</span>
-<span class="sd">    mobile_short_code</span>
-<span class="sd">    mobile_url</span>
-<span class="sd">    mobile_url_base</span>
-<span class="sd">    name_display_long</span>
-<span class="sd">    name_display_short</span>
-<span class="sd">    newsletter_category_id</span>
-<span class="sd">    newsletter_group_id</span>
-<span class="sd">    photostore_url</span>
-<span class="sd">    pinterest</span>
-<span class="sd">    pinterest_verification</span>
-<span class="sd">    pressbox_title</span>
-<span class="sd">    pressbox_url</span>
-<span class="sd">    primary</span>
-<span class="sd">    primary_link</span>
-<span class="sd">    secondary</span>
-<span class="sd">    snapchat</span>
-<span class="sd">    snapchat_es</span>
-<span class="sd">    team_code</span>
-<span class="sd">    team_id</span>
-<span class="sd">    tertiary</span>
-<span class="sd">    timezone</span>
-<span class="sd">    track_code</span>
-<span class="sd">    track_filter</span>
-<span class="sd">    tumblr</span>
-<span class="sd">    twitter</span>
-<span class="sd">    twitter_es</span>
-<span class="sd">    url_cache</span>
-<span class="sd">    url_esp</span>
-<span class="sd">    url_prod</span>
-<span class="sd">    vine</span>
+<span class="sd">        address</span>
+<span class="sd">        aws_club_slug</span>
+<span class="sd">        city</span>
+<span class="sd">        club</span>
+<span class="sd">        club_common_name</span>
+<span class="sd">        club_common_url</span>
+<span class="sd">        club_full_name</span>
+<span class="sd">        club_id</span>
+<span class="sd">        club_spanish_name</span>
+<span class="sd">        country</span>
+<span class="sd">        dc_site</span>
+<span class="sd">        display_code</span>
+<span class="sd">        division</span>
+<span class="sd">        es_track_code</span>
+<span class="sd">        esp_common_name</span>
+<span class="sd">        esp_common_url</span>
+<span class="sd">        facebook</span>
+<span class="sd">        facebook_es</span>
+<span class="sd">        fanphotos_url</span>
+<span class="sd">        fb_app_id</span>
+<span class="sd">        field</span>
+<span class="sd">        google_tag_manager</span>
+<span class="sd">        googleplus_id</span>
+<span class="sd">        historical_team_code</span>
+<span class="sd">        id</span>
+<span class="sd">        instagram</span>
+<span class="sd">        instagram_id</span>
+<span class="sd">        league</span>
+<span class="sd">        location</span>
+<span class="sd">        medianet_id</span>
+<span class="sd">        mobile_es_url</span>
+<span class="sd">        mobile_short_code</span>
+<span class="sd">        mobile_url</span>
+<span class="sd">        mobile_url_base</span>
+<span class="sd">        name_display_long</span>
+<span class="sd">        name_display_short</span>
+<span class="sd">        newsletter_category_id</span>
+<span class="sd">        newsletter_group_id</span>
+<span class="sd">        phone</span>
+<span class="sd">        photostore_url</span>
+<span class="sd">        pinterest</span>
+<span class="sd">        pinterest_verification</span>
+<span class="sd">        pressbox_title</span>
+<span class="sd">        pressbox_url</span>
+<span class="sd">        primary</span>
+<span class="sd">        primary_link</span>
+<span class="sd">        postal_code</span>
+<span class="sd">        secondary</span>
+<span class="sd">        shop_entry_code</span>
+<span class="sd">        snapchat</span>
+<span class="sd">        snapchat_es</span>
+<span class="sd">        state_province</span>
+<span class="sd">        team_code</span>
+<span class="sd">        team_id</span>
+<span class="sd">        tertiary</span>
+<span class="sd">        timezone</span>
+<span class="sd">        track_code</span>
+<span class="sd">        track_code_dev</span>
+<span class="sd">        track_filter</span>
+<span class="sd">        tumblr</span>
+<span class="sd">        twitter</span>
+<span class="sd">        twitter_es</span>
+<span class="sd">        url_cache</span>
+<span class="sd">        url_esp</span>
+<span class="sd">        url_prod</span>
+<span class="sd">        venue_id</span>
+<span class="sd">        vine</span>
+<span class="sd">        youtube</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a string for printing&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">club_full_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">club</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+        <span class="k">return</span> <span class="s">&#39;{0} ({1})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">club_full_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">club</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
@@ -1442,27 +1941,18 @@ vine</p></div>
 
     
   
-    <div class="desc"><p>Creates an object that matches the corresponding stats in <code>data</code>.</p>
-<p><code>data</code> should be an dictionary of values.</p></div>
+    <div class="desc"><p>Creates an object that matches the corresponding values in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Info.__init__', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.info.Info.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding stats in `data`.</span>
-<span class="sd">    </span>
-<span class="sd">    `data` should be an dictionary of values.</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding values in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># loop through data</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-        <span class="c"># set information as correct data type</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="c"># string if not number</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+        <span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
 </pre></div>
 
   </div>
@@ -1485,7 +1975,617 @@ vine</p></div>
   <div id="source-mlbgame.info.Info.nice_output" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a string for printing&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">club_full_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">club</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+    <span class="k">return</span> <span class="s">&#39;{0} ({1})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">club_full_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">club</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="mlbgame.info.Injuries" class="name">class <span class="ident">Injuries</span></p>
+      
+  
+    <div class="desc"><p>Represents the MLB Disabled List</p>
+<p>Properties:
+    injuries</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Injuries', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Injuries" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Injuries</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents the MLB Disabled List</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        injuries</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">injuries</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates an Injuries object for given data.</span>
+<span class="sd">        </span>
+<span class="sd">        `injuries` should be a list of injuries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">injuries</span> <span class="o">=</span> <span class="p">[</span><span class="n">Injury</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">injuries</span><span class="p">]</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.info.Injuries">Injuries</a></li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="mlbgame.info.Injuries.injuries" class="name">var <span class="ident">injuries</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.info.Injuries.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, injuries)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates an Injuries object for given data.</p>
+<p><code>injuries</code> should be a list of injuries.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Injuries.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Injuries.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">injuries</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates an Injuries object for given data.</span>
+<span class="sd">    </span>
+<span class="sd">    `injuries` should be a list of injuries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">injuries</span> <span class="o">=</span> <span class="p">[</span><span class="n">Injury</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">injuries</span><span class="p">]</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="mlbgame.info.Injury" class="name">class <span class="ident">Injury</span></p>
+      
+  
+    <div class="desc"><p>Represents an MLB injury</p>
+<p>Properties:
+    display_ts
+    due_back
+    injury_desc
+    injury_status
+    injury_update
+    insert_ts
+    league_id
+    name_first
+    name_last
+    player_id
+    position
+    team_id
+    team_name</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Injury', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Injury" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Injury</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents an MLB injury</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        display_ts</span>
+<span class="sd">        due_back</span>
+<span class="sd">        injury_desc</span>
+<span class="sd">        injury_status</span>
+<span class="sd">        injury_update</span>
+<span class="sd">        insert_ts</span>
+<span class="sd">        league_id</span>
+<span class="sd">        name_first</span>
+<span class="sd">        name_last</span>
+<span class="sd">        player_id</span>
+<span class="sd">        position</span>
+<span class="sd">        team_id</span>
+<span class="sd">        team_name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.info.Injury">Injury</a></li>
+          <li>mlbgame.object.Object</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.info.Injury.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates an object that matches the corresponding values in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Injury.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Injury.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding values in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># loop through data</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="mlbgame.info.Player" class="name">class <span class="ident">Player</span></p>
+      
+  
+    <div class="desc"><p>Represents an MLB Player</p>
+<p>Properties:
+    bats
+    birth_date
+    college
+    end_date
+    height_feet
+    height_inches
+    jersey_number
+    name_display_first_last
+    name_display_last_first
+    name_first
+    name_full
+    name_last
+    name_use
+    player_id
+    position_txt
+    primary_position
+    pro_debut_date
+    start_date
+    starter_sw
+    status_code
+    team_abbrev
+    team_code
+    team_id
+    team_name
+    throws
+    weight</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Player', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Player" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Player</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents an MLB Player</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        bats</span>
+<span class="sd">        birth_date</span>
+<span class="sd">        college</span>
+<span class="sd">        end_date</span>
+<span class="sd">        height_feet</span>
+<span class="sd">        height_inches</span>
+<span class="sd">        jersey_number</span>
+<span class="sd">        name_display_first_last</span>
+<span class="sd">        name_display_last_first</span>
+<span class="sd">        name_first</span>
+<span class="sd">        name_full</span>
+<span class="sd">        name_last</span>
+<span class="sd">        name_use</span>
+<span class="sd">        player_id</span>
+<span class="sd">        position_txt</span>
+<span class="sd">        primary_position</span>
+<span class="sd">        pro_debut_date</span>
+<span class="sd">        start_date</span>
+<span class="sd">        starter_sw</span>
+<span class="sd">        status_code</span>
+<span class="sd">        team_abbrev</span>
+<span class="sd">        team_code</span>
+<span class="sd">        team_id</span>
+<span class="sd">        team_name</span>
+<span class="sd">        throws</span>
+<span class="sd">        weight</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.info.Player">Player</a></li>
+          <li>mlbgame.object.Object</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.info.Player.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates an object that matches the corresponding values in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Player.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Player.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding values in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># loop through data</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="mlbgame.info.Roster" class="name">class <span class="ident">Roster</span></p>
+      
+  
+    <div class="desc"><p>Represents an MLB Team</p>
+<p>Properties:
+    players
+    team_id</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Roster', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Roster" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Roster</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents an MLB Team</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        players</span>
+<span class="sd">        team_id</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a roster object to match info in `data`.</span>
+
+<span class="sd">        `data` should be a dictionary of values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">team_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;team_id&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;players&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Player</span><span class="p">(</span><span class="n">player</span><span class="p">))</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.info.Roster">Roster</a></li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="mlbgame.info.Roster.players" class="name">var <span class="ident">players</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="mlbgame.info.Roster.team_id" class="name">var <span class="ident">team_id</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.info.Roster.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates a roster object to match info in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Roster.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Roster.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates a roster object to match info in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">team_id</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;team_id&#39;</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;players&#39;</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Player</span><span class="p">(</span><span class="n">player</span><span class="p">))</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="mlbgame.info.Standings" class="name">class <span class="ident">Standings</span></p>
+      
+  
+    <div class="desc"><p>Holds information about the league standings</p>
+<p>Properties:
+    divisions
+    standings_schedule_date</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Standings', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Standings" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Standings</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Holds information about the league standings</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        divisions</span>
+<span class="sd">        standings_schedule_date</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a standings object for info specified in `data`.</span>
+<span class="sd">        </span>
+<span class="sd">        `data` should be a dictionary of values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">standings_schedule_date</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;standings_schedule_date&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">divisions</span> <span class="o">=</span> <span class="p">[</span><span class="n">Division</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;division&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s">&#39;teams&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;divisions&#39;</span><span class="p">]]</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.info.Standings">Standings</a></li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="mlbgame.info.Standings.divisions" class="name">var <span class="ident">divisions</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="mlbgame.info.Standings.standings_schedule_date" class="name">var <span class="ident">standings_schedule_date</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.info.Standings.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates a standings object for info specified in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Standings.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Standings.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates a standings object for info specified in `data`.</span>
+<span class="sd">    </span>
+<span class="sd">    `data` should be a dictionary of values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">standings_schedule_date</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;standings_schedule_date&#39;</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">divisions</span> <span class="o">=</span> <span class="p">[</span><span class="n">Division</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;division&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s">&#39;teams&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;divisions&#39;</span><span class="p">]]</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="mlbgame.info.Team" class="name">class <span class="ident">Team</span></p>
+      
+  
+    <div class="desc"><p>Represents an MLB team in the standings</p>
+<p>Properties:
+    away
+    clinched_sw
+    division
+    division_champ
+    division_id
+    division_odds
+    elim
+    elim_wildcard
+    extra_inn
+    file_code
+    gb
+    gb_wildcard
+    home
+    interleague
+    is_wildcard_sw
+    l
+    last_ten
+    one_run
+    opp_runs
+    pct
+    place
+    playoff_odds
+    playoff_points_sw
+    playoffs_flag_milb
+    playoffs_flag_mlb
+    playoffs_sw
+    points
+    runs
+    sit_code
+    streak
+    team_abbrev
+    team_full
+    team_id
+    team_short
+    vs_central
+    vs_division
+    vs_east
+    vs_left
+    vs_right
+    vs_west
+    w
+    wild_card
+    wildcard_odds
+    x_wl
+    x_wl_seas</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Team', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Team" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Team</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Represents an MLB team in the standings</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        away</span>
+<span class="sd">        clinched_sw</span>
+<span class="sd">        division</span>
+<span class="sd">        division_champ</span>
+<span class="sd">        division_id</span>
+<span class="sd">        division_odds</span>
+<span class="sd">        elim</span>
+<span class="sd">        elim_wildcard</span>
+<span class="sd">        extra_inn</span>
+<span class="sd">        file_code</span>
+<span class="sd">        gb</span>
+<span class="sd">        gb_wildcard</span>
+<span class="sd">        home</span>
+<span class="sd">        interleague</span>
+<span class="sd">        is_wildcard_sw</span>
+<span class="sd">        l</span>
+<span class="sd">        last_ten</span>
+<span class="sd">        one_run</span>
+<span class="sd">        opp_runs</span>
+<span class="sd">        pct</span>
+<span class="sd">        place</span>
+<span class="sd">        playoff_odds</span>
+<span class="sd">        playoff_points_sw</span>
+<span class="sd">        playoffs_flag_milb</span>
+<span class="sd">        playoffs_flag_mlb</span>
+<span class="sd">        playoffs_sw</span>
+<span class="sd">        points</span>
+<span class="sd">        runs</span>
+<span class="sd">        sit_code</span>
+<span class="sd">        streak</span>
+<span class="sd">        team_abbrev</span>
+<span class="sd">        team_full</span>
+<span class="sd">        team_id</span>
+<span class="sd">        team_short</span>
+<span class="sd">        vs_central</span>
+<span class="sd">        vs_division</span>
+<span class="sd">        vs_east</span>
+<span class="sd">        vs_left</span>
+<span class="sd">        vs_right</span>
+<span class="sd">        vs_west</span>
+<span class="sd">        w</span>
+<span class="sd">        wild_card</span>
+<span class="sd">        wildcard_odds</span>
+<span class="sd">        x_wl</span>
+<span class="sd">        x_wl_seas</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.info.Team">Team</a></li>
+          <li>mlbgame.object.Object</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.info.Team.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates an object that matches the corresponding values in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.info.Team.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.info.Team.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding values in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># loop through data</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
 </pre></div>
 
   </div>

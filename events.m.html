@@ -4,7 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
     <title>mlbgame.events API documentation</title>
-    <meta name="description" content="Module that is used for getting the events 
+    <meta name="description" content="Module that is used for getting the events
 that occured throughout games." />
 
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300' rel='stylesheet' type='text/css'>
@@ -1057,6 +1057,16 @@ table {
 
         </li>
         <li class="mono">
+        <span class="class_name"><a href="#mlbgame.events.Inning">Inning</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#mlbgame.events.Inning.__init__">__init__</a></li>
+    <li class="mono"><a href="#mlbgame.events.Inning.nice_output">nice_output</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
         <span class="class_name"><a href="#mlbgame.events.Pitch">Pitch</a></span>
         
           
@@ -1081,20 +1091,22 @@ table {
 
   <header id="section-intro">
   <h1 class="title"><span class="name">mlbgame.events</span> module</h1>
-  <p>Module that is used for getting the events 
+  <p>Module that is used for getting the events
 that occured throughout games.</p>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.events', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.events" class="source">
     <div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
 
-<span class="sd">&quot;&quot;&quot;Module that is used for getting the events </span>
+<span class="sd">&quot;&quot;&quot;Module that is used for getting the events</span>
 <span class="sd">that occured throughout games.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">mlbgame.data</span>
+<span class="kn">import</span> <span class="nn">mlbgame.object</span>
 
 <span class="kn">import</span> <span class="nn">lxml.etree</span> <span class="kn">as</span> <span class="nn">etree</span>
+
 
 <span class="k">def</span> <span class="nf">game_events</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return dictionary of events for a game with matching id.&quot;&quot;&quot;</span>
@@ -1145,38 +1157,68 @@ that occured throughout games.</p>
         <span class="n">output</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;num&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;top&#39;</span><span class="p">:</span> <span class="n">topinfo</span><span class="p">,</span> <span class="s">&#39;bottom&#39;</span><span class="p">:</span> <span class="n">botinfo</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">output</span>
 
+
+<span class="k">class</span> <span class="nc">Inning</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class that holds at bats in an inning.</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        bottom</span>
+<span class="sd">        num</span>
+<span class="sd">        top</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">inning</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates an inning object that matches the corresponding</span>
+<span class="sd">        info in `data`.</span>
+
+<span class="sd">        `data` should be a dictionary of values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inning</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="p">[</span><span class="n">AtBat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="p">[</span><span class="n">AtBat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]]</span>
+
+    <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Prints basic inning info in a nice way.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s">&#39;Inning {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
+
+
 <span class="k">class</span> <span class="nc">AtBat</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Class that holds information about at bats in games.</span>
-<span class="sd">    </span>
-<span class="sd">    Properties: </span>
-<span class="sd">    </span>
-<span class="sd">    - num = Number of at bat in game</span>
-<span class="sd">    - b = balls (at end of at bat or currently if live)</span>
-<span class="sd">    - s = strikes (at end of at bat or currently if live)</span>
-<span class="sd">    - o = outs (at end of at bat)</span>
-<span class="sd">    - batter = batter id number</span>
-<span class="sd">    - pitcher = pitcher id number</span>
-<span class="sd">    - des = description of at bat</span>
-<span class="sd">    - event_num = number that corresponds to type of event</span>
-<span class="sd">    - event = name of event</span>
-<span class="sd">    - home_team_runs = home team runs (at end of at bat)</span>
-<span class="sd">    - away_team_runs = away team runs (at end of at bat)</span>
-<span class="sd">    - pitches = list of pitches during at bat</span>
-<span class="sd">    - b1</span>
-<span class="sd">    - b2</span>
-<span class="sd">    - b3</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        away_team_runs</span>
+<span class="sd">        b</span>
+<span class="sd">        b1</span>
+<span class="sd">        b2</span>
+<span class="sd">        b3</span>
+<span class="sd">        batter</span>
+<span class="sd">        des</span>
+<span class="sd">        des_es</span>
+<span class="sd">        event</span>
+<span class="sd">        event_es</span>
+<span class="sd">        event_num</span>
+<span class="sd">        home_team_runs</span>
+<span class="sd">        num</span>
+<span class="sd">        o</span>
+<span class="sd">        pitcher</span>
+<span class="sd">        pitches</span>
+<span class="sd">        play_guid</span>
+<span class="sd">        s</span>
+<span class="sd">        start_tfs</span>
+<span class="sd">        start_tfs_zulu</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates an event object that matches the corresponding info in `data`.</span>
-<span class="sd">        </span>
-<span class="sd">        `data` should be an dictionary of values.</span>
+        <span class="sd">&quot;&quot;&quot;Creates an at bat object that matches the corresponding</span>
+<span class="sd">        info in `data`.</span>
+
+<span class="sd">        `data` should be a dictionary of values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># loop through data</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="c"># remove spanish info (causes text encoding errors)</span>
-            <span class="k">if</span> <span class="s">&#39;_es&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
-                <span class="k">continue</span>
             <span class="c"># create pitches list if attribute name is pitches</span>
             <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s">&#39;pitches&#39;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pitches</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1184,60 +1226,33 @@ that occured throughout games.</p>
                     <span class="bp">self</span><span class="o">.</span><span class="n">pitches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Pitch</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
                 <span class="k">continue</span>
             <span class="c"># set information as correct data type</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="c"># string if not number</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-    
+            <span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+
     <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Prints basic event info in a nice way.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Prints basic at bat info in a nice way.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">des</span>
-    
+
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
 
-<span class="k">class</span> <span class="nc">Pitch</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<span class="k">class</span> <span class="nc">Pitch</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Class that holds information about individual pitches.</span>
-<span class="sd">    </span>
-<span class="sd">    Properties of pitches are wildly inconsistent, </span>
-<span class="sd">    sometimes they have a value, sometimes they don&#39;t.</span>
+
 <span class="sd">    Properties:</span>
-<span class="sd">    </span>
-<span class="sd">    - sv_id</span>
-<span class="sd">    - des = description of pitch outcome</span>
-<span class="sd">    - type = ball (B), strike (S), or in play (X)</span>
-<span class="sd">    - start_speed = pitch speed</span>
-<span class="sd">    - pitch_type = type of pitch (fastball, curve, etc.)</span>
+<span class="sd">        des</span>
+<span class="sd">        des_es</span>
+<span class="sd">        pitch_type</span>
+<span class="sd">        start_speed</span>
+<span class="sd">        sv_id</span>
+<span class="sd">        type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a pitch object that matches the corresponding info in `data`.</span>
-<span class="sd">        </span>
-<span class="sd">        `data` should be an dictionary of values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># loop through data</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="c"># remove spanish info (causes text encoding errors)</span>
-            <span class="k">if</span> <span class="s">&#39;_es&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="c"># set information as correct data type</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="c"># string if not number</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-    
+
     <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Prints basic event info in a nice way.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s">&quot;Pitch: </span><span class="si">%s</span><span class="s"> at </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pitch_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_speed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">des</span><span class="p">)</span>
-    
+        <span class="k">return</span> <span class="s">&#39;Pitch: {0} at {1}: {2}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pitch_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_speed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">des</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
 </pre></div>
@@ -1325,59 +1340,64 @@ that occured throughout games.</p>
       
   
     <div class="desc"><p>Class that holds information about at bats in games.</p>
-<p>Properties: </p>
-<ul>
-<li>num = Number of at bat in game</li>
-<li>b = balls (at end of at bat or currently if live)</li>
-<li>s = strikes (at end of at bat or currently if live)</li>
-<li>o = outs (at end of at bat)</li>
-<li>batter = batter id number</li>
-<li>pitcher = pitcher id number</li>
-<li>des = description of at bat</li>
-<li>event_num = number that corresponds to type of event</li>
-<li>event = name of event</li>
-<li>home_team_runs = home team runs (at end of at bat)</li>
-<li>away_team_runs = away team runs (at end of at bat)</li>
-<li>pitches = list of pitches during at bat</li>
-<li>b1</li>
-<li>b2</li>
-<li>b3</li>
-</ul></div>
+<p>Properties:
+    away_team_runs
+    b
+    b1
+    b2
+    b3
+    batter
+    des
+    des_es
+    event
+    event_es
+    event_num
+    home_team_runs
+    num
+    o
+    pitcher
+    pitches
+    play_guid
+    s
+    start_tfs
+    start_tfs_zulu</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.events.AtBat', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.events.AtBat" class="source">
     <div class="codehilite"><pre><span class="k">class</span> <span class="nc">AtBat</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Class that holds information about at bats in games.</span>
-<span class="sd">    </span>
-<span class="sd">    Properties: </span>
-<span class="sd">    </span>
-<span class="sd">    - num = Number of at bat in game</span>
-<span class="sd">    - b = balls (at end of at bat or currently if live)</span>
-<span class="sd">    - s = strikes (at end of at bat or currently if live)</span>
-<span class="sd">    - o = outs (at end of at bat)</span>
-<span class="sd">    - batter = batter id number</span>
-<span class="sd">    - pitcher = pitcher id number</span>
-<span class="sd">    - des = description of at bat</span>
-<span class="sd">    - event_num = number that corresponds to type of event</span>
-<span class="sd">    - event = name of event</span>
-<span class="sd">    - home_team_runs = home team runs (at end of at bat)</span>
-<span class="sd">    - away_team_runs = away team runs (at end of at bat)</span>
-<span class="sd">    - pitches = list of pitches during at bat</span>
-<span class="sd">    - b1</span>
-<span class="sd">    - b2</span>
-<span class="sd">    - b3</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        away_team_runs</span>
+<span class="sd">        b</span>
+<span class="sd">        b1</span>
+<span class="sd">        b2</span>
+<span class="sd">        b3</span>
+<span class="sd">        batter</span>
+<span class="sd">        des</span>
+<span class="sd">        des_es</span>
+<span class="sd">        event</span>
+<span class="sd">        event_es</span>
+<span class="sd">        event_num</span>
+<span class="sd">        home_team_runs</span>
+<span class="sd">        num</span>
+<span class="sd">        o</span>
+<span class="sd">        pitcher</span>
+<span class="sd">        pitches</span>
+<span class="sd">        play_guid</span>
+<span class="sd">        s</span>
+<span class="sd">        start_tfs</span>
+<span class="sd">        start_tfs_zulu</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates an event object that matches the corresponding info in `data`.</span>
-<span class="sd">        </span>
-<span class="sd">        `data` should be an dictionary of values.</span>
+        <span class="sd">&quot;&quot;&quot;Creates an at bat object that matches the corresponding</span>
+<span class="sd">        info in `data`.</span>
+
+<span class="sd">        `data` should be a dictionary of values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># loop through data</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="c"># remove spanish info (causes text encoding errors)</span>
-            <span class="k">if</span> <span class="s">&#39;_es&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
-                <span class="k">continue</span>
             <span class="c"># create pitches list if attribute name is pitches</span>
             <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s">&#39;pitches&#39;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pitches</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1385,19 +1405,12 @@ that occured throughout games.</p>
                     <span class="bp">self</span><span class="o">.</span><span class="n">pitches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Pitch</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
                 <span class="k">continue</span>
             <span class="c"># set information as correct data type</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="c"># string if not number</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-    
+            <span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+
     <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Prints basic event info in a nice way.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Prints basic at bat info in a nice way.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">des</span>
-    
+
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
 </pre></div>
@@ -1422,21 +1435,19 @@ that occured throughout games.</p>
 
     
   
-    <div class="desc"><p>Creates an event object that matches the corresponding info in <code>data</code>.</p>
-<p><code>data</code> should be an dictionary of values.</p></div>
+    <div class="desc"><p>Creates an at bat object that matches the corresponding
+info in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.events.AtBat.__init__', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.events.AtBat.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates an event object that matches the corresponding info in `data`.</span>
-<span class="sd">    </span>
-<span class="sd">    `data` should be an dictionary of values.</span>
+    <span class="sd">&quot;&quot;&quot;Creates an at bat object that matches the corresponding</span>
+<span class="sd">    info in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># loop through data</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-        <span class="c"># remove spanish info (causes text encoding errors)</span>
-        <span class="k">if</span> <span class="s">&#39;_es&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
-            <span class="k">continue</span>
         <span class="c"># create pitches list if attribute name is pitches</span>
         <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s">&#39;pitches&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pitches</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1444,14 +1455,7 @@ that occured throughout games.</p>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pitches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Pitch</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
             <span class="k">continue</span>
         <span class="c"># set information as correct data type</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="c"># string if not number</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+        <span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
 </pre></div>
 
   </div>
@@ -1468,13 +1472,150 @@ that occured throughout games.</p>
 
     
   
-    <div class="desc"><p>Prints basic event info in a nice way.</p></div>
+    <div class="desc"><p>Prints basic at bat info in a nice way.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.events.AtBat.nice_output', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.events.AtBat.nice_output" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Prints basic event info in a nice way.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Prints basic at bat info in a nice way.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">des</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="mlbgame.events.Inning" class="name">class <span class="ident">Inning</span></p>
+      
+  
+    <div class="desc"><p>Class that holds at bats in an inning.</p>
+<p>Properties:
+    bottom
+    num
+    top</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.events.Inning', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.events.Inning" class="source">
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Inning</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class that holds at bats in an inning.</span>
+
+<span class="sd">    Properties:</span>
+<span class="sd">        bottom</span>
+<span class="sd">        num</span>
+<span class="sd">        top</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">inning</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates an inning object that matches the corresponding</span>
+<span class="sd">        info in `data`.</span>
+
+<span class="sd">        `data` should be a dictionary of values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inning</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="p">[</span><span class="n">AtBat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="p">[</span><span class="n">AtBat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]]</span>
+
+    <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Prints basic inning info in a nice way.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s">&#39;Inning {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
+</pre></div>
+
+  </div>
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#mlbgame.events.Inning">Inning</a></li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="mlbgame.events.Inning.bottom" class="name">var <span class="ident">bottom</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="mlbgame.events.Inning.num" class="name">var <span class="ident">num</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="mlbgame.events.Inning.top" class="name">var <span class="ident">top</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.events.Inning.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>self, data, inning)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Creates an inning object that matches the corresponding
+info in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.events.Inning.__init__', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.events.Inning.__init__" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">inning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates an inning object that matches the corresponding</span>
+<span class="sd">    info in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inning</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="p">[</span><span class="n">AtBat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;top&#39;</span><span class="p">]]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="p">[</span><span class="n">AtBat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;bottom&#39;</span><span class="p">]]</span>
+</pre></div>
+
+  </div>
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="mlbgame.events.Inning.nice_output">
+    <p>def <span class="ident">nice_output</span>(</p><p>self)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>Prints basic inning info in a nice way.</p></div>
+  <div class="source_cont">
+  <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.events.Inning.nice_output', this);">Show source &equiv;</a></p>
+  <div id="source-mlbgame.events.Inning.nice_output" class="source">
+    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prints basic inning info in a nice way.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s">&#39;Inning {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1490,57 +1631,33 @@ that occured throughout games.</p>
       
   
     <div class="desc"><p>Class that holds information about individual pitches.</p>
-<p>Properties of pitches are wildly inconsistent, 
-sometimes they have a value, sometimes they don't.
-Properties:</p>
-<ul>
-<li>sv_id</li>
-<li>des = description of pitch outcome</li>
-<li>type = ball (B), strike (S), or in play (X)</li>
-<li>start_speed = pitch speed</li>
-<li>pitch_type = type of pitch (fastball, curve, etc.)</li>
-</ul></div>
+<p>Properties:
+    des
+    des_es
+    pitch_type
+    start_speed
+    sv_id
+    type</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.events.Pitch', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.events.Pitch" class="source">
-    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Pitch</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Pitch</span><span class="p">(</span><span class="n">mlbgame</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Class that holds information about individual pitches.</span>
-<span class="sd">    </span>
-<span class="sd">    Properties of pitches are wildly inconsistent, </span>
-<span class="sd">    sometimes they have a value, sometimes they don&#39;t.</span>
+
 <span class="sd">    Properties:</span>
-<span class="sd">    </span>
-<span class="sd">    - sv_id</span>
-<span class="sd">    - des = description of pitch outcome</span>
-<span class="sd">    - type = ball (B), strike (S), or in play (X)</span>
-<span class="sd">    - start_speed = pitch speed</span>
-<span class="sd">    - pitch_type = type of pitch (fastball, curve, etc.)</span>
+<span class="sd">        des</span>
+<span class="sd">        des_es</span>
+<span class="sd">        pitch_type</span>
+<span class="sd">        start_speed</span>
+<span class="sd">        sv_id</span>
+<span class="sd">        type</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a pitch object that matches the corresponding info in `data`.</span>
-<span class="sd">        </span>
-<span class="sd">        `data` should be an dictionary of values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># loop through data</span>
-        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="c"># remove spanish info (causes text encoding errors)</span>
-            <span class="k">if</span> <span class="s">&#39;_es&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="c"># set information as correct data type</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="c"># string if not number</span>
-                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-    
+
     <span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Prints basic event info in a nice way.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s">&quot;Pitch: </span><span class="si">%s</span><span class="s"> at </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pitch_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_speed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">des</span><span class="p">)</span>
-    
+        <span class="k">return</span> <span class="s">&#39;Pitch: {0} at {1}: {2}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pitch_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_speed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">des</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nice_output</span><span class="p">()</span>
 </pre></div>
@@ -1553,6 +1670,7 @@ Properties:</p>
           <h3>Ancestors (in MRO)</h3>
           <ul class="class_list">
           <li><a href="#mlbgame.events.Pitch">Pitch</a></li>
+          <li>mlbgame.object.Object</li>
           <li>__builtin__.object</li>
           </ul>
           <h3>Methods</h3>
@@ -1565,30 +1683,18 @@ Properties:</p>
 
     
   
-    <div class="desc"><p>Creates a pitch object that matches the corresponding info in <code>data</code>.</p>
-<p><code>data</code> should be an dictionary of values.</p></div>
+    <div class="desc"><p>Creates an object that matches the corresponding values in <code>data</code>.</p>
+<p><code>data</code> should be a dictionary of values.</p></div>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.events.Pitch.__init__', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.events.Pitch.__init__" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Creates a pitch object that matches the corresponding info in `data`.</span>
-<span class="sd">    </span>
-<span class="sd">    `data` should be an dictionary of values.</span>
+    <span class="sd">&quot;&quot;&quot;Creates an object that matches the corresponding values in `data`.</span>
+<span class="sd">    `data` should be a dictionary of values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># loop through data</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-        <span class="c"># remove spanish info (causes text encoding errors)</span>
-        <span class="k">if</span> <span class="s">&#39;_es&#39;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="c"># set information as correct data type</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="c"># string if not number</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+        <span class="n">setobjattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
 </pre></div>
 
   </div>
@@ -1611,7 +1717,8 @@ Properties:</p>
   <div id="source-mlbgame.events.Pitch.nice_output" class="source">
     <div class="codehilite"><pre><span class="k">def</span> <span class="nf">nice_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Prints basic event info in a nice way.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s">&quot;Pitch: </span><span class="si">%s</span><span class="s"> at </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pitch_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_speed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">des</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&#39;Pitch: {0} at {1}: {2}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pitch_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_speed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">des</span><span class="p">)</span>
 </pre></div>
 
   </div>
