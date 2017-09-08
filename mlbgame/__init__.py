@@ -250,7 +250,8 @@ def standings(date=datetime.now()):
     date should be a datetime object,
     leave empty to get current standings
     """
-    return mlbgame.info.Standings(date)
+    data = mlbgame.info.standings(date)
+    return mlbgame.info.Standings(data)
 
 
 def injury(team_id):

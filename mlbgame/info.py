@@ -203,16 +203,7 @@ class Player(mlbgame.object.Object):
     pass
 
 
-class Standings(object):
-    """Holds information about the league standings
-
-    Properties:
-        standings_url
-        divisions
-        standings_json
-        standings_schedule_date
-        last_update
-    """
+def standings(date):
     DIVISIONS = {
         'AL': {
             '201': 'AL East',
@@ -225,70 +216,50 @@ class Standings(object):
             '203': 'NL West',
         }
     }
-
-    def __init__(self, date):
-        now = datetime.now()
-        if date.year == now.year and date.month == now.month and date.day == now.day:
-            self.standings_url = ('http://mlb.mlb.com/lookup/json/named.standings_schedule_date.bam?season=%s&'
-                                  'schedule_game_date.game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
-                                  'league_id=104&all_star_sw=%%27N%%27&version=2') % (date.year, date.strftime('%Y/%m/%d'))
-            self.standings_schedule_date = 'standings_schedule_date'
-        else:
-            self.standings_url = ('http://mlb.mlb.com/lookup/json/named.historical_standings_schedule_date.bam?season=%s&'
-                                  'game_date=%%27%s%%27&sit_code=%%27h0%%27&league_id=103&'
-                                  'league_id=104&all_star_sw=%%27N%%27&version=48') % (date.year, date.strftime('%Y/%m/%d'))
-            self.standings_schedule_date = 'historical_standings_schedule_date'
-        self.divisions = []
-        self.parse_standings()
-        self.last_update = self.set_last_update()
-
-    @property
-    def standings_json(self):
-        """Return standings output as json"""
-        try:
-            return requests.get(self.standings_url).json()
-        except requests.exceptions.RequestException as e:
-            print(e)
-            sys.exit(-1)
-
-    def set_last_update(self):
-        """Return a dateutil object from string [last update]
-        originally in ISO 8601 format: YYYY-mm-ddTHH:MM:SS"""
-        last_update = self.standings_json[self.standings_schedule_date][
+    now = datetime.now()
+    divisions = []
+    if date.year == now.year and date.month == now.month and date.day == now.day:
+        data = mlbgame.data.get_standings(date)
+        standings_schedule_date = 'standings_schedule_date'
+    else:
+        data = mlbgame.data.get_historical_standings(date)
+        standings_schedule_date = 'historical_standings_schedule_date'
+    parsed = json.loads(data.read().decode('utf-8'))
+    last_update = parsed[standings_schedule_date][
             'standings_all_date_rptr']['standings_all_date'][0]['queryResults']['created']
-        return dateutil.parser.parse(last_update)
-
-    def parse_standings(self):
-        """Parse the json standings"""
-        sjson = self.standings_json[self.standings_schedule_date]['standings_all_date_rptr']['standings_all_date']
-        for league in sjson:
-            if league['league_id'] == '103':
-                divisions = Standings.DIVISIONS['AL']
-            elif league['league_id'] == '104':
-                divisions = Standings.DIVISIONS['NL']
-            else:
-                # Raise Error
-                try:
-                    raise UnknownLeagueID(
-                        'An unknown `league_id` was passed from standings json.')
-                except UnknownLeagueID as e:
-                    print('StandingsError: %s' % e)
-                    raise
-                    sys.exit(-1)
-
-            for division in divisions:
-                teams = [team for team in league['queryResults']
-                         ['row'] if team['division_id'] == division]
-                mlbdiv = Division(divisions[division], teams)
-                self.divisions.append(mlbdiv)
+    sjson = parsed[standings_schedule_date]['standings_all_date_rptr']['standings_all_date']
+    for league in sjson:
+        if league['league_id'] == '103':
+            divs = DIVISIONS['AL']
+        elif league['league_id'] == '104':
+            divs = DIVISIONS['NL']
+        for division in divs:
+            teams = [team for team in league['queryResults']
+                     ['row'] if team['division_id'] == division]
+            divisions.append({
+                'division': divs[division],
+                'teams': teams
+            })
+    return {
+        'standings_schedule_date': standings_schedule_date,
+        'divisions': divisions,
+        'last_update': dateutil.parser.parse(last_update)
+    }
 
 
-class StandingsException(Exception):
-    """Standings Exceptions"""
+class Standings(object):
+    """Holds information about the league standings
 
+    Properties:
+        divisions
+        standings_schedule_date
+        last_update
+    """
 
-class UnknownLeagueID(StandingsException):
-    """An unknown `league_id` was passed from standings json"""
+    def __init__(self, data):
+        self.standings_schedule_date = data['standings_schedule_date']
+        self.last_update = data['last_update']
+        self.divisions = [Division(x['division'], x['teams']) for x in data['divisions']]
 
 
 class Division(object):

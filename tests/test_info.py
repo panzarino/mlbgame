@@ -239,7 +239,7 @@ class TestInfo(unittest.TestCase):
             self.assertIsInstance(player.name_use, str)
             self.assertIsInstance(player.player_id, int)
             self.assertIsInstance(player.position_txt, str)
-            self.assertIsInstance(player.primary_position, int)
+            self.assertIsInstance(player.primary_position, (int, str))
             self.assertIsInstance(player.pro_debut_date, str)
             self.assertIsInstance(player.start_date, str)
             self.assertIsInstance(player.starter_sw, str)
