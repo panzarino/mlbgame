@@ -10,7 +10,6 @@ import mlbgame.data
 import mlbgame.object
 
 from datetime import datetime
-import dateutil.parser
 import json
 import lxml.etree as etree
 import requests
@@ -135,16 +134,13 @@ def roster(team_id):
     data = mlbgame.data.get_roster(team_id)
     parsed = json.loads(data.read().decode('utf-8'))
     players = parsed['roster_40']['queryResults']['row']
-    last_update = dateutil.parser.parse(
-        parsed['roster_40']['queryResults']['created'])
-    return {'players': players, 'last_update': last_update, 'team_id': team_id}
+    return {'players': players, 'team_id': team_id}
 
 
 class Roster(object):
     """Represents an MLB Team
 
     Properties:
-        last_update
         players
         team_id
     """
@@ -154,7 +150,6 @@ class Roster(object):
 
         `data` should be a dictionary of values.
         """
-        self.last_update = data['last_update']
         self.team_id = data['team_id']
         self.players = []
         for player in data['players']:
@@ -217,8 +212,6 @@ def standings(date):
         data = mlbgame.data.get_historical_standings(date)
         standings_schedule_date = 'historical_standings_schedule_date'
     parsed = json.loads(data.read().decode('utf-8'))
-    last_update = parsed[standings_schedule_date][
-            'standings_all_date_rptr']['standings_all_date'][0]['queryResults']['created']
     sjson = parsed[standings_schedule_date]['standings_all_date_rptr']['standings_all_date']
     for league in sjson:
         if league['league_id'] == '103':
@@ -235,7 +228,6 @@ def standings(date):
     return {
         'standings_schedule_date': standings_schedule_date,
         'divisions': divisions,
-        'last_update': dateutil.parser.parse(last_update)
     }
 
 
@@ -245,7 +237,6 @@ class Standings(object):
     Properties:
         divisions
         standings_schedule_date
-        last_update
     """
 
     def __init__(self, data):
@@ -254,7 +245,6 @@ class Standings(object):
         `data` should be a dictionary of values
         """
         self.standings_schedule_date = data['standings_schedule_date']
-        self.last_update = data['last_update']
         self.divisions = [Division(x['division'], x['teams']) for x in data['divisions']]
 
 

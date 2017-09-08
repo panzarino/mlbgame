@@ -221,7 +221,6 @@ class TestInfo(unittest.TestCase):
 
     def test_roster(self):
         roster = mlbgame.roster(121)
-        self.assertIsInstance(roster.last_update, datetime)
         self.assertIsInstance(roster.players, list)
         for player in roster.players:
             self.assertIsInstance(player.bats, str)
@@ -258,7 +257,6 @@ class TestInfo(unittest.TestCase):
     def test_standings(self):
         standings = mlbgame.standings()
         self.assertEqual(standings.standings_schedule_date, 'standings_schedule_date')
-        self.assertIsInstance(standings.last_update, datetime)
         self.assertIsInstance(standings.divisions, list)
         for division in standings.divisions:
             self.assertIsInstance(division.name, str)
@@ -314,7 +312,6 @@ class TestInfo(unittest.TestCase):
         date = datetime(2016, 6, 1)
         standings = mlbgame.standings(date)
         self.assertEqual(standings.standings_schedule_date, 'historical_standings_schedule_date')
-        self.assertIsInstance(standings.last_update, datetime)
         self.assertIsInstance(standings.divisions, list)
         for division in standings.divisions:
             self.assertIsInstance(division.name, str)
