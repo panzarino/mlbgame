@@ -161,14 +161,6 @@ class Roster(object):
             self.players.append(Player(player))
 
 
-class RosterException(Exception):
-    """Roster Exceptions"""
-
-
-class NoTeamID(RosterException):
-    """A `team_id` was not supplied"""
-
-
 class Player(mlbgame.object.Object):
     """Represents an MLB Player
 
@@ -257,6 +249,10 @@ class Standings(object):
     """
 
     def __init__(self, data):
+        """Creates a standings object for info specified in `data`.
+        
+        `data` should be a dictionary of values
+        """
         self.standings_schedule_date = data['standings_schedule_date']
         self.last_update = data['last_update']
         self.divisions = [Division(x['division'], x['teams']) for x in data['divisions']]
@@ -329,70 +325,25 @@ class Team(mlbgame.object.Object):
     """
     pass
 
+def injury():
+    data = mlbgame.data.get_injuries()
+    parsed = json.loads(data.read().decode('utf-8'))
+    return parsed['wsfb_news_injury']['queryResults']['row']
+
 
 class Injuries(object):
     """Represents the MLB Disabled List
 
     Properties:
-        injury_url
         injuries
-        team_id
-        injury_json
-        last_update
     """
-    injury_url = 'http://mlb.mlb.com/fantasylookup/json/named.wsfb_news_injury.bam'
 
-    def __init__(self, team_id=None):
-        if team_id:
-            self.injuries = []
-            if isinstance(team_id, int):
-                self.team_id = str(team_id)
-            else:
-                try:
-                    raise TeamIDException('A `team_id` must be an integer.')
-                except TeamIDException as e:
-                    print(e)
-                    raise
-            self.parse_injury()
-            self.last_update = self.set_last_update()
-        else:
-            try:
-                raise TeamIDException('A `team_id` was not supplied.')
-            except TeamIDException as e:
-                print(e)
-                raise
-
-    @property
-    def injury_json(self):
-        """Return injury output as json"""
-        try:
-            return requests.get(Injuries.injury_url).json()
-        except requests.exceptions.RequestException as e:
-            print(e)
-            sys.exit(-1)
-
-    def set_last_update(self):
-        """Return a dateutil object from string [last update]
-        originally in ISO 8601 format: YYYY-mm-ddTHH:MM:SS"""
-        last_update = self.injury_json['wsfb_news_injury']['queryResults']['created']
-        return dateutil.parser.parse(last_update)
-
-    def parse_injury(self):
-        """Parse the json injury"""
-        injuries = self.injury_json['wsfb_news_injury']['queryResults']['row']
-        injuries = [
-            injury for injury in injuries if injury['team_id'] == self.team_id]
-        for injury in injuries:
-            mlbinjury = Injury(injury)
-            self.injuries.append(mlbinjury)
-
-
-class injuryException(Exception):
-    """injury Exceptions"""
-
-
-class TeamIDException(injuryException):
-    """A `team_id` was not supplied or the `team_id` was not an integer."""
+    def __init__(self, injuries):
+        """Creates an Injuries object for given data.
+        
+        `injuries` should be a list of injuries.
+        """
+        self.injuries = [Injury(x) for x in injuries]
 
 
 class Injury(mlbgame.object.Object):

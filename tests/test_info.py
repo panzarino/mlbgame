@@ -419,8 +419,7 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(team.x_wl_seas, '88-74')
 
     def test_injury(self):
-        injury = mlbgame.injury(121)
-        self.assertIsInstance(injury.last_update, datetime)
+        injury = mlbgame.injury()
         self.assertIsInstance(injury.injuries, list)
         for player in injury.injuries:
             self.assertIsInstance(player.display_ts, str)
@@ -436,5 +435,3 @@ class TestInfo(unittest.TestCase):
             self.assertIsInstance(player.position, str)
             self.assertIsInstance(player.team_id, int)
             self.assertIsInstance(player.team_name, str)
-            self.assertEqual(player.team_id, 121)
-            self.assertEqual(player.team_name, 'Mets')

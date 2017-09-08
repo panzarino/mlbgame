@@ -254,6 +254,7 @@ def standings(date=datetime.now()):
     return mlbgame.info.Standings(data)
 
 
-def injury(team_id):
-    """Return Injuries object that contains injury info for a team"""
-    return mlbgame.info.Injuries(team_id)
+def injury():
+    """Return Injuries object that contains injury info"""
+    data = mlbgame.info.injury()
+    return mlbgame.info.Injuries(data)
