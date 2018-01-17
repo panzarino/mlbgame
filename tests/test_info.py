@@ -281,7 +281,7 @@ class TestInfo(unittest.TestCase):
                 self.assertIsInstance(team.last_ten, str)
                 self.assertIsInstance(team.one_run, str)
                 self.assertIsInstance(team.opp_runs, int)
-                self.assertIsInstance(team.pct, float)
+                self.assertIsInstance(team.pct, (float, str))
                 self.assertIsInstance(team.place, int)
                 self.assertIsInstance(team.playoff_odds, float)
                 self.assertIsInstance(team.playoff_points_sw, str)
