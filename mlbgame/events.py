@@ -10,6 +10,27 @@ import mlbgame.object
 import lxml.etree as etree
 
 
+def __inning_info(inning, part):
+    # info
+    info = []
+    # loop through the half
+    half = inning.findall(part)[0]
+    for y in half.findall('atbat'):
+        atbat = {}
+        # loop through and save info
+        for i in y.attrib:
+            atbat[i] = y.attrib[i]
+        atbat['pitches'] = []
+        for i in y.findall('pitch'):
+            pitch = {}
+            # loop through pitch info
+            for n in i.attrib:
+                pitch[n] = i.attrib[n]
+            atbat['pitches'].append(pitch)
+        info.append(atbat)
+    return info
+
+
 def game_events(game_id):
     """Return dictionary of events for a game with matching id."""
     # get data from data module
@@ -22,41 +43,10 @@ def game_events(game_id):
     # loop through innings
     innings = root.findall('inning')
     for x in innings:
-        # top info
-        topinfo = []
-        # loop through the top half
-        top = x.findall('top')[0]
-        for y in top.findall('atbat'):
-            atbat = {}
-            # loop through and save info
-            for i in y.attrib:
-                atbat[i] = y.attrib[i]
-            atbat['pitches'] = []
-            for i in y.findall('pitch'):
-                pitch = {}
-                # loop through pitch info
-                for n in i.attrib:
-                    pitch[n] = i.attrib[n]
-                atbat['pitches'].append(pitch)
-            topinfo.append(atbat)
-        # bottom info
-        botinfo = []
-        # loop through the bottom half
-        bot = x.findall('bottom')[0]
-        for y in bot.findall('atbat'):
-            atbat = {}
-            # loop through and save info
-            for i in y.attrib:
-                atbat[i] = y.attrib[i]
-            atbat['pitches'] = []
-            for i in y.findall('pitch'):
-                pitch = {}
-                # loop through pitch info
-                for n in i.attrib:
-                    pitch[n] = i.attrib[n]
-                atbat['pitches'].append(pitch)
-            botinfo.append(atbat)
-        output[x.attrib['num']] = {'top': topinfo, 'bottom': botinfo}
+        output[x.attrib['num']] = {
+            'top': __inning_info(x, 'top'),
+            'bottom': __inning_info(x, 'bottom')
+        }
     return output
 
 
@@ -126,9 +116,9 @@ class AtBat(object):
                 self.pitches = []
                 for y in data[x]:
                     self.pitches.append(Pitch(y))
-                continue
-            # set information as correct data type
-            mlbgame.object.setobjattr(self, x, data[x])
+            else:
+                # set information as correct data type
+                mlbgame.object.setobjattr(self, x, data[x])
 
     def nice_output(self):
         """Prints basic at bat info in a nice way."""
