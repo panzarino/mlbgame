@@ -859,8 +859,10 @@ table {
 .codehilite .err { border: 1px solid #FF0000 } /* Error */
 .codehilite .k { color: #008000; font-weight: bold } /* Keyword */
 .codehilite .o { color: #666666 } /* Operator */
+.codehilite .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
 .codehilite .cm { color: #408080; font-style: italic } /* Comment.Multiline */
 .codehilite .cp { color: #BC7A00 } /* Comment.Preproc */
+.codehilite .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
 .codehilite .c1 { color: #408080; font-style: italic } /* Comment.Single */
 .codehilite .cs { color: #408080; font-style: italic } /* Comment.Special */
 .codehilite .gd { color: #A00000 } /* Generic.Deleted */
@@ -900,8 +902,10 @@ table {
 .codehilite .mh { color: #666666 } /* Literal.Number.Hex */
 .codehilite .mi { color: #666666 } /* Literal.Number.Integer */
 .codehilite .mo { color: #666666 } /* Literal.Number.Oct */
+.codehilite .sa { color: #BA2121 } /* Literal.String.Affix */
 .codehilite .sb { color: #BA2121 } /* Literal.String.Backtick */
 .codehilite .sc { color: #BA2121 } /* Literal.String.Char */
+.codehilite .dl { color: #BA2121 } /* Literal.String.Delimiter */
 .codehilite .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
 .codehilite .s2 { color: #BA2121 } /* Literal.String.Double */
 .codehilite .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
@@ -912,9 +916,11 @@ table {
 .codehilite .s1 { color: #BA2121 } /* Literal.String.Single */
 .codehilite .ss { color: #19177C } /* Literal.String.Symbol */
 .codehilite .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #0000FF } /* Name.Function.Magic */
 .codehilite .vc { color: #19177C } /* Name.Variable.Class */
 .codehilite .vg { color: #19177C } /* Name.Variable.Global */
 .codehilite .vi { color: #19177C } /* Name.Variable.Instance */
+.codehilite .vm { color: #19177C } /* Name.Variable.Magic */
 .codehilite .il { color: #666666 } /* Literal.Number.Integer.Long */
   </style>
 
@@ -1087,7 +1093,7 @@ gets the data from mlb.com.</p>
   
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data" class="source">
-    <div class="codehilite"><pre><span class="c">#!/usr/bin/env python</span>
+    <div class="codehilite"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
 
 <span class="sd">&quot;&quot;&quot;This module gets the XML data that other functions use.</span>
 <span class="sd">It checks if the data is cached first, and if not,</span>
@@ -1103,30 +1109,30 @@ gets the data from mlb.com.</p>
     <span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">HTTPError</span>
 
 
-<span class="c"># Templates For URLS</span>
-<span class="n">BASE_URL</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;http://gd2.mlb.com/components/game/mlb/&#39;</span>
-            <span class="s">&#39;year_{0}/month_{1:02d}/day_{2:02d}/&#39;</span><span class="p">)</span>
-<span class="n">GAME_URL</span> <span class="o">=</span> <span class="n">BASE_URL</span> <span class="o">+</span> <span class="s">&#39;/gid_{3}/{4}&#39;</span>
-<span class="n">PROPERTY_URL</span> <span class="o">=</span> <span class="s">&#39;http://mlb.mlb.com/properties/mlb_properties.xml&#39;</span>
-<span class="n">ROSTER_URL</span> <span class="o">=</span> <span class="s">&#39;http://mlb.mlb.com/lookup/json/named.roster_40.bam?team_id={0}&#39;</span>
-<span class="n">INJURY_URL</span> <span class="o">=</span> <span class="s">&#39;http://mlb.mlb.com/fantasylookup/json/named.wsfb_news_injury.bam&#39;</span>
-<span class="n">STANDINGS_URL</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;http://mlb.mlb.com/lookup/json/named.standings_schedule_date.bam?season={0}&amp;&#39;</span>
-                <span class="s">&#39;schedule_game_date.game_date=%27{1}%27&amp;sit_code=%27h0%27&amp;league_id=103&amp;&#39;</span>
-                <span class="s">&#39;league_id=104&amp;all_star_sw=%27N%27&amp;version=2&#39;</span><span class="p">)</span>
-<span class="n">STANDINGS_HISTORICAL_URL</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;http://mlb.mlb.com/lookup/json/named.historical_standings_schedule_date.bam?season={0}&amp;&#39;</span>
-                           <span class="s">&#39;game_date=%27{1}%27&amp;sit_code=%27h0%27&amp;league_id=103&amp;&#39;</span>
-                           <span class="s">&#39;league_id=104&amp;all_star_sw=%27N%27&amp;version=48&#39;</span><span class="p">)</span>
-<span class="c"># Local Directory</span>
-<span class="n">PWD</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
+<span class="c1"># Templates For URLS</span>
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;http://gd2.mlb.com/components/game/mlb/&#39;</span>
+            <span class="s1">&#39;year_{0}/month_{1:02d}/day_{2:02d}/&#39;</span><span class="p">)</span>
+<span class="n">GAME_URL</span> <span class="o">=</span> <span class="n">BASE_URL</span> <span class="o">+</span> <span class="s1">&#39;gid_{3}/{4}&#39;</span>
+<span class="n">PROPERTY_URL</span> <span class="o">=</span> <span class="s1">&#39;http://mlb.mlb.com/properties/mlb_properties.xml&#39;</span>
+<span class="n">ROSTER_URL</span> <span class="o">=</span> <span class="s1">&#39;http://mlb.mlb.com/lookup/json/named.roster_40.bam?team_id={0}&#39;</span>
+<span class="n">INJURY_URL</span> <span class="o">=</span> <span class="s1">&#39;http://mlb.mlb.com/fantasylookup/json/named.wsfb_news_injury.bam&#39;</span>
+<span class="n">STANDINGS_URL</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;http://mlb.mlb.com/lookup/json/named.standings_schedule_date.bam?season={0}&amp;&#39;</span>
+                <span class="s1">&#39;schedule_game_date.game_date=%27{1}%27&amp;sit_code=%27h0%27&amp;league_id=103&amp;&#39;</span>
+                <span class="s1">&#39;league_id=104&amp;all_star_sw=%27N%27&amp;version=2&#39;</span><span class="p">)</span>
+<span class="n">STANDINGS_HISTORICAL_URL</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;http://mlb.mlb.com/lookup/json/named.historical_standings_schedule_date.bam?season={0}&amp;&#39;</span>
+                           <span class="s1">&#39;game_date=%27{1}%27&amp;sit_code=%27h0%27&amp;league_id=103&amp;&#39;</span>
+                           <span class="s1">&#39;league_id=104&amp;all_star_sw=%27N%27&amp;version=48&#39;</span><span class="p">)</span>
+<span class="c1"># Local Directory</span>
+<span class="n">PWD</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">get_scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the game file for a certain day matching certain criteria.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span>
-                                       <span class="p">)</span> <span class="o">+</span> <span class="s">&#39;scoreboard.xml&#39;</span><span class="p">)</span>
+                                       <span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;scoreboard.xml&#39;</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PWD</span><span class="p">,</span> <span class="s">&#39;default.xml&#39;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PWD</span><span class="p">,</span> <span class="s1">&#39;default.xml&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data</span>
 
 
@@ -1136,9 +1142,9 @@ gets the data from mlb.com.</p>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">GAME_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span>
                                        <span class="n">game_id</span><span class="p">,</span>
-                                       <span class="s">&#39;boxscore.xml&#39;</span><span class="p">))</span>
+                                       <span class="s1">&#39;boxscore.xml&#39;</span><span class="p">))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_game_events</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
@@ -1147,9 +1153,9 @@ gets the data from mlb.com.</p>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">GAME_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span>
                                        <span class="n">game_id</span><span class="p">,</span>
-                                       <span class="s">&#39;game_events.xml&#39;</span><span class="p">))</span>
+                                       <span class="s1">&#39;game_events.xml&#39;</span><span class="p">))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
@@ -1158,9 +1164,9 @@ gets the data from mlb.com.</p>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">GAME_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span>
                                        <span class="n">game_id</span><span class="p">,</span>
-                                       <span class="s">&#39;linescore.xml&#39;</span><span class="p">))</span>
+                                       <span class="s1">&#39;linescore.xml&#39;</span><span class="p">))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_players</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
@@ -1169,20 +1175,20 @@ gets the data from mlb.com.</p>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">GAME_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span>
                                        <span class="n">game_id</span><span class="p">,</span>
-                                       <span class="s">&quot;players.xml&quot;</span><span class="p">))</span>
+                                       <span class="s2">&quot;players.xml&quot;</span><span class="p">))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_properties</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Return the current mlb properties file&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">PROPERTY_URL</span><span class="p">)</span>
-    <span class="c"># in case mlb.com depricates this functionality</span>
+    <span class="c1"># in case mlb.com depricates this functionality</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find the properties file. &#39;</span>
-                         <span class="s">&#39;mlb.com does not provide the file that &#39;</span>
-                         <span class="s">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find the properties file. &#39;</span>
+                         <span class="s1">&#39;mlb.com does not provide the file that &#39;</span>
+                         <span class="s1">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_roster</span><span class="p">(</span><span class="n">team_id</span><span class="p">):</span>
@@ -1190,25 +1196,25 @@ gets the data from mlb.com.</p>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">ROSTER_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">team_id</span><span class="p">))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find a roster for a team with that id.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find a roster for a team with that id.&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_standings</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the standings file for current standings (given current date).&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">STANDINGS_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y/%m/</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">STANDINGS_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find the standings file. &#39;</span>
-                   <span class="s">&#39;mlb.com does not provide the file that &#39;</span>
-                   <span class="s">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
+        <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find the standings file. &#39;</span>
+                   <span class="s1">&#39;mlb.com does not provide the file that &#39;</span>
+                   <span class="s1">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_historical_standings</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the historical standings file for specified date.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">STANDINGS_HISTORICAL_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y/%m/</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">STANDINGS_HISTORICAL_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find standings for that date.&#39;</span><span class="p">)</span>
+        <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find standings for that date.&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_injuries</span><span class="p">():</span>
@@ -1216,13 +1222,13 @@ gets the data from mlb.com.</p>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">INJURY_URL</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find the injuries file. &#39;</span>
-                   <span class="s">&#39;mlb.com does not provide the file that &#39;</span>
-                   <span class="s">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
+        <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find the injuries file. &#39;</span>
+                   <span class="s1">&#39;mlb.com does not provide the file that &#39;</span>
+                   <span class="s1">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">get_date_from_game_id</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">_discard</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">_discard</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">)</span>
 </pre></div>
 
@@ -1311,15 +1317,15 @@ gets the data from mlb.com.</p>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_box_score', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data.get_box_score" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_box_score</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the box score file of a game with matching id.&quot;&quot;&quot;</span>
     <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="n">get_date_from_game_id</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">GAME_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span>
                                        <span class="n">game_id</span><span class="p">,</span>
-                                       <span class="s">&#39;boxscore.xml&#39;</span><span class="p">))</span>
+                                       <span class="s1">&#39;boxscore.xml&#39;</span><span class="p">))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1339,8 +1345,8 @@ gets the data from mlb.com.</p>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_date_from_game_id', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data.get_date_from_game_id" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_date_from_game_id</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
-    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">_discard</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_date_from_game_id</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">_discard</span> <span class="o">=</span> <span class="n">game_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">)</span>
 </pre></div>
 
@@ -1362,15 +1368,15 @@ gets the data from mlb.com.</p>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_game_events', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data.get_game_events" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_game_events</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_game_events</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the game events file of a game with matching id.&quot;&quot;&quot;</span>
     <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="n">get_date_from_game_id</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">GAME_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span>
                                        <span class="n">game_id</span><span class="p">,</span>
-                                       <span class="s">&#39;game_events.xml&#39;</span><span class="p">))</span>
+                                       <span class="s1">&#39;game_events.xml&#39;</span><span class="p">))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1391,12 +1397,12 @@ gets the data from mlb.com.</p>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_historical_standings', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data.get_historical_standings" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_historical_standings</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_historical_standings</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the historical standings file for specified date.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">STANDINGS_HISTORICAL_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y/%m/</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">STANDINGS_HISTORICAL_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find standings for that date.&#39;</span><span class="p">)</span>
+        <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find standings for that date.&#39;</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1417,14 +1423,14 @@ gets the data from mlb.com.</p>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_injuries', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data.get_injuries" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_injuries</span><span class="p">():</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_injuries</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Return the injuries file for specified date.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">INJURY_URL</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find the injuries file. &#39;</span>
-                   <span class="s">&#39;mlb.com does not provide the file that &#39;</span>
-                   <span class="s">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
+        <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find the injuries file. &#39;</span>
+                   <span class="s1">&#39;mlb.com does not provide the file that &#39;</span>
+                   <span class="s1">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1445,15 +1451,15 @@ gets the data from mlb.com.</p>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_overview', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data.get_overview" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_overview</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the linescore file of a game with matching id.&quot;&quot;&quot;</span>
     <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="n">get_date_from_game_id</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">GAME_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span>
                                        <span class="n">game_id</span><span class="p">,</span>
-                                       <span class="s">&#39;linescore.xml&#39;</span><span class="p">))</span>
+                                       <span class="s1">&#39;linescore.xml&#39;</span><span class="p">))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1474,15 +1480,15 @@ gets the data from mlb.com.</p>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_players', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data.get_players" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_players</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_players</span><span class="p">(</span><span class="n">game_id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the players file of a game with matching id.&quot;&quot;&quot;</span>
     <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="n">get_date_from_game_id</span><span class="p">(</span><span class="n">game_id</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">GAME_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span>
                                        <span class="n">game_id</span><span class="p">,</span>
-                                       <span class="s">&quot;players.xml&quot;</span><span class="p">))</span>
+                                       <span class="s2">&quot;players.xml&quot;</span><span class="p">))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find a game with that id.&#39;</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1503,15 +1509,15 @@ gets the data from mlb.com.</p>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_properties', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data.get_properties" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_properties</span><span class="p">():</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_properties</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Return the current mlb properties file&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">PROPERTY_URL</span><span class="p">)</span>
-    <span class="c"># in case mlb.com depricates this functionality</span>
+    <span class="c1"># in case mlb.com depricates this functionality</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find the properties file. &#39;</span>
-                         <span class="s">&#39;mlb.com does not provide the file that &#39;</span>
-                         <span class="s">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find the properties file. &#39;</span>
+                         <span class="s1">&#39;mlb.com does not provide the file that &#39;</span>
+                         <span class="s1">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1532,12 +1538,12 @@ gets the data from mlb.com.</p>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_roster', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data.get_roster" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_roster</span><span class="p">(</span><span class="n">team_id</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_roster</span><span class="p">(</span><span class="n">team_id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the roster file of team with matching id.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">ROSTER_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">team_id</span><span class="p">))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find a roster for a team with that id.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find a roster for a team with that id.&#39;</span><span class="p">)</span>
 </pre></div>
 
   </div>
@@ -1558,13 +1564,13 @@ gets the data from mlb.com.</p>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_scoreboard', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data.get_scoreboard" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_scoreboard</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the game file for a certain day matching certain criteria.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span>
-                                       <span class="p">)</span> <span class="o">+</span> <span class="s">&#39;scoreboard.xml&#39;</span><span class="p">)</span>
+                                       <span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;scoreboard.xml&#39;</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PWD</span><span class="p">,</span> <span class="s">&#39;default.xml&#39;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PWD</span><span class="p">,</span> <span class="s1">&#39;default.xml&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data</span>
 </pre></div>
 
@@ -1586,14 +1592,14 @@ gets the data from mlb.com.</p>
   <div class="source_cont">
   <p class="source_link"><a href="javascript:void(0);" onclick="toggle('source-mlbgame.data.get_standings', this);">Show source &equiv;</a></p>
   <div id="source-mlbgame.data.get_standings" class="source">
-    <div class="codehilite"><pre><span class="k">def</span> <span class="nf">get_standings</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
+    <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_standings</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the standings file for current standings (given current date).&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">STANDINGS_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y/%m/</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">STANDINGS_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)))</span>
     <span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span>
-        <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not find the standings file. &#39;</span>
-                   <span class="s">&#39;mlb.com does not provide the file that &#39;</span>
-                   <span class="s">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
+        <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find the standings file. &#39;</span>
+                   <span class="s1">&#39;mlb.com does not provide the file that &#39;</span>
+                   <span class="s1">&#39;mlbgame needs to perform this operation.&#39;</span><span class="p">)</span>
 </pre></div>
 
   </div>
