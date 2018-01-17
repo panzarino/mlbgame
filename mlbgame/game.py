@@ -284,6 +284,15 @@ class GameBoxScore(object):
         """Allows object to be iterated over."""
         for x in self.innings:
             yield x
+    
+    def __enumerate_scoreboard(self, data):
+        output = ''
+        for y, x in enumerate(data, start=1):
+            if y >= 10:
+                output += str(x) + '  '
+            else:
+                output += str(x) + ' '
+        return output
 
     def print_scoreboard(self):
         """Print object as a scoreboard."""
@@ -304,18 +313,8 @@ class GameBoxScore(object):
         output += '\n'
         for x in innings:
             output += '---'
-        output += '\nAway\t'
-        for y, x in enumerate(away, start=1):
-            if y >= 10:
-                output += str(x) + '  '
-            else:
-                output += str(x) + ' '
-        output += '\nHome\t'
-        for y, x in enumerate(home, start=1):
-            if y >= 10:
-                output += str(x) + '  '
-            else:
-                output += str(x) + ' '
+        output += '\nAway\t' + self.__enumerate_scoreboard(away)
+        output += '\nHome\t' + self.__enumerate_scoreboard(home)
         return output
 
 
