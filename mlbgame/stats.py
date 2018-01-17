@@ -9,6 +9,24 @@ import mlbgame.object
 import lxml.etree as etree
 
 
+def __player_stats_info(data, name):
+    home = []
+    away = []
+    for y in data:
+        # loops through pitchers
+        for x in y.findall(name):
+            stats = {}
+            # loop through and save stats
+            for i in x.attrib:
+                stats[i] = x.attrib[i]
+            # apply to correct list
+            if y.attrib['team_flag'] == 'home':
+                home.append(stats)
+            elif not home:
+                away.append(stats)
+    return (home, away)
+
+
 def player_stats(game_id):
     """Return dictionary of individual stats of a game with matching id."""
     # get data from data module
@@ -19,51 +37,14 @@ def player_stats(game_id):
     # get pitching and batting info
     pitching = root.findall('pitching')
     batting = root.findall('batting')
-    # empty lists for output
-    home_pitching = []
-    away_pitching = []
-    home_batting = []
-    away_batting = []
-    # loop through pitching info
-    for y in pitching:
-        # checks if home team
-        home = False
-        if y.attrib['team_flag'] == 'home':
-            home = True
-        # loops through pitchers
-        for x in y.findall('pitcher'):
-            stats = {}
-            # loop through and save stats
-            for i in x.attrib:
-                stats[i] = x.attrib[i]
-            # apply to correct list
-            if home:
-                home_pitching.append(stats)
-            elif not home:
-                away_pitching.append(stats)
-    # loop through batting info
-    for y in batting:
-        # checks if home team
-        home = False
-        if y.attrib['team_flag'] == 'home':
-            home = True
-        # loops through batters
-        for x in y.findall('batter'):
-            stats = {}
-            # loop through and save stats
-            for i in x.attrib:
-                stats[i] = x.attrib[i]
-            # apply to correct list
-            if home:
-                home_batting.append(stats)
-            elif not home:
-                away_batting.append(stats)
-    # put lists in dictionary for output
+    # get parsed stats
+    pitching_info = __player_stats_info(pitching, 'pitcher')
+    batting_info = __player_stats_info(batting, 'batter')
     output = {
-        'home_pitching': home_pitching,
-        'away_pitching': away_pitching,
-        'home_batting': home_batting,
-        'away_batting': away_batting
+        'home_pitching': pitching_info[0],
+        'away_pitching': pitching_info[1],
+        'home_batting': batting_info[0],
+        'away_batting': batting_info[1]
     }
     return output
 
