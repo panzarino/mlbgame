@@ -97,10 +97,10 @@ in the final game of the 2015 World Series:
     #!python
     from __future__ import print_function
     import mlbgame
-
+    
     game = mlbgame.day(2015, 11, 1, home='Mets')[0]
     stats = mlbgame.player_stats(game.game_id)
-    for player in stats['home_batting']:
+    for player in stats.home_batting:
         print(player)
 
 And the output is:

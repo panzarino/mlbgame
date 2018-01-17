@@ -99,7 +99,7 @@ import mlbgame
 
 game = mlbgame.day(2015, 11, 1, home='Mets')[0]
 stats = mlbgame.player_stats(game.game_id)
-for player in stats['home_batting']:
+for player in stats.home_batting:
     print(player)
 ```
 
