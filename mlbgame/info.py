@@ -12,7 +12,6 @@ import mlbgame.object
 from datetime import datetime
 import json
 import lxml.etree as etree
-import requests
 import sys
 
 
