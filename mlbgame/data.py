@@ -51,6 +51,16 @@ def get_box_score(game_id):
     except HTTPError:
         raise ValueError('Could not find a game with that id.')
 
+def get_raw_box_score(game_id):
+    """Return the raw box score file of a game with matching id."""
+    year, month, day = get_date_from_game_id(game_id)
+    try:
+        return urlopen(GAME_URL.format(year, month, day,
+                                       game_id,
+                                       'rawboxscore.xml'))
+    except HTTPError:
+        raise ValueError('Could not find a game with that id.')
+
 
 def get_game_events(game_id):
     """Return the game events file of a game with matching id."""
