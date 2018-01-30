@@ -19,10 +19,7 @@ def __player_stats_info(data, name):
             for i in x.attrib:
                 stats[i] = x.attrib[i]
             # apply to correct list
-            if y.attrib['team_flag'] == 'home':
-                home.append(stats)
-            elif not home:
-                away.append(stats)
+            home.append(stats) if y.attrib['team_flag'] == 'home' else away.append(stats)
     return (home, away)
 
 def __raw_player_stats_info(data):
