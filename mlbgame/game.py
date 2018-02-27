@@ -284,7 +284,7 @@ class GameBoxScore(object):
         """Allows object to be iterated over."""
         for x in self.innings:
             yield x
-    
+
     def __enumerate_scoreboard(self, data):
         output = ''
         for y, x in enumerate(data, start=1):
@@ -329,6 +329,50 @@ def overview(game_id):
     # get overview attributes
     for x in root.attrib:
         output[x] = root.attrib[x]
+
+    # Get probable starter attributes if they exist
+    home_pitcher_tree = root.find('home_probable_pitcher')
+    if home_pitcher_tree is not None:
+        output.update(build_namespaced_attributes(
+            'home_probable_pitcher', home_pitcher_tree))
+    else:
+        output.update(build_probable_starter_defaults('home'))
+
+    away_pitcher_tree = root.find('away_probable_pitcher')
+    if away_pitcher_tree is not None:
+        output.update(build_namespaced_attributes(
+            'away_probable_pitcher', away_pitcher_tree))
+    else:
+        output.update(build_probable_starter_defaults('away'))
+
+    return output
+
+
+def build_namespaced_attributes(name, tree):
+    output = {}
+    for attr in tree.attrib:
+        output[name + '_' + attr] = tree.attrib[attr]
+    return output
+
+
+def build_probable_starter_defaults(name):
+    output = {}
+    output[name + '_probable_pitcher_era'] = ''
+    output[name + '_probable_pitcher_first'] = ''
+    output[name + '_probable_pitcher_first_name'] = ''
+    output[name + '_probable_pitcher_id'] = ''
+    output[name + '_probable_pitcher_last'] = ''
+    output[name + '_probable_pitcher_last_name'] = ''
+    output[name + '_probable_pitcher_losses'] = ''
+    output[name + '_probable_pitcher_name_display_roster'] = ''
+    output[name + '_probable_pitcher_number'] = ''
+    output[name + '_probable_pitcher_s_era'] = ''
+    output[name + '_probable_pitcher_s_losses'] = ''
+    output[name + '_probable_pitcher_s_wins'] = ''
+    output[name + '_probable_pitcher_stats_season'] = ''
+    output[name + '_probable_pitcher_stats_type'] = ''
+    output[name + '_probable_pitcher_throwinghand'] = ''
+    output[name + '_probable_pitcher_wins'] = ''
     return output
 
 
@@ -348,6 +392,22 @@ class Overview(mlbgame.object.Object):
         away_loss
         away_name_abbrev
         away_preview_link
+        away_probable_pitcher_era
+        away_probable_pitcher_first
+        away_probable_pitcher_first_name
+        away_probable_pitcher_id
+        away_probable_pitcher_last
+        away_probable_pitcher_last_name
+        away_probable_pitcher_losses
+        away_probable_pitcher_name_display_roster
+        away_probable_pitcher_number
+        away_probable_pitcher_s_era
+        away_probable_pitcher_s_losses
+        away_probable_pitcher_s_wins
+        away_probable_pitcher_stats_season
+        away_probable_pitcher_stats_type
+        away_probable_pitcher_throwinghand
+        away_probable_pitcher_wins
         away_recap_link
         away_sport_code
         away_team_city
@@ -380,6 +440,22 @@ class Overview(mlbgame.object.Object):
         home_loss
         home_name_abbrev
         home_preview_link
+        home_probable_pitcher_era
+        home_probable_pitcher_first
+        home_probable_pitcher_first_name
+        home_probable_pitcher_id
+        home_probable_pitcher_last
+        home_probable_pitcher_last_name
+        home_probable_pitcher_losses
+        home_probable_pitcher_name_display_roster
+        home_probable_pitcher_number
+        home_probable_pitcher_s_era
+        home_probable_pitcher_s_losses
+        home_probable_pitcher_s_wins
+        home_probable_pitcher_stats_season
+        home_probable_pitcher_stats_type
+        home_probable_pitcher_throwinghand
+        home_probable_pitcher_wins
         home_recap_link
         home_sport_code
         home_team_city
