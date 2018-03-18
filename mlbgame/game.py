@@ -321,24 +321,27 @@ class GameBoxScore(object):
 def overview(game_id):
     """Gets the overview information for the game with matching id."""
     # get data
-    data = mlbgame.data.get_overview(game_id)
+    overview = mlbgame.data.get_overview(game_id)
+    raw_box_score = mlbgame.data.get_raw_box_score(game_id)
     # parse data
-    parsed = etree.parse(data)
-    root = parsed.getroot()
+    overview_root = etree.parse(overview).getroot()
+    raw_box_score_root = etree.parse(raw_box_score).getroot()
     output = {}
     # get overview attributes
-    for x in root.attrib:
-        output[x] = root.attrib[x]
-
+    for x in overview_root.attrib:
+        output[x] = overview_root.attrib[x]
+    # get attendance from raw box score
+    output['attendance'] = raw_box_score_root.attrib['attendance']
+    
     # Get probable starter attributes if they exist
-    home_pitcher_tree = root.find('home_probable_pitcher')
+    home_pitcher_tree = overview_root.find('home_probable_pitcher')
     if home_pitcher_tree is not None:
         output.update(build_namespaced_attributes(
             'home_probable_pitcher', home_pitcher_tree))
     else:
         output.update(build_probable_starter_defaults('home'))
 
-    away_pitcher_tree = root.find('away_probable_pitcher')
+    away_pitcher_tree = overview_root.find('away_probable_pitcher')
     if away_pitcher_tree is not None:
         output.update(build_namespaced_attributes(
             'away_probable_pitcher', away_pitcher_tree))
@@ -381,6 +384,7 @@ class Overview(mlbgame.object.Object):
 
     Properties:
         ampm
+        attendance
         aw_lg_ampm
         away_ampm
         away_code

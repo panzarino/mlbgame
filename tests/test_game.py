@@ -155,6 +155,7 @@ class TestGame(unittest.TestCase):
     def test_overview(self):
         overview = mlbgame.overview('2016_08_02_nyamlb_nynmlb_1')
         self.assertEqual(overview.ampm, 'PM')
+        self.assertEqual(overview.attendance, '42,819')
         self.assertEqual(overview.aw_lg_ampm, 'PM')
         self.assertEqual(overview.away_ampm, 'PM')
         self.assertEqual(overview.away_code, 'nya')
