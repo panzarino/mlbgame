@@ -100,7 +100,19 @@ import mlbgame
 game = mlbgame.day(2015, 11, 1, home='Mets')[0]
 stats = mlbgame.player_stats(game.game_id)
 for player in stats.home_batting:
-    print(player)
+    hr_rbi_output = '{0} - {1} for {2} with {3} RBI and {4} Home Runs'
+    rbi_output = '{0} - {1} for {2} with {3} RBI'
+    output = '{0} - {1} for {2}'
+    if player.rbi > 0 and player.hr > 0:
+        print(hr_rbi_output.format(player.name_display_first_last, player.h,
+                                   player.ab, player.rbi, player.hr)
+             )
+    elif player.rbi > 0:
+        print(rbi_output.format(player.name_display_first_last, player.h,
+                                player.ab, player.rbi)
+             )
+    else:
+        print(output.format(player.name_display_first_last, player.h, player.ab))
 ```
 
 And the output is:
@@ -120,4 +132,4 @@ And the output is:
     Jon Niese - 0 for 0
     Addison Reed - 0 for 0
     Bartolo Colon - 0 for 0
-    
+
