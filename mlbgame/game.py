@@ -326,12 +326,14 @@ def overview(game_id):
     # parse data
     overview_root = etree.parse(overview).getroot()
     raw_box_score_root = etree.parse(raw_box_score).getroot()
+    
     output = {}
     # get overview attributes
     for x in overview_root.attrib:
         output[x] = overview_root.attrib[x]
-    # get attendance from raw box score
-    output['attendance'] = raw_box_score_root.attrib['attendance']
+    # get raw box score attributes
+    for x in raw_box_score_root.attrib:
+        output[x] = raw_box_score_root.attrib[x]
     
     # Get probable starter attributes if they exist
     home_pitcher_tree = overview_root.find('home_probable_pitcher')
@@ -424,10 +426,13 @@ class Overview(mlbgame.object.Object):
         away_time_zone
         away_win
         balls
+        date
         day
         double_header_sw
+        elapsed_time
         first_pitch_et
         game_data_directory
+        game_id
         game_nbr
         game_pk
         game_type
@@ -480,12 +485,15 @@ class Overview(mlbgame.object.Object):
         league
         location
         note
+        official_scorer
         original_date
         outs
         photos_link
         preview
         scheduled_innings
+        start_time
         status
+        status_ind
         strikes
         tbd_flag
         tiebreaker_sw
@@ -504,7 +512,10 @@ class Overview(mlbgame.object.Object):
         tz_hm_lg_gen
         venue
         venue_id
+        venue_name
         venue_w_chan_loc
+        weather
+        wind
         wrapup_link
     """
     pass
