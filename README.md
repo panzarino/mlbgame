@@ -17,14 +17,14 @@ mlbgame [documentation](http://panz.io/mlbgame)
 
 mlbgame on [Github](https://github.com/panzarino/mlbgame) (Source Code)
 
-If you have a question or need help, the quickest way to get a response 
+If you have a question or need help, the quickest way to get a response
 is to file an issue on the [Github issue tracker](https://github.com/panzarino/mlbgame/issues/new)
 
-mlbgame's submodules should not really be used other than as 
+mlbgame's submodules should not really be used other than as
 used by the main functions of the package (in `__init__.py`).
 
-Use of mlbgame must follow the terms stated in the 
-[license](https://raw.githubusercontent.com/panzarino/mlbgame/master/LICENSE) 
+Use of mlbgame must follow the terms stated in the
+[license](https://raw.githubusercontent.com/panzarino/mlbgame/master/LICENSE)
 and on [mlb.com](http://gd2.mlb.com/components/copyright.txt).
 
 Installation
@@ -37,8 +37,8 @@ mlbgame can be installed by running:
 
     pip install mlbgame
 
-Alternatively, the latest release of mlbgame can be downloaded as a 
-[zip](https://github.com/panzarino/mlbgame/archive/master.zip) or [tarball](https://github.com/panzarino/mlbgame/archive/master.tar.gz). 
+Alternatively, the latest release of mlbgame can be downloaded as a
+[zip](https://github.com/panzarino/mlbgame/archive/master.zip) or [tarball](https://github.com/panzarino/mlbgame/archive/master.tar.gz).
 If you do not install with `pip`, you must also install `lxml` as specified in `setup.py`.
 
 If you want to help develop mlbgame, you must also install the dev dependencies, which can be done by running `pip install -e .[dev]` from within the directory.
@@ -90,7 +90,7 @@ And the output is:
 
     Winning pitcher: Y. Ventura (Royals) - Losing Pitcher: C. Wilson (Angels)
 
-You can easily find stats for the Mets batters
+You can easily find the Mets batters
 in the final game of the 2015 World Series:
 
 ```python
@@ -105,19 +105,18 @@ for player in stats.home_batting:
 
 And the output is:
 
-    Curtis Granderson - 1 for 4 with 1 RBI and 1 Home Runs
-    David Wright - 1 for 5
-    Daniel Murphy - 0 for 3
-    Yoenis Cespedes - 0 for 3
-    Juan Lagares - 0 for 2
-    Lucas Duda - 0 for 2 with 1 RBI
-    Travis d'Arnaud - 0 for 5
-    Michael Conforto - 2 for 5
-    Wilmer Flores - 0 for 4
-    Matt Harvey - 0 for 3
-    Jeurys Familia - 0 for 0
-    Kelly Johnson - 0 for 1
-    Jon Niese - 0 for 0
-    Addison Reed - 0 for 0
-    Bartolo Colon - 0 for 0
-    
+    Curtis Granderson (RF)
+    David Wright (3B)
+    Daniel Murphy (2B)
+    Yoenis Cespedes (CF)
+    Juan Lagares (CF)
+    Lucas Duda (1B)
+    Travis d'Arnaud (C)
+    Michael Conforto (LF)
+    Wilmer Flores (SS)
+    Matt Harvey (P)
+    Jeurys Familia (P)
+    Kelly Johnson (PH)
+    Jonathon Niese (P)
+    Addison Reed (P)
+    Bartolo Colon (P)
