@@ -205,7 +205,7 @@ class GameScoreboard(object):
         elif self.away_team_runs > self.home_team_runs:
             self.w_team = self.away_team
             self.l_team = self.home_team
-        # create a datetime object that represents the game star time
+        # create a datetime object that represents the game start time
         # the object has no timezone info but should be interpreted as
         # being in the US/Eastern timezone
         year, month, day = self.game_id.split('_')[:3]
