@@ -44,7 +44,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game.away_team_errors, 2)
         self.assertEqual(game.away_team_hits, 6)
         self.assertEqual(game.away_team_runs, 1)
-        self.assertEqual(game.date, datetime(2016, 8, 2, 18, 10))
+        self.assertEqual(game.date, datetime(2016, 8, 2, 19, 10))
         self.assertEqual(game.game_id, '2016_08_02_nyamlb_nynmlb_1')
         self.assertEqual(game.game_league, 'AN')
         self.assertEqual(game.game_start_time, '7:10PM')
