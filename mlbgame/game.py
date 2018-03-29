@@ -320,10 +320,9 @@ class GameBoxScore(object):
 
 def overview(game_id):
     """Gets the overview information for the game with matching id."""
+    output = {}
     # get data
     overview = mlbgame.data.get_overview(game_id)
-    raw_box_score = mlbgame.data.get_raw_box_score(game_id)
-    # parse data
     overview_root = etree.parse(overview).getroot()
     raw_box_score_root = etree.parse(raw_box_score).getroot()
 
