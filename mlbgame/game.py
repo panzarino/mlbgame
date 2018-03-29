@@ -205,15 +205,14 @@ class GameScoreboard(object):
         elif self.away_team_runs > self.home_team_runs:
             self.w_team = self.away_team
             self.l_team = self.home_team
-        # create the datetime object for the game
-        year, month, day = self.game_id.split('_')[0:3]
-        hour, other = self.game_start_time.split(':', 2)
-        minute = other[:2]
-        am_pm = other[2:]
-        if am_pm == 'PM':
-            hour = int(hour) + 11
-        self.date = datetime.datetime(int(year), int(month), int(day),
-                                      int(hour), int(minute))
+        # create a datetime object that represents the game star time
+        # the object has no timezone info but should be interpreted as
+        # being in the US/Eastern timezone
+        year, month, day = self.game_id.split('_')[:3]
+        game_start_date = "/".join([year, month, day])
+        self.date = datetime.datetime.strptime(
+                " ".join([game_start_date, self.game_start_time]),
+                "%Y/%m/%d %I:%M%p")
 
     def nice_score(self):
         """Return a nicely formatted score of the game."""
