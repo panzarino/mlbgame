@@ -210,8 +210,9 @@ class GameScoreboard(object):
         # being in the US/Eastern timezone
         year, month, day = self.game_id.split('_')[:3]
         game_start_date = "/".join([year, month, day])
+        game_start_time = self.game_start_time.replace(' ', '')
         self.date = datetime.datetime.strptime(
-                " ".join([game_start_date, self.game_start_time]),
+                " ".join([game_start_date, game_start_time]),
                 "%Y/%m/%d %I:%M%p")
 
     def nice_score(self):
