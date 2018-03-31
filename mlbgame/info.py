@@ -47,10 +47,10 @@ def team_info():
     return output
 
 
-def important_dates(date):
+def important_dates(year):
     """Returns a dictionary of important dates"""
     output = {}
-    data = mlbgame.data.get_important_dates(date)
+    data = mlbgame.data.get_important_dates(year)
     important_dates = etree.parse(data).getroot().find('queryResults').find('row')
     try:
         for x in important_dates.attrib:

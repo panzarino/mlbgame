@@ -6,7 +6,6 @@ gets the data from mlb.com.
 """
 
 import os
-from datetime import datetime
 try:
     from urllib.request import urlopen
     from urllib.error import HTTPError
@@ -32,9 +31,9 @@ IMPORTANT_DATES = 'http://lookup-service-prod.mlb.com/named.org_history.bam?org_
 PWD = os.path.join(os.path.dirname(__file__))
 
 
-def get_important_dates(date):
+def get_important_dates(year):
     try:
-        return urlopen(IMPORTANT_DATES.format(date.year))
+        return urlopen(IMPORTANT_DATES.format(year))
     except HTTPError:
         raise ValueError('Could not retrive the MLB important dates information.')
 
