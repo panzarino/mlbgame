@@ -75,6 +75,9 @@ class TestInfo(unittest.TestCase):
         self.assertRaises(ValueError, lambda: mlbgame.league())
         mlbgame.data.PROPERTY_URL = 'http://mlb.mlb.com/properties/mlb_properties.xml'
 
+    def test_raw_box_score(self):
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_raw_box_score('not-a-valid-game_id'))
+
     def test_teams(self):
         teams = mlbgame.teams()
         for team in teams:
@@ -251,6 +254,8 @@ class TestInfo(unittest.TestCase):
             self.assertEqual(player.team_code, 'nyn')
             self.assertEqual(player.team_id, 121)
             self.assertEqual(player.team_name, 'New York Mets')
+        mlbgame.data.ROSTER_URL = '{0}'
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_roster('not-a-valid-team_id'))
 
     def test_standings(self):
         standings = mlbgame.standings()
@@ -305,6 +310,8 @@ class TestInfo(unittest.TestCase):
                 self.assertIsInstance(team.wildcard_odds, float)
                 self.assertIsInstance(team.x_wl, str)
                 self.assertIsInstance(team.x_wl_seas, str)
+        mlbgame.data.STANDINGS_URL = '{0}'
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_standings(datetime.now()))
 
     def test_standings_historical(self):
         date = datetime(2016, 6, 1)
@@ -412,6 +419,8 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(team.wildcard_odds, 22.7)
         self.assertEqual(team.x_wl, '30-25')
         self.assertEqual(team.x_wl_seas, '88-74')
+        mlbgame.data.STANDINGS_HISTORICAL_URL = '{0}'
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_historical_standings(datetime.now()))
 
     def test_injury(self):
         injury = mlbgame.injury()
@@ -430,6 +439,9 @@ class TestInfo(unittest.TestCase):
             self.assertIsInstance(player.position, str)
             self.assertIsInstance(player.team_id, int)
             self.assertIsInstance(player.team_name, str)
+        mlbgame.data.INJURY_URL = ''
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_injuries())
+
 
     def test_important_dates(self):
         important_dates = mlbgame.important_dates(2017)
@@ -506,3 +518,5 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(important_dates.nice_output(), output)
         self.assertEqual(important_dates.__str__(), output)
         self.assertEqual(important_dates.strformat('test-{0}', [1]), 'test-1')
+        mlbgame.data.IMPORTANT_DATES = '{0}'
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_important_dates(2050))
