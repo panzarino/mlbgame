@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-
 import mlbgame
-
 from datetime import datetime
 
 
@@ -434,7 +432,7 @@ class TestInfo(unittest.TestCase):
             self.assertIsInstance(player.team_name, str)
 
     def test_important_dates(self):
-        important_dates = mlbgame.important_dates(datetime(2017, 1, 1))
+        important_dates = mlbgame.important_dates(2017)
         self.assertIsInstance(important_dates.organization_id, int)
         self.assertIsInstance(important_dates.year, int)
         self.assertIsInstance(important_dates.org_code, str)
