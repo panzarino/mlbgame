@@ -56,7 +56,7 @@ def important_dates(year):
         for x in important_dates.attrib:
             output[x] = important_dates.attrib[x]
     except AttributeError:
-        raise ValueError('Unable to retrieve important dates for {}.'.format(date.year))
+        raise ValueError('Unable to retrieve important dates for {}.'.format(year))
     return output
 
 
