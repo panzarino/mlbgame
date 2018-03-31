@@ -63,7 +63,7 @@ setup(
     packages=['mlbgame'],
     package_data={'mlbgame': ['default.xml']},
     data_files=[('docs', ['README.md', 'LICENSE', 'description.rst'])],
-    install_requires=['lxml'],
+    install_requires=['lxml', 'dateutil'],
     extras_require={
         'dev': ['pytest', 'pytest-cov', 'coveralls']
     }
