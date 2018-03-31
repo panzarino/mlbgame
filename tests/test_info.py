@@ -433,6 +433,13 @@ class TestInfo(unittest.TestCase):
 
     def test_important_dates(self):
         important_dates = mlbgame.important_dates(2017)
+        output = ("Opening Day 2017: Sunday, April 02.\n"
+                  "Last day of the 1st half: Sunday, July 09.\n"
+                  "2017 All Star Game: Tuesday, July 11.\n"
+                  "First day of the 2nd half: Friday, July 14.\n"
+                  "Last day of the 2017 season: Sunday, October 01.\n"
+                  "2017 Playoffs start: Tuesday, October 03.\n"
+                  "2017 Playoffs end: Wednesday, November 01.")
         self.assertRaises(ValueError, lambda: mlbgame.important_dates(2050))
         self.assertIsInstance(important_dates.organization_id, int)
         self.assertIsInstance(important_dates.year, int)
@@ -494,3 +501,8 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(important_dates.playoffs_end_date, '2017-11-01T00:00:00')
         self.assertEqual(important_dates.playoff_rounds, '')
         self.assertEqual(important_dates.playoff_games, '')
+        self.assertEqual(important_dates.dtfmt('2017-04-02T00:00:00'), 'Sunday, April 02')
+        self.assertEqual(important_dates.dtfmt('not_a_date'), '')
+        self.assertEqual(important_dates.nice_output(), output)
+        self.assertEqual(important_dates.__str__(), output)
+        self.assertEqual(important_dates.strformat('test-{0}', [1]), 'test-1')
