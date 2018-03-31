@@ -96,7 +96,7 @@ class ImportantDates(mlbgame.object.Object):
 """
     def dtfmt(self, my_date):
         try:
-            my_date = parser.parse(my_date)
+            my_date = datetime.strptime(my_date, '%Y-%m-%dT%H:%M:%S')
         except ValueError:
             return ''
         return my_date.strftime('%A, %B %d.')
