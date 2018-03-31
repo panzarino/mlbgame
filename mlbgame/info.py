@@ -99,7 +99,7 @@ class ImportantDates(mlbgame.object.Object):
             my_date = datetime.strptime(my_date, '%Y-%m-%dT%H:%M:%S')
         except ValueError:
             return ''
-        return my_date.strftime('%A, %B %d.')
+        return my_date.strftime('%A, %B %d')
 
     def strformat(self, my_str, args):
         return my_str.format(*args)
@@ -107,19 +107,19 @@ class ImportantDates(mlbgame.object.Object):
     def nice_output(self):
         """Return a string for printing"""
         dates = [
-            self.strformat('Opening Day {0}: {1}',
+            self.strformat('Opening Day {0}: {1}.',
                            [self.year, self.dtfmt(self.first_date_seas)]),
-            self.strformat('Last day of the 1st half: {0}',
+            self.strformat('Last day of the 1st half: {0}.',
                            [self.dtfmt(self.last_date_1sth)]),
-            self.strformat('{0} All Star Game: {1}',
+            self.strformat('{0} All Star Game: {1}.',
                            [self.year, self.dtfmt(self.all_star_date)]),
-            self.strformat('First day of the 2nd half: {}',
+            self.strformat('First day of the 2nd half: {}.',
                            [self.dtfmt(self.first_date_2ndh)]),
-            self.strformat('Last day of the {0} season: {1}',
+            self.strformat('Last day of the {0} season: {1}.',
                            [self.year, self.dtfmt(self.last_date_seas)]),
-            self.strformat('{0} Playoffs start: {1}',
+            self.strformat('{0} Playoffs start: {1}.',
                            [self.year, self.dtfmt(self.playoffs_start_date)]),
-            self.strformat('{0} Playoffs end: {1}',
+            self.strformat('{0} Playoffs end: {1}.',
                            [self.year, self.dtfmt(self.playoffs_end_date)])
         ]
         return '\n'.join(dates)
