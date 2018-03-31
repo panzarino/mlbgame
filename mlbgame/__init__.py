@@ -97,7 +97,7 @@ in the final game of the 2015 World Series:
     #!python
     from __future__ import print_function
     import mlbgame
-    
+
     game = mlbgame.day(2015, 11, 1, home='Mets')[0]
     stats = mlbgame.player_stats(game.game_id)
     for player in stats.home_batting:
@@ -226,6 +226,12 @@ def game_events(game_id):
     """Return dictionary of game events for game matching the game id."""
     data = mlbgame.events.game_events(game_id)
     return [mlbgame.events.Inning(data[x], x) for x in data]
+
+
+def important_dates(date=datetime.now()):
+    """Return ImportantDates object that contains MLB important dates"""
+    data = mlbgame.info.important_dates(date)
+    return mlbgame.info.ImportantDates(data)
 
 
 def league():

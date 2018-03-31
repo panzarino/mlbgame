@@ -10,6 +10,7 @@ import mlbgame.data
 import mlbgame.object
 
 from datetime import datetime
+from dateutil import parser
 import json
 import lxml.etree as etree
 import sys
@@ -44,6 +45,77 @@ def team_info():
             info[x] = team.attrib[x]
         output.append(info)
     return output
+
+
+def important_dates(date):
+    """Returns a dictionary of important dates"""
+    output = {}
+    data = mlbgame.data.get_important_dates(date)
+    important_dates = etree.parse(data).getroot().find('queryResults').find('row')
+    try:
+        for x in important_dates.attrib:
+            output[x] = important_dates.attrib[x]
+    except AttributeError:
+        raise ValueError('Unable to retrieve important dates for {}.'.format(date.year))
+    return output
+
+
+class ImportantDates(mlbgame.object.Object):
+    """Holds information about important MLB dates and other info.
+    Properties:
+        all_star_date
+        all_star_sw
+        file_code
+        first_date_2ndh
+        first_date_seas
+        games
+        games_1sth
+        games_2ndh
+        last_date_1sth
+        last_date_seas
+        name_abbrev
+        name_full
+        name_short
+        org_code
+        org_type
+        organization_id
+        parent_abbrev
+        parent_org
+        playoff_games
+        playoff_points_sw
+        playoff_rounds
+        playoff_sw
+        playoff_teams
+        playoffs_end_date
+        playoffs_start_date
+        point_values
+        split_season_sw
+        wildcard_sw
+        wildcard_teams
+        year
+"""
+    def dtformat(self, my_date):
+        try:
+            my_date = parser.parse(my_date)
+        except ValueError:
+            return ''
+        return my_date.strftime('%A, %B %d.')
+
+    def nice_output(self):
+        """Return a string for printing"""
+        dates = [
+            'Opening Day {0}: {1}'.format(self.year, self.dtformat(self.first_date_seas)),
+            'Last day of the 1st half: {0}'.format(self.dtformat(self.last_date_1sth)),
+            '{0} All Star Game: {1}'.format(self.year, self.dtformat(self.all_star_date)),
+            'First day of the 2nd half: {}'.format(self.dtformat(self.first_date_2ndh)),
+            'Last day of the {0} season: {1}'.format(self.year, self.dtformat(self.last_date_seas)),
+            '{0} Playoffs start: {1}'.format(self.year, self.dtformat(self.playoffs_start_date)),
+            '{0} Playoffs end: {1}'.format(self.year, self.dtformat(self.playoffs_end_date))
+        ]
+        return '\n'.join(dates)
+
+    def __str__(self):
+        return self.nice_output()
 
 
 class Info(mlbgame.object.Object):
@@ -240,7 +312,7 @@ class Standings(object):
 
     def __init__(self, data):
         """Creates a standings object for info specified in `data`.
-        
+
         `data` should be a dictionary of values
         """
         self.standings_schedule_date = data['standings_schedule_date']
@@ -329,7 +401,7 @@ class Injuries(object):
 
     def __init__(self, injuries):
         """Creates an Injuries object for given data.
-        
+
         `injuries` should be a list of injuries.
         """
         self.injuries = [Injury(x) for x in injuries]

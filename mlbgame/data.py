@@ -6,7 +6,7 @@ gets the data from mlb.com.
 """
 
 import os
-
+from datetime import datetime
 try:
     from urllib.request import urlopen
     from urllib.error import HTTPError
@@ -27,8 +27,16 @@ STANDINGS_URL = ('http://mlb.mlb.com/lookup/json/named.standings_schedule_date.b
 STANDINGS_HISTORICAL_URL = ('http://mlb.mlb.com/lookup/json/named.historical_standings_schedule_date.bam?season={0}&'
                            'game_date=%27{1}%27&sit_code=%27h0%27&league_id=103&'
                            'league_id=104&all_star_sw=%27N%27&version=48')
+IMPORTANT_DATES = 'http://lookup-service-prod.mlb.com/named.org_history.bam?org_id=1&season={0}'
 # Local Directory
 PWD = os.path.join(os.path.dirname(__file__))
+
+
+def get_important_dates(date):
+    try:
+        return urlopen(IMPORTANT_DATES.format(date.year))
+    except HTTPError:
+        raise ValueError('Could not retrive the MLB important dates information.')
 
 
 def get_scoreboard(year, month, day):
