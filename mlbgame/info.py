@@ -10,7 +10,6 @@ import mlbgame.data
 import mlbgame.object
 
 from datetime import datetime
-from dateutil import parser
 import json
 import lxml.etree as etree
 import sys
