@@ -433,6 +433,7 @@ class TestInfo(unittest.TestCase):
 
     def test_important_dates(self):
         important_dates = mlbgame.important_dates(2017)
+        self.assertRaises(ValueError, lambda: mlbgame.important_dates(2050))
         self.assertIsInstance(important_dates.organization_id, int)
         self.assertIsInstance(important_dates.year, int)
         self.assertIsInstance(important_dates.org_code, str)
