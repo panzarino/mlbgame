@@ -230,7 +230,7 @@ def game_events(game_id):
 
 def important_dates(year=datetime.now().year):
     """Return ImportantDates object that contains MLB important dates"""
-    data = mlbgame.info.important_dates(date)
+    data = mlbgame.info.important_dates(year)
     return mlbgame.info.ImportantDates(data)
 
 
