@@ -27,6 +27,7 @@ STANDINGS_URL = ('http://mlb.mlb.com/lookup/json/named.standings_schedule_date.b
 STANDINGS_HISTORICAL_URL = ('http://mlb.mlb.com/lookup/json/named.historical_standings_schedule_date.bam?season={0}&'
                            'game_date=%27{1}%27&sit_code=%27h0%27&league_id=103&'
                            'league_id=104&all_star_sw=%27N%27&version=48')
+INNINGS_URL = BASE_URL + 'gid_{3}/inning/inning_all.xml'
 # Local Directory
 PWD = os.path.join(os.path.dirname(__file__))
 
@@ -69,6 +70,16 @@ def get_game_events(game_id):
         return urlopen(GAME_URL.format(year, month, day,
                                        game_id,
                                        'game_events.xml'))
+    except HTTPError:
+        raise ValueError('Could not find a game with that id.')
+
+
+def get_innings(game_id):
+    """Return the innings file of a game with matching id."""
+    year, month, day = get_date_from_game_id(game_id)
+    try:
+        return urlopen(INNINGS_URL.format(year, month, day,
+                                       game_id))
     except HTTPError:
         raise ValueError('Could not find a game with that id.')
 
