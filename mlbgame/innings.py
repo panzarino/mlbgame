@@ -14,8 +14,7 @@ def __inning_info(inning, part):
     # info
     info = []
     # loop through the half
-    # Added more robust exception handling to catch 
-    # final innings with only 1 frame 'top'
+    # Added more robust exception handling to catch final innings with only 1 frame 'top'
     try:
         half = inning.findall(part)[0]
         for y in half.findall('atbat'):
@@ -38,11 +37,7 @@ def __inning_info(inning, part):
 
 def game_innings(game_id):
     
-    """/////////////////////////////////////////////////////////////////////////////////
-        Return dictionary of events from the all innings file with matching id.
-        Has a lot more data for the pitches thrown than the standard game events file
-    /////////////////////////////////////////////////////////////////////////////////"""
-    
+    """Return dictionary of innings for a game with matching id."""
     # get data from data module
     data = mlbgame.data.get_innings(game_id)
     # parse XML
@@ -142,45 +137,45 @@ class Pitch(mlbgame.object.Object):
     """Class that holds information about individual pitches.
 
     Properties:
-        des 
-        des_e 
-        id 
-        type 
-        code 
-        tfs 
-        tfs_zulu 
-        x 
-        y 
-        event_num 
-        sv_id 
-        play_guid 
-        start_speed 
-        end_speed 
-        sz_top 
-        sz_bot 
-        pfx_x 
-        pfx_z 
-        px 
-        pz 
-        x0 
-        y0 
-        z0 
-        vx0 
-        vy0 
-        vz0 
-        ax 
-        ay 
-        az 
+        des
+        des_e
+        id
+        type
+        code
+        tfs
+        tfs_zulu
+        x
+        y
+        event_num
+        sv_id
+        play_guid
+        start_speed
+        end_speed
+        sz_top
+        sz_bot
+        pfx_x
+        pfx_z
+        px
+        pz
+        x0
+        y0
+        z0
+        vx0
+        vy0
+        vz0
+        ax
+        ay
+        az
         break_y
         break_angle
-        break_length 
-        pitch_type 
-        type_confidence 
-        zone 
-        nasty 
-        spin_dir 
-        spin_rate  
-        cc 
+        break_length
+        pitch_type
+        type_confidence
+        zone
+        nasty
+        spin_dir
+        spin_rate
+        cc
         mt
     """
 

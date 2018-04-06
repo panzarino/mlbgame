@@ -228,6 +228,12 @@ def game_events(game_id):
     return [mlbgame.events.Inning(data[x], x) for x in data]
 
 
+def game_innings(game_id):
+    """Return dictionary of game innings for game matching the game id."""
+    data = mlbgame.innings.game_innings(game_id)
+    return [mlbgame.innings.Inning(data[x], x) for x in data]
+
+
 def league():
     """Return Info object that contains league information"""
     return mlbgame.info.Info(mlbgame.info.league_info())

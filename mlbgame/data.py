@@ -78,8 +78,7 @@ def get_innings(game_id):
     """Return the innings file of a game with matching id."""
     year, month, day = get_date_from_game_id(game_id)
     try:
-        return urlopen(INNINGS_URL.format(year, month, day,
-                                       game_id))
+        return urlopen(INNINGS_URL.format(year, month, day, game_id))
     except HTTPError:
         raise ValueError('Could not find a game with that id.')
 
