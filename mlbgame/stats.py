@@ -3,9 +3,10 @@
 """Module that controls getting stats and creating objects to hold that
 information."""
 
+import lxml.etree as etree
+
 import mlbgame.data
 import mlbgame.object
-import lxml.etree as etree
 
 
 def __player_stats_info(data, name):

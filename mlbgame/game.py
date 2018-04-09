@@ -4,11 +4,11 @@
 such as the scoreboard and the box score.
 """
 
-import mlbgame.data
-import mlbgame.object
-
 import datetime
 import lxml.etree as etree
+
+import mlbgame.data
+import mlbgame.object
 
 
 def scoreboard(year, month, day, home=None, away=None):
