@@ -46,8 +46,7 @@ def get_important_dates(year):
 def get_scoreboard(year, month, day):
     """Return the game file for a certain day matching certain criteria."""
     try:
-        data = urlopen(BASE_URL.format(year, month, day
-                                       ) + 'scoreboard.xml')
+        data = urlopen(BASE_URL.format(year, month, day) + 'scoreboard.xml')
     except HTTPError:
         data = os.path.join(PWD, 'default.xml')
     return data
@@ -57,8 +56,7 @@ def get_box_score(game_id):
     """Return the box score file of a game with matching id."""
     year, month, day = get_date_from_game_id(game_id)
     try:
-        return urlopen(GAME_URL.format(year, month, day,
-                                       game_id,
+        return urlopen(GAME_URL.format(year, month, day, game_id,
                                        'boxscore.xml'))
     except HTTPError:
         raise ValueError('Could not find a game with that id.')
@@ -68,8 +66,7 @@ def get_raw_box_score(game_id):
     """Return the raw box score file of a game with matching id."""
     year, month, day = get_date_from_game_id(game_id)
     try:
-        return urlopen(GAME_URL.format(year, month, day,
-                                       game_id,
+        return urlopen(GAME_URL.format(year, month, day, game_id,
                                        'rawboxscore.xml'))
     except HTTPError:
         raise ValueError('Could not find a game with that id.')
@@ -79,8 +76,7 @@ def get_game_events(game_id):
     """Return the game events file of a game with matching id."""
     year, month, day = get_date_from_game_id(game_id)
     try:
-        return urlopen(GAME_URL.format(year, month, day,
-                                       game_id,
+        return urlopen(GAME_URL.format(year, month, day, game_id,
                                        'game_events.xml'))
     except HTTPError:
         raise ValueError('Could not find a game with that id.')
@@ -90,8 +86,7 @@ def get_overview(game_id):
     """Return the linescore file of a game with matching id."""
     year, month, day = get_date_from_game_id(game_id)
     try:
-        return urlopen(GAME_URL.format(year, month, day,
-                                       game_id,
+        return urlopen(GAME_URL.format(year, month, day, game_id,
                                        'linescore.xml'))
     except HTTPError:
         raise ValueError('Could not find a game with that id.')
@@ -101,9 +96,8 @@ def get_players(game_id):
     """Return the players file of a game with matching id."""
     year, month, day = get_date_from_game_id(game_id)
     try:
-        return urlopen(GAME_URL.format(year, month, day,
-                                       game_id,
-                                       "players.xml"))
+        return urlopen(GAME_URL.format(year, month, day, game_id,
+                                       'players.xml'))
     except HTTPError:
         raise ValueError('Could not find a game with that id.')
 
