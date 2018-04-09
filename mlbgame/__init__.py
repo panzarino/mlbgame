@@ -228,8 +228,9 @@ def game_events(game_id):
     return [mlbgame.events.Inning(data[x], x) for x in data]
 
 
-def important_dates(year=datetime.now().year):
+def important_dates(year=None):
     """Return ImportantDates object that contains MLB important dates"""
+    year = datetime.now().year if not year else year
     data = mlbgame.info.important_dates(year)
     return mlbgame.info.ImportantDates(data)
 
