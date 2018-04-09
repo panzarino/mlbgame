@@ -513,10 +513,10 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(important_dates.playoffs_end_date, '2017-11-01T00:00:00')
         self.assertEqual(important_dates.playoff_rounds, '')
         self.assertEqual(important_dates.playoff_games, '')
-        self.assertEqual(important_dates.dtfmt('2017-04-02T00:00:00'), 'Sunday, April 02')
-        self.assertEqual(important_dates.dtfmt('not_a_date'), '')
+        self.assertEqual(mlbgame.info.date_format('2017-04-02T00:00:00'), 'Sunday, April 02')
+        self.assertEqual(mlbgame.info.date_format('not_a_date'), '')
         self.assertEqual(important_dates.nice_output(), output)
         self.assertEqual(important_dates.__str__(), output)
-        self.assertEqual(important_dates.strformat('test-{0}', [1]), 'test-1')
+        self.assertEqual(mlbgame.info.str_format('test-{0}', [1]), 'test-1')
         mlbgame.data.IMPORTANT_DATES = '{0}'
         self.assertRaises(ValueError, lambda: mlbgame.data.get_important_dates(2050))
