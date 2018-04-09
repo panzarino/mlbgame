@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-
 import mlbgame
-
 from datetime import datetime
 
 
@@ -76,6 +74,9 @@ class TestInfo(unittest.TestCase):
         mlbgame.data.PROPERTY_URL = 'http://mlb.mlb.com/properties/mlb_properties'
         self.assertRaises(ValueError, lambda: mlbgame.league())
         mlbgame.data.PROPERTY_URL = 'http://mlb.mlb.com/properties/mlb_properties.xml'
+
+    def test_raw_box_score(self):
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_raw_box_score('not-a-valid-game_id'))
 
     def test_teams(self):
         teams = mlbgame.teams()
@@ -217,7 +218,7 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(team.venue_id, 3289)
         self.assertEqual(team.vine, 929089218578374656)
         self.assertEqual(team.youtube, 'UCgIMbGazP0uBDy9JVCqBUaA')
-        
+
 
     def test_roster(self):
         roster = mlbgame.roster(121)
@@ -253,6 +254,8 @@ class TestInfo(unittest.TestCase):
             self.assertEqual(player.team_code, 'nyn')
             self.assertEqual(player.team_id, 121)
             self.assertEqual(player.team_name, 'New York Mets')
+        mlbgame.data.ROSTER_URL = '{0}'
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_roster('not-a-valid-team_id'))
 
     def test_standings(self):
         standings = mlbgame.standings()
@@ -307,6 +310,8 @@ class TestInfo(unittest.TestCase):
                 self.assertIsInstance(team.wildcard_odds, float)
                 self.assertIsInstance(team.x_wl, str)
                 self.assertIsInstance(team.x_wl_seas, str)
+        mlbgame.data.STANDINGS_URL = '{0}'
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_standings(datetime.now()))
 
     def test_standings_historical(self):
         date = datetime(2016, 6, 1)
@@ -414,6 +419,8 @@ class TestInfo(unittest.TestCase):
         self.assertEqual(team.wildcard_odds, 22.7)
         self.assertEqual(team.x_wl, '30-25')
         self.assertEqual(team.x_wl_seas, '88-74')
+        mlbgame.data.STANDINGS_HISTORICAL_URL = '{0}'
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_historical_standings(datetime.now()))
 
     def test_injury(self):
         injury = mlbgame.injury()
@@ -432,3 +439,84 @@ class TestInfo(unittest.TestCase):
             self.assertIsInstance(player.position, str)
             self.assertIsInstance(player.team_id, int)
             self.assertIsInstance(player.team_name, str)
+        mlbgame.data.INJURY_URL = ''
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_injuries())
+
+
+    def test_important_dates(self):
+        important_dates = mlbgame.important_dates(2017)
+        output = ("Opening Day 2017: Sunday, April 02.\n"
+                  "Last day of the 1st half: Sunday, July 09.\n"
+                  "2017 All Star Game: Tuesday, July 11.\n"
+                  "First day of the 2nd half: Friday, July 14.\n"
+                  "Last day of the 2017 season: Sunday, October 01.\n"
+                  "2017 Playoffs start: Tuesday, October 03.\n"
+                  "2017 Playoffs end: Wednesday, November 01.")
+        self.assertRaises(ValueError, lambda: mlbgame.important_dates(2050))
+        self.assertIsInstance(important_dates.organization_id, int)
+        self.assertIsInstance(important_dates.year, int)
+        self.assertIsInstance(important_dates.org_code, str)
+        self.assertIsInstance(important_dates.org_type, str)
+        self.assertIsInstance(important_dates.parent_org, str)
+        self.assertIsInstance(important_dates.parent_abbrev, str)
+        self.assertIsInstance(important_dates.name_full, str)
+        self.assertIsInstance(important_dates.name_short, str)
+        self.assertIsInstance(important_dates.name_abbrev, str)
+        self.assertIsInstance(important_dates.file_code, str)
+        self.assertIsInstance(important_dates.games, int)
+        self.assertIsInstance(important_dates.first_date_seas, str)
+        self.assertIsInstance(important_dates.last_date_1sth, str)
+        self.assertIsInstance(important_dates.first_date_2ndh, str)
+        self.assertIsInstance(important_dates.last_date_seas, str)
+        self.assertIsInstance(important_dates.split_season_sw, str)
+        self.assertIsInstance(important_dates.games_1sth, str)
+        self.assertIsInstance(important_dates.games_2ndh, str)
+        self.assertIsInstance(important_dates.all_star_sw, str)
+        self.assertIsInstance(important_dates.all_star_date, str)
+        self.assertIsInstance(important_dates.playoff_sw, str)
+        self.assertIsInstance(important_dates.playoff_teams, str)
+        self.assertIsInstance(important_dates.wildcard_sw, str)
+        self.assertIsInstance(important_dates.wildcard_teams, str)
+        self.assertIsInstance(important_dates.playoff_points_sw, str)
+        self.assertIsInstance(important_dates.point_values, str)
+        self.assertIsInstance(important_dates.playoffs_start_date, str)
+        self.assertIsInstance(important_dates.playoffs_end_date, str)
+        self.assertIsInstance(important_dates.playoff_rounds, str)
+        self.assertIsInstance(important_dates.playoff_games, str)
+        self.assertEqual(important_dates.organization_id, 1)
+        self.assertEqual(important_dates.year, 2017)
+        self.assertEqual(important_dates.org_code, 'mlb')
+        self.assertEqual(important_dates.org_type, 'S')
+        self.assertEqual(important_dates.parent_org, '')
+        self.assertEqual(important_dates.parent_abbrev, '')
+        self.assertEqual(important_dates.name_full, 'Major League Baseball')
+        self.assertEqual(important_dates.name_short, '')
+        self.assertEqual(important_dates.name_abbrev, 'MLB')
+        self.assertEqual(important_dates.file_code, 'mlb')
+        self.assertEqual(important_dates.games, 162)
+        self.assertEqual(important_dates.first_date_seas, '2017-04-02T00:00:00')
+        self.assertEqual(important_dates.last_date_1sth, '2017-07-09T00:00:00')
+        self.assertEqual(important_dates.first_date_2ndh, '2017-07-14T00:00:00')
+        self.assertEqual(important_dates.last_date_seas, '2017-10-01T00:00:00')
+        self.assertEqual(important_dates.split_season_sw, 'N')
+        self.assertEqual(important_dates.games_1sth, '')
+        self.assertEqual(important_dates.games_2ndh, '')
+        self.assertEqual(important_dates.all_star_sw, 'Y')
+        self.assertEqual(important_dates.all_star_date, '2017-07-11T00:00:00')
+        self.assertEqual(important_dates.playoff_sw, 'N')
+        self.assertEqual(important_dates.playoff_teams, '')
+        self.assertEqual(important_dates.wildcard_sw, 'N')
+        self.assertEqual(important_dates.wildcard_teams, '')
+        self.assertEqual(important_dates.playoff_points_sw, 'N')
+        self.assertEqual(important_dates.point_values, '')
+        self.assertEqual(important_dates.playoffs_start_date, '2017-10-03T00:00:00')
+        self.assertEqual(important_dates.playoffs_end_date, '2017-11-01T00:00:00')
+        self.assertEqual(important_dates.playoff_rounds, '')
+        self.assertEqual(important_dates.playoff_games, '')
+        self.assertEqual(mlbgame.info.date_format('2017-04-02T00:00:00'), 'Sunday, April 02')
+        self.assertEqual(mlbgame.info.date_format('not_a_date'), '')
+        self.assertEqual(important_dates.nice_output(), output)
+        self.assertEqual(important_dates.__str__(), output)
+        self.assertEqual(mlbgame.info.str_format('test-{0}', [1]), 'test-1')
+        mlbgame.data.IMPORTANT_DATES = '{0}'
+        self.assertRaises(ValueError, lambda: mlbgame.data.get_important_dates(2050))

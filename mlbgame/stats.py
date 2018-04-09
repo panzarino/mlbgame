@@ -3,10 +3,11 @@
 """Module that controls getting stats and creating objects to hold that
 information."""
 
+import lxml.etree as etree
+
 import mlbgame.data
 import mlbgame.object
 
-import lxml.etree as etree
 
 def __player_stats_info(data, name):
     home = []
@@ -19,8 +20,12 @@ def __player_stats_info(data, name):
             for i in x.attrib:
                 stats[i] = x.attrib[i]
             # apply to correct list
-            home.append(stats) if y.attrib['team_flag'] == 'home' else away.append(stats)
+            if y.attrib['team_flag'] == 'home':
+                home.append(stats)
+            else:
+                away.append(stats)
     return (home, away)
+
 
 def __raw_player_stats_info(data):
     home_pitchers = []
@@ -35,31 +40,32 @@ def __raw_player_stats_info(data):
             stats = {}
             for i in pitcher.attrib:
                 stats[i] = pitcher.attrib[i]
-            home_pitchers.append(stats) if home_flag else away_pitchers.append(stats)
+            if home_flag:
+                home_pitchers.append(stats)
+            else:
+                away_pitchers.append(stats)
 
         batting = team.find('batting')
         for batter in batting.findall('batter'):
             stats = {}
             for i in batter.attrib:
                 stats[i] = batter.attrib[i]
-            home_batters.append(stats) if home_flag else away_batters.append(stats)
-    home = {
-        'pitchers': home_pitchers,
-        'batters': home_batters
-    }
-
-    away = {
-        'pitchers': away_pitchers,
-        'batters': away_batters
-    }
+            if home_flag:
+                home_batters.append(stats)
+            else:
+                away_batters.append(stats)
+    home = {'pitchers': home_pitchers, 'batters': home_batters}
+    away = {'pitchers': away_pitchers, 'batters': away_batters}
     return (home, away)
+
 
 def player_stats(game_id):
     """Return dictionary of individual stats of a game with matching id.
 
-       The additional pitching/batting is mostly the same stats, except it contains
-       some useful stats such as groundouts/flyouts per pitcher (go/ao). MLB decided
-       to have two box score files, thus we return the data from both.
+       The additional pitching/batting is mostly the same stats, except it
+       contains some useful stats such as groundouts/flyouts per pitcher
+       (go/ao). MLB decided to have two box score files, thus we return the
+       data from both.
     """
     # get data from data module
     box_score = mlbgame.data.get_box_score(game_id)
@@ -92,6 +98,7 @@ def player_stats(game_id):
     }
     return output
 
+
 def __team_stats_info(data, output, output_key):
     for x in data:
         stats = {}
@@ -105,6 +112,7 @@ def __team_stats_info(data, output, output_key):
         elif x.attrib['team_flag'] == 'away':
             output['away_' + output_key] = stats
     return output
+
 
 def __raw_team_stats_info(data, output):
     for team in data.findall('team'):
@@ -128,6 +136,7 @@ def __raw_team_stats_info(data, output):
             output['away_additional_batting'] = stats
     return output
 
+
 def team_stats(game_id):
     """Return team stats of a game with matching id.
 
@@ -149,6 +158,7 @@ def team_stats(game_id):
     output = __team_stats_info(batting, output, 'batting')
     output = __raw_team_stats_info(raw_box_score_tree, output)
     return output
+
 
 class Stats(object):
     """Hold stats information for a game.
@@ -172,8 +182,10 @@ class Stats(object):
         """
         self.game_id = game_id
         output = {'home_pitching': [], 'away_pitching': [], 'home_batting': [],
-                  'away_batting': [], 'home_additional_pitching': [], 'home_additional_batting': [],
-                  'away_additional_pitching': [], 'away_additional_batting': []}
+                  'away_batting': [], 'home_additional_pitching': [],
+                  'home_additional_batting': [],
+                  'away_additional_pitching': [],
+                  'away_additional_batting': []}
         for y in data:
             # create objects for all data
             if player:
@@ -191,6 +203,7 @@ class Stats(object):
         self.away_additional_pitching = output['away_additional_pitching']
         self.home_additional_batting = output['home_additional_batting']
         self.away_additional_batting = output['away_additional_batting']
+
 
 class PlayerStats(mlbgame.object.Object):
     """Holds stats information for a player.
