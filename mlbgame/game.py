@@ -4,11 +4,11 @@
 such as the scoreboard and the box score.
 """
 
-import mlbgame.data
-import mlbgame.object
-
 import datetime
 import lxml.etree as etree
+
+import mlbgame.data
+import mlbgame.object
 
 
 def scoreboard(year, month, day, home=None, away=None):
@@ -326,7 +326,7 @@ def overview(game_id):
     # parse data
     overview_root = etree.parse(overview).getroot()
     raw_box_score_root = etree.parse(raw_box_score).getroot()
-    
+
     output = {}
     # get overview attributes
     for x in overview_root.attrib:
@@ -334,7 +334,7 @@ def overview(game_id):
     # get raw box score attributes
     for x in raw_box_score_root.attrib:
         output[x] = raw_box_score_root.attrib[x]
-    
+
     # Get probable starter attributes if they exist
     home_pitcher_tree = overview_root.find('home_probable_pitcher')
     if home_pitcher_tree is not None:

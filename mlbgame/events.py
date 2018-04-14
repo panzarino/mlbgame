@@ -4,10 +4,10 @@
 that occured throughout games.
 """
 
+import lxml.etree as etree
+
 import mlbgame.data
 import mlbgame.object
-
-import lxml.etree as etree
 
 
 def __inning_info(inning, part):

@@ -46,6 +46,89 @@ def team_info():
     return output
 
 
+def important_dates(year):
+    """Returns a dictionary of important dates"""
+    output = {}
+    data = mlbgame.data.get_important_dates(year)
+    important_dates = etree.parse(data).getroot().\
+        find('queryResults').find('row')
+    try:
+        for x in important_dates.attrib:
+            output[x] = important_dates.attrib[x]
+    except AttributeError:
+        raise ValueError('Unable to find important dates for {}.'.format(year))
+    return output
+
+
+class ImportantDates(mlbgame.object.Object):
+    """Holds information about important MLB dates and other info.
+    Properties:
+        all_star_date
+        all_star_sw
+        file_code
+        first_date_2ndh
+        first_date_seas
+        games
+        games_1sth
+        games_2ndh
+        last_date_1sth
+        last_date_seas
+        name_abbrev
+        name_full
+        name_short
+        org_code
+        org_type
+        organization_id
+        parent_abbrev
+        parent_org
+        playoff_games
+        playoff_points_sw
+        playoff_rounds
+        playoff_sw
+        playoff_teams
+        playoffs_end_date
+        playoffs_start_date
+        point_values
+        split_season_sw
+        wildcard_sw
+        wildcard_teams
+        year
+"""
+    def nice_output(self):
+        """Return a string for printing"""
+        dates = [
+            str_format('Opening Day {0}: {1}.',
+                       [self.year, date_format(self.first_date_seas)]),
+            str_format('Last day of the 1st half: {0}.',
+                       [date_format(self.last_date_1sth)]),
+            str_format('{0} All Star Game: {1}.',
+                       [self.year, date_format(self.all_star_date)]),
+            str_format('First day of the 2nd half: {}.',
+                       [date_format(self.first_date_2ndh)]),
+            str_format('Last day of the {0} season: {1}.',
+                       [self.year, date_format(self.last_date_seas)]),
+            str_format('{0} Playoffs start: {1}.',
+                       [self.year, date_format(self.playoffs_start_date)]),
+            str_format('{0} Playoffs end: {1}.',
+                       [self.year, date_format(self.playoffs_end_date)])
+        ]
+        return '\n'.join(dates)
+
+    def __str__(self):
+        return self.nice_output()
+
+
+def date_format(my_date):
+    try:
+        my_date = datetime.strptime(my_date, '%Y-%m-%dT%H:%M:%S')
+    except ValueError:
+        return ''
+    return my_date.strftime('%A, %B %d')
+
+def str_format(my_str, args):
+    return my_str.format(*args)
+
+
 class Info(mlbgame.object.Object):
     """Holds information about the league or teams
 
@@ -204,14 +287,18 @@ def standings(date):
     }
     now = datetime.now()
     divisions = []
-    if date.year == now.year and date.month == now.month and date.day == now.day:
+    if date.year == now.year and \
+       date.month == now.month and \
+       date.day == now.day:
         data = mlbgame.data.get_standings(date)
         standings_schedule_date = 'standings_schedule_date'
     else:
         data = mlbgame.data.get_historical_standings(date)
         standings_schedule_date = 'historical_standings_schedule_date'
     parsed = json.loads(data.read().decode('utf-8'))
-    sjson = parsed[standings_schedule_date]['standings_all_date_rptr']['standings_all_date']
+    all_date_rptr = 'standings_all_date_rptr'
+    all_date = 'standings_all_date'
+    sjson = parsed[standings_schedule_date][all_date_rptr][all_date]
     for league in sjson:
         if league['league_id'] == '103':
             divs = DIVISIONS['AL']
@@ -240,11 +327,12 @@ class Standings(object):
 
     def __init__(self, data):
         """Creates a standings object for info specified in `data`.
-        
+
         `data` should be a dictionary of values
         """
         self.standings_schedule_date = data['standings_schedule_date']
-        self.divisions = [Division(x['division'], x['teams']) for x in data['divisions']]
+        self.divisions = [Division(x['division'],
+                          x['teams']) for x in data['divisions']]
 
 
 class Division(object):
@@ -314,6 +402,7 @@ class Team(mlbgame.object.Object):
     """
     pass
 
+
 def injury():
     data = mlbgame.data.get_injuries()
     parsed = json.loads(data.read().decode('utf-8'))
@@ -329,7 +418,7 @@ class Injuries(object):
 
     def __init__(self, injuries):
         """Creates an Injuries object for given data.
-        
+
         `injuries` should be a list of injuries.
         """
         self.injuries = [Injury(x) for x in injuries]
