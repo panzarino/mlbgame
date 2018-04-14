@@ -32,6 +32,7 @@ STANDINGS_HISTORICAL_URL = ('http://mlb.mlb.com/lookup/json/'
                             'version=48')
 IMPORTANT_DATES = ('http://lookup-service-prod.mlb.com/named.org_history.bam?'
                    'org_id=1&season={0}')
+INNINGS_URL = BASE_URL + 'gid_{3}/inning/inning_all.xml'
 # Local Directory
 PWD = os.path.join(os.path.dirname(__file__))
 

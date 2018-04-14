@@ -154,8 +154,8 @@ class TestInnings(unittest.TestCase):
         self.assertEqual(pitch.spin_rate, 2149.420)
         self.assertEqual(pitch.cc, "")
         self.assertEqual(pitch.mt, "")
-        self.assertEqual(pitch.__str__(), 'Pitch: FT at 95.2: Ball')
+        self.assertEqual(pitch.__str__(), 'Pitch: FT starting at 95.2: ending at: 86.8 Description: Ball')
 
-    def test_game_events_empty(self):
-        self.assertRaises(ValueError, lambda: mlbgame.game_events('game_id'))
-        self.assertRaises(ValueError, lambda: mlbgame.game_events('2016_08_02_nymlb_nymlb_1'))
+    def test_game_innings_empty(self):
+        self.assertRaises(ValueError, lambda: mlbgame.game_innings('game_id'))
+        self.assertRaises(ValueError, lambda: mlbgame.game_innings('2016_08_02_nymlb_nymlb_1'))
