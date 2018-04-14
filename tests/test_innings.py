@@ -11,9 +11,6 @@ class TestInnings(unittest.TestCase):
         innings = mlbgame.game_innings('2016_08_02_nyamlb_nynmlb_1')
         for inning in innings:
             self.assertIsInstance(inning.num, int)
-            self.assertIsInstance(inning.away_team, str)
-            self.assertIsInstance(inning.home_team, str)
-            self.assertIsInstance(inning.next, str)
             if inning.num == 1:
                 i = inning
             self.assertIsInstance(inning.top, list)
@@ -94,9 +91,6 @@ class TestInnings(unittest.TestCase):
                     self.assertIsInstance(pitch.mt, str)
         inning = i
         self.assertEqual(inning.num, 1)
-        self.assertEqual(inning.away_team, 'nya')
-        self.assertEqual(inning.home_team, 'nyn')
-        self.assertEqual(inning.next, 'Y')
         self.assertEqual(inning.__str__(), 'Inning 1')
         atbat = ab
         self.assertEqual(atbat.away_team_runs, 0)
