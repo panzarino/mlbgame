@@ -12,7 +12,6 @@ import lxml.etree as etree
 
 
 def game_innings(game_id):
-    
     """Return dictionary of innings for a game with matching id."""
     # get data from data module
     data = mlbgame.data.get_innings(game_id)
@@ -103,8 +102,8 @@ class Pitch(mlbgame.events.Pitch):
 
     def nice_output(self):
         """Prints basic event info in a nice way."""
-        return 'Pitch: {0} starting at {1}: ending at: {2} Description: {3}'.format(
-            self.pitch_type, self.start_speed, self.end_speed, self.des)
+        return 'Pitch: {0} starting at {1}: ending at: {2} Description: {3}'\
+            .format(self.pitch_type,self.start_speed, self.end_speed, self.des)
 
     def __str__(self):
         return self.nice_output()
