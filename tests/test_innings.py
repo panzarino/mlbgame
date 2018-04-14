@@ -51,7 +51,7 @@ class TestInnings(unittest.TestCase):
                         self.assertIsInstance(pitch.des_es, (unicode, str))
                     except NameError:
                         self.assertIsInstance(pitch.des_es, str)
-                    self.assertIsInstance(pitch.id, str)
+                    self.assertIsInstance(pitch.id, int)
                     self.assertIsInstance(pitch.type, str)
                     self.assertIsInstance(pitch.code, str)
                     self.assertIsInstance(pitch.tfs, int)
@@ -116,7 +116,7 @@ class TestInnings(unittest.TestCase):
         pitch = atbat.pitches[0]
         self.assertEqual(pitch.des, 'Ball')
         self.assertEqual(pitch.des_es, 'Bola mala')
-        self.assertEqual(pitch.id, '3')
+        self.assertEqual(pitch.id, 3)
         self.assertEqual(pitch.type, 'B')
         self.assertEqual(pitch.code, 'B')
         self.assertEqual(pitch.tfs, 231122)
