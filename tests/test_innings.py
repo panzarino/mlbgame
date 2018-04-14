@@ -11,6 +11,9 @@ class TestInnings(unittest.TestCase):
         innings = mlbgame.game_innings('2016_08_02_nyamlb_nynmlb_1')
         for inning in innings:
             self.assertIsInstance(inning.num, int)
+            self.assertIsInstance(inning.away_team, str)
+            self.assertIsInstance(inning.home_team, str)
+            self.assertIsInstance(inning.next, str)
             if inning.num == 1:
                 i = inning
             self.assertIsInstance(inning.top, list)
@@ -21,10 +24,9 @@ class TestInnings(unittest.TestCase):
                     ab = atbat
                 self.assertIsInstance(atbat.away_team_runs, int)
                 self.assertIsInstance(atbat.b, int)
-                self.assertIsInstance(atbat.b1, (int, str))
-                self.assertIsInstance(atbat.b2, (int, str))
-                self.assertIsInstance(atbat.b3, (int, str))
                 self.assertIsInstance(atbat.batter, int)
+                self.assertIsInstance(atbat.stand, str)
+                self.assertIsInstance(atbat.b_height,(str,int))
                 self.assertIsInstance(atbat.des, str)
                 try:
                     self.assertIsInstance(atbat.des_es, (unicode, str))
@@ -40,6 +42,7 @@ class TestInnings(unittest.TestCase):
                 self.assertIsInstance(atbat.num, int)
                 self.assertIsInstance(atbat.o, int)
                 self.assertIsInstance(atbat.pitcher, int)
+                self.assertIsInstance(atbat.p_throws, str)
                 self.assertIsInstance(atbat.pitches, list)
                 self.assertIsInstance(atbat.play_guid, str)
                 self.assertIsInstance(atbat.s, int)
@@ -91,14 +94,16 @@ class TestInnings(unittest.TestCase):
                     self.assertIsInstance(pitch.mt, str)
         inning = i
         self.assertEqual(inning.num, 1)
+        self.assertEqual(inning.away_team, 'nya')
+        self.assertEqual(inning.home_team, 'nyn')
+        self.assertEqual(inning.next, 'Y')
         self.assertEqual(inning.__str__(), 'Inning 1')
         atbat = ab
         self.assertEqual(atbat.away_team_runs, 0)
         self.assertEqual(atbat.b, 1)
-        self.assertEqual(atbat.b1, '')
-        self.assertEqual(atbat.b2, '')
-        self.assertEqual(atbat.b3, '')
         self.assertEqual(atbat.batter, 458731)
+        self.assertEqual(atbat.stand, 'L')
+        self.assertEqual(atbat.b_height, '5-11')
         self.assertEqual(atbat.des, 'Brett Gardner flies out to center fielder Alejandro De Aza.  ')
         self.assertEqual(atbat.des_es, 'Brett Gardner batea elevado de out a jardinero central Alejandro De Aza.  ')
         self.assertEqual(atbat.event, 'Flyout')
@@ -108,6 +113,7 @@ class TestInnings(unittest.TestCase):
         self.assertEqual(atbat.num, 1)
         self.assertEqual(atbat.o, 1)
         self.assertEqual(atbat.pitcher, 594798)
+        self.assertEqual(atbat.p_throws, 'R')
         self.assertEqual(atbat.play_guid, 'e91fe0bf-6e1e-40a3-953c-47a943b37638')
         self.assertEqual(atbat.s, 0)
         self.assertEqual(atbat.start_tfs, 231105)
