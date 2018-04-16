@@ -91,7 +91,7 @@ And the output is:
 
     Winning pitcher: Y. Ventura (Royals) - Losing Pitcher: C. Wilson (Angels)
 
-You can easily find stats for the Mets batters
+You can easily print a list of the Mets batters
 in the final game of the 2015 World Series:
 
     #!python
@@ -105,21 +105,21 @@ in the final game of the 2015 World Series:
 
 And the output is:
 
-    Curtis Granderson - 1 for 4 with 1 RBI and 1 Home Runs
-    David Wright - 1 for 5
-    Daniel Murphy - 0 for 3
-    Yoenis Cespedes - 0 for 3
-    Juan Lagares - 0 for 2
-    Lucas Duda - 0 for 2 with 1 RBI
-    Travis d'Arnaud - 0 for 5
-    Michael Conforto - 2 for 5
-    Wilmer Flores - 0 for 4
-    Matt Harvey - 0 for 3
-    Jeurys Familia - 0 for 0
-    Kelly Johnson - 0 for 1
-    Jon Niese - 0 for 0
-    Addison Reed - 0 for 0
-    Bartolo Colon - 0 for 0
+    Curtis Granderson (RF)
+    David Wright (3B)
+    Daniel Murphy (2B)
+    Yoenis Cespedes (CF)
+    Juan Lagares (CF)
+    Lucas Duda (1B)
+    Travis d'Arnaud (C)
+    Michael Conforto (LF)
+    Wilmer Flores (SS)
+    Matt Harvey (P)
+    Jeurys Familia (P)
+    Kelly Johnson (PH)
+    Jonathon Niese (P)
+    Addison Reed (P)
+    Bartolo Colon (P)
 
 """
 
