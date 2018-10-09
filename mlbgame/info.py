@@ -69,11 +69,7 @@ def broadcast_info(team_id, date=datetime.now()):
     data = mlbgame.data.get_broadcast_info(team_id, year)
     schedule = json.loads(data.read().decode('utf-8'))
     schedule = schedule['mlb_broadcast_info']['queryResults']['row']
-    try:
-        todays_games = [g for g in schedule if g['game_date'] == game_date]
-    except:
-        todays_games = None
-    return todays_games
+    return [g for g in schedule if g['game_date'] == game_date]
 
 
 class BroadcastInfo(mlbgame.object.Object):
@@ -108,11 +104,15 @@ class BroadcastInfo(mlbgame.object.Object):
             setattr(self, key, value)
 
     def nice_output(self):
-        broadcast_strs = []
+        bcast_strs = []
         watch_listen = 'Watch' if self.source_type == 'TV' else 'Listen'
-        broadcast_strs.append('{}: {} - {}'.format(watch_listen, self.home_team_full, self.source_desc))
-        broadcast_strs.append('{}: {} - {}'.format(watch_listen, self.away_team_full, self.source_desc))
-        return '\n'.join(broadcast_strs)
+        bcast_strs.append('{}: {} - {}'.format(watch_listen,
+                                               self.home_team_full,
+                                               self.source_desc))
+        bcast_strs.append('{}: {} - {}'.format(watch_listen,
+                                               self.away_team_full,
+                                               self.source_desc))
+        return '\n'.join(bcast_strs)
 
     def __str__(self):
         return self.nice_output()
