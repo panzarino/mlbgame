@@ -265,3 +265,11 @@ def injury():
     """Return Injuries object that contains injury info"""
     data = mlbgame.info.injury()
     return mlbgame.info.Injuries(data)
+
+
+def broadcast_info(team_id, date=datetime.now()):
+    """Return BroadcastInfo object that containts information
+    about the television and radio broadcasts for the team_id
+    and year"""
+    data = mlbgame.info.broadcast_info(team_id, date)
+    return [mlbgame.info.BroadcastInfo(x) for x in data]

@@ -60,6 +60,64 @@ def important_dates(year):
     return output
 
 
+def broadcast_info(team_id, date=datetime.now()):
+    """Returns a dictionary of broadcast information
+    for a given team during a given season"""
+    output = {}
+    year = date.year
+    game_date = date.strftime('%Y-%m-%dT00:00:00')
+    data = mlbgame.data.get_broadcast_info(team_id, year)
+    schedule = json.loads(data.read().decode('utf-8'))
+    schedule = schedule['mlb_broadcast_info']['queryResults']['row']
+    return [g for g in schedule if g['game_date'] == game_date]
+
+
+class BroadcastInfo(mlbgame.object.Object):
+    """Holds broadcast information for a given team and game date
+    Properties:
+        away_team_id
+        home_team_short
+        game_time_local
+        game_time_home
+        source_id
+        home_team_full
+        game_date
+        source_type
+        foreign_language
+        game_pk
+        game_time_away
+        game_day
+        source_comment
+        source_desc
+        away_team_abbrev
+        away_team_full
+        game_id
+        home_team_abbrev
+        home_team_id
+        sort_order
+        game_time_et
+        away_team_short
+        home_away
+    """
+    def __init__(self, data):
+        for key, value in data.items():
+            setattr(self, key, value)
+
+    def nice_output(self):
+        bcast_strs = []
+        watch_listen = 'Watch' if self.source_type == 'TV' else 'Listen'
+        bcast_strs.append('{}: {} - {}'.format(watch_listen,
+                                               self.home_team_full,
+                                               self.source_desc))
+        bcast_strs.append('{}: {} - {}'.format(watch_listen,
+                                               self.away_team_full,
+                                               self.source_desc))
+        return '\n'.join(bcast_strs)
+
+    def __str__(self):
+        return self.nice_output()
+
+
 class ImportantDates(mlbgame.object.Object):
     """Holds information about important MLB dates and other info.
     Properties:

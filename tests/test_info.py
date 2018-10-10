@@ -6,6 +6,30 @@ from datetime import datetime
 
 
 class TestInfo(unittest.TestCase):
+    def test_broadcast_info(self):
+        """ The broadcast_info function should be mocked and use cached data """
+        broadcast_info = mlbgame.broadcast_info('111', datetime(2018, 10, 9))
+        self.assertIsInstance(broadcast_info, list)
+        self.assertEqual(len(broadcast_info), 5)
+        for broadcast_source in broadcast_info:
+            self.assertEqual(broadcast_source.away_team_abbrev, 'BOS')
+            self.assertEqual(broadcast_source.away_team_full, 'Boston Red Sox')
+            self.assertEqual(broadcast_source.away_team_id, '111')
+            self.assertEqual(broadcast_source.away_team_short, 'Boston')
+            self.assertEqual(broadcast_source.game_date, '2018-10-09T00:00:00')
+            self.assertEqual(broadcast_source.game_day, 'Tuesday')
+            self.assertEqual(broadcast_source.game_id, '2018/10/09/bosmlb-nyamlb-1')
+            self.assertEqual(broadcast_source.game_pk, '563376')
+            self.assertEqual(broadcast_source.game_time_away, '2018-10-09T20:07:00')
+            self.assertEqual(broadcast_source.game_time_et, '2018-10-09T20:07:00')
+            self.assertEqual(broadcast_source.game_time_home, '2018-10-09T20:07:00')
+            self.assertEqual(broadcast_source.game_time_local, '2018-10-09T20:07:00')
+            self.assertEqual(broadcast_source.home_away, 'A')
+            self.assertEqual(broadcast_source.home_team_abbrev, 'NYY')
+            self.assertEqual(broadcast_source.home_team_full, 'New York Yankees')
+            self.assertEqual(broadcast_source.home_team_id, '147')
+            self.assertEqual(broadcast_source.home_team_short, 'NY Yankees')
+
 
     def test_league(self):
         league = mlbgame.league()

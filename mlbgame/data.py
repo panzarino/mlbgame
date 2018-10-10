@@ -32,8 +32,17 @@ STANDINGS_HISTORICAL_URL = ('http://mlb.mlb.com/lookup/json/'
                             'version=48')
 IMPORTANT_DATES = ('http://lookup-service-prod.mlb.com/named.org_history.bam?'
                    'org_id=1&season={0}')
+BCAST_INFO = ('http://mlb.mlb.com/lookup/json/named.mlb_broadcast_info.bam?'
+              'team_id={}&season={}')
 # Local Directory
 PWD = os.path.join(os.path.dirname(__file__))
+
+
+def get_broadcast_info(team_id, year):
+    try:
+        return urlopen(BCAST_INFO.format(team_id, year))
+    except HTTPError:
+        raise ValueError('Failed to retrieve MLB broadcast information.')
 
 
 def get_important_dates(year):
