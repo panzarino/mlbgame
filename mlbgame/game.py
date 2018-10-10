@@ -237,10 +237,20 @@ def box_score(game_id):
     # loop through innings and add them to output
     for x in linescore:
         inning = x.attrib['inning']
-        home = x.attrib['home']
-        away = x.attrib['away']
+        home = value_to_int(x.attrib, 'home')
+        away = value_to_int(x.attrib, 'away')
         result[int(inning)] = {'home': home, 'away': away}
     return result
+
+
+def value_to_int(attrib, key):
+    """ Massage runs in an inning to 0 if an empty string,
+    or key not found. Otherwise return the value """
+    val = attrib.get(key, 0)
+    if isinstance(val, str):
+        if val.isspace() or val == '':
+            return 0
+    return val
 
 
 class GameBoxScore(object):
@@ -266,10 +276,11 @@ class GameBoxScore(object):
         # loops through the innings
         for x in sorted(data):
             try:
-                result = {'inning': int(x),
-                          'home': int(data[x]['home']),
-                          'away': int(data[x]['away'])
-                          }
+                result = {
+                    'inning': int(x),
+                    'home': int(data[x]['home']),
+                    'away': int(data[x]['away'])
+                }
             # possible error when 9th innning home team has 'x'
             # becuase they did not bat
             except ValueError:
