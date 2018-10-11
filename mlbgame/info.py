@@ -12,7 +12,6 @@ import mlbgame.object
 from datetime import datetime
 import json
 import lxml.etree as etree
-import sys
 
 
 def __get_league_object():
@@ -63,7 +62,6 @@ def important_dates(year):
 def broadcast_info(team_id, date=datetime.now()):
     """Returns a dictionary of broadcast information
     for a given team during a given season"""
-    output = {}
     year = date.year
     game_date = date.strftime('%Y-%m-%dT00:00:00')
     data = mlbgame.data.get_broadcast_info(team_id, year)
@@ -182,6 +180,7 @@ def date_format(my_date):
     except ValueError:
         return ''
     return my_date.strftime('%A, %B %d')
+
 
 def str_format(my_str, args):
     return my_str.format(*args)
