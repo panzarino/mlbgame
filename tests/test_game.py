@@ -361,3 +361,12 @@ class TestGame(unittest.TestCase):
     def test_players_empty(self):
         self.assertRaises(ValueError, lambda: mlbgame.players('game_id'))
         self.assertRaises(ValueError, lambda: mlbgame.players('2016_08_02_nymlb_nymlb_1'))
+
+    def test_value_to_int(self):
+        attrs = [{'away': ''}, {'not_here': 0}]
+        for attr in attrs:
+            self.assertEqual(0, mlbgame.game.value_to_int(attr, 'away'))
+
+        attrs = [{'home': 3}, {'home': 'X'}]
+        for attr in attrs:
+            self.assertEqual(attr.get('home'), mlbgame.game.value_to_int(attr, 'home'))
