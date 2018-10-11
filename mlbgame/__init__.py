@@ -130,7 +130,7 @@ import mlbgame.stats
 import mlbgame.version
 
 import calendar
-from datetime import date, datetime
+from datetime import datetime
 
 VERSION = mlbgame.version.__version__
 """Installed version of mlbgame."""
