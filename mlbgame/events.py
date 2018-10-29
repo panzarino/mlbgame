@@ -10,24 +10,30 @@ import mlbgame.data
 import mlbgame.object
 
 
+class TagException(Exception):
+    pass
+
 def __inning_info(inning, part):
     # info
     info = []
     # loop through the half
     half = inning.findall(part)[0]
-    for y in half.findall('atbat'):
-        atbat = {}
+    #for y in half.findall('atbat'):
+    for y in half.xpath('.//atbat | .//action'):
+        atbat_action = {'tag': y.tag}
         # loop through and save info
         for i in y.attrib:
-            atbat[i] = y.attrib[i]
-        atbat['pitches'] = []
-        for i in y.findall('pitch'):
-            pitch = {}
-            # loop through pitch info
-            for n in i.attrib:
-                pitch[n] = i.attrib[n]
-            atbat['pitches'].append(pitch)
-        info.append(atbat)
+            atbat_action[i] = y.attrib[i]
+        # only get pitches for atbat tags
+        if y.tag == 'atbat':
+            atbat_action['pitches'] = []
+            for i in y.findall('pitch'):
+                pitch = {}
+                # loop through pitch info
+                for n in i.attrib:
+                    pitch[n] = i.attrib[n]
+                atbat_action['pitches'].append(pitch)
+        info.append(atbat_action)
     return info
 
 
@@ -66,8 +72,23 @@ class Inning(object):
         `data` should be a dictionary of values.
         """
         self.num = int(inning)
-        self.top = [AtBat(x) for x in data['top']]
-        self.bottom = [AtBat(x) for x in data['bottom']]
+        self.top = []
+        for x in data['top']:
+            if x['tag'] == 'atbat':
+                self.top.append(AtBat(x))
+            elif x['tag'] == 'action':
+                self.top.append(Action(x))
+            else:
+                raise TagException("Unknown event tag %s." % x['tag'])
+
+        self.bottom = []
+        for x in data['bottom']:
+            if x['tag'] == 'atbat':
+                self.bottom.append(AtBat(x))
+            elif x['tag'] == 'action':
+                self.bottom.append(Action(x))
+            else:
+                raise TagException("Unknown event tag %s." % x['tag'])
 
     def nice_output(self):
         """Prints basic inning info in a nice way."""
@@ -119,6 +140,49 @@ class AtBat(object):
             else:
                 # set information as correct data type
                 mlbgame.object.setobjattr(self, x, data[x])
+
+    def nice_output(self):
+        """Prints basic at bat info in a nice way."""
+        return self.des
+
+    def __str__(self):
+        return self.nice_output()
+
+
+class Action(object):
+    """Class that holds information about actions in games.
+
+    Properties:
+        away_team_runs
+        b
+        des
+        des_es
+        event
+        event_es
+        event_num
+        home_team_runs
+        o
+        pitch
+        player
+        play_guid
+        s
+        tfs
+        tfs_zulu
+    """
+
+    def __init__(self, data):
+        """Creates an action object that matches the corresponding
+        info in `data`.
+
+        `data` should be a dictionary of values.
+        """
+        # add play_guid as it sometimes doesn't exist
+        if 'play_guid' not in data:
+            data['play_guid'] = ''
+        # loop through data
+        for x in data:
+            # set information as correct data type
+            mlbgame.object.setobjattr(self, x, data[x])
 
     def nice_output(self):
         """Prints basic at bat info in a nice way."""
