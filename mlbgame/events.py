@@ -13,12 +13,12 @@ import mlbgame.object
 class TagException(Exception):
     pass
 
+
 def __inning_info(inning, part):
     # info
     info = []
     # loop through the half
     half = inning.findall(part)[0]
-    #for y in half.findall('atbat'):
     for y in half.xpath('.//atbat | .//action'):
         atbat_action = {'tag': y.tag}
         # loop through and save info
@@ -73,22 +73,16 @@ class Inning(object):
         """
         self.num = int(inning)
         self.top = []
-        for x in data['top']:
-            if x['tag'] == 'atbat':
-                self.top.append(AtBat(x))
-            elif x['tag'] == 'action':
-                self.top.append(Action(x))
-            else:
-                raise TagException("Unknown event tag %s." % x['tag'])
-
         self.bottom = []
-        for x in data['bottom']:
-            if x['tag'] == 'atbat':
-                self.bottom.append(AtBat(x))
-            elif x['tag'] == 'action':
-                self.bottom.append(Action(x))
-            else:
-                raise TagException("Unknown event tag %s." % x['tag'])
+
+        for half, half_list in zip(['top', 'bottom'], [self.top, self.bottom]):
+            for x in data[half]:
+                if x['tag'] == 'atbat':
+                    half_list.append(AtBat(x))
+                elif x['tag'] == 'action':
+                    half_list.append(Action(x))
+                else:
+                    raise TagException("Unknown event tag %s." % x['tag'])
 
     def nice_output(self):
         """Prints basic inning info in a nice way."""
