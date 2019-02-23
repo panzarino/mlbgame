@@ -367,10 +367,13 @@ def overview(game_id):
 def add_raw_box_score_attributes(output, game_id):
     # rawboxscore may not be available prior to a game
     raw_box_score = mlbgame.data.get_raw_box_score(game_id)
-    raw_box_score_root = etree.parse(raw_box_score).getroot()
-    # get raw box score attributes
-    for attr in raw_box_score_root.attrib:
-        output[attr] = raw_box_score_root.attrib[attr]
+    try:
+        raw_box_score_root = etree.parse(raw_box_score).getroot()
+        # get raw box score attributes
+        for attr in raw_box_score_root.attrib:
+            output[attr] = raw_box_score_root.attrib[attr]
+    except etree.XMLSyntaxError:
+        pass
     return output
 
 
