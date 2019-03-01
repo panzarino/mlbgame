@@ -22,19 +22,20 @@ def __inning_info(inning, part):
     # with only 1 frame 'top'
     try:
         half = inning.findall(part)[0]
-        for y in half.findall('atbat'):
-            atbat = {}
+        for y in half.xpath('.//atbat | .//action'):
+            atbat_action = {'tag': y.tag}
             # loop through and save info
             for i in y.attrib:
-                atbat[i] = y.attrib[i]
-            atbat['pitches'] = []
-            for i in y.findall('pitch'):
-                pitch = {}
-                # loop through pitch info
-                for n in i.attrib:
-                    pitch[n] = i.attrib[n]
-                atbat['pitches'].append(pitch)
-            info.append(atbat)
+                atbat_action[i] = y.attrib[i]
+            if y.tag == 'atbat':
+                atbat_action['pitches'] = []
+                for i in y.findall('pitch'):
+                    pitch = {}
+                    # loop through pitch info
+                    for n in i.attrib:
+                        pitch[n] = i.attrib[n]
+                    atbat_action['pitches'].append(pitch)
+            info.append(atbat_action)
     except IndexError:
         pass
     return info
