@@ -126,6 +126,7 @@ And the output is:
 import mlbgame.events
 import mlbgame.game
 import mlbgame.info
+import mlbgame.innings
 import mlbgame.stats
 import mlbgame.version
 
@@ -233,6 +234,12 @@ def important_dates(year=None):
     year = datetime.now().year if not year else year
     data = mlbgame.info.important_dates(year)
     return mlbgame.info.ImportantDates(data)
+
+
+def game_innings(game_id):
+    """Return dictionary of game innings for game matching the game id."""
+    data = mlbgame.innings.game_innings(game_id)
+    return [mlbgame.innings.Inning(data[x], x) for x in data]
 
 
 def league():
