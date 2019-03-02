@@ -102,8 +102,9 @@ class Pitch(mlbgame.events.Pitch):
 
     def nice_output(self):
         """Prints basic event info in a nice way."""
-        return 'Pitch: {0} starting at {1}: ending at: {2} Description: {3}'\
-            .format(self.pitch_type, self.start_speed, self.end_speed, self.des)
+        out = 'Pitch: {0} starting at {1}: ending at: {2} Description: {3}'
+        return out.format(self.pitch_type, self.start_speed,
+                          self.end_speed, self.des)
 
     def __str__(self):
         return self.nice_output()
