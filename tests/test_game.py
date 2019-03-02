@@ -95,6 +95,9 @@ class TestGame(unittest.TestCase):
             self.assertIsInstance(game.home_team_runs, int)
             self.assertIsInstance(game.nice_score(), str)
             if game.game_tag == 'go_game':
+                # skip canceled games, which don't have W/L attributes
+                if game.home_team_runs == game.away_team_runs == 0:
+                    continue
                 self.assertIsInstance(game.l_pitcher, str)
                 self.assertIsInstance(game.l_pitcher_losses, int)
                 self.assertIsInstance(game.l_pitcher_wins, int)
