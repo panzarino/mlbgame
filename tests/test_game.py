@@ -47,20 +47,20 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game.date, datetime(2016, 8, 2, 19, 10))
         self.assertEqual(game.game_id, '2016_08_02_nyamlb_nynmlb_1')
         self.assertEqual(game.game_league, 'AN')
-        self.assertEqual(game.game_start_time, '7:10PM')
+        self.assertEqual(game.game_start_time, '07:10 pm')
         self.assertEqual(game.game_status, 'FINAL')
         self.assertEqual(game.game_tag, 'go_game')
         self.assertEqual(game.home_team, 'Mets')
         self.assertEqual(game.home_team_errors, 0)
         self.assertEqual(game.home_team_hits, 10)
         self.assertEqual(game.home_team_runs, 7)
-        self.assertEqual(game.l_pitcher, 'M. Tanaka')
+        self.assertEqual(game.l_pitcher, 'Masahiro Tanaka')
         self.assertEqual(game.l_pitcher_losses, 4)
         self.assertEqual(game.l_pitcher_wins, 7)
         self.assertEqual(game.l_team, 'Yankees')
         self.assertEqual(game.sv_pitcher, '. ')
         self.assertEqual(game.sv_pitcher_saves, 0)
-        self.assertEqual(game.w_pitcher, 'J. deGrom')
+        self.assertEqual(game.w_pitcher, 'Jacob deGrom')
         self.assertEqual(game.w_pitcher_losses, 5)
         self.assertEqual(game.w_pitcher_wins, 7)
         self.assertEqual(game.w_team, 'Mets')
@@ -95,6 +95,9 @@ class TestGame(unittest.TestCase):
             self.assertIsInstance(game.home_team_runs, int)
             self.assertIsInstance(game.nice_score(), str)
             if game.game_tag == 'go_game':
+                # skip canceled games, which don't have W/L attributes
+                if game.home_team_runs == game.away_team_runs == 0:
+                    continue
                 self.assertIsInstance(game.l_pitcher, str)
                 self.assertIsInstance(game.l_pitcher_losses, int)
                 self.assertIsInstance(game.l_pitcher_wins, int)

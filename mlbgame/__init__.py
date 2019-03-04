@@ -222,9 +222,16 @@ def team_stats(game_id):
     return mlbgame.stats.Stats(data, game_id, False)
 
 
-def game_events(game_id):
-    """Return dictionary of game events for game matching the game id."""
-    data = mlbgame.events.game_events(game_id)
+def game_events(game_id, innings_endpoint=False):
+    """Return list of Inning objects for game matching the game id.
+
+    Using `inning_endpoints=True` will result in objects with
+    additional, undocumented data properties, but also objects
+    that may be missing properties expected by the user.
+
+    `innings_endpoint`: bool, use more detailed `innings` API endpoint
+    """
+    data = mlbgame.events.game_events(game_id, innings_endpoint)
     return [mlbgame.events.Inning(data[x], x) for x in data]
 
 

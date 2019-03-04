@@ -65,6 +65,6 @@ setup(
     data_files=[('docs', ['README.md', 'LICENSE', 'description.rst'])],
     install_requires=['lxml'],
     extras_require={
-        'dev': ['pytest', 'pytest-cov', 'coveralls']
+        'dev': ['pytest>=3.6', 'pytest-cov', 'coveralls']
     }
 )

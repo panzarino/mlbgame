@@ -14,33 +14,42 @@ class TagException(Exception):
     pass
 
 
-def __inning_info(inning, part):
+def __inning_info(inning, part, endpoint):
     # info
     info = []
     # loop through the half
-    half = inning.findall(part)[0]
-    for y in half.xpath('.//atbat | .//action'):
-        atbat_action = {'tag': y.tag}
-        # loop through and save info
-        for i in y.attrib:
-            atbat_action[i] = y.attrib[i]
-        # only get pitches for atbat tags
-        if y.tag == 'atbat':
-            atbat_action['pitches'] = []
-            for i in y.findall('pitch'):
-                pitch = {}
-                # loop through pitch info
-                for n in i.attrib:
-                    pitch[n] = i.attrib[n]
-                atbat_action['pitches'].append(pitch)
-        info.append(atbat_action)
+    # Added more robust exception handling to catch final innings'
+    # with only 1 frame 'top'
+    try:
+        half = inning.findall(part)[0]
+        for y in half.xpath('.//atbat | .//action'):
+            atbat_action = {'tag': y.tag, '_endpoint': endpoint}
+            # loop through and save info
+            for i in y.attrib:
+                atbat_action[i] = y.attrib[i]
+            if y.tag == 'atbat':
+                atbat_action['pitches'] = []
+                for i in y.findall('pitch'):
+                    pitch = {'_endpoint': endpoint}
+                    # loop through pitch info
+                    for n in i.attrib:
+                        pitch[n] = i.attrib[n]
+                    atbat_action['pitches'].append(pitch)
+            info.append(atbat_action)
+    except IndexError:
+        pass
     return info
 
 
-def game_events(game_id):
+def game_events(game_id, innings_endpoint=False):
     """Return dictionary of events for a game with matching id."""
     # get data from data module
-    data = mlbgame.data.get_game_events(game_id)
+    if not innings_endpoint:
+        data = mlbgame.data.get_game_events(game_id)
+        endpoint = 'game_events'
+    else:
+        data = mlbgame.data.get_innings(game_id)
+        endpoint = 'innings'
     # parse XML
     parsed = etree.parse(data)
     root = parsed.getroot()
@@ -50,8 +59,8 @@ def game_events(game_id):
     innings = root.findall('inning')
     for x in innings:
         output[x.attrib['num']] = {
-            'top': __inning_info(x, 'top'),
-            'bottom': __inning_info(x, 'bottom')
+            'top': __inning_info(x, 'top', endpoint),
+            'bottom': __inning_info(x, 'bottom', endpoint)
         }
     return output
 
@@ -196,6 +205,43 @@ class Pitch(mlbgame.object.Object):
         start_speed
         sv_id
         type
+
+    Additional properties if `self._endpoint == 'innings'`:
+        id
+        code
+        tfs
+        tfs_zulu
+        x
+        y
+        event_num
+        sv_id
+        play_guid
+        end_speed
+        sz_top
+        sz_bot
+        pfx_x
+        pfx_z
+        px
+        pz
+        x0
+        y0
+        z0
+        vx0
+        vy0
+        vz0
+        ax
+        ay
+        az
+        break_y
+        break_angle
+        break_length
+        type_confidence
+        zone
+        nasty
+        spin_dir
+        spin_rate
+        cc
+        mt
     """
 
     def nice_output(self):
