@@ -14,7 +14,7 @@ class TestInnings(unittest.TestCase):
             self.assertIsInstance(value, str)
 
     def test_game_innings(self):
-        innings = mlbgame.game_innings('2016_08_02_nyamlb_nynmlb_1')
+        innings = mlbgame.game_events('2016_08_02_nyamlb_nynmlb_1', True)
         for inning in innings:
             self.assertIsInstance(inning.num, int)
             if inning.num == 1:
@@ -28,7 +28,7 @@ class TestInnings(unittest.TestCase):
                 # TODO: distinguish assertions on AtBat and Action objects
                 # some of the assertions test attributes specific to AtBats,
                 # so we need to skip Actions.
-                if not isinstance(atbat, mlbgame.innings.AtBat):
+                if not isinstance(atbat, mlbgame.events.AtBat):
                     continue
                 self.assertIsInstance(atbat.away_team_runs, int)
                 self.assertIsInstance(atbat.b, int)
@@ -67,19 +67,19 @@ class TestInnings(unittest.TestCase):
                     self.assertIsInstance(pitch.end_speed, (int, float))
                     self.assertIsInstance(pitch.sz_top, (int, float))
                     self.assertIsInstance(pitch.sz_bot, (int, float))
-                    self.assertIsInstance(pitch.pfx_x, float)
-                    self.assertIsInstance(pitch.pfx_z, float)
-                    self.assertIsInstance(pitch.px, float)
-                    self.assertIsInstance(pitch.pz, float)
-                    self.assertIsInstance(pitch.x0, float)
-                    self.assertIsInstance(pitch.y0, int)
-                    self.assertIsInstance(pitch.z0, float)
-                    self.assertIsInstance(pitch.vx0, float)
-                    self.assertIsInstance(pitch.vy0, float)
-                    self.assertIsInstance(pitch.vz0, float)
-                    self.assertIsInstance(pitch.ax, float)
-                    self.assertIsInstance(pitch.ay, float)
-                    self.assertIsInstance(pitch.az, float)
+                    self.assertIsInstance(pitch.pfx_x, (int, float))
+                    self.assertIsInstance(pitch.pfx_z, (int, float))
+                    self.assertIsInstance(pitch.px, (int, float))
+                    self.assertIsInstance(pitch.pz, (int, float))
+                    self.assertIsInstance(pitch.x0, (int, float))
+                    self.assertIsInstance(pitch.y0, (int, float))
+                    self.assertIsInstance(pitch.z0, (int, float))
+                    self.assertIsInstance(pitch.vx0, (int, float))
+                    self.assertIsInstance(pitch.vy0, (int, float))
+                    self.assertIsInstance(pitch.vz0, (int, float))
+                    self.assertIsInstance(pitch.ax, (int, float))
+                    self.assertIsInstance(pitch.ay, (int, float))
+                    self.assertIsInstance(pitch.az, (int, float))
                     self.assertIsInstance(pitch.break_y, float)
                     self.assertIsInstance(pitch.break_angle, float)
                     self.assertIsInstance(pitch.break_length, float)
@@ -158,12 +158,8 @@ class TestInnings(unittest.TestCase):
         self.assertEqual(pitch.spin_rate, 2149.420)
         self.assertEqual(pitch.cc, "")
         self.assertEqual(pitch.mt, "")
-        # TODO: this test expects an `innings.Pitch`, but is being passed an `events.Pitch`
-        # skip for now
-        # self.assertEqual(
-        #     pitch.__str__(),
-        #     'Pitch: FT starting at 95.2: ending at: 86.8 Description: Ball')
+        self.assertEqual(pitch.__str__(), 'Pitch: FT at 95.2: Ball')
 
     def test_game_innings_empty(self):
-        self.assertRaises(ValueError, lambda: mlbgame.game_innings('game_id'))
-        self.assertRaises(ValueError, lambda: mlbgame.game_innings('2016_08_02_nymlb_nymlb_1'))
+        self.assertRaises(ValueError, lambda: mlbgame.game_events('game_id', True))
+        self.assertRaises(ValueError, lambda: mlbgame.game_events('2016_08_02_nymlb_nymlb_1', True))
