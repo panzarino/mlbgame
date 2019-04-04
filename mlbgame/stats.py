@@ -3,7 +3,7 @@
 """Module that controls getting stats and creating objects to hold that
 information."""
 
-import lxml.etree as etree
+from lxml import etree
 
 import mlbgame.data
 import mlbgame.object
@@ -69,33 +69,40 @@ def player_stats(game_id):
     """
     # get data from data module
     box_score = mlbgame.data.get_box_score(game_id)
-    raw_box_score = mlbgame.data.get_raw_box_score(game_id)
-    # parse XML
     box_score_tree = etree.parse(box_score).getroot()
-    raw_box_score_tree = etree.parse(raw_box_score).getroot()
     # get pitching and batting info
     pitching = box_score_tree.findall('pitching')
     batting = box_score_tree.findall('batting')
     # get parsed stats
     pitching_info = __player_stats_info(pitching, 'pitcher')
     batting_info = __player_stats_info(batting, 'batter')
-    # get parsed additional stats
-    additional_stats = __raw_player_stats_info(raw_box_score_tree)
-    addl_home_pitching = additional_stats[0]['pitchers']
-    addl_home_batting = additional_stats[0]['batters']
-    addl_away_pitching = additional_stats[1]['pitchers']
-    addl_away_batting = additional_stats[1]['batters']
+    # rawboxscore not available after 2018
+    try:
+        raw_box_score = mlbgame.data.get_raw_box_score(game_id)
+        raw_box_score_tree = etree.parse(raw_box_score).getroot()
+        additional_stats = __raw_player_stats_info(raw_box_score_tree)
+        addl_home_pitching = additional_stats[0]['pitchers']
+        addl_home_batting = additional_stats[0]['batters']
+        addl_away_pitching = additional_stats[1]['pitchers']
+        addl_away_batting = additional_stats[1]['batters']
 
-    output = {
-        'home_pitching': pitching_info[0],
-        'away_pitching': pitching_info[1],
-        'home_batting': batting_info[0],
-        'away_batting': batting_info[1],
-        'home_additional_pitching': addl_home_pitching,
-        'away_additional_pitching': addl_away_pitching,
-        'home_additional_batting': addl_home_batting,
-        'away_additional_batting': addl_away_batting
-    }
+        output = {
+            'home_pitching': pitching_info[0],
+            'away_pitching': pitching_info[1],
+            'home_batting': batting_info[0],
+            'away_batting': batting_info[1],
+            'home_additional_pitching': addl_home_pitching,
+            'away_additional_pitching': addl_away_pitching,
+            'home_additional_batting': addl_home_batting,
+            'away_additional_batting': addl_away_batting
+        }
+    except etree.XMLSyntaxError:
+        output = {
+            'home_pitching': pitching_info[0],
+            'away_pitching': pitching_info[1],
+            'home_batting': batting_info[0],
+            'away_batting': batting_info[1],
+        }
     return output
 
 
