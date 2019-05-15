@@ -275,20 +275,22 @@ class GameBoxScore(object):
         self.innings = []
         # loops through the innings
         for x in sorted(data):
-            try:
-                result = {
-                    'inning': int(x),
-                    'home': int(data[x]['home']),
-                    'away': int(data[x]['away'])
-                }
-            # possible error when 9th innning home team has 'x'
-            # becuase they did not bat
-            except ValueError:
-                result = {
-                    'inning': int(x),
-                    'home': data[x]['home'],
-                    'away': int(data[x]['away'])
-                }
+            # Cast score for each half-inning to `int` if score is a digit
+            # For reference---examples of a blank score ('') appearing:
+            # 1. A team hasn't scored during the half-inning for an ongoing game
+            # 2. Home team does not bat during the bottom of the 9th because they have the lead
+            home_score = data[x]['home']
+            if home_score.isdigit():
+                home_score = int(home_score)
+            away_score = data[x]['away']
+            if away_score.isdigit():
+                away_score = int(away_score)
+            
+            result = {
+                'inning': int(x),
+                'home': home_score,
+                'away': away_score
+            }
             self.innings.append(result)
 
     def __iter__(self):
