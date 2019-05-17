@@ -280,10 +280,10 @@ class GameBoxScore(object):
             # 1. Team hasn't scored during the half-inning for an ongoing game
             # 2. Home team does not bat during the bottom of the 9th
             home_score = data[x]['home']
-            if home_score.isdigit():
+            if type(home_score) == str and home_score.isdigit():
                 home_score = int(home_score)
             away_score = data[x]['away']
-            if away_score.isdigit():
+            if type(away_score) == str and away_score.isdigit():
                 away_score = int(away_score)
             result = {
                 'inning': int(x),
