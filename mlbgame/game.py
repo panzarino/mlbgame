@@ -105,14 +105,14 @@ def scoreboard(year, month, day, home=None, away=None):
             elif game_tag == 'sg_game':
                 try:
                     p_pitcher_data = game.findall('p_pitcher')
-                    p_pitcher_home_data = p_pitcher_data[0]
+                    p_pitcher_home_data = p_pitcher_data[1] # swapped positions
                     p_pitcher_home = p_pitcher_home_data.find(
                         'pitcher').attrib['name']
                     p_pitcher_home_wins = int(p_pitcher_home_data.
                                               attrib['wins'])
                     p_pitcher_home_losses = int(p_pitcher_home_data.
                                                 attrib['losses'])
-                    p_pitcher_away_data = p_pitcher_data[1]
+                    p_pitcher_away_data = p_pitcher_data[0] # swapped positions
                     p_pitcher_away = p_pitcher_away_data.find(
                         'pitcher').attrib['name']
                     p_pitcher_away_wins = int(p_pitcher_away_data.
