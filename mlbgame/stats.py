@@ -3,7 +3,7 @@
 """Module that controls getting stats and creating objects to hold that
 information."""
 
-from lxml import etree
+import lxml.etree as etree
 
 import mlbgame.data
 import mlbgame.object
@@ -69,41 +69,49 @@ def player_stats(game_id):
     """
     # get data from data module
     box_score = mlbgame.data.get_box_score(game_id)
+    if mlbgame.data.does_raw_box_score_exist(game_id):
+        raw_box_score = mlbgame.data.get_raw_box_score(game_id)
+    # parse XML
     box_score_tree = etree.parse(box_score).getroot()
+    if mlbgame.data.does_raw_box_score_exist(game_id):
+        raw_box_score_tree = etree.parse(raw_box_score).getroot()
     # get pitching and batting info
     pitching = box_score_tree.findall('pitching')
     batting = box_score_tree.findall('batting')
     # get parsed stats
     pitching_info = __player_stats_info(pitching, 'pitcher')
     batting_info = __player_stats_info(batting, 'batter')
-    # rawboxscore not available after 2018
-    try:
-        raw_box_score = mlbgame.data.get_raw_box_score(game_id)
-        raw_box_score_tree = etree.parse(raw_box_score).getroot()
-        additional_stats = __raw_player_stats_info(raw_box_score_tree)
+    # get parsed additional stats
+    #additional_stats = __raw_player_stats_info(raw_box_score_tree)
+    if mlbgame.data.does_raw_box_score_exist(game_id):
         addl_home_pitching = additional_stats[0]['pitchers']
         addl_home_batting = additional_stats[0]['batters']
         addl_away_pitching = additional_stats[1]['pitchers']
         addl_away_batting = additional_stats[1]['batters']
-
+    if mlbgame.data.does_raw_box_score_exist(game_id):
         output = {
             'home_pitching': pitching_info[0],
             'away_pitching': pitching_info[1],
             'home_batting': batting_info[0],
             'away_batting': batting_info[1],
+
+
+            # Section of person that
+
             'home_additional_pitching': addl_home_pitching,
             'away_additional_pitching': addl_away_pitching,
             'home_additional_batting': addl_home_batting,
             'away_additional_batting': addl_away_batting
         }
-    except etree.XMLSyntaxError:
+        return output
+    else:
         output = {
             'home_pitching': pitching_info[0],
             'away_pitching': pitching_info[1],
             'home_batting': batting_info[0],
             'away_batting': batting_info[1],
         }
-    return output
+        return output
 
 
 def __team_stats_info(data, output, output_key):
@@ -152,10 +160,12 @@ def team_stats(game_id):
     """
     # get data from data module
     box_score = mlbgame.data.get_box_score(game_id)
-    raw_box_score = mlbgame.data.get_raw_box_score(game_id)
+    if mlbgame.data.does_raw_box_score_exist(game_id):
+        raw_box_score = mlbgame.data.get_raw_box_score(game_id)
     # parse XML
     box_score_tree = etree.parse(box_score).getroot()
-    raw_box_score_tree = etree.parse(raw_box_score).getroot()
+    if mlbgame.data.does_raw_box_score_exist(game_id):
+        raw_box_score_tree = etree.parse(raw_box_score).getroot()
     # get pitching and batting ingo
     pitching = box_score_tree.findall('pitching')
     batting = box_score_tree.findall('batting')
@@ -163,7 +173,8 @@ def team_stats(game_id):
     output = {}
     output = __team_stats_info(pitching, output, 'pitching')
     output = __team_stats_info(batting, output, 'batting')
-    output = __raw_team_stats_info(raw_box_score_tree, output)
+    if mlbgame.data.does_raw_box_score_exist(game_id):
+        output = __raw_team_stats_info(raw_box_score_tree, output)
     return output
 
 
@@ -206,6 +217,7 @@ class Stats(object):
         self.away_pitching = output['away_pitching']
         self.home_batting = output['home_batting']
         self.away_batting = output['away_batting']
+
         self.home_additional_pitching = output['home_additional_pitching']
         self.away_additional_pitching = output['away_additional_pitching']
         self.home_additional_batting = output['home_additional_batting']
