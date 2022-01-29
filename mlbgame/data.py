@@ -32,18 +32,8 @@ STANDINGS_HISTORICAL_URL = ('http://mlb.mlb.com/lookup/json/'
                             'version=48')
 IMPORTANT_DATES = ('http://lookup-service-prod.mlb.com/named.org_history.bam?'
                    'org_id=1&season={0}')
-BCAST_INFO = ('http://mlb.mlb.com/lookup/json/named.mlb_broadcast_info.bam?'
-              'team_id={}&season={}')
-INNINGS_URL = BASE_URL + 'gid_{3}/inning/inning_all.xml'
 # Local Directory
 PWD = os.path.join(os.path.dirname(__file__))
-
-
-def get_broadcast_info(team_id, year):
-    try:
-        return urlopen(BCAST_INFO.format(team_id, year))
-    except HTTPError:
-        raise ValueError('Failed to retrieve MLB broadcast information.')
 
 
 def get_important_dates(year):
@@ -81,6 +71,19 @@ def get_raw_box_score(game_id):
     except HTTPError:
         raise ValueError('Could not find a game with that id.')
 
+def does_raw_box_score_exist(game_id) :
+    """Checks if box score exists for game id"""
+    year, month, day = get_date_from_game_id(game_id)
+    try:
+        urlopen(GAME_URL.format(year, month, day, game_id,
+                                'rawboxscore.xml'))
+        return True
+
+    except HTTPError:
+        return False
+
+
+
 
 def get_game_events(game_id):
     """Return the game events file of a game with matching id."""
@@ -88,15 +91,6 @@ def get_game_events(game_id):
     try:
         return urlopen(GAME_URL.format(year, month, day, game_id,
                                        'game_events.xml'))
-    except HTTPError:
-        raise ValueError('Could not find a game with that id.')
-
-
-def get_innings(game_id):
-    """Return the innings file of a game with matching id."""
-    year, month, day = get_date_from_game_id(game_id)
-    try:
-        return urlopen(INNINGS_URL.format(year, month, day, game_id))
     except HTTPError:
         raise ValueError('Could not find a game with that id.')
 
