@@ -130,11 +130,17 @@ import mlbgame.stats
 import mlbgame.version
 
 import calendar
-from datetime import datetime
+from datetime import date, datetime
 
 VERSION = mlbgame.version.__version__
 """Installed version of mlbgame."""
 
+""" format the strings to be in the right form for the program (trims whitespace, fixes capitalizations"""
+def formatString(string):
+    string = string.strip()
+    string = string.lower()
+    string[0] = string[0].upper()
+    return string
 
 def day(year, month, day, home=None, away=None):
     """Return a list of games for a certain day.
@@ -142,6 +148,9 @@ def day(year, month, day, home=None, away=None):
     If the home and away team are the same,
     it will return the game(s) for that team.
     """
+
+    home = formatString(home)
+    away = formatString(away)
     # get the days per month
     daysinmonth = calendar.monthrange(year, month)[1]
     # do not even try to get data if day is too high
@@ -157,6 +166,9 @@ def games(years, months=None, days=None, home=None, away=None):
 
     If home and away are the same team, it will return all games for that team.
     """
+    home = formatString(home)
+    away = formatString(away)
+
     # put in data if months and days are not specified
     if months is None:
         months = list(range(1, 13))
@@ -222,16 +234,9 @@ def team_stats(game_id):
     return mlbgame.stats.Stats(data, game_id, False)
 
 
-def game_events(game_id, innings_endpoint=False):
-    """Return list of Inning objects for game matching the game id.
-
-    Using `inning_endpoints=True` will result in objects with
-    additional, undocumented data properties, but also objects
-    that may be missing properties expected by the user.
-
-    `innings_endpoint`: bool, use more detailed `innings` API endpoint
-    """
-    data = mlbgame.events.game_events(game_id, innings_endpoint)
+def game_events(game_id):
+    """Return dictionary of game events for game matching the game id."""
+    data = mlbgame.events.game_events(game_id)
     return [mlbgame.events.Inning(data[x], x) for x in data]
 
 
@@ -272,11 +277,3 @@ def injury():
     """Return Injuries object that contains injury info"""
     data = mlbgame.info.injury()
     return mlbgame.info.Injuries(data)
-
-
-def broadcast_info(team_id, date=datetime.now()):
-    """Return BroadcastInfo object that containts information
-    about the television and radio broadcasts for the team_id
-    and year"""
-    data = mlbgame.info.broadcast_info(team_id, date)
-    return [mlbgame.info.BroadcastInfo(x) for x in data]
